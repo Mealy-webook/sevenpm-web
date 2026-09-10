@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { EventDetails } from "@/data/events";
 import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
 import { StickerPeel } from "@/components/ui/StickerPeel";
+import { GalleryStage } from "./GalleryStage";
 
 /** Figma group 2091:49295 — the fan of polaroids. */
 const STAGE_WIDTH = 1294.4168;
@@ -26,23 +27,14 @@ export function GallerySection({ event }: { event: EventDetails }) {
         </DisplayHeading>
 
         <div className="stage-gallery relative w-full">
-          <div
-            className="absolute left-1/2 top-0"
-            style={{
-              width: STAGE_WIDTH,
-              height: STAGE_HEIGHT,
-              marginLeft: -STAGE_WIDTH / 2,
-              transform: "scale(var(--gallery-scale))",
-              transformOrigin: "top center",
-            }}
-          >
+          <GalleryStage width={STAGE_WIDTH} height={STAGE_HEIGHT}>
             {/* Three layers on purpose: the outer box is positioned and owned
              *  by GSAP's reveal, the middle one owns the hover lift, and the
              *  inner one keeps the polaroid's Figma rotation. */}
             {event.gallery.map((shot, index) => (
               <div
                 key={shot.image}
-                className="absolute"
+                className="gallery-slot absolute"
                 data-reveal="up"
                 data-reveal-delay={0.06 * index}
                 style={{
@@ -92,7 +84,7 @@ export function GallerySection({ event }: { event: EventDetails }) {
               shadowIntensity={0.55}
               lightingIntensity={0.14}
             />
-          </div>
+          </GalleryStage>
         </div>
       </div>
     </section>

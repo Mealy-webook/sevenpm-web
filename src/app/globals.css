@@ -372,7 +372,19 @@ body {
 
 .gallery-card:hover {
   transform: translateY(-14px) scale(1.035);
-  z-index: 3;
+}
+
+/* Stacking and dragging of the polaroids live in GalleryStage (JS): the
+   outer slot carries GSAP transforms, so it's a stacking context and any
+   z-index has to be set on it directly. */
+.gallery-slot {
+  z-index: 1;
+  cursor: grab;
+  touch-action: none;
+}
+
+.gallery-slot:active {
+  cursor: grabbing;
 }
 
 /* Buttons: a fill that sweeps up from the bottom edge. */

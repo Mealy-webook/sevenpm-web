@@ -165,6 +165,23 @@ trumpeter who plays this circuit. The third is credited to "THE E.N.D", which is
 the Black Eyed Peas *album*, not the act. Both are corrected in
 `src/data/events.ts` with a comment — revert the two fields if design disagrees.
 
+## Gallery
+
+The polaroids are a pile you can play with (`GalleryStage`): hover brings one
+forward for the duration of the hover; picking one up puts it on top of the
+pile for good; drag it anywhere inside the stage with a little tilt while it
+moves and a throw on release (GSAP Draggable + InertiaPlugin, like the
+stickers). Two details worth knowing:
+
+- Stacking is set in JS on the outer slot. Both the reveal and Draggable leave
+  a transform on it, which makes it a stacking context, so a `z-index` on
+  anything inside never escapes — a CSS `:hover { z-index }` on the card did
+  nothing.
+- Bounds are explicit numbers in the stage's own coordinates. Passing the stage
+  element to Draggable uses its *layout* box, which is wider than what's on
+  screen once `--gallery-scale` shrinks it; local numbers scale with the stage,
+  so the clamp matches the visible edge at every width.
+
 ## Ticket stubs
 
 The tier cards became landscape **ticket stubs** in the 2091:56814 revision
