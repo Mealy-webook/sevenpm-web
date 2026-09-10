@@ -303,14 +303,44 @@ body {
   transform: translateY(-8px);
 }
 
-.tier-card:hover {
-  border-color: rgba(255, 255, 255, 0.45);
-  box-shadow: 0 24px 60px -32px rgba(0, 0, 0, 0.9);
+/* Ticket stubs are drawn at their Figma size (393 × 250.46) and scaled down
+   as a unit once the viewport is narrower than one stub. */
+.ticket-stub-box {
+  --stub-scale: min(1, tan(atan2(100vw - 2 * var(--shell-gutter), 393px)));
+  width: calc(393px * var(--stub-scale));
+  height: calc(250.459px * var(--stub-scale));
 }
 
-.tier-card--featured:hover {
-  border-color: var(--color-brand);
-  box-shadow: 0 24px 70px -30px rgba(251, 235, 28, 0.35);
+.ticket-stub-scale {
+  transform: scale(var(--stub-scale));
+  transform-origin: top left;
+}
+
+/* Stub CTA: dark fill sweeps up from the bottom edge on hover. Kept off the
+   generic `.sweep` class because that one sets `position: relative`, which
+   would undo the absolute placement inside the stub. */
+.ticket-cta {
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.35s ease;
+}
+
+.ticket-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #18181b;
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ticket-cta:hover {
+  color: #fff;
+}
+
+.ticket-cta:hover::after {
+  transform: translateY(0);
 }
 
 .info-tile:hover {
@@ -407,3 +437,4 @@ body {
     transform: none;
   }
 }
+

@@ -33,16 +33,14 @@ export type ScheduleTile = {
 
 export type TicketTier = {
   id: string;
-  /** Small grey line above the title, e.g. "1 Day pass" */
-  kicker?: string;
-  /** White pill badge, e.g. "Most Value" */
-  badge?: string;
+  /** Plain-text name, used as the accessible label ("1 Day", "Weekend"). */
   title: string;
-  price: string;
-  features: string[];
+  /** Daltown artwork of the title — see DisplayHeading for why it's an image. */
+  titleArt: { src: string; width: number; height: number };
+  /** Starting price, in dirhams, formatted ("1,000"). */
+  priceFrom: string;
   cta: string;
-  /** Yellow border + yellow button treatment */
-  featured?: boolean;
+  href?: string;
 };
 
 export type InfoTile = {
@@ -186,39 +184,25 @@ export const jazzablanca: EventDetails = {
   ],
   ticketTiers: [
     {
-      id: "day-1",
-      kicker: "1 Day pass",
+      id: "day",
       title: "1 Day",
-      price: "600 MAD",
-      features: [
-        "Entry for a single festival day",
-        "Add cashless credit at checkout",
-      ],
-      cta: "Choose tickets",
+      titleArt: { src: "/assets/ticket-1day.png", width: 97, height: 61 },
+      priceFrom: "50",
+      cta: "Get your ticket",
     },
     {
-      id: "day-2",
-      kicker: "1 Day pass",
-      title: "19 September",
-      price: "600 MAD",
-      features: [
-        "Entry for a single festival day",
-        "Add cashless credit at checkout",
-      ],
-      cta: "Choose tickets",
+      id: "weekend",
+      title: "Weekend",
+      titleArt: { src: "/assets/ticket-weekend.png", width: 171, height: 61 },
+      priceFrom: "300",
+      cta: "Get your ticket",
     },
     {
-      id: "festival-pass",
-      badge: "Most Value",
-      title: "All days pass",
-      price: "1,000 MAD",
-      features: [
-        "Access to all festival days",
-        "Priority lane at the gate",
-        "100 MAD cashless credit included",
-      ],
-      cta: "Buy a festival pass",
-      featured: true,
+      id: "all-days",
+      title: "All days",
+      titleArt: { src: "/assets/ticket-alldays.png", width: 165, height: 62 },
+      priceFrom: "1,000",
+      cta: "Get your ticket",
     },
   ],
   venue: {
