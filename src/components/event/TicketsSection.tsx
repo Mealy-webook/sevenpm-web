@@ -3,10 +3,29 @@ import Image from "next/image";
 import type { EventDetails } from "@/data/events";
 import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
 import { TicketStub } from "./TicketStub";
+import { StickerPeel } from "@/components/ui/StickerPeel";
 
 export function TicketsSection({ event }: { event: EventDetails }) {
   return (
     <section id="tickets" className="relative py-16 xl:py-24">
+      {/* Guitar sticker over the heading, pinned to the 1512 frame */}
+      <div
+        className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1512px] xl:block"
+        aria-hidden
+      >
+        <StickerPeel
+          className="pointer-events-auto"
+          imageSrc="/assets/sticker-guitar.png"
+          width={285}
+          height={264}
+          initialPosition={{ x: 853, y: 120 }}
+          peelBackHoverPct={22}
+          peelBackActivePct={34}
+          shadowIntensity={0.6}
+          lightingIntensity={0.12}
+        />
+      </div>
+
       <div className="shell flex flex-col items-center justify-center gap-12">
         <DisplayHeading art={DISPLAY_ART.tickets} reveal="clip">
           Tickets

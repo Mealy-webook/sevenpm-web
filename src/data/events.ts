@@ -33,7 +33,9 @@ export type ScheduleTile = {
 
 export type TicketTier = {
   id: string;
-  /** Plain-text name, used as the accessible label ("1 Day", "Weekend"). */
+  /** Small line above the title, e.g. "General admission". */
+  kicker: string;
+  /** Plain-text name, used as the accessible label ("1 Day pass"). */
   title: string;
   /** Daltown artwork of the title — see DisplayHeading for why it's an image. */
   titleArt: { src: string; width: number; height: number };
@@ -41,6 +43,8 @@ export type TicketTier = {
   priceFrom: string;
   cta: string;
   href?: string;
+  /** Brand-yellow ticket paper instead of grey. */
+  featured?: boolean;
 };
 
 export type InfoTile = {
@@ -185,22 +189,28 @@ export const jazzablanca: EventDetails = {
   ticketTiers: [
     {
       id: "day",
-      title: "1 Day",
-      titleArt: { src: "/assets/ticket-1day.png", width: 97, height: 61 },
+      kicker: "General admission",
+      title: "1 Day pass",
+      titleArt: { src: "/assets/ticket-1daypass.png", width: 162, height: 50 },
       priceFrom: "50",
       cta: "Get your ticket",
     },
     {
       id: "weekend",
-      title: "Weekend",
-      titleArt: { src: "/assets/ticket-weekend.png", width: 171, height: 61 },
+      kicker: "General admission",
+      title: "Weekend pass",
+      titleArt: { src: "/assets/ticket-weekendpass.png", width: 222, height: 50 },
+      // The comp reads "From 50" on all three; the earlier revision priced
+      // these 50 / 300 / 1,000, kept here until content confirms.
       priceFrom: "300",
       cta: "Get your ticket",
+      featured: true,
     },
     {
       id: "all-days",
-      title: "All days",
-      titleArt: { src: "/assets/ticket-alldays.png", width: 165, height: 62 },
+      kicker: "General admission",
+      title: "All days pass",
+      titleArt: { src: "/assets/ticket-alldayspass.png", width: 217, height: 50 },
       priceFrom: "1,000",
       cta: "Get your ticket",
     },

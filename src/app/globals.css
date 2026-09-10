@@ -311,6 +311,13 @@ body {
   height: calc(250.459px * var(--stub-scale));
 }
 
+/* Neighbouring stubs overlap by 6px (the comp's 391-wide boxes at −4) so the
+   corner notches of two stubs merge into one hole. Symmetric so a stub that
+   wraps onto its own row stays centred. */
+.ticket-stub-box {
+  margin-inline: calc(-3px * var(--stub-scale));
+}
+
 .ticket-stub-scale {
   transform: scale(var(--stub-scale));
   transform-origin: top left;
@@ -330,7 +337,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: #18181b;
+  background: #0b0b0e;
   transform: translateY(101%);
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }

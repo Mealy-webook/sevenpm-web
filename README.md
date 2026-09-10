@@ -184,19 +184,24 @@ stickers). Two details worth knowing:
 
 ## Ticket stubs
 
-The tier cards became landscape **ticket stubs** in the 2091:56814 revision
-(`TicketStub`): white ticket paper with perforated ends and scooped corners,
-a `#D9D9D9` inner panel, the tier name as Daltown artwork, "From ⃀ price" and a
-white "Get your ticket" button. The comp draws each stub as a portrait column
+The tier cards are landscape **ticket stubs** (`TicketStub`, from Figma
+2179:33880): ticket paper with perforated ends and scooped corners, a white
+inner body, and centred content — a "★ ★ GENERAL ADMISSION ★ ★" line, the tier
+name as Daltown artwork, "From ⃀ price" and a yellow "Get your ticket" button.
+Paper is grey (`#d4d4d8`); a tier with `featured: true` gets brand-yellow paper
+(the weekend pass in the comp). The comp draws each stub as a portrait column
 rotated 90°; the component lays the same exported vectors out directly in
-screen orientation (393 × 250.46) so only the two strip vectors are rotated.
-Three stubs sit edge to edge at 1512, wrap below the column width, and scale
-down as a unit once the viewport is narrower than one stub (`--stub-scale`,
-same `tan(atan2())` trick as the gallery).
+screen orientation (393 × 250.46), so only the strip and body vectors rotate.
 
-Tier data is now `{ title, titleArt, priceFrom, cta }` — kicker, badge,
-features and the "Most Value" treatment are gone with the design. Prices read
-50 / 300 / 1,000 with the new dirham symbol (`ic-currency-mad.svg`).
+Neighbouring stubs overlap by 6px so the corner notches of two stubs merge into
+one hole, as in the comp. Three fit edge to edge at 1512, wrap below the column
+width, and scale down as a unit once the viewport is narrower than one stub
+(`--stub-scale`, same `tan(atan2())` trick as the gallery). A draggable guitar
+sticker (`StickerPeel`) sits over the heading at ≥ xl.
+
+Tier data is `{ kicker, title, titleArt, priceFrom, cta, featured? }`. The comp
+reads "From 50" on all three tiers; the earlier revision priced them 50 / 300 /
+1,000, which is what ships until content confirms.
 
 ## Performance notes
 
