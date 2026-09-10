@@ -4,14 +4,14 @@ import "./globals.css";
 
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+  weight: ["400", "700", "900"],
   variable: "--font-roboto",
   display: "swap",
 });
 
 const figtree = Figtree({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "600"],
   variable: "--font-figtree",
   display: "swap",
 });

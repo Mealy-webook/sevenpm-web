@@ -28,6 +28,8 @@ const AXIS_Y = 306;
 const DISC = 612;
 const LABEL = 345;
 const LABEL_INSET = (DISC - LABEL) / 2;
+/** Glow layer box — a third of the disc, scaled ×3 by `.vinyl-glow`. */
+const GLOW = DISC / 3;
 
 /** Slot geometry for offsets from the active disc, straight from the comp. */
 const SLOTS: Record<number, { cx: number; size: number; visible: boolean }> = {
@@ -230,31 +232,40 @@ export function VinylCarousel({
   }, [advanceRequest]);
 
   const active = tracks[activeIndex];
+  const previousTrack = ring.prev % tracks.length;
+  const glowTracks =
+    previousTrack === activeIndex ? [activeIndex] : [previousTrack, activeIndex];
 
   return (
     <div
       className="relative"
       style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
     >
-      {/* Colour wash from the active cover, behind everything */}
-      {tracks.map((track, i) => (
-        <div
-          key={`glow-${i}`}
-          aria-hidden
-          className="vinyl-glow pointer-events-none absolute rounded-full"
-          style={{
-            left: SLOTS[0].cx - DISC / 2,
-            top: 0,
-            width: DISC,
-            height: DISC,
-            opacity: i === activeIndex ? 0.4 : 0,
-            backgroundImage: track.artworkUrl
-              ? `url(${artworkAt(track.artworkUrl, 300)})`
-              : undefined,
-            backgroundSize: "cover",
-          }}
-        />
-      ))}
+      {/* Colour wash from the active cover, behind everything. Only the
+       *  current and the outgoing cover are mounted — a blurred layer costs
+       *  paint even at opacity 0 — and each is a third of the disc size,
+       *  scaled up in CSS, so the blur runs over a ninth of the pixels. */}
+      {glowTracks.map((i) => {
+        const track = tracks[i];
+        return (
+          <div
+            key={`glow-${i}`}
+            aria-hidden
+            className="vinyl-glow pointer-events-none absolute rounded-full"
+            style={{
+              left: SLOTS[0].cx - GLOW / 2,
+              top: AXIS_Y - GLOW / 2,
+              width: GLOW,
+              height: GLOW,
+              opacity: i === activeIndex ? 0.4 : 0,
+              backgroundImage: track.artworkUrl
+                ? `url(${artworkAt(track.artworkUrl, 300)})`
+                : undefined,
+              backgroundSize: "cover",
+            }}
+          />
+        );
+      })}
 
       <div
         className="absolute top-0"

@@ -165,6 +165,27 @@ trumpeter who plays this circuit. The third is credited to "THE E.N.D", which is
 the Black Eyed Peas *album*, not the act. Both are corrected in
 `src/data/events.ts` with a comment — revert the two fields if design disagrees.
 
+## Performance notes
+
+Measured in-browser at the hero with a track playing: **23 fps → 120 fps**
+after this pass. What mattered, in order:
+
+- **One shadow pass, not 136.** `HeroSpectrum` used to fill each bar with its
+  own `shadowBlur`; every bar now goes into a single path filled once. Idle it
+  also paints every 4th frame (the drift is slow) and caps the canvas at 1.5×.
+- **Blur over fewer pixels.** The cover-art glow is a box a third of the disc
+  size with `blur(30px)`, scaled ×3 in CSS — the same look at a ninth of the
+  cost — and only the current and outgoing covers are mounted (a blurred layer
+  costs paint even at opacity 0).
+- **No permanent `will-change`.** The disc slots and glow relied on the
+  transition to promote layers instead of holding eight 612px layers forever.
+- **`box-shadow`, not `filter: drop-shadow`, on the ribbons.** A filter over a
+  3917px element whose child moves every frame re-rasterises the whole thing.
+- **Assets 17 MB → 7 MB.** The gallery photos, map and avatar were multi-MB
+  PNGs with no real transparency; they're JPEGs now. Anything with an alpha
+  channel that matters (record, stickers, artist circles, Daltown headings)
+  stayed PNG. Two unused font weights were dropped.
+
 ## Open items
 
 - **Day two of the artist lineup** isn't in the Figma. The tab is wired and

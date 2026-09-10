@@ -148,7 +148,6 @@ body {
     transform 1.05s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.5s ease,
     filter 0.4s ease;
-  will-change: transform;
 }
 
 .vinyl-slot[data-side="true"] {
@@ -163,10 +162,13 @@ body {
   cursor: pointer;
 }
 
+/* The glow element is a third of the disc size and scaled up, so the blur
+   runs over a ninth of the pixels for the same look. */
 .vinyl-glow {
-  filter: blur(90px);
+  filter: blur(30px);
+  transform: scale(3);
+  transform-origin: center;
   transition: opacity 1s ease;
-  will-change: opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {

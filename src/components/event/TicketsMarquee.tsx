@@ -128,13 +128,13 @@ export function TicketsMarquee() {
           >
             <div style={{ transform: `rotate(${spec.rotate}deg)` }}>
               <div
-                className={`w-[3917px] overflow-hidden px-6 py-3 drop-shadow-[0px_4px_2px_rgba(0,0,0,0.25)] ${
+                className={`w-[3917px] overflow-hidden px-6 py-3 shadow-[0px_4px_2px_rgba(0,0,0,0.25)] ${
                   spec.tone === "brand" ? "bg-brand" : "bg-white"
                 }`}
               >
                 <div
                   data-ribbon-track={index}
-                  className="flex w-max items-center gap-[82px] will-change-transform"
+                  className="flex w-max items-center gap-[82px]"
                 >
                   {Array.from({ length: RIBBON_ITEMS * 2 }).map((_, i) => (
                     <span

@@ -7,7 +7,7 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({
-  user = { name: "Ahmed", avatar: "/assets/nav-avatar.png" },
+  user = { name: "Ahmed", avatar: "/assets/nav-avatar.jpg" },
 }: SiteHeaderProps) {
   return (
     <header className="relative z-20">

@@ -223,7 +223,7 @@ export const jazzablanca: EventDetails = {
   ],
   venue: {
     name: "Palais des Institutions Italiennes",
-    mapImage: "/assets/loc-map.png",
+    mapImage: "/assets/loc-map.jpg",
     directionsUrl:
       "https://www.google.com/maps/search/?api=1&query=Palais+des+Institutions+Italiennes+Casablanca",
     pin: { x: 517, y: 96 },
@@ -316,12 +316,12 @@ export const jazzablanca: EventDetails = {
   // Centres are measured off the 1294.42 × 578.97 Figma group so the fan
   // reproduces exactly; each polaroid is 355.57 × 401.61.
   gallery: [
-    { image: "/assets/gallery-6.png", x: 1081.87, y: 279.57, rotate: 10.9 },
-    { image: "/assets/gallery-5.png", x: 888.71, y: 301.42, rotate: 9.92 },
-    { image: "/assets/gallery-3.png", x: 492.44, y: 309.27, rotate: 0.47 },
-    { image: "/assets/gallery-4.png", x: 764.87, y: 361.49, rotate: -5.71 },
-    { image: "/assets/gallery-2.png", x: 325.87, y: 254.62, rotate: -5.39 },
-    { image: "/assets/gallery-1.png", x: 177.79, y: 200.8, rotate: 0 },
+    { image: "/assets/gallery-6.jpg", x: 1081.87, y: 279.57, rotate: 10.9 },
+    { image: "/assets/gallery-5.jpg", x: 888.71, y: 301.42, rotate: 9.92 },
+    { image: "/assets/gallery-3.jpg", x: 492.44, y: 309.27, rotate: 0.47 },
+    { image: "/assets/gallery-4.jpg", x: 764.87, y: 361.49, rotate: -5.71 },
+    { image: "/assets/gallery-2.jpg", x: 325.87, y: 254.62, rotate: -5.39 },
+    { image: "/assets/gallery-1.jpg", x: 177.79, y: 200.8, rotate: 0 },
   ],
   faq: [
     {

@@ -48,7 +48,7 @@ export function HeroSpectrum({
     if (!ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = WIDTH * dpr;
     canvas.height = HEIGHT * dpr;
     ctx.scale(dpr, dpr);
@@ -84,9 +84,13 @@ export function HeroSpectrum({
     gradient.addColorStop(0.55, "rgba(251, 235, 28, 0.95)");
     gradient.addColorStop(1, "rgba(232, 34, 86, 0.85)");
 
+    let tick = 0;
     const render = (now: number) => {
       frame = requestAnimationFrame(render);
       if (!visible) return;
+      // Idle drift is slow; a quarter of the frames is plenty for it.
+      tick += 1;
+      if (!playingRef.current && tick % 4 !== 0) return;
 
       const node = analyser.current;
       const isPlaying = playingRef.current;
@@ -133,28 +137,32 @@ export function HeroSpectrum({
       ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
       const still = reduced.matches;
-      ctx.fillStyle = isPlaying && !still ? gradient : "rgba(255,255,255,0.16)";
-      ctx.shadowColor = "rgba(251, 235, 28, 0.75)";
-      ctx.shadowBlur = isPlaying && !still ? 12 + smoothed * 22 : 0;
+      const lit = isPlaying && !still;
 
+      /* Every bar goes into ONE path and is filled once. The glow is a single
+       * shadowBlur pass over that path — doing it per bar was ~136 blur
+       * rasterisations a frame and is what dropped playback to ~23fps. */
+      ctx.beginPath();
       for (let i = 0; i < count; i += 1) {
         const h = still ? IDLE_BAR * windowAt(i) : Math.max(1, heights[i]);
-        const x = offset + i * PITCH;
-        ctx.beginPath();
-        ctx.roundRect(x, mid - h, BAR_W, h, [BAR_W / 2, BAR_W / 2, 0, 0]);
-        ctx.fill();
+        ctx.roundRect(offset + i * PITCH, mid - h, BAR_W, h, [BAR_W / 2, BAR_W / 2, 0, 0]);
       }
+      ctx.fillStyle = lit ? gradient : "rgba(255,255,255,0.16)";
+      ctx.shadowColor = "rgba(251, 235, 28, 0.75)";
+      ctx.shadowBlur = lit ? 12 + smoothed * 22 : 0;
+      ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Peak caps, only while there is signal to chase.
-      if (isPlaying && !still) {
-        ctx.fillStyle = `rgba(255,255,255,${0.35 + smoothed * 0.45})`;
+      // Peak caps, one path, only while there is signal to chase.
+      if (lit) {
+        ctx.beginPath();
         for (let i = 0; i < count; i += 1) {
-          const p = peaks[i];
-          if (p < 6) continue;
-          const x = offset + i * PITCH;
-          ctx.fillRect(x, mid - p - 3, BAR_W, 2);
+          const pk = peaks[i];
+          if (pk < 6) continue;
+          ctx.rect(offset + i * PITCH, mid - pk - 3, BAR_W, 2);
         }
+        ctx.fillStyle = `rgba(255,255,255,${0.35 + smoothed * 0.45})`;
+        ctx.fill();
       }
     };
 
