@@ -22,7 +22,6 @@ export type DisplayArt = {
 
 export const DISPLAY_ART = {
   tickets: { src: "/assets/head-tickets.png", width: 401, height: 179, lineBox: 208 },
-  location: { src: "/assets/head-location.png", width: 478, height: 178, lineBox: 208 },
   artists: { src: "/assets/head-artists.png", width: 411, height: 179, lineBox: 208 },
   gallery: { src: "/assets/head-gallery.png", width: 414, height: 178, lineBox: 208 },
   faq: { src: "/assets/head-faq.png", width: 606, height: 223, lineBox: 236 },

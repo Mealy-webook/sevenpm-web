@@ -56,7 +56,7 @@ export function FaqSection({ event }: { event: EventDetails }) {
                     />
                   </span>
                   <span className="flex min-w-0 flex-1 flex-col justify-center">
-                    <span className="font-[family-name:var(--font-display)] text-[22px] font-bold leading-7 tracking-[-0.11px] text-white transition-colors duration-300 group-hover:text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors duration-300 group-hover:text-brand">
                       {item.question}
                     </span>
                     {item.answer && (

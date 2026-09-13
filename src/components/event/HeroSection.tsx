@@ -13,7 +13,7 @@ import { useAudioAnalyser } from "./useAudioAnalyser";
  * unit rather than reflowed, and clips at the viewport edges on the way down
  * so the centre record stays centred. */
 const FRAME_WIDTH = 1512;
-const FRAME_HEIGHT = 1076;
+const FRAME_HEIGHT = 1052;
 const STAGE_HEIGHT = 612;
 
 export function HeroSection({ event }: { event: EventDetails }) {
@@ -45,7 +45,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
   }, [playing, activeIndex, activeTrack?.audioSrc]);
 
   return (
-    <section className="relative z-0 overflow-hidden xl:min-h-[1076px]">
+    <section className="relative z-0 overflow-hidden xl:min-h-[1052px]">
       <audio
         ref={audioRef}
         src={activeTrack?.audioSrc}
@@ -54,8 +54,8 @@ export function HeroSection({ event }: { event: EventDetails }) {
         onEnded={() => setAdvanceRequest((n) => n + 1)}
       />
 
-      <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-10">
-        <div className="shell-pad flex w-full flex-col items-center gap-12">
+      <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-24">
+        <div className="shell-pad flex w-full flex-col items-center gap-4">
           <h1
             className="display-box w-full"
             data-reveal="clip"
@@ -131,7 +131,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
           imageSrc="/assets/sticker-cassette.png"
           width={256}
           height={233}
-          initialPosition={{ x: 120, y: 77 }}
+          initialPosition={{ x: 120, y: 167 }}
           peelBackHoverPct={22}
           peelBackActivePct={34}
           shadowIntensity={0.6}
@@ -142,7 +142,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
           imageSrc="/assets/sticker-boombox.png"
           width={230}
           height={270}
-          initialPosition={{ x: 1155, y: 0 }}
+          initialPosition={{ x: 1215, y: 0 }}
           peelBackHoverPct={22}
           peelBackActivePct={34}
           shadowIntensity={0.6}

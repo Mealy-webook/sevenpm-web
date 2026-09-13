@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
-import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
 
 export function LocationSection({ event }: { event: EventDetails }) {
   const { venue, infoTiles } = event;
@@ -9,9 +8,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
   return (
     <section id="location" className="relative py-16 xl:py-24">
       <div className="shell flex flex-col items-center justify-center gap-12">
-        <DisplayHeading art={DISPLAY_ART.location} reveal="clip">
-          Location
-        </DisplayHeading>
+        <h2 className="sr-only">Location</h2>
 
         <div className="flex w-full flex-col items-start gap-8">
           {/* Map panel */}
@@ -49,7 +46,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
             />
 
             <div className="relative flex w-full flex-col gap-4 bg-gradient-to-b from-transparent to-black to-[65.385%] p-6 sm:flex-row sm:items-center sm:gap-8">
-              <p className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[22px] font-bold leading-7 tracking-[-0.11px] text-white">
+              <p className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white">
                 {venue.name}
               </p>
               <a
@@ -90,7 +87,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
                   className="size-8 shrink-0"
                 />
                 <div className="flex w-full flex-col gap-1">
-                  <p className="font-[family-name:var(--font-display)] text-[22px] font-bold leading-7 tracking-[-0.11px] text-text-primary">
+                  <p className="font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-text-primary">
                     {tile.title}
                   </p>
                   <p className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-text-secondary">

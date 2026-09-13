@@ -15,7 +15,7 @@ npm run dev
 
 | Route | Figma node | Status |
 | --- | --- | --- |
-| `/events/[slug]` | `2091:56421` — Event details page (1512 × 7337) | Built |
+| `/events/[slug]` | `2091:56421` — Event details page (1512 × 7041) | Built |
 | `/` | — | Placeholder list of events, waiting on the homepage design |
 
 ## Structure
@@ -164,6 +164,14 @@ exists. It is **"The Smile of Rita" by Ibrahim Maalouf**, the Lebanese-French
 trumpeter who plays this circuit. The third is credited to "THE E.N.D", which is
 the Black Eyed Peas *album*, not the act. Both are corrected in
 `src/data/events.ts` with a comment — revert the two fields if design disagrees.
+
+## Location and FAQ
+
+The Location section has no visual heading in the current comp (an `sr-only`
+h2 keeps the landmark for assistive tech); the venue name and the info-tile
+titles are uppercase, so "AGE RESTRICTIONS" wraps and the tile row centres the
+shorter tiles against it. FAQ questions are uppercase too and wrap to three
+lines — same 22/28 bold style, just `text-transform`.
 
 ## Gallery
 
