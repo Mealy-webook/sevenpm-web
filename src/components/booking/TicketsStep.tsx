@@ -149,6 +149,7 @@ export function TicketsStep({
                     </div>
 
                     <Stepper
+                      atZero="stepper"
                       value={quantity}
                       name={ticket.name}
                       onAdd={() => onAdjust(ticket.id, 1)}

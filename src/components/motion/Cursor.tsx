@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
@@ -8,13 +9,23 @@ import { gsap } from "gsap";
  * ring that eases behind it. Over links and buttons the ring grows; over an
  * element with `data-cursor="Play"` it fills yellow and shows the word.
  * Touch devices never see it, and the native cursor comes back if JS fails.
+ *
+ * The booking journey keeps the native cursor: it is a form with steppers,
+ * fields and small controls, and a lagging ring makes precise targets harder
+ * to hit. Anywhere someone is spending money, the pointer is theirs.
  */
+
+/** Routes that opt out of the custom cursor. */
+const NATIVE_CURSOR = [/^\/events\/[^/]+\/book$/];
 export function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
+  const pathname = usePathname();
+  const native = NATIVE_CURSOR.some((route) => route.test(pathname));
 
   useEffect(() => {
+    if (native) return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const d = dot.current;
@@ -75,7 +86,9 @@ export function Cursor() {
       window.removeEventListener("pointerdown", down);
       window.removeEventListener("pointerup", up);
     };
-  }, []);
+  }, [native]);
+
+  if (native) return null;
 
   return (
     <div
