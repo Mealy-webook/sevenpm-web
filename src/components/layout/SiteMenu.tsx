@@ -84,10 +84,13 @@ export function SiteMenu({
           { scale: 1, opacity: 1, duration: 0.9 },
           0.15,
         )
+        // The reveal is a CSS mask: `.menu-mask` is overflow:hidden and the
+        // link slides inside it. 101 rather than 100 — at exactly 100 a
+        // sub-pixel rounding seam shows at the edge on some zoom levels.
         .fromTo(
           "[data-menu-link]",
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, stagger: 0.05 },
+          { xPercent: 101 },
+          { xPercent: 0, duration: 0.8, stagger: 0.05 },
           0.3,
         )
         .fromTo(
@@ -175,22 +178,25 @@ export function SiteMenu({
           >
             {MENU_LINKS.map((entry) => (
               <div key={entry.label} className="contents">
-                <Link
-                  href={entry.href}
-                  data-menu-link
-                  onClick={onClose}
-                  className="menu-link font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]"
-                >
-                  {entry.label}
-                </Link>
+                <span className="menu-mask">
+                  <Link
+                    href={entry.href}
+                    data-menu-link
+                    onClick={onClose}
+                    className="menu-link block font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]"
+                  >
+                    {entry.label}
+                  </Link>
+                </span>
                 {entry.children && (
                   <ul className="m-0 flex list-none flex-col items-end gap-4 p-0">
                     {entry.children.map((child) => (
-                      <li key={child.label} data-menu-link>
+                      <li key={child.label} className="menu-mask">
                         <Link
                           href={child.href}
+                          data-menu-link
                           onClick={onClose}
-                          className="font-[family-name:var(--font-display)] text-[20px] uppercase leading-[0.8] tracking-[-0.02em] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
+                          className="block font-[family-name:var(--font-display)] text-[20px] uppercase leading-[0.8] tracking-[-0.02em] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
                         >
                           {child.label}
                         </Link>

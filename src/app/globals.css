@@ -536,6 +536,14 @@ body {
   outline-offset: -2px;
 }
 
+/* The menu's reveal mask. Load-bearing: the entrance tween only slides the
+   link sideways — this is what hides it until it arrives. Removing the
+   overflow does not stop the animation, it just makes it look wrong. */
+.menu-mask {
+  display: block;
+  overflow: hidden;
+}
+
 /* Menu links: a yellow underline draws in from the right on hover. */
 .menu-link {
   position: relative;
