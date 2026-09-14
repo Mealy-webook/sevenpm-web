@@ -8,15 +8,28 @@ import gsap from "gsap";
 import { socialLinks } from "@/data/events";
 
 /**
- * Full-screen menu, from Figma 15:790 (1512 × 853). A yellow panel on the
- * left carries a luminosity-blended photo and the wordmark; the right column
- * is the primary navigation in Roboto Black 80, right-aligned, with the
- * social links and copyright underneath.
+ * Full-screen menu, from Figma 2227:5808 (1512 × 853). The left panel is a
+ * yellow fill with a photo, blended in luminosity against the dark page so it
+ * reads as greyscale (as in the comp), with the wordmark on top; the right column
+ * is the primary navigation in Roboto Black 72, white, right-aligned, with
+ * 5% hairlines between entries. "Festivals" lists the four festivals under
+ * it in Roboto Regular 28. Social links and copyright sit below the row.
  */
 
-export const MENU_LINKS = [
-  { label: "Festivals", href: "/#festivals" },
-  { label: "About us", href: "/about" },
+type MenuLink = { label: string; href: string };
+type MenuEntry = MenuLink & { children?: MenuLink[] };
+
+export const MENU_LINKS: MenuEntry[] = [
+  {
+    label: "Festivals",
+    href: "/#festivals",
+    children: [
+      { label: "Jazzablanca", href: "/events/jazzablanca" },
+      { label: "Tanjazz", href: "/about#festivals" },
+      { label: "Casa Anfa Latina", href: "/about#festivals" },
+      { label: "Village Casa Anfa", href: "/about#festivals" },
+    ],
+  },
   { label: "News", href: "/#news" },
   { label: "Team", href: "/about#team" },
   { label: "Careers", href: "/about#careers" },
@@ -49,7 +62,8 @@ export function SiteMenu({
     };
   }, [open, onClose]);
 
-  // Entrance: the sheet wipes down, the panel settles, the links rise in.
+  // Entrance: the sheet wipes down, the panel settles, the links rise in and
+  // the hairlines draw from the right.
   useEffect(() => {
     const el = root.current;
     if (!open || !el) return;
@@ -72,15 +86,26 @@ export function SiteMenu({
         )
         .fromTo(
           "[data-menu-link]",
-          { y: 48, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, stagger: 0.06 },
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.05 },
           0.3,
+        )
+        .fromTo(
+          "[data-menu-rule]",
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            duration: 0.9,
+            stagger: 0.06,
+            transformOrigin: "right center",
+          },
+          0.45,
         )
         .fromTo(
           "[data-menu-meta]",
           { y: 16, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.6, stagger: 0.05 },
-          0.6,
+          0.7,
         );
     }, el);
     return () => ctx.revert();
@@ -96,7 +121,7 @@ export function SiteMenu({
       aria-label="Menu"
       className="fixed inset-0 z-50 overflow-y-auto bg-ink-900"
     >
-      <div className="shell flex min-h-full flex-col gap-8 py-6 xl:gap-12 xl:py-24">
+      <div className="shell flex min-h-full flex-col gap-8 py-6 xl:py-14">
         <div className="flex w-full items-center justify-end">
           <button
             ref={closeButton}
@@ -115,11 +140,11 @@ export function SiteMenu({
           </button>
         </div>
 
-        <div className="flex min-h-0 w-full flex-1 flex-col gap-8 lg:flex-row lg:items-stretch">
+        <div className="flex w-full flex-col gap-8 lg:flex-row lg:items-stretch lg:justify-end">
           {/* Left panel */}
           <div
             data-menu-panel
-            className="relative flex min-h-[320px] w-full shrink-0 flex-col items-center justify-end overflow-hidden bg-brand p-10 lg:min-h-[553px] lg:w-[511px]"
+            className="relative flex min-h-[320px] w-full shrink-0 flex-col items-center justify-end overflow-hidden bg-brand p-10 mix-blend-luminosity lg:min-h-0 lg:w-[511px]"
           >
             <Image
               src="/assets/menu-panel.jpg"
@@ -127,7 +152,7 @@ export function SiteMenu({
               fill
               sizes="(min-width: 1024px) 511px, 100vw"
               priority
-              className="object-cover mix-blend-luminosity"
+              className="object-cover"
             />
             <Image
               src="/assets/menu-logo.png"
@@ -135,52 +160,74 @@ export function SiteMenu({
               width={397}
               height={62}
               unoptimized
-              className="relative h-auto w-[78%] max-w-[397px]"
+              className="relative h-auto w-[80%] max-w-[409px]"
             />
           </div>
 
           {/* Navigation */}
-          <div className="flex min-w-0 flex-1 flex-col items-end justify-center gap-12">
-            <nav aria-label="Primary" className="flex flex-col items-end gap-2">
-              {MENU_LINKS.map((link) => (
+          <nav
+            aria-label="Primary"
+            className="flex min-w-0 flex-1 flex-col items-end justify-center gap-6"
+          >
+            {MENU_LINKS.map((entry) => (
+              <div key={entry.label} className="contents">
                 <Link
-                  key={link.label}
-                  href={link.href}
+                  href={entry.href}
                   data-menu-link
                   onClick={onClose}
-                  className="menu-link font-[family-name:var(--font-display)] text-[48px] font-black uppercase leading-[0.8] tracking-[-0.02em] text-brand transition-colors hover:text-white sm:text-[64px] xl:text-[80px]"
+                  className="menu-link font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]"
                 >
-                  {link.label}
+                  {entry.label}
                 </Link>
-              ))}
-            </nav>
+                {entry.children && (
+                  <ul className="m-0 flex list-none flex-col items-end gap-4 p-0">
+                    {entry.children.map((child) => (
+                      <li key={child.label} data-menu-link>
+                        <Link
+                          href={child.href}
+                          onClick={onClose}
+                          className="font-[family-name:var(--font-display)] text-[20px] uppercase leading-[0.8] tracking-[-0.02em] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <span
+                  data-menu-rule
+                  className="block h-px w-full bg-white/5"
+                  aria-hidden
+                />
+              </div>
+            ))}
+          </nav>
+        </div>
 
-            <div className="flex w-full flex-col items-center gap-4">
-              <nav
-                aria-label="Social"
-                data-menu-meta
-                className="flex w-full flex-wrap items-center justify-end gap-6"
+        <div className="flex w-full flex-col items-center gap-4">
+          <nav
+            aria-label="Social"
+            data-menu-meta
+            className="flex w-full flex-wrap items-center justify-end gap-6"
+          >
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
               >
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </nav>
-              <p
-                data-menu-meta
-                className="m-0 w-full text-right font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary"
-              >
-                © {year} SEVENPM. All rights reserved.
-              </p>
-            </div>
-          </div>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <p
+            data-menu-meta
+            className="m-0 w-full text-right font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary"
+          >
+            © {year} SEVENPM. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

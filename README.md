@@ -282,9 +282,11 @@ on dark) — reproduced as drawn; worth unifying with design.
   session is on by default so the menu can be tried on every page.
 - **Globe** (`LocaleMenu`, 2091:45844) — language and currency radio groups.
   UI state only for now; wire `onLanguage` / `onCurrency` to i18n when ready.
-- **Menu** (`SiteMenu`, 15:790) — full-screen: yellow panel with the
-  luminosity-blended photo and wordmark, Roboto Black navigation, social links
-  and copyright. Locks page scroll, closes on Escape, animates in with GSAP.
+- **Menu** (`SiteMenu`, 2227:5808) — full-screen: yellow panel with the
+  luminosity-blended photo and wordmark; Roboto Black 72 navigation in white
+  (Festivals with the four festivals listed under it, News, Team, Careers)
+  separated by 5% hairlines that draw in; social links and copyright below.
+  Locks page scroll, closes on Escape, animates in with GSAP.
 
 Popovers close on outside click and Escape; only one is open at a time.
 
@@ -351,7 +353,8 @@ stickers, GSAP reveals — with content taken from the current site,
   careers page on seven-pm.com, the playlist button to the Jazzablanca Spotify
   playlist; address and contact e-mail as published.
 
-The menu's About us / Team / Careers entries point here.
+The menu's Team / Careers entries point here, and the three festivals without
+their own page land on the festival index.
 
 ## Performance notes
 
