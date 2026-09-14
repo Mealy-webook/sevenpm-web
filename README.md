@@ -13,13 +13,20 @@ npm run dev
 
 ## What's here
 
-| Route            | Figma node                                                                      | Status |
-| ---------------- | ------------------------------------------------------------------------------- | ------ |
-| `/`              | `15:202` — Homepage (1512 × 5838)                                               | Built  |
-| `/events/[slug]` | `2091:56421` — Event details page (1512 × 7041)                                 | Built  |
-| `/about`         | no comp — designed in the site's system, content from seven-pm.com              | Built  |
-| `/account`       | `2173:25780` / `2173:25975` — Bookings (empty and with a booking)               | Built  |
-| Header menus     | `2091:45854` account, `2091:45844` language/currency, `15:790` full-screen menu | Built  |
+| Route               | Figma node                                                                         | Status |
+| ------------------- | ---------------------------------------------------------------------------------- | ------ |
+| `/`                 | `15:202` — Homepage                                                                | Built  |
+| `/events/[slug]`    | `2091:56421` — Event details page                                                  | Built  |
+| `/about`            | no comp — the site's system, content from seven-pm.com                             | Built  |
+| `/team`             | no comp — the crew on its own page                                                 | Built  |
+| `/news`             | no comp — newsroom index                                                           | Built  |
+| `/news/[slug]`      | no comp — article                                                                  | Built  |
+| `/careers`          | no comp — open roles                                                               | Built  |
+| `/account`          | `2173:25780` / `2173:25975` — Bookings (empty and filled)                          | Built  |
+| `/account/wallet`   | `2196:12516` — Wallet                                                              | Built  |
+| `/account/profile`  | `2173:26214` — Profile                                                             | Built  |
+| `/account/payments` | no comp — the account system                                                       | Built  |
+| Header menus        | `2091:45854` account, `2091:45844` language/currency, `2227:5808` full-screen menu | Built  |
 
 ## Structure
 
@@ -33,13 +40,20 @@ src/
     account/page.tsx        account — bookings (sidebar + panel)
     account/wallet/page.tsx account — wallet
     account/profile/page.tsx account — profile
+    account/payments/page.tsx account — payments
+    team/page.tsx           the crew
+    news/page.tsx           newsroom index
+    news/[slug]/page.tsx    one article
+    careers/page.tsx        open roles
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
     home/                   one file per homepage section
     about/                  AboutStats, AboutFestivals, AboutTeam
     account/                AccountShell, AccountNav, BookingsPanel,
-                            WalletPanel, ProfilePanel
+                            WalletPanel, ProfilePanel, PaymentsPanel,
+                            AccountCard
+    news/                   NewsList
     event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
@@ -47,6 +61,8 @@ src/
     events.ts               all copy + imagery for the event page, typed
     home.ts                 homepage copy, festivals, news, gallery rows
     about.ts                about copy, stats, festivals, team (from seven-pm.com)
+    news.ts                 articles — the homepage and /news read this
+    careers.ts              open roles and what it's like
     account.ts              mock session: user, sidebar, bookings, wallet
 public/assets/              exported Figma artwork
 ```
@@ -417,9 +433,31 @@ from another template, so the mock keeps a Moroccan number; and the sidebar
 reads **Payments** here and in the bookings frames but **Payment details** in
 the wallet frame — the site follows the majority. Worth one word from design.
 
-Loyalty program and Payments are the account screens without designs; their
-rows point at anchors on the bookings page. "Logout" returns home. The account dropdown's
+Loyalty program is the only account row still without a screen; it points at
+an anchor on the bookings page. "Logout" returns home. The account dropdown's
 View profile / My bookings / Wallet all land in this area.
+
+## Pages without a comp
+
+Five screens have no Figma frame and are composed from parts the comps
+established. `AccountCard` holds that vocabulary for the account area — a
+bordered card with an 18px title over rows of label, value and a small
+action — so Payments and Profile are the same object with different data.
+
+- **`/account/payments`** — saved cards (the wallet's icon tile, a Primary
+  badge, Make primary / Remove), billing details, and receipts with a
+  download action.
+- **`/team`** — the About page's crew on a page of its own, since the menu
+  links straight to it, ending on the way into careers.
+- **`/news`** — category chips over the homepage's paper cards.
+- **`/news/[slug]`** — meta line and headline over a full-bleed lead image,
+  one measure of body copy, a share row, then three more stories. Articles
+  live in `data/news.ts`, and the homepage's three cards are the first three
+  entries of that same list, so the two can never drift.
+- **`/careers`** — the event page's info tiles for "what it's like", then the
+  open roles as an index; each role opens a pre-addressed e-mail.
+
+All of this copy is placeholder, written around what seven-pm.com states.
 
 ## Performance notes
 
