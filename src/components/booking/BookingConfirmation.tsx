@@ -7,7 +7,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import type { Totals } from "./cart";
-import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { bookingCopy, formatMoney } from "@/data/booking";
 
@@ -630,7 +629,6 @@ export function BookingConfirmation({
           </p>
         </section>
       </main>
-      <SiteFooter />
     </>
   );
 }
