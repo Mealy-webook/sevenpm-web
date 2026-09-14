@@ -2,20 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import type { Totals } from "./cart";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { bookingCopy, formatMoney } from "@/data/booking";
 
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * Confirmation, from Figma 2192:5369 (stacked) and 2213:16229 (fanned).
  *
- * The three cards start piled in the middle and deal themselves out a moment
- * after the page arrives. The layout is the fanned row at all times; only a
- * transform collapses them to the pile, so nothing reflows when they move and
- * the animation costs one composited property.
+ * The three cards start piled in the middle and deal themselves out as the
+ * row is scrolled into place. The layout is the fanned row at all times; GSAP
+ * only transforms each card back onto the pile and scrubs it off again, so
+ * nothing reflows while they move.
  */
 
 type ConfirmationEvent = {
@@ -64,37 +68,19 @@ function CardShell({
   children,
   footer,
   index,
-  fanned,
 }: {
   title: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
   index: 0 | 1 | 2;
-  fanned: boolean;
 }) {
-  /* Collapsed: each card slides one column back to the middle and tilts. The
-     offsets are in per-cent of the card plus the 16px gap, so the pile stays
-     centred at any width. The pile only exists from `lg` up, where the row
-     is three columns — on a phone the cards are already stacked.
-
-     Tailwind v4 writes these as the separate `translate`, `rotate` and
-     `scale` properties rather than into `transform`, so the transition list
-     above names them — `transition-[transform]` would animate nothing. */
-  const piled = [
-    "lg:translate-x-[calc(100%+16px)] lg:rotate-[-7deg] lg:scale-95",
-    "lg:rotate-[3deg] lg:scale-95",
-    "lg:translate-x-[calc(-100%-16px)] lg:rotate-[-2deg] lg:scale-95",
-  ][index];
-
   return (
     <div
-      className={`flex flex-col justify-between gap-4 border border-white/5 bg-bg-secondary p-6 transition-[translate,rotate,scale,opacity] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        fanned ? "translate-x-0 rotate-0 scale-100" : piled
-      }`}
-      style={{
-        zIndex: 30 - index * 10,
-        transitionDelay: fanned ? `${index * 80}ms` : "0ms",
-      }}
+      /* GSAP owns the transform on these, so they carry no Tailwind
+         translate/rotate/scale of their own — the two would add up. */
+      data-confirm-card
+      className="flex flex-col justify-between gap-4 border border-white/5 bg-bg-secondary p-6"
+      style={{ zIndex: 30 - index * 10 }}
     >
       <div className="flex flex-col gap-4">
         <h2 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
@@ -174,20 +160,54 @@ export function BookingConfirmation({
   deliverySummary: string | null;
 }) {
   const copy = bookingCopy.confirmation;
-  const [fanned, setFanned] = useState(false);
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
+  const cardsRoot = useRef<HTMLDivElement>(null);
 
-  // Deal the cards out shortly after the page settles. Anyone who has asked
-  // for less motion gets them already fanned.
+  /**
+   * Deal the cards out on scroll. Each one starts a column back from where it
+   * belongs, tilted, and a scrubbed ScrollTrigger walks it home as the row
+   * comes up the viewport. Only from `lg`, where the row is three columns —
+   * on a phone the cards are already stacked and there is no pile to undo.
+   */
   useEffect(() => {
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    // Scheduled either way rather than set inline, so the effect never
-    // triggers a cascading render of its own.
-    const id = window.setTimeout(() => setFanned(true), reduced ? 0 : 900);
-    return () => window.clearTimeout(id);
+    const root = cardsRoot.current;
+    if (!root) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const media = gsap.matchMedia();
+    media.add("(min-width: 1024px)", () => {
+      const cards = gsap.utils.toArray<HTMLElement>("[data-confirm-card]", root);
+      if (cards.length < 3) return;
+
+      const from = [
+        { xPercent: 100, x: 16, rotation: -7 },
+        { xPercent: 0, x: 0, rotation: 3 },
+        { xPercent: -100, x: -16, rotation: -2 },
+      ];
+
+      cards.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { ...from[index], scale: 0.95 },
+          {
+            xPercent: 0,
+            x: 0,
+            rotation: 0,
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: root,
+              start: "top 65%",
+              end: "top 15%",
+              scrub: 0.8,
+            },
+          },
+        );
+      });
+    });
+
+    return () => media.revert();
   }, []);
 
   const when = formatWhen(event.startsAt);
@@ -350,10 +370,12 @@ export function BookingConfirmation({
 
         {/* The three cards, piled then dealt */}
         <section className="shell pt-16">
-          <div className="mx-auto grid max-w-[886px] gap-4 lg:grid-cols-3">
+          <div
+            ref={cardsRoot}
+            className="mx-auto grid max-w-[886px] gap-4 lg:grid-cols-3"
+          >
             <CardShell
               index={0}
-              fanned={fanned}
               title={copy.summary.title}
               footer={
                 <button
@@ -423,7 +445,6 @@ export function BookingConfirmation({
 
             <CardShell
               index={1}
-              fanned={fanned}
               title={copy.tickets.title}
               footer={
                 <div className="flex items-center gap-4 border-t-[0.5px] border-white/10 pt-4">
@@ -455,7 +476,6 @@ export function BookingConfirmation({
 
             <CardShell
               index={2}
-              fanned={fanned}
               title={copy.price.title}
               footer={
                 <button
