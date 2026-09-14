@@ -12,7 +12,7 @@ import {
 } from "react";
 
 import { BookingConfirmation } from "./BookingConfirmation";
-import { CardDialog, type SavedCard } from "./CardDialog";
+import { CardDialog, type SavedCard } from "@/components/ui/CardDialog";
 import { CheckoutStep, PriceDetails } from "./CheckoutStep";
 import {
   DeliveryDialog,

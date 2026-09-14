@@ -80,9 +80,16 @@ function expiryIsDue(value: string) {
 export function CardDialog({
   onClose,
   onAdd,
+  title,
+  submitLabel,
+  /** The wallet's "Add payment method" drops the 1 MAD verification line. */
+  showNote = true,
 }: {
   onClose: () => void;
   onAdd: (card: SavedCard) => void;
+  title?: string;
+  submitLabel?: string;
+  showNote?: boolean;
 }) {
   const copy = bookingCopy.cardDialog;
   const titleId = useId();
@@ -123,7 +130,7 @@ export function CardDialog({
     <Sheet
       open
       onClose={onClose}
-      title={copy.title}
+      title={title ?? copy.title}
       subtitle={copy.subtitle}
       titleId={titleId}
       closeLabel={copy.close}
@@ -252,9 +259,11 @@ export function CardDialog({
           error={errors.name || undefined}
         />
 
-        <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-          {copy.note}
-        </p>
+        {showNote && (
+          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            {copy.note}
+          </p>
+        )}
 
         <label className="flex cursor-pointer items-center gap-3 py-1">
           <input
@@ -281,7 +290,7 @@ export function CardDialog({
         </label>
 
         <div className="pt-2">
-          <SheetSubmit type="submit">{copy.submit}</SheetSubmit>
+          <SheetSubmit type="submit">{submitLabel ?? copy.submit}</SheetSubmit>
         </div>
       </form>
     </Sheet>

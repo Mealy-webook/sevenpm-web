@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 
-import { Sheet, SheetField, SheetSubmit } from "./Sheet";
+import { Sheet, SheetField, SheetSubmit } from "@/components/ui/Sheet";
 import {
   bookingCopy,
   deliveryCountries,

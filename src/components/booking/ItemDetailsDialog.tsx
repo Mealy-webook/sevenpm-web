@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 
-import { Sheet, SheetPrice } from "./Sheet";
+import { Sheet, SheetPrice } from "@/components/ui/Sheet";
 import { Stepper } from "./Stepper";
 import { bookingCopy, formatMoney, type BookingAddon } from "@/data/booking";
 

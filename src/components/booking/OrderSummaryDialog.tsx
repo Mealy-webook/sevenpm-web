@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId } from "react";
 
-import { Sheet } from "./Sheet";
+import { Sheet } from "@/components/ui/Sheet";
 import type { PricedLine, Totals } from "./cart";
 import { bookingCopy, formatMoney } from "@/data/booking";
 

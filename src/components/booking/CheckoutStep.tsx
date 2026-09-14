@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import type { SavedCard } from "./CardDialog";
+import type { SavedCard } from "@/components/ui/CardDialog";
 import type { Totals } from "./cart";
 import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
 

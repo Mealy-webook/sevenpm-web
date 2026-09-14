@@ -110,6 +110,42 @@ export const walletCopy = {
   topUpCta: "Top up",
   transactionsTitle: "Transactions",
   empty: "No transactions yet",
+  /** Top up, from Figma 2196:10582, 2196:11179 and 2196:12115. */
+  topUp: {
+    title: "Top up",
+    balance: (amount: string) => `Current balance: ${amount}`,
+    close: "Close",
+    amount: "Enter amount",
+    clear: "Clear the amount",
+    /** Nothing below this reaches the provider, so the button stays off. */
+    minimum: 10,
+    minimumHint: (amount: string) => `Min amount is ${amount}`,
+    quick: [50, 100, 200],
+    quickLabel: (amount: string) => `+ ${amount}`,
+    payWith: "Pay with",
+    methods: [
+      {
+        id: "apple-pay",
+        label: "Apple Pay",
+        icon: "/assets/ic-applepay-24.svg",
+      },
+      { id: "card", label: "Card", icon: "/assets/ic-card-24.svg" },
+    ],
+    cardMarks: [
+      "/assets/pay-cmi.svg",
+      "/assets/pay-amex.svg",
+      "/assets/pay-visa.svg",
+      "/assets/pay-mastercard.svg",
+    ],
+    addCard: "Add new card",
+    cardTitle: "Add payment method",
+    cardSubmit: "Add card",
+    submit: "Top up",
+    doneTitle: "Wallet topped up",
+    doneBody: (amount: string) =>
+      `${amount} is showing on your balance. No payment provider is connected to this build, so nothing was actually charged.`,
+    done: "Done",
+  },
 };
 
 /* ------------------------------------------------------------------ *

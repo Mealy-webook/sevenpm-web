@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import type { WalletTransaction } from "@/data/account";
 import { formatAmount, walletCopy } from "@/data/account";
+import { TopUpDialog } from "./TopUpDialog";
 
 /**
  * Wallet, from Figma 2196:12516. The panel title, then a balance card
@@ -31,10 +32,18 @@ export function WalletPanel({
   transactions: WalletTransaction[];
 }) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const [topUpOpen, setTopUpOpen] = useState(false);
+  /* Top-ups made on this page. They live in state rather than in the data
+     file because nothing is persisted — a reload starts over. */
+  const [topUps, setTopUps] = useState<WalletTransaction[]>([]);
+
+  const currentBalance =
+    balance + topUps.reduce((sum, tx) => sum + tx.amount, 0);
+  const allTransactions = [...topUps, ...transactions];
 
   // Group in place: the list is already newest first.
   const groups: { offset: number; items: WalletTransaction[] }[] = [];
-  for (const tx of transactions) {
+  for (const tx of allTransactions) {
     const last = groups.at(-1);
     if (last && last.offset === tx.dayOffset) last.items.push(tx);
     else groups.push({ offset: tx.dayOffset, items: [tx] });
@@ -63,16 +72,17 @@ export function WalletPanel({
           </span>
           <p className="m-0 flex items-end gap-2 font-daltown text-[56px] leading-[39px]">
             <span className="text-white">
-              {balance.toLocaleString("en-US")}
+              {currentBalance.toLocaleString("en-US")}
             </span>
             <span className="text-brand">{currency}</span>
           </p>
         </div>
 
-        <a
-          href="#top-up"
+        <button
+          type="button"
+          onClick={() => setTopUpOpen(true)}
           data-magnetic="0.15"
-          className="flex shrink-0 items-center justify-center gap-2 self-start bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand sm:self-auto"
+          className="flex shrink-0 cursor-pointer items-center justify-center gap-2 self-start bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand sm:self-auto"
         >
           <Image
             src="/assets/ic-plus-20.svg"
@@ -82,7 +92,7 @@ export function WalletPanel({
             className="size-5"
           />
           {walletCopy.topUpCta}
-        </a>
+        </button>
       </div>
 
       {/* Transactions */}
@@ -94,7 +104,7 @@ export function WalletPanel({
           {walletCopy.transactionsTitle}
         </h3>
 
-        {transactions.length === 0 ? (
+        {allTransactions.length === 0 ? (
           <div className="flex min-h-[200px] flex-col items-center justify-center gap-4">
             <Image
               src="/assets/sticker-cassette.png"
@@ -199,6 +209,33 @@ export function WalletPanel({
           ))
         )}
       </div>
+
+      {topUpOpen && (
+        <TopUpDialog
+          balance={currentBalance}
+          currency={currency}
+          onClose={() => setTopUpOpen(false)}
+          onTopUp={(amount) =>
+            setTopUps((current) => [
+              {
+                id: `topup-${Date.now()}`,
+                kind: "topup",
+                label: walletCopy.topUpCta,
+                time: new Date().toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                }),
+                detail: walletCopy.topUp.doneBody(
+                  `${amount.toLocaleString("en-US")} ${currency}`,
+                ),
+                amount,
+                dayOffset: 0,
+              },
+              ...current,
+            ])
+          }
+        />
+      )}
     </section>
   );
 }
