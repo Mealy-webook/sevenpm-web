@@ -749,6 +749,52 @@ body {
   background-size: 100% 2px;
 }
 
+/* The flat list on the homepage (Figma 2231:12467). The photograph creeps in,
+   and a brand rule draws along the bottom edge so the row answers the
+   cursor. */
+.news-row:hover .news-image,
+.news-row:focus-visible .news-image {
+  transform: scale(1.05);
+}
+
+.news-row::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.news-row:hover::after,
+.news-row:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* The running number beside each row. */
+.news-index {
+  transition:
+    color 0.4s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.news-row:hover .news-index,
+.news-row:focus-visible .news-index {
+  color: var(--color-brand);
+  transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-row::after,
+  .news-index,
+  .news-row .news-image {
+    transition: none;
+  }
+}
+
 /* The scribble draws itself once it scrolls into view. */
 .scribble path {
   stroke-dasharray: 1;

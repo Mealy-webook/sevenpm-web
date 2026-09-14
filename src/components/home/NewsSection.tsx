@@ -44,7 +44,7 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
                 href={item.href}
                 data-cursor="Read"
                 data-reveal="up"
-                className="news-row group flex w-full flex-col gap-6 py-6 transition-colors md:flex-row md:items-center md:gap-8"
+                className="news-row group relative flex w-full flex-col gap-6 py-6 transition-colors md:flex-row md:items-center md:gap-8"
               >
                 <span className="relative block h-[227px] w-full shrink-0 overflow-hidden bg-[#27272a] md:w-[403px]">
                   {item.image && (
@@ -56,6 +56,13 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
                       className="news-image object-cover"
                     />
                   )}
+                </span>
+
+                <span
+                  aria-hidden
+                  className="news-index hidden shrink-0 self-start pt-1 font-daltown text-[40px] leading-none text-white/20 xl:block"
+                >
+                  {String(index + 1).padStart(2, "0")}
                 </span>
 
                 <span className="flex min-w-0 flex-1 flex-col justify-center gap-3">

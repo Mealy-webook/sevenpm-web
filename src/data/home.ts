@@ -83,12 +83,20 @@ export const newsItems: NewsItem[] = newsArticles
     href: `/news/${article.slug}`,
   }));
 
-/** The band under the hero — Figma 2227:5202. */
+/**
+ * The band under the hero — Figma 2227:5202. Split into parts so the figure
+ * can count up on its own without a parser guessing where the "+" ends.
+ */
 export const homeStats = [
-  { value: "2018", label: "Founded in Casablanca" },
-  { value: "4", label: "Festivals produced every year" },
-  { value: "+20K", label: "Festival goers at Jazzablanca" },
-  { value: "22", label: "Editions of Tanjazz and counting" },
+  {
+    value: 2018,
+    label: "Founded in Casablanca",
+    /** Years are not thousands: 2018, never 2,018. */
+    year: true,
+  },
+  { value: 4, label: "Festivals produced every year" },
+  { value: 20, prefix: "+", suffix: "K", label: "Festival goers at Jazzablanca" },
+  { value: 22, label: "Editions of Tanjazz and counting" },
 ];
 
 /** The story block — Figma 2227:5229. */
