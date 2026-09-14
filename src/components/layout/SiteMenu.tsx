@@ -16,10 +16,10 @@ import { socialLinks } from "@/data/events";
 
 export const MENU_LINKS = [
   { label: "Festivals", href: "/#festivals" },
-  { label: "About us", href: "/#about" },
+  { label: "About us", href: "/about" },
   { label: "News", href: "/#news" },
-  { label: "Team", href: "/#team" },
-  { label: "Careers", href: "/#careers" },
+  { label: "Team", href: "/about#team" },
+  { label: "Careers", href: "/about#careers" },
 ];
 
 export function SiteMenu({
