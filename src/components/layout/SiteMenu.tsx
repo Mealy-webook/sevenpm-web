@@ -19,10 +19,9 @@ gsap.registerPlugin(CustomEase);
  * festivals and opens them on click rather than listing them at rest.
  *
  * Motion follows the kinetic-navigation reference: three backdrop layers wipe
- * across one after another, the links drop in rotated behind a CSS mask, and
- * an ambient wash lights up behind whichever entry is hovered. Closing plays
- * in reverse and only then tells the header to unmount us — which is why
- * every dismissal goes through `requestClose`.
+ * across one after another and the links drop in rotated behind a CSS mask.
+ * Closing plays in reverse and only then tells the header to unmount us —
+ * which is why every dismissal goes through `requestClose`.
  *
  * Three things the reference is right about and this keeps:
  * - `xPercent: 101`, not 100: at exactly 100 a sub-pixel seam shows at the
@@ -57,90 +56,6 @@ export const MENU_LINKS: MenuEntry[] = [
   { label: "Team", href: "/team" },
   { label: "Careers", href: "/careers" },
 ];
-
-/** One ambient wash per entry, lit while that entry is hovered. */
-function AmbientShapes() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-    >
-      {MENU_LINKS.map((entry, index) => (
-        <svg
-          key={entry.label}
-          data-menu-shape={index}
-          viewBox="0 0 400 400"
-          preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 h-full w-full opacity-0"
-        >
-          {index % 4 === 0 && (
-            <>
-              <circle data-shape-el cx="300" cy="110" r="90" fill="rgba(251,235,28,0.10)" />
-              <circle data-shape-el cx="140" cy="250" r="60" fill="rgba(255,255,255,0.06)" />
-              <circle data-shape-el cx="330" cy="310" r="40" fill="rgba(251,235,28,0.08)" />
-            </>
-          )}
-          {index % 4 === 1 && (
-            <>
-              <path
-                data-shape-el
-                d="M0 180 Q100 90, 200 180 T400 180"
-                stroke="rgba(251,235,28,0.14)"
-                strokeWidth="54"
-                fill="none"
-              />
-              <path
-                data-shape-el
-                d="M0 280 Q100 190, 200 280 T400 280"
-                stroke="rgba(255,255,255,0.07)"
-                strokeWidth="34"
-                fill="none"
-              />
-            </>
-          )}
-          {index % 4 === 2 && (
-            <>
-              {[70, 160, 250, 340].map((y) =>
-                [90, 200, 310].map((x) => (
-                  <circle
-                    key={`${x}-${y}`}
-                    data-shape-el
-                    cx={x}
-                    cy={y}
-                    r="9"
-                    fill="rgba(251,235,28,0.18)"
-                  />
-                )),
-              )}
-            </>
-          )}
-          {index % 4 === 3 && (
-            <>
-              <line
-                data-shape-el
-                x1="0"
-                y1="90"
-                x2="320"
-                y2="400"
-                stroke="rgba(251,235,28,0.12)"
-                strokeWidth="28"
-              />
-              <line
-                data-shape-el
-                x1="110"
-                y1="0"
-                x2="400"
-                y2="290"
-                stroke="rgba(255,255,255,0.06)"
-                strokeWidth="22"
-              />
-            </>
-          )}
-        </svg>
-      ))}
-    </div>
-  );
-}
 
 const ENTRY_TYPE =
   "block font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]";
@@ -211,8 +126,6 @@ export function SiteMenu({
     if (!open || !el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const listeners: (() => void)[] = [];
-
     const ctx = gsap.context(() => {
       gsap
         .timeline({ defaults: { ease: EASE, duration: 0.7 } })
@@ -256,57 +169,9 @@ export function SiteMenu({
           "<+=0.2",
         );
 
-      // Hover washes: light this entry's shape, put the others out.
-      const entries = gsap.utils.toArray<HTMLElement>("[data-menu-entry]");
-      entries.forEach((entry) => {
-        const index = entry.dataset.menuEntry;
-        const shape = el.querySelector<SVGElement>(
-          `[data-menu-shape="${index}"]`,
-        );
-        if (!shape) return;
-        const parts = shape.querySelectorAll("[data-shape-el]");
-
-        const enter = () => {
-          gsap.to(shape, { opacity: 1, duration: 0.2, overwrite: "auto" });
-          gsap.fromTo(
-            parts,
-            { scale: 0.5, opacity: 0, rotate: -10, transformOrigin: "center" },
-            {
-              scale: 1,
-              opacity: 1,
-              rotate: 0,
-              duration: 0.6,
-              stagger: 0.08,
-              ease: "back.out(1.7)",
-              overwrite: "auto",
-            },
-          );
-        };
-        const leave = () => {
-          gsap.to(parts, {
-            scale: 0.8,
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.in",
-            overwrite: "auto",
-            onComplete: () => gsap.set(shape, { opacity: 0 }),
-          });
-        };
-
-        entry.addEventListener("mouseenter", enter);
-        entry.addEventListener("mouseleave", leave);
-        // gsap.context reverts the tweens; the listeners are ours to remove.
-        listeners.push(() => {
-          entry.removeEventListener("mouseenter", enter);
-          entry.removeEventListener("mouseleave", leave);
-        });
-      });
     }, el);
 
-    return () => {
-      listeners.forEach((off) => off());
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, [open]);
 
   /**
@@ -370,8 +235,6 @@ export function SiteMenu({
           <div data-menu-layer className="absolute inset-0 bg-ink-900" />
         </div>
 
-        <AmbientShapes />
-
         {/* 525 column inside a 120 gutter, as the comp sets it */}
         <div className="relative flex min-h-full flex-col px-6 py-8 sm:px-12 xl:px-[120px] xl:py-14">
           <div className="flex w-full justify-end">
@@ -396,12 +259,11 @@ export function SiteMenu({
             aria-label="Primary"
             className="mt-8 flex w-full flex-col items-end gap-6"
           >
-            {MENU_LINKS.map((entry, index) => {
+            {MENU_LINKS.map((entry) => {
               const expanded = openGroup === entry.label;
               return (
                 <div
                   key={entry.label}
-                  data-menu-entry={index}
                   className="flex w-full flex-col items-end gap-6"
                 >
                   <span className="menu-mask">

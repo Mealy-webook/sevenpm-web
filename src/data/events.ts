@@ -57,10 +57,13 @@ export type InfoTile = {
   value: string;
 };
 
+/** One act: the portrait, who it is, and when they are on. */
+export type Artist = { image: string; name: string; time?: string };
+
 /** A single 406px circle, or a 2×2 block of 200px circles. */
 export type ArtistGroup =
-  | { type: "solo"; image: string; name: string }
-  | { type: "quad"; items: ({ image: string; name: string } | null)[] };
+  | ({ type: "solo" } & Artist)
+  | { type: "quad"; items: (Artist | null)[] };
 
 export type ArtistDay = {
   id: string;
@@ -260,24 +263,24 @@ export const jazzablanca: EventDetails = {
       id: "18-september",
       label: "18 September",
       groups: [
-        { type: "solo", image: "/assets/artist-1.png", name: "Artist 1" },
+        { type: "solo", image: "/assets/artist-1.png", name: "Artist 1", time: "11:15 PM" },
         {
           type: "quad",
           items: [
-            { image: "/assets/artist-2.png", name: "Artist 2" },
-            { image: "/assets/artist-3.png", name: "Artist 3" },
-            { image: "/assets/artist-4.png", name: "Artist 4" },
-            { image: "/assets/artist-5.png", name: "Artist 5" },
+            { image: "/assets/artist-2.png", name: "Artist 2", time: "7:00 PM" },
+            { image: "/assets/artist-3.png", name: "Artist 3", time: "8:00 PM" },
+            { image: "/assets/artist-4.png", name: "Artist 4", time: "9:00 PM" },
+            { image: "/assets/artist-5.png", name: "Artist 5", time: "9:30 PM" },
           ],
         },
-        { type: "solo", image: "/assets/artist-6.png", name: "Artist 6" },
-        { type: "solo", image: "/assets/artist-7.png", name: "Artist 7" },
+        { type: "solo", image: "/assets/artist-6.png", name: "Artist 6", time: "11:15 PM" },
+        { type: "solo", image: "/assets/artist-7.png", name: "Artist 7", time: "11:15 PM" },
         {
           type: "quad",
           items: [
-            { image: "/assets/artist-8.png", name: "Artist 8" },
+            { image: "/assets/artist-8.png", name: "Artist 8", time: "10:00 PM" },
             null,
-            { image: "/assets/artist-9.png", name: "Artist 9" },
+            { image: "/assets/artist-9.png", name: "Artist 9", time: "10:45 PM" },
             null,
           ],
         },
@@ -289,24 +292,24 @@ export const jazzablanca: EventDetails = {
       id: "19-september",
       label: "19 September",
       groups: [
-        { type: "solo", image: "/assets/artist-7.png", name: "Artist 7" },
+        { type: "solo", image: "/assets/artist-7.png", name: "Artist 7", time: "11:15 PM" },
         {
           type: "quad",
           items: [
-            { image: "/assets/artist-5.png", name: "Artist 5" },
-            { image: "/assets/artist-2.png", name: "Artist 2" },
-            { image: "/assets/artist-9.png", name: "Artist 9" },
-            { image: "/assets/artist-3.png", name: "Artist 3" },
+            { image: "/assets/artist-5.png", name: "Artist 5", time: "7:00 PM" },
+            { image: "/assets/artist-2.png", name: "Artist 2", time: "8:00 PM" },
+            { image: "/assets/artist-9.png", name: "Artist 9", time: "9:00 PM" },
+            { image: "/assets/artist-3.png", name: "Artist 3", time: "9:30 PM" },
           ],
         },
-        { type: "solo", image: "/assets/artist-1.png", name: "Artist 1" },
-        { type: "solo", image: "/assets/artist-6.png", name: "Artist 6" },
+        { type: "solo", image: "/assets/artist-1.png", name: "Artist 1", time: "11:15 PM" },
+        { type: "solo", image: "/assets/artist-6.png", name: "Artist 6", time: "11:15 PM" },
         {
           type: "quad",
           items: [
-            { image: "/assets/artist-4.png", name: "Artist 4" },
+            { image: "/assets/artist-4.png", name: "Artist 4", time: "10:00 PM" },
             null,
-            { image: "/assets/artist-8.png", name: "Artist 8" },
+            { image: "/assets/artist-8.png", name: "Artist 8", time: "10:45 PM" },
             null,
           ],
         },

@@ -10,18 +10,27 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
 const ROW_WIDTH = 1938;
 const ROW_HEIGHT = 406;
 
+/**
+ * One act. The portrait carries the name and stage time, which only appear on
+ * hover or keyboard focus — the row is a wall of faces at rest, and labelling
+ * every one of them would bury the photographs.
+ */
 function Circle({
   image,
   name,
+  time,
   size,
 }: {
   image: string;
   name: string;
+  time?: string;
   size: number;
 }) {
+  const big = size > 300;
   return (
     <div
-      className="artist-circle relative shrink-0 overflow-hidden rounded-full"
+      tabIndex={0}
+      className="artist-circle group relative shrink-0 overflow-hidden rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brand"
       style={{ width: size, height: size }}
     >
       <Image
@@ -32,6 +41,26 @@ function Circle({
         sizes={`${size}px`}
         className="size-full object-cover"
       />
+      <span
+        className="pointer-events-none absolute inset-0 flex flex-col items-center justify-end gap-1 bg-gradient-to-t from-black/85 via-black/35 to-transparent pb-[14%] text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      >
+        <span
+          className={`px-4 font-[family-name:var(--font-display)] font-bold uppercase leading-tight text-white ${
+            big ? "text-[22px]" : "text-[14px]"
+          }`}
+        >
+          {name}
+        </span>
+        {time && (
+          <span
+            className={`font-[family-name:var(--font-display)] font-semibold leading-tight tracking-[0.1em] text-brand ${
+              big ? "text-[14px]" : "text-[11px]"
+            }`}
+          >
+            {time}
+          </span>
+        )}
+      </span>
     </div>
   );
 }
@@ -42,7 +71,12 @@ function Group({ group, last }: { group: ArtistGroup; last: boolean }) {
   if (group.type === "solo") {
     return (
       <div className="shrink-0" style={spacing}>
-        <Circle image={group.image} name={group.name} size={406} />
+        <Circle
+          image={group.image}
+          name={group.name}
+          time={group.time}
+          size={406}
+        />
       </div>
     );
   }
@@ -58,6 +92,7 @@ function Group({ group, last }: { group: ArtistGroup; last: boolean }) {
             key={`${item.image}-${index}`}
             image={item.image}
             name={item.name}
+            time={item.time}
             size={200}
           />
         ) : (

@@ -10,6 +10,7 @@ export function DisplayHeading({
   align = "center",
   className = "",
   reveal,
+  animate = true,
   as: Tag = "h2",
 }: {
   children: React.ReactNode;
@@ -19,6 +20,12 @@ export function DisplayHeading({
   className?: string;
   /** Opt into a MotionProvider scroll reveal. */
   reveal?: "clip" | "up" | "scale";
+  /**
+   * False leaves the characters alone. For headings that belong to a shell
+   * rather than a page — replaying the split on every tab switch reads as a
+   * stutter.
+   */
+  animate?: boolean;
   as?: "h1" | "h2" | "p";
 }) {
   return (
@@ -27,6 +34,7 @@ export function DisplayHeading({
         align === "center" ? "text-center" : "text-left"
       } ${className}`}
       data-reveal={reveal}
+      data-no-split={animate ? undefined : ""}
     >
       {children}
     </Tag>

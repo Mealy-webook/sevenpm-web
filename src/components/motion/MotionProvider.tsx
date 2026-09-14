@@ -56,24 +56,28 @@ export function MotionProvider() {
       /* ---------------------------------------------------------------- */
       /* Display headings: characters rise in one after another            */
       /* ---------------------------------------------------------------- */
-      gsap.utils.toArray<HTMLElement>(".display-text").forEach((el) => {
-        const split = SplitText.create(el, {
-          type: "chars,words",
-          charsClass: "split-char",
-          wordsClass: "split-word",
+      /* `data-no-split` opts a heading out: the account name band is part of
+         the shell and must not re-animate on every tab switch. */
+      gsap.utils
+        .toArray<HTMLElement>(".display-text:not([data-no-split])")
+        .forEach((el) => {
+          const split = SplitText.create(el, {
+            type: "chars,words",
+            charsClass: "split-char",
+            wordsClass: "split-word",
+          });
+          gsap.set(split.chars, { yPercent: 60, opacity: 0, rotate: 4 });
+          gsap.to(split.chars, {
+            yPercent: 0,
+            opacity: 1,
+            rotate: 0,
+            duration: 1.1,
+            ease: "expo.out",
+            stagger: { each: 0.022, from: "start" },
+            delay: Number(el.dataset.revealDelay ?? 0),
+            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+          });
         });
-        gsap.set(split.chars, { yPercent: 60, opacity: 0, rotate: 4 });
-        gsap.to(split.chars, {
-          yPercent: 0,
-          opacity: 1,
-          rotate: 0,
-          duration: 1.1,
-          ease: "expo.out",
-          stagger: { each: 0.022, from: "start" },
-          delay: Number(el.dataset.revealDelay ?? 0),
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-        });
-      });
 
       /* ---------------------------------------------------------------- */
       /* Paragraphs: line by line through a mask                           */

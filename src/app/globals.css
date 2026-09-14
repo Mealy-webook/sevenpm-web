@@ -148,8 +148,10 @@ body {
 
 /* Account name band (Figma 2173:25808) */
 .account-name {
-  --display-size: 160px;
-  --display-line: 108px;
+  /* Half the section-title size: this band is a label on a settings screen,
+     not a page headline, and at 160 it pushed the panels below the fold. */
+  --display-size: 88px;
+  --display-line: 68px;
   overflow-wrap: anywhere;
 }
 
@@ -973,6 +975,18 @@ html.has-cursor .cursor {
 
 .site-header[data-hidden="true"] {
   transform: translateY(-100%);
+}
+
+/* The account pages run the header straight into the name band, so it takes
+   the band's fill rather than sitting transparent over it. */
+.site-header[data-surface="secondary"] {
+  background: var(--color-bg-secondary);
+}
+
+.site-header[data-surface="secondary"][data-scrolled="true"] {
+  background: color-mix(in srgb, var(--color-bg-secondary) 88%, transparent);
+  border-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
 }
 
 .site-header > .shell {

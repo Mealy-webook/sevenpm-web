@@ -28,20 +28,23 @@ export function AccountShell({
   return (
     <>
       <MotionProvider />
-      <SiteHeader hideAccount />
+      <SiteHeader hideAccount surface="secondary" />
       <main className="account-main flex flex-col">
         <AccountGuard>
           <section className="bg-bg-secondary">
-            <div className="shell flex flex-col gap-3 pb-12 pt-8">
+            <div className="shell flex flex-col gap-2 pb-8 pt-6">
               {/* No reveal: the name band is part of the shell and does not
                   change between tabs, so replaying it on every switch reads
                   as a stutter. */}
-              <DisplayHeading as="h1" align="left" className="account-name">
+              <DisplayHeading
+                as="h1"
+                align="left"
+                className="account-name"
+                animate={false}
+              >
                 {accountUser.name}
               </DisplayHeading>
-              <p
-                className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary"
-              >
+              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-5 tracking-[-0.08px] text-content-secondary">
                 {accountUser.email}
               </p>
             </div>

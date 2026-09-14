@@ -30,6 +30,12 @@ type SiteHeaderProps = {
    * what the session is, wherever you are.
    */
   hideAccount?: boolean;
+  /**
+   * `secondary` gives the bar the elevated fill, for pages whose first
+   * section already sits on it — the account name band runs straight into
+   * the header, and a transparent bar there shows a seam.
+   */
+  surface?: "default" | "secondary";
 };
 
 const DEFAULT_USER: AccountUser = {
@@ -45,6 +51,7 @@ export function SiteHeader({
   user = DEFAULT_USER,
   logoSize = 72,
   hideAccount = false,
+  surface = "default",
 }: SiteHeaderProps) {
   const signedIn = useSignedIn();
   /* Signing out is client-side only, so the prop stays the source of who the
@@ -106,6 +113,7 @@ export function SiteHeader({
       className="site-header sticky top-0 z-30"
       data-hidden={hidden}
       data-scrolled={scrolled}
+      data-surface={surface}
     >
       <div className="shell flex items-start gap-[52px] pb-8 pt-6 xl:pb-12 xl:pt-8">
         <Link href="/" aria-label="SEVENPM home" className="shrink-0">
