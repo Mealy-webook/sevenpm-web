@@ -1,0 +1,32 @@
+import type { Metadata } from "next";
+
+import { AccountShell } from "@/components/account/AccountShell";
+import { PaymentsPanel } from "@/components/account/PaymentsPanel";
+import {
+  billingDetails,
+  bookings,
+  paymentCards,
+  receipts,
+} from "@/data/account";
+
+export const metadata: Metadata = {
+  title: "Payments — SEVENPM",
+  robots: { index: false },
+};
+
+/** Account — payments. Composed in the account system; no Figma comp. */
+export default function PaymentsPage() {
+  const upcoming = bookings.filter(
+    (b) => new Date(b.endsAt) >= new Date(),
+  ).length;
+
+  return (
+    <AccountShell activeId="payments" counts={{ bookings: upcoming }}>
+      <PaymentsPanel
+        cards={paymentCards}
+        billing={billingDetails}
+        receipts={receipts}
+      />
+    </AccountShell>
+  );
+}

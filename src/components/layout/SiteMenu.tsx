@@ -30,9 +30,9 @@ export const MENU_LINKS: MenuEntry[] = [
       { label: "Village Casa Anfa", href: "/about#festivals" },
     ],
   },
-  { label: "News", href: "/#news" },
-  { label: "Team", href: "/about#team" },
-  { label: "Careers", href: "/about#careers" },
+  { label: "News", href: "/news" },
+  { label: "Team", href: "/team" },
+  { label: "Careers", href: "/careers" },
 ];
 
 export function SiteMenu({
@@ -74,9 +74,9 @@ export function SiteMenu({
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
       tl.fromTo(
-        el,
-        { clipPath: "inset(0 0 100% 0)" },
-        { clipPath: "inset(0 0 0% 0)", duration: 0.7 },
+        "[data-menu-sheet]",
+        { yPercent: -100 },
+        { yPercent: 0, duration: 0.7 },
       )
         .fromTo(
           "[data-menu-panel]",
@@ -119,9 +119,13 @@ export function SiteMenu({
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
-      className="fixed inset-0 z-50 overflow-y-auto bg-ink-900"
+      data-lenis-prevent
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-ink-900"
     >
-      <div className="shell flex min-h-full flex-col gap-8 py-6 xl:py-14">
+      <div
+        data-menu-sheet
+        className="shell flex min-h-full flex-col gap-8 py-6 xl:py-14"
+      >
         <div className="flex w-full items-center justify-end">
           <button
             ref={closeButton}

@@ -155,7 +155,7 @@ export const accountNav: AccountNavItem[] = [
     id: "payments",
     label: "Payments",
     icon: "/assets/ic-acct-payments.svg",
-    href: "/account#payments",
+    href: "/account/payments",
   },
 ];
 
@@ -263,5 +263,90 @@ export const profileSections: ProfileSection[] = [
         action: "Update",
       },
     ],
+  },
+];
+
+/* ------------------------------------------------------------------ *
+ * Payments — no comp; composed from the account vocabulary.
+ * ------------------------------------------------------------------ */
+
+export type PaymentCard = {
+  id: string;
+  brand: string;
+  last4: string;
+  /** MM/YY. */
+  expiry: string;
+  primary?: boolean;
+};
+
+export type Receipt = {
+  id: string;
+  label: string;
+  date: string;
+  method: string;
+  amount: string;
+};
+
+export const paymentsCopy = {
+  title: "Payments",
+  description:
+    "The cards you pay with and every receipt SEVENPM has issued you.",
+  cards: {
+    title: "Saved cards",
+    addCard: "Add a card",
+    expires: "Expires",
+    primaryBadge: "Primary",
+    makePrimary: "Make primary",
+    remove: "Remove",
+    empty: "No cards saved yet",
+  },
+  billing: {
+    title: "Billing details",
+    emptyValue: "Not provided",
+  },
+  receipts: {
+    title: "Receipts",
+    download: "Download",
+  },
+};
+
+export const paymentCards: PaymentCard[] = [
+  {
+    id: "visa-6411",
+    brand: "Visa",
+    last4: "6411",
+    expiry: "09/28",
+    primary: true,
+  },
+  { id: "mc-2044", brand: "Mastercard", last4: "2044", expiry: "03/27" },
+];
+
+export const billingDetails = [
+  { label: "Billing name", value: accountUser.name, action: "Edit" },
+  { label: "Billing address", value: "Casablanca, Morocco", action: "Edit" },
+  { label: "Company / VAT number", action: "Add" },
+];
+
+export const receipts: Receipt[] = [
+  {
+    id: "rc-2026-0902",
+    label: "Jazzablanca — weekend pass",
+    date: "2 Sept 2026",
+    method: "Visa •••• 6411",
+    amount: "200 MAD",
+  },
+  {
+    id: "rc-2026-0901",
+    label: "Wallet top up",
+    date: "1 Sept 2026",
+    method: "Visa •••• 6411",
+    amount: "500 MAD",
+  },
+  {
+    id: "rc-2026-0820",
+    label: "Casa Anfa Latina — day pass",
+    date: "20 Aug 2026",
+    method: "Mastercard •••• 2044",
+    amount: "150 MAD",
   },
 ];

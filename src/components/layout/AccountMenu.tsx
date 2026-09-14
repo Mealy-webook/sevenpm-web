@@ -119,11 +119,7 @@ export function AccountMenu({
       </a>
 
       <div className="flex w-full flex-col gap-2">
-        <Row
-          icon="/assets/ic-ticket.svg"
-          label="My bookings"
-          href="/account"
-        />
+        <Row icon="/assets/ic-ticket.svg" label="My bookings" href="/account" />
         <Row
           icon="/assets/ic-wallet.svg"
           label="Wallet"

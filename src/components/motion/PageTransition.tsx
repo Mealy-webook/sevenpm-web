@@ -114,14 +114,8 @@ export function PageTransition() {
       className="pointer-events-none fixed inset-0 z-[95]"
       aria-hidden
     >
-      <div
-        data-sheet="brand"
-        className="absolute inset-0 bg-brand"
-      />
-      <div
-        data-sheet="ink"
-        className="absolute inset-0 bg-bg-primary"
-      />
+      <div data-sheet="brand" className="absolute inset-0 bg-brand" />
+      <div data-sheet="ink" className="absolute inset-0 bg-bg-primary" />
     </div>
   );
 }

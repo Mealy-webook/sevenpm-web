@@ -1,4 +1,5 @@
-import { FAQ_HEADLINE, jazzablanca } from "./events";
+import { jazzablanca } from "./events";
+import { newsArticles } from "./news";
 
 /**
  * Homepage content, from Figma node 15:202 (1512 × 5838). Copy and imagery
@@ -71,34 +72,16 @@ export type NewsItem = {
   href: string;
 };
 
-// The comp repeats one story three times; placeholder until the newsroom
-// feed lands.
-const NEWS_EXCERPT =
-  "The 19th edition of Jazzablanca concluded after ten days of music and entertainment, attracting nearly 100,000 festivalgoers and reaffirming its position as one of Africa's leading cultural events.";
-
-export const newsItems: NewsItem[] = [
-  {
-    date: "19 Aug, 2026",
-    title: FAQ_HEADLINE,
-    excerpt: NEWS_EXCERPT,
-    image: "/assets/gallery-1.jpg",
-    href: "#",
-  },
-  {
-    date: "19 Aug, 2026",
-    title: FAQ_HEADLINE,
-    excerpt: NEWS_EXCERPT,
-    image: "/assets/gallery-3.jpg",
-    href: "#",
-  },
-  {
-    date: "19 Aug, 2026",
-    title: FAQ_HEADLINE,
-    excerpt: NEWS_EXCERPT,
-    image: "/assets/gallery-5.jpg",
-    href: "#",
-  },
-];
+/** The homepage shows the three most recent stories from `data/news.ts`. */
+export const newsItems: NewsItem[] = newsArticles
+  .slice(0, 3)
+  .map((article) => ({
+    date: article.dateLabel,
+    title: article.title,
+    excerpt: article.excerpt,
+    image: article.image,
+    href: `/news/${article.slug}`,
+  }));
 
 export const homeCopy = {
   heroTitle: "More music more life",
