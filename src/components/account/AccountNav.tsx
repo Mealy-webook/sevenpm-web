@@ -53,12 +53,24 @@ export function AccountNav({
                     {item.label}
                   </span>
                   {item.trailing && (
-                    <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+                    <span
+                      className={`font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] ${
+                        active ? "text-[#18181b]" : "text-content-primary"
+                      }`}
+                    >
                       {item.trailing}
                     </span>
                   )}
                   {count ? (
-                    <span className="flex size-5 items-center justify-center rounded-full bg-[#0b0b0e] font-[family-name:var(--font-display)] text-[12px] font-semibold leading-none text-white">
+                    // On the yellow row the comp uses a black pill; off it,
+                    // that pill would vanish into the page.
+                    <span
+                      className={`flex size-5 items-center justify-center rounded-full font-[family-name:var(--font-display)] text-[12px] font-semibold leading-none ${
+                        active
+                          ? "bg-[#0b0b0e] text-white"
+                          : "bg-white/10 text-content-primary"
+                      }`}
+                    >
                       {count}
                     </span>
                   ) : null}

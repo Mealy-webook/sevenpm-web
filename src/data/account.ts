@@ -8,7 +8,97 @@ export const accountUser = {
   name: "Ahmed Mealy",
   email: "ahmed@gmail.com",
   avatar: "/assets/nav-avatar.jpg",
-  walletBalance: "210 MAD",
+};
+
+/* ------------------------------------------------------------------ *
+ * Wallet
+ *
+ * No Figma comp for this screen; the data shape is what the panel needs.
+ * The balance is *derived* from the transactions so the two can never
+ * disagree — when the API lands, replace the list and the balance follows.
+ * ------------------------------------------------------------------ */
+
+export type WalletTransaction = {
+  id: string;
+  /** `topup` adds to the balance, `payment` takes from it. */
+  kind: "topup" | "payment";
+  label: string;
+  /** Secondary line: what it was for. */
+  context: string;
+  /** Positive for a top-up, negative for a payment. */
+  amount: number;
+  /** ISO date. */
+  date: string;
+};
+
+export type WalletFilter = {
+  label: string;
+  kind?: WalletTransaction["kind"];
+};
+
+export const walletCurrency = "MAD";
+
+export const walletTransactions: WalletTransaction[] = [
+  {
+    id: "tx-004",
+    kind: "payment",
+    label: "Bar — Anfa Park",
+    context: "Jazzablanca · 3 drinks",
+    amount: -90,
+    date: "2026-09-12T21:40:00+01:00",
+  },
+  {
+    id: "tx-003",
+    kind: "payment",
+    label: "Weekend pass",
+    context: "Jazzablanca · 2 tickets",
+    amount: -200,
+    date: "2026-09-02T10:12:00+01:00",
+  },
+  {
+    id: "tx-002",
+    kind: "topup",
+    label: "Top up",
+    context: "Visa ending 6411",
+    amount: 400,
+    date: "2026-09-01T18:05:00+01:00",
+  },
+  {
+    id: "tx-001",
+    kind: "topup",
+    label: "Welcome credit",
+    context: "SEVENPM loyalty program",
+    amount: 100,
+    date: "2026-08-28T09:00:00+01:00",
+  },
+];
+
+export const walletBalance = walletTransactions.reduce(
+  (total, tx) => total + tx.amount,
+  0,
+);
+
+/** "+400 MAD" / "−90 MAD" — a real minus sign, not a hyphen. */
+export function formatAmount(amount: number, currency = walletCurrency) {
+  const sign = amount > 0 ? "+" : "\u2212";
+  return `${sign}${Math.abs(amount).toLocaleString("en-US")} ${currency}`;
+}
+
+export const walletCopy = {
+  title: "Wallet",
+  description:
+    "Your SEVENPM balance. Top it up once, then pay at the gate, at the bar and in the merch store without queueing for a card reader.",
+  balanceLabel: "Available balance",
+  topUpLabel: "Add credit",
+  topUpAmounts: [100, 200, 500],
+  topUpCta: "Top up",
+  /** `kind` omitted means "everything". */
+  filters: [
+    { label: "All" },
+    { label: "Top-ups", kind: "topup" },
+    { label: "Payments", kind: "payment" },
+  ] as WalletFilter[],
+  empty: "No transactions yet",
 };
 
 export type AccountNavItem = {
@@ -31,8 +121,8 @@ export const accountNav: AccountNavItem[] = [
     id: "wallet",
     label: "Wallet",
     icon: "/assets/ic-acct-wallet.svg",
-    href: "/account#wallet",
-    trailing: accountUser.walletBalance,
+    href: "/account/wallet",
+    trailing: `${walletBalance} ${walletCurrency}`,
   },
   {
     id: "loyalty",

@@ -31,12 +31,13 @@ src/
     page.tsx                homepage — composes src/components/home
     about/page.tsx          about page — composes src/components/about
     account/page.tsx        account — bookings (sidebar + panel)
+    account/wallet/page.tsx account — wallet
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
     home/                   one file per homepage section
     about/                  AboutStats, AboutFestivals, AboutTeam
-    account/                AccountNav, BookingsPanel
+    account/                AccountShell, AccountNav, BookingsPanel, WalletPanel
     event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
@@ -44,7 +45,7 @@ src/
     events.ts               all copy + imagery for the event page, typed
     home.ts                 homepage copy, festivals, news, gallery rows
     about.ts                about copy, stats, festivals, team (from seven-pm.com)
-    account.ts              mock session: user, sidebar items, bookings
+    account.ts              mock session: user, sidebar, bookings, wallet
 public/assets/              exported Figma artwork
 ```
 
@@ -371,11 +372,30 @@ Payments, divider, Logout — the active row on the yellow accent) sits beside
 the panel (`BookingsPanel`: title, description, Upcoming / Past chips, cards
 or the cassette empty state). No footer — the comp is one 853px screen.
 
+`AccountShell` holds the frame (header, name band, sidebar) so every account
+screen composes the same way: pass `activeId` and a panel as children.
+
 Everything comes from `data/account.ts`, a mock session. The one booking is
 dated to the Jazzablanca event, so Upcoming shows the card and Past shows the
-empty state — both comps in one page. The other sidebar entries have no
-designs yet and point at anchors on this page; "Logout" returns home. The
-account dropdown's View profile / My bookings / Wallet now land here.
+empty state — both comps in one page.
+
+### Wallet
+
+`/account/wallet` has no comp; it is composed from the same parts. A balance
+card (Daltown amount, currency in brand yellow, "Add credit" chips and the
+one yellow CTA), then the history: All / Top-ups / Payments chips over one
+row per transaction — a circular arrow, label and context on the left, signed
+amount and date on the right, incoming in green. The cassette empty state is
+the one from Bookings.
+
+**The balance is derived**, `walletTransactions.reduce(...)`, so the number in
+the card, the sidebar and the account dropdown can never disagree with the
+history. Replace the list when the API lands and the rest follows. Amounts use
+a real minus sign (`formatAmount`).
+
+Loyalty program, Profile and Payments have no designs yet and point at anchors
+on the bookings page; "Logout" returns home. The account dropdown's View
+profile / My bookings / Wallet land in this area.
 
 ## Performance notes
 
