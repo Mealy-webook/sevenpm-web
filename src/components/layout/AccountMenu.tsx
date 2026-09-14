@@ -1,5 +1,8 @@
 import Image from "next/image";
 
+import { LogoutButton } from "@/components/auth/LogoutButton";
+import { logoutCopy } from "@/data/account";
+
 /**
  * Account dropdown, from Figma 2091:45854 (294 × 324). Opens under the
  * account button in the header.
@@ -78,10 +81,13 @@ export function AccountMenu({
   user,
   id,
   labelledBy,
+  onLogout,
 }: {
   user: AccountUser;
   id: string;
   labelledBy: string;
+  /** Closes the popover before logout navigates away. */
+  onLogout?: () => void;
 }) {
   return (
     <div
@@ -128,7 +134,21 @@ export function AccountMenu({
         />
       </div>
 
-      <Row icon="/assets/ic-logout.svg" label="Logout" onClick={() => {}} />
+      <LogoutButton
+        onBeforeConfirm={onLogout}
+        className="menu-row flex w-full items-center gap-4 border border-border-tertiary pl-4 pr-3 shadow-[0px_4px_24px_0px_rgba(0,0,0,0.12)] transition-colors hover:bg-white/5"
+      >
+        <Image
+          src="/assets/ic-logout.svg"
+          alt=""
+          width={24}
+          height={24}
+          className="size-6 shrink-0"
+        />
+        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+          {logoutCopy.label}
+        </span>
+      </LogoutButton>
     </div>
   );
 }

@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { LogoutButton } from "@/components/auth/LogoutButton";
+
 import type { AccountNavItem } from "@/data/account";
+import { logoutCopy } from "@/data/account";
 
 /**
  * Account sidebar, from Figma 2173:25810: 293px column of navigation rows
@@ -83,7 +86,7 @@ export function AccountNav({
 
       <span className="block h-px w-full bg-border-tertiary" aria-hidden />
 
-      <Link href="/" className={`${row} text-content-primary hover:bg-white/5`}>
+      <LogoutButton className={`${row} text-content-primary hover:bg-white/5`}>
         <Image
           src="/assets/ic-acct-logout.svg"
           alt=""
@@ -91,10 +94,10 @@ export function AccountNav({
           height={24}
           className="size-6 shrink-0"
         />
-        <span className="flex-1 py-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px]">
-          Logout
+        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px]">
+          {logoutCopy.label}
         </span>
-      </Link>
+      </LogoutButton>
     </nav>
   );
 }

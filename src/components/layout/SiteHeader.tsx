@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { AccountMenu, type AccountUser } from "./AccountMenu";
+import { useSignedIn } from "@/components/auth/session";
 import { LocaleMenu, type CurrencyCode, type LanguageCode } from "./LocaleMenu";
 import { SiteMenu } from "./SiteMenu";
 
@@ -39,6 +40,10 @@ export function SiteHeader({
   logoSize = 72,
   hideAccount = false,
 }: SiteHeaderProps) {
+  const signedIn = useSignedIn();
+  /* Signing out is client-side only, so the prop stays the source of who the
+     visitor is and the session decides whether they are still here. */
+  const account = signedIn ? user : null;
   const [popover, setPopover] = useState<Popover>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState<LanguageCode>("en");
@@ -87,7 +92,7 @@ export function SiteHeader({
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  const firstName = user?.name.split(" ")[0] ?? "";
+  const firstName = account?.name.split(" ")[0] ?? "";
 
   return (
     <header
@@ -115,7 +120,7 @@ export function SiteHeader({
           ref={cluster}
           className="relative flex min-w-0 flex-1 items-center justify-end gap-1"
         >
-          {hideAccount ? null : user ? (
+          {hideAccount ? null : account ? (
             <button
               id={`${accountId}-button`}
               type="button"
@@ -189,10 +194,11 @@ export function SiteHeader({
           </button>
 
           {/* Popovers hang off the right edge of the button cluster */}
-          {popover === "account" && user && (
+          {popover === "account" && account && (
             <div className="absolute right-0 top-[calc(100%+8px)]">
               <AccountMenu
-                user={user}
+                user={account}
+                onLogout={() => setPopover(null)}
                 id={accountId}
                 labelledBy={`${accountId}-button`}
               />

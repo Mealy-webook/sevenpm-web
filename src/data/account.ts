@@ -104,6 +104,15 @@ export function formatAmount(amount: number, currency = walletCurrency) {
   return amount > 0 ? `+${value}` : value;
 }
 
+/** Logout confirmation, from Figma 2231:12668. */
+export const logoutCopy = {
+  label: "Logout",
+  title: "Logout",
+  body: "Are you sure you want to logout?",
+  cancel: "Cancel",
+  confirm: "Logout",
+};
+
 export const walletCopy = {
   title: "Wallet",
   balanceLabel: "Available balance",
