@@ -111,7 +111,7 @@ export function AccountMenu({
       </div>
 
       <a
-        href="#profile"
+        href="/account#profile"
         role="menuitem"
         className="btn-secondary flex w-full items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary"
       >
@@ -122,13 +122,13 @@ export function AccountMenu({
         <Row
           icon="/assets/ic-ticket.svg"
           label="My bookings"
-          href="#bookings"
+          href="/account"
         />
         <Row
           icon="/assets/ic-wallet.svg"
           label="Wallet"
           trailing={user.walletBalance}
-          href="#wallet"
+          href="/account#wallet"
         />
       </div>
 

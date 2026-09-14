@@ -42,7 +42,7 @@ export function Cursor() {
       dy(e.clientY);
       rx(e.clientX);
       ry(e.clientY);
-      const target = e.target as HTMLElement | null;
+      const target = e.target instanceof Element ? e.target : null;
       const labelled = target?.closest<HTMLElement>("[data-cursor]");
       if (labelled) {
         setState("label", labelled.dataset.cursor ?? "");

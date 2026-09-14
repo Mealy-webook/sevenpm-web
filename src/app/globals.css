@@ -146,6 +146,13 @@ body {
   --display-line: 118px;
 }
 
+/* Account name band (Figma 2173:25808) */
+.account-name {
+  --display-size: 160px;
+  --display-line: 108px;
+  overflow-wrap: anywhere;
+}
+
 .font-daltown {
   font-family: var(--font-headline);
   font-weight: 400;

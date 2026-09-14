@@ -21,6 +21,8 @@ type SiteHeaderProps = {
   user?: AccountUser | null;
   /** Logo size — the homepage comp uses 100, inner pages 72. */
   logoSize?: 72 | 100;
+  /** The account pages drop the account button (Figma 2173:25780). */
+  hideAccount?: boolean;
 };
 
 const DEFAULT_USER: AccountUser = {
@@ -35,6 +37,7 @@ type Popover = "account" | "locale" | null;
 export function SiteHeader({
   user = DEFAULT_USER,
   logoSize = 72,
+  hideAccount = false,
 }: SiteHeaderProps) {
   const [popover, setPopover] = useState<Popover>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -112,7 +115,7 @@ export function SiteHeader({
           ref={cluster}
           className="relative flex min-w-0 flex-1 items-center justify-end gap-1"
         >
-          {user ? (
+          {hideAccount ? null : user ? (
             <button
               id={`${accountId}-button`}
               type="button"

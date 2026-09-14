@@ -18,6 +18,7 @@ npm run dev
 | `/`              | `15:202` — Homepage (1512 × 5838)                                               | Built  |
 | `/events/[slug]` | `2091:56421` — Event details page (1512 × 7041)                                 | Built  |
 | `/about`         | no comp — designed in the site's system, content from seven-pm.com              | Built  |
+| `/account`       | `2173:25780` / `2173:25975` — Bookings (empty and with a booking)               | Built  |
 | Header menus     | `2091:45854` account, `2091:45844` language/currency, `15:790` full-screen menu | Built  |
 
 ## Structure
@@ -29,11 +30,13 @@ src/
     globals.css             design tokens, shell, fixed-geometry stages, motion
     page.tsx                homepage — composes src/components/home
     about/page.tsx          about page — composes src/components/about
+    account/page.tsx        account — bookings (sidebar + panel)
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
     home/                   one file per homepage section
     about/                  AboutStats, AboutFestivals, AboutTeam
+    account/                AccountNav, BookingsPanel
     event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
@@ -41,6 +44,7 @@ src/
     events.ts               all copy + imagery for the event page, typed
     home.ts                 homepage copy, festivals, news, gallery rows
     about.ts                about copy, stats, festivals, team (from seven-pm.com)
+    account.ts              mock session: user, sidebar items, bookings
 public/assets/              exported Figma artwork
 ```
 
@@ -355,6 +359,23 @@ stickers, GSAP reveals — with content taken from the current site,
 
 The menu's Team / Careers entries point here, and the three festivals without
 their own page land on the festival index.
+
+## Account
+
+`/account` is the bookings screen from Figma 2173:25780 (empty) and
+2173:25975 (one upcoming booking). The header drops the account button
+(`<SiteHeader hideAccount />`); the name band is Daltown 160/108 with the
+e-mail under it on the secondary background; below, a 293px sidebar
+(`AccountNav`: Bookings, Wallet with balance, Loyalty program, Profile,
+Payments, divider, Logout — the active row on the yellow accent) sits beside
+the panel (`BookingsPanel`: title, description, Upcoming / Past chips, cards
+or the cassette empty state).
+
+Everything comes from `data/account.ts`, a mock session. The one booking is
+dated to the Jazzablanca event, so Upcoming shows the card and Past shows the
+empty state — both comps in one page. The other sidebar entries have no
+designs yet and point at anchors on this page; "Logout" returns home. The
+account dropdown's View profile / My bookings / Wallet now land here.
 
 ## Performance notes
 
