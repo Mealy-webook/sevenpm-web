@@ -53,7 +53,6 @@ export function AccountCard({
       id={id}
       aria-labelledby={titleId}
       className="flex scroll-mt-28 flex-col gap-2 border border-white/5 p-6"
-      data-reveal="up"
     >
       <div className="flex min-h-6 items-center justify-between gap-4">
         <h3

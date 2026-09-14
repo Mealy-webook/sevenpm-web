@@ -46,6 +46,12 @@ export function PageTransition() {
       const url = new URL(anchor.href, location.href);
       if (url.origin !== location.origin) return;
       if (url.pathname === location.pathname) return; // hash / same page
+      // Moving between the account tabs is a tab switch, not a page change:
+      // the shell, the name band and the sidebar all stay put, so the wipe
+      // reads as a stutter rather than a transition.
+      const inAccount = (path: string) =>
+        path === "/account" || path.startsWith("/account/");
+      if (inAccount(url.pathname) && inAccount(location.pathname)) return;
       e.preventDefault();
       e.stopPropagation();
       if (pending.current) return;

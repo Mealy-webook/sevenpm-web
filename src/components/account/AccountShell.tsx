@@ -10,6 +10,11 @@ import { accountNav, accountUser } from "@/data/account";
  * without the account button, the name band in Daltown 160/108 on the
  * secondary background, then the 293px sidebar beside the panel. No footer —
  * the comp is a single 853px screen, so the section fills the viewport.
+ *
+ * Nothing in here animates. Switching account tabs changes only the panel on
+ * the right, so the route wipe is skipped (see `PageTransition`) and the
+ * panels carry no reveals — a settings area should feel like tabs, not like
+ * five separate pages.
  */
 export function AccountShell({
   activeId,
@@ -28,18 +33,14 @@ export function AccountShell({
         <AccountGuard>
           <section className="bg-bg-secondary">
             <div className="shell flex flex-col gap-3 pb-12 pt-8">
-              <DisplayHeading
-                as="h1"
-                align="left"
-                className="account-name"
-                reveal="clip"
-              >
+              {/* No reveal: the name band is part of the shell and does not
+                  change between tabs, so replaying it on every switch reads
+                  as a stutter. */}
+              <DisplayHeading as="h1" align="left" className="account-name">
                 {accountUser.name}
               </DisplayHeading>
               <p
                 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary"
-                data-reveal="up"
-                data-reveal-delay="0.15"
               >
                 {accountUser.email}
               </p>

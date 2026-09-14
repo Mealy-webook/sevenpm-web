@@ -90,7 +90,6 @@ export function BookingsPanel({
       {shown.length === 0 ? (
         <div
           className="flex min-h-[253px] flex-1 flex-col items-center justify-center gap-4"
-          data-reveal="up"
         >
           <Image
             src="/assets/sticker-cassette.png"
@@ -106,8 +105,6 @@ export function BookingsPanel({
       ) : (
         <ul
           className="m-0 flex list-none flex-col gap-4 p-0"
-          data-reveal="up"
-          data-reveal-stagger
         >
           {shown.map((booking) => (
             <li

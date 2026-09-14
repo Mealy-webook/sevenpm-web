@@ -57,7 +57,6 @@ export function ProfilePanel({ sections }: { sections: ProfileSection[] }) {
       <button
         type="button"
         className="btn-secondary flex cursor-pointer items-center justify-center self-start px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#ff6c6c]"
-        data-reveal="up"
       >
         <span className="flex h-5 items-center">{profileCopy.deleteCta}</span>
       </button>

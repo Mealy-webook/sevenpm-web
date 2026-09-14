@@ -42,7 +42,6 @@ function Card({
   return (
     <div
       className={`flex flex-col gap-6 border border-white/5 p-6 ${className}`}
-      data-reveal="up"
     >
       {title && (
         <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
@@ -104,7 +103,6 @@ export function LoyaltyPanel() {
       {/* Balance and tier */}
       <div
         className="flex flex-col gap-6 border border-white/5 bg-bg-secondary p-6"
-        data-reveal="up"
       >
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex flex-col gap-2">

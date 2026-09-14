@@ -64,7 +64,6 @@ export function WalletPanel({
       {/* Balance */}
       <div
         className="flex flex-col gap-6 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center sm:justify-between"
-        data-reveal="up"
       >
         <div className="flex flex-col gap-2">
           <span className="font-[family-name:var(--font-display)] text-[13px] font-medium uppercase leading-5 tracking-[0.13px] text-content-secondary">
@@ -98,7 +97,6 @@ export function WalletPanel({
       {/* Transactions */}
       <div
         className="flex flex-col gap-6 border border-white/5 p-6"
-        data-reveal="up"
       >
         <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
           {walletCopy.transactionsTitle}
