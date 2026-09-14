@@ -32,12 +32,14 @@ src/
     about/page.tsx          about page — composes src/components/about
     account/page.tsx        account — bookings (sidebar + panel)
     account/wallet/page.tsx account — wallet
+    account/profile/page.tsx account — profile
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
     home/                   one file per homepage section
     about/                  AboutStats, AboutFestivals, AboutTeam
-    account/                AccountShell, AccountNav, BookingsPanel, WalletPanel
+    account/                AccountShell, AccountNav, BookingsPanel,
+                            WalletPanel, ProfilePanel
     event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
@@ -381,21 +383,39 @@ empty state — both comps in one page.
 
 ### Wallet
 
-`/account/wallet` has no comp; it is composed from the same parts. A balance
-card (Daltown amount, currency in brand yellow, "Add credit" chips and the
-one yellow CTA), then the history: All / Top-ups / Payments chips over one
-row per transaction — a circular arrow, label and context on the left, signed
-amount and date on the right, incoming in green. The cassette empty state is
-the one from Bookings.
+`/account/wallet`, from Figma 2196:12516. The panel title, a balance card
+(label, the amount in Daltown 56/39 with the currency in brand yellow, and
+the white "Top up" button), then a transactions card grouped by day with a
+row per movement: a square icon, label and time, the signed amount, and a
+chevron. The comp draws that chevron but nothing behind it — here the row
+expands to the detail line, which is what the money was actually for.
 
-**The balance is derived**, `walletTransactions.reduce(...)`, so the number in
-the card, the sidebar and the account dropdown can never disagree with the
-history. Replace the list when the API lands and the rest follows. Amounts use
-a real minus sign (`formatAmount`).
+Three things in the comp were not reproduced as drawn, deliberately:
 
-Loyalty program, Profile and Payments have no designs yet and point at anchors
-on the bookings page; "Logout" returns home. The account dropdown's View
-profile / My bookings / Wallet land in this area.
+- **The balance is derived** (`walletTransactions.reduce(...)`), so the card,
+  the sidebar and the account dropdown always agree. The comp shows 0 MAD in
+  the card and 450 MAD in the sidebar; both read 450 here.
+- **"Avaiable balance"** is a typo in the comp; the page says "Available".
+- **Header buttons** are 56px with 24px icons in this frame and 52/20 in the
+  bookings frames. The site keeps 52/20 until design confirms the change.
+
+Days are stored as an offset (`dayOffset: 0` = today) rather than a date, so
+the "Today" / "Yesterday" headings stay true however long the mock data lives
+and there is no server/client date mismatch to guard against.
+
+### Profile
+
+`/account/profile` has no comp; it reuses the wallet's vocabulary — a card
+with an 18px title and rows of label over value with an inline action. Four
+cards: personal details (with the avatar and "Change photo"), preferences
+(language, currency, and three notification switches), payment details
+(`#payment-details`, the sidebar's Payment details row lands here) and
+security, ending on a destructive "Delete account" row. Every control is
+presentational except the switches, which hold local state.
+
+Loyalty program is the last account screen without a page; its row points at
+an anchor on the bookings page. "Logout" returns home. The account dropdown's
+View profile / My bookings / Wallet all land in this area.
 
 ## Performance notes
 

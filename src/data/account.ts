@@ -1,21 +1,27 @@
 /**
- * Account area content, from Figma 2173:25780 (bookings, empty) and
- * 2173:25975 (bookings, one upcoming). Mock session data until the account
- * API lands — everything the components render comes from here.
+ * Account area content. Bookings from Figma 2173:25780 / 2173:25975, wallet
+ * from 2196:12516. Mock session data until the account API lands —
+ * everything the account screens render comes from here.
  */
 
 export const accountUser = {
   name: "Ahmed Mealy",
   email: "ahmed@gmail.com",
   avatar: "/assets/nav-avatar.jpg",
+  phone: "+212 6 61 23 45 67",
+  birthday: "14 March 1994",
+  city: "Casablanca, Morocco",
+  language: "English",
+  currency: "Moroccan Dirham (MAD)",
 };
 
 /* ------------------------------------------------------------------ *
- * Wallet
+ * Wallet (Figma 2196:12516)
  *
- * No Figma comp for this screen; the data shape is what the panel needs.
- * The balance is *derived* from the transactions so the two can never
- * disagree — when the API lands, replace the list and the balance follows.
+ * The balance is *derived* from the transactions, so the card, the sidebar
+ * and the account dropdown can never disagree. Days are stored as an offset
+ * rather than a date: the comp groups by "Today" / "Yesterday", and an
+ * offset keeps those headings true however long this mock data lives.
  * ------------------------------------------------------------------ */
 
 export type WalletTransaction = {
@@ -23,53 +29,72 @@ export type WalletTransaction = {
   /** `topup` adds to the balance, `payment` takes from it. */
   kind: "topup" | "payment";
   label: string;
-  /** Secondary line: what it was for. */
-  context: string;
+  /** Time of day, already formatted — mock data has no real timestamps. */
+  time: string;
+  /** Revealed when the row is expanded. */
+  detail: string;
   /** Positive for a top-up, negative for a payment. */
   amount: number;
-  /** ISO date. */
-  date: string;
-};
-
-export type WalletFilter = {
-  label: string;
-  kind?: WalletTransaction["kind"];
+  /** 0 = today, 1 = yesterday, … */
+  dayOffset: number;
 };
 
 export const walletCurrency = "MAD";
 
 export const walletTransactions: WalletTransaction[] = [
   {
-    id: "tx-004",
+    id: "tx-006",
     kind: "payment",
-    label: "Bar — Anfa Park",
-    context: "Jazzablanca · 3 drinks",
+    label: "Withdraw money",
+    time: "10:37 PM",
+    detail: "Merch store — Anfa Park",
+    amount: -60,
+    dayOffset: 0,
+  },
+  {
+    id: "tx-005",
+    kind: "payment",
+    label: "Withdraw money",
+    time: "9:12 PM",
+    detail: "Bar — Anfa Park · 3 drinks",
     amount: -90,
-    date: "2026-09-12T21:40:00+01:00",
+    dayOffset: 0,
+  },
+  {
+    id: "tx-004",
+    kind: "topup",
+    label: "Add money",
+    time: "6:40 PM",
+    detail: "Visa ending 6411",
+    amount: 200,
+    dayOffset: 0,
   },
   {
     id: "tx-003",
     kind: "payment",
-    label: "Weekend pass",
-    context: "Jazzablanca · 2 tickets",
+    label: "Withdraw money",
+    time: "8:05 PM",
+    detail: "Jazzablanca — weekend pass · 2 tickets",
     amount: -200,
-    date: "2026-09-02T10:12:00+01:00",
+    dayOffset: 1,
   },
   {
     id: "tx-002",
     kind: "topup",
-    label: "Top up",
-    context: "Visa ending 6411",
-    amount: 400,
-    date: "2026-09-01T18:05:00+01:00",
+    label: "Add money",
+    time: "7:20 PM",
+    detail: "Visa ending 6411",
+    amount: 500,
+    dayOffset: 1,
   },
   {
     id: "tx-001",
     kind: "topup",
     label: "Welcome credit",
-    context: "SEVENPM loyalty program",
+    time: "9:00 AM",
+    detail: "SEVENPM loyalty program",
     amount: 100,
-    date: "2026-08-28T09:00:00+01:00",
+    dayOffset: 9,
   },
 ];
 
@@ -78,28 +103,23 @@ export const walletBalance = walletTransactions.reduce(
   0,
 );
 
-/** "+400 MAD" / "−90 MAD" — a real minus sign, not a hyphen. */
+/** "+300 MAD" for money in, "210 MAD" for money out, as in the comp. */
 export function formatAmount(amount: number, currency = walletCurrency) {
-  const sign = amount > 0 ? "+" : "\u2212";
-  return `${sign}${Math.abs(amount).toLocaleString("en-US")} ${currency}`;
+  const value = `${Math.abs(amount).toLocaleString("en-US")} ${currency}`;
+  return amount > 0 ? `+${value}` : value;
 }
 
 export const walletCopy = {
   title: "Wallet",
-  description:
-    "Your SEVENPM balance. Top it up once, then pay at the gate, at the bar and in the merch store without queueing for a card reader.",
   balanceLabel: "Available balance",
-  topUpLabel: "Add credit",
-  topUpAmounts: [100, 200, 500],
   topUpCta: "Top up",
-  /** `kind` omitted means "everything". */
-  filters: [
-    { label: "All" },
-    { label: "Top-ups", kind: "topup" },
-    { label: "Payments", kind: "payment" },
-  ] as WalletFilter[],
+  transactionsTitle: "Transactions",
   empty: "No transactions yet",
 };
+
+/* ------------------------------------------------------------------ *
+ * Sidebar
+ * ------------------------------------------------------------------ */
 
 export type AccountNavItem = {
   id: string;
@@ -134,15 +154,19 @@ export const accountNav: AccountNavItem[] = [
     id: "profile",
     label: "Profile",
     icon: "/assets/ic-acct-profile.svg",
-    href: "/account#profile",
+    href: "/account/profile",
   },
   {
     id: "payments",
-    label: "Payments",
+    label: "Payment details",
     icon: "/assets/ic-acct-payments.svg",
-    href: "/account#payments",
+    href: "/account/profile#payment-details",
   },
 ];
+
+/* ------------------------------------------------------------------ *
+ * Bookings
+ * ------------------------------------------------------------------ */
 
 export type Booking = {
   id: string;
@@ -179,3 +203,119 @@ export const bookingsCopy = {
   filters: ["Upcoming", "Past"] as const,
   empty: "No bookings yet",
 };
+
+/* ------------------------------------------------------------------ *
+ * Profile — no comp; composed from the same cards and rows as the wallet.
+ * ------------------------------------------------------------------ */
+
+export type ProfileField = {
+  id: string;
+  label: string;
+  value: string;
+  /** Label of the inline action; omit for a read-only row. */
+  action?: string;
+};
+
+export type ProfileToggle = {
+  id: string;
+  label: string;
+  detail: string;
+  on: boolean;
+};
+
+export type PaymentCard = {
+  id: string;
+  brand: string;
+  last4: string;
+  expiry: string;
+  primary?: boolean;
+};
+
+export const profileCopy = {
+  title: "Profile",
+  personal: {
+    title: "Personal details",
+    photoAction: "Change photo",
+  },
+  preferences: {
+    title: "Preferences",
+  },
+  payment: {
+    title: "Payment details",
+    addCard: "Add a card",
+    primaryBadge: "Primary",
+  },
+  security: {
+    title: "Security",
+  },
+};
+
+export const profileFields: ProfileField[] = [
+  { id: "name", label: "Full name", value: accountUser.name, action: "Edit" },
+  { id: "email", label: "Email", value: accountUser.email, action: "Edit" },
+  { id: "phone", label: "Phone", value: accountUser.phone, action: "Edit" },
+  { id: "birthday", label: "Date of birth", value: accountUser.birthday },
+  { id: "city", label: "City", value: accountUser.city, action: "Edit" },
+];
+
+export const profilePreferences: ProfileField[] = [
+  {
+    id: "language",
+    label: "Language",
+    value: accountUser.language,
+    action: "Change",
+  },
+  {
+    id: "currency",
+    label: "Currency",
+    value: accountUser.currency,
+    action: "Change",
+  },
+];
+
+export const profileToggles: ProfileToggle[] = [
+  {
+    id: "newsletter",
+    label: "Newsletter",
+    detail: "Line-up announcements and presale codes",
+    on: true,
+  },
+  {
+    id: "reminders",
+    label: "Ticket reminders",
+    detail: "A nudge the day before each festival",
+    on: true,
+  },
+  {
+    id: "sms",
+    label: "SMS alerts",
+    detail: "Gate changes and weather warnings only",
+    on: false,
+  },
+];
+
+export const paymentCards: PaymentCard[] = [
+  {
+    id: "visa-6411",
+    brand: "Visa",
+    last4: "6411",
+    expiry: "09/28",
+    primary: true,
+  },
+  { id: "mc-2044", brand: "Mastercard", last4: "2044", expiry: "03/27" },
+];
+
+export const securityFields: ProfileField[] = [
+  {
+    id: "password",
+    label: "Password",
+    value: "Last changed 4 months ago",
+    action: "Change",
+  },
+  {
+    id: "2fa",
+    label: "Two-factor authentication",
+    value: "Off — protect your tickets with a code",
+    action: "Turn on",
+  },
+];

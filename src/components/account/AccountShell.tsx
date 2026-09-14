@@ -51,7 +51,11 @@ export function AccountShell({
 
         <section className="flex-1">
           <div className="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-start">
-            <AccountNav items={accountNav} activeId={activeId} counts={counts} />
+            <AccountNav
+              items={accountNav}
+              activeId={activeId}
+              counts={counts}
+            />
             {children}
           </div>
         </section>
