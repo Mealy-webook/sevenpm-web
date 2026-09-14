@@ -272,6 +272,63 @@ export const jobRoles: JobRole[] = [
   },
 ];
 
+export const applyCopy = {
+  title: "Apply",
+  intro:
+    "Tell us who you are and what you've worked on. It takes five minutes.",
+  about: "About you",
+  work: "Your work",
+  extra: "Anything else",
+  submit: "Send application",
+  submitNote:
+    "No account needed. Your mail app opens with everything filled in — attach your CV and send.",
+  cvNote:
+    "A link is enough. If your CV is a file, attach it to the e-mail that opens when you send this form.",
+  consent:
+    "I'm happy for SEVENPM to keep my application on file for this role and future openings.",
+  sentTitle: "Nearly there",
+  sentBody:
+    "Your mail app should have opened with your answers already written out. Attach your CV, press send, and we'll come back to you within two weeks.",
+  sentAgain: "Fill the form again",
+  fields: {
+    firstName: "First name",
+    lastName: "Last name",
+    email: "Email",
+    phone: "Phone",
+    city: "City",
+    link: "Portfolio or CV link",
+    years: "Years in live events",
+    experience: "Which festivals or venues have you worked on?",
+    notes: "Anything else we should know?",
+    source: "How did you hear about us?",
+  },
+  placeholders: {
+    city: "Casablanca",
+    link: "https://",
+    select: "Choose one",
+    experience:
+      "Tell us where, when, and what you were responsible for. Two or three lines is plenty.",
+  },
+  yearOptions: [
+    "Less than a year",
+    "1–3 years",
+    "3–5 years",
+    "More than 5 years",
+  ],
+  sourceOptions: [
+    "At one of our festivals",
+    "Instagram",
+    "LinkedIn",
+    "From someone on the team",
+    "Somewhere else",
+  ],
+  errors: {
+    required: "This one's needed",
+    email: "That doesn't look like an e-mail address",
+    consent: "We need your agreement to keep your application",
+  },
+};
+
 export function getRole(id: string) {
   return jobRoles.find((role) => role.id === id);
 }

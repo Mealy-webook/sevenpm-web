@@ -13,21 +13,22 @@ npm run dev
 
 ## What's here
 
-| Route               | Figma node                                                                         | Status |
-| ------------------- | ---------------------------------------------------------------------------------- | ------ |
-| `/`                 | `15:202` — Homepage                                                                | Built  |
-| `/events/[slug]`    | `2091:56421` — Event details page                                                  | Built  |
-| `/about`            | no comp — the site's system, content from seven-pm.com                             | Built  |
-| `/team`             | no comp — the crew on its own page                                                 | Built  |
-| `/news`             | no comp — newsroom index                                                           | Built  |
-| `/news/[slug]`      | no comp — article                                                                  | Built  |
-| `/careers`          | no comp — open roles                                                               | Built  |
-| `/careers/[id]`     | no comp — one open role                                                            | Built  |
-| `/account`          | `2173:25780` / `2173:25975` — Bookings (empty and filled)                          | Built  |
-| `/account/wallet`   | `2196:12516` — Wallet                                                              | Built  |
-| `/account/profile`  | `2173:26214` — Profile                                                             | Built  |
-| `/account/payments` | no comp — the account system                                                       | Built  |
-| Header menus        | `2091:45854` account, `2091:45844` language/currency, `2227:5808` full-screen menu | Built  |
+| Route                 | Figma node                                                                         | Status |
+| --------------------- | ---------------------------------------------------------------------------------- | ------ |
+| `/`                   | `15:202` — Homepage                                                                | Built  |
+| `/events/[slug]`      | `2091:56421` — Event details page                                                  | Built  |
+| `/about`              | no comp — the site's system, content from seven-pm.com                             | Built  |
+| `/team`               | no comp — the crew on its own page                                                 | Built  |
+| `/news`               | no comp — newsroom index                                                           | Built  |
+| `/news/[slug]`        | no comp — article                                                                  | Built  |
+| `/careers`            | no comp — open roles                                                               | Built  |
+| `/careers/[id]`       | no comp — one open role                                                            | Built  |
+| `/careers/[id]/apply` | no comp — application form                                                         | Built  |
+| `/account`            | `2173:25780` / `2173:25975` — Bookings (empty and filled)                          | Built  |
+| `/account/wallet`     | `2196:12516` — Wallet                                                              | Built  |
+| `/account/profile`    | `2173:26214` — Profile                                                             | Built  |
+| `/account/payments`   | no comp — the account system                                                       | Built  |
+| Header menus          | `2091:45854` account, `2091:45844` language/currency, `2227:5808` full-screen menu | Built  |
 
 ## Structure
 
@@ -47,6 +48,7 @@ src/
     news/[slug]/page.tsx    one article
     careers/page.tsx        open roles
     careers/[id]/page.tsx   one role
+    careers/[id]/apply/     the application form
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
@@ -56,6 +58,7 @@ src/
                             WalletPanel, ProfilePanel, PaymentsPanel,
                             AccountCard
     news/                   NewsList
+    careers/                ApplicationForm
     event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
@@ -461,7 +464,17 @@ action — so Payments and Profile are the same object with different data.
 - **`/careers/[id]`** — the article page's shape for one role: back link, meta
   line, headline, summary, then what you'll do and what you bring. An "at a
   glance" card sticks to the right with the contract facts and the apply
-  button, which opens a pre-addressed e-mail; the other roles follow.
+  button; the other roles follow.
+- **`/careers/[id]/apply`** — the application form. Fields sit in the same
+  cards as the account screens, grouped into About you / Your work / Anything
+  else, with the role pinned down the right while you type.
+
+  **There is no backend.** Submitting validates, then composes a pre-filled
+  e-mail to the office and shows what happens next — nothing is posted
+  anywhere and nothing is silently lost. Point `onSubmit` at a `fetch` the day
+  an endpoint exists. For the same reason the CV is asked for as a link, with
+  a note to attach the file to the e-mail, rather than a file input that would
+  not upload.
 
 All of this copy is placeholder, written around what seven-pm.com states.
 

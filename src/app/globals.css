@@ -1008,3 +1008,26 @@ html.has-cursor .cursor {
     min-height: calc(100svh - 152px);
   }
 }
+
+/* Forms: the design system's select/input treatment, plus the chevron a
+   native select loses once its own appearance is removed. */
+.select-field {
+  position: relative;
+}
+
+.select-field::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  pointer-events: none;
+  background: url("/assets/ic-chevron-down-16.svg") no-repeat center / contain;
+}
+
+.select-field select option {
+  background: var(--color-bg-secondary);
+  color: #fff;
+}

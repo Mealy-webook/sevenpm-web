@@ -168,15 +168,19 @@ export default async function RolePage({ params }: PageProps) {
               <p className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
                 {copy.applyBody}
               </p>
-              <a
-                href={mailto}
+              <Link
+                href={`/careers/${role.id}/apply`}
                 data-magnetic="0.2"
                 data-cursor="Apply"
                 className="sweep flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e]"
               >
-                <span className="relative z-10">
-                  {careersCopy.applyCta} — {careersCopy.email}
-                </span>
+                <span className="relative z-10">{careersCopy.applyCta}</span>
+              </Link>
+              <a
+                href={mailto}
+                className="link-sweep self-start font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-content-secondary transition-colors hover:text-brand"
+              >
+                or e-mail {careersCopy.email}
               </a>
             </div>
           </aside>
