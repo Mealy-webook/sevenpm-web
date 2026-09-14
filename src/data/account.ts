@@ -373,18 +373,40 @@ export const loyaltyActivity: LoyaltyEntry[] = [
   },
 ];
 
-/** What the visitor has banked. */
+/**
+ * Two numbers, not one.
+ *
+ * `loyaltyLifetime` is everything ever earned and it only goes up — it is
+ * what sets the tier. `loyaltyBalance` is what is left to spend. Driving the
+ * tier off the spendable balance would demote someone for using the
+ * programme, which is the one thing a loyalty scheme must never do.
+ */
+export const loyaltyLifetime = 6450;
 export const loyaltyBalance = 2450;
+
+/** Beats per dirham on a wallet top up — the quickest way to close a gap. */
+export const loyaltyTopUpRate = 2;
 
 export const loyaltyCopy = {
   title: "Loyalty program",
   unit: "Beats",
-  balanceLabel: "Your Beats",
+  balanceLabel: "Beats to spend",
+  lifetimeLabel: (beats: number) =>
+    `${beats.toLocaleString("en-US")} earned all time`,
   memberSince: "Member since 2024",
   tierLabel: (name: string) => `${name} member`,
   toNext: (beats: number, tier: string) =>
     `${beats.toLocaleString("en-US")} Beats to ${tier}`,
   topTier: "You are at the top tier. Nothing left to climb.",
+  locked: (beats: number) =>
+    `${beats.toLocaleString("en-US")} more Beats to unlock`,
+  reached: "Unlocked",
+  /** Concrete and derived from the earn rates, not a vague nudge. */
+  route: (dirhams: number) =>
+    `A ${dirhams.toLocaleString("en-US")} MAD top up would cover it`,
+  nearest: (name: string, beats: number) =>
+    `${beats.toLocaleString("en-US")} Beats from ${name}`,
+  nearestReady: (name: string) => `${name} is yours whenever you want it`,
   tiersTitle: "Tiers",
   currentTier: "Where you are",
   earnTitle: "Ways to earn",

@@ -9,8 +9,10 @@ import {
   loyaltyBalance,
   loyaltyCopy,
   loyaltyEarn,
+  loyaltyLifetime,
   loyaltyRewards,
   loyaltyTiers,
+  loyaltyTopUpRate,
   type LoyaltyEntry,
   type LoyaltyReward,
 } from "@/data/account";
@@ -20,9 +22,12 @@ import {
  * played as a board rather than read as a document.
  *
  * The ladder is one rail instead of four stacked cards: the tiers are nodes
- * you can prod, and only the selected tier's perks are on screen. Earn and
- * spend sit side by side, and the ledger stays folded until asked for. That
- * keeps the whole programme to about a screen and a half on a laptop.
+ * you can prod, a token marks where you stand, and only the selected tier's
+ * perks are on screen. Earn and spend sit side by side, and the ledger stays
+ * folded until asked for. That keeps the programme to about one screen.
+ *
+ * The tier comes from Beats earned all time, never from the spendable
+ * balance: redeeming a reward must not demote you for using the programme.
  *
  * Redeeming spends Beats here and logs the movement, which is as far as a
  * prototype should go; the note at the bottom says so rather than leaving
@@ -119,10 +124,13 @@ export function LoyaltyPanel() {
   const balance = loyaltyBalance - spent;
   const shown = useCountUp(balance);
 
+  /* Status is banked, not spent: the tier reads off everything ever earned,
+     so redeeming never costs it. */
   const tier =
-    [...loyaltyTiers].reverse().find((item) => balance >= item.threshold) ??
-    loyaltyTiers[0];
-  const next = loyaltyTiers.find((item) => item.threshold > balance);
+    [...loyaltyTiers]
+      .reverse()
+      .find((item) => loyaltyLifetime >= item.threshold) ?? loyaltyTiers[0];
+  const next = loyaltyTiers.find((item) => item.threshold > loyaltyLifetime);
   const [openTier, setOpenTier] = useState(tier.id);
   const detail = loyaltyTiers.find((item) => item.id === openTier) ?? tier;
 
@@ -138,13 +146,19 @@ export function LoyaltyPanel() {
      are actually on, because the thresholds are not evenly spaced. */
   const reachedIndex = loyaltyTiers.findIndex((item) => item.id === tier.id);
   const withinSegment = next
-    ? (balance - tier.threshold) / (next.threshold - tier.threshold)
+    ? (loyaltyLifetime - tier.threshold) / (next.threshold - tier.threshold)
     : 0;
   const railFill = armed
     ? ((reachedIndex + withinSegment) / (loyaltyTiers.length - 1)) * 100
     : 0;
 
   const entries = [...extra, ...loyaltyActivity];
+
+  /* What is closest to hand: the cheapest thing still unclaimed. Named in the
+     Spend header so the card answers "what can I actually get" at a glance. */
+  const nearest = loyaltyRewards
+    .filter((reward) => !redeemed.includes(reward.id))
+    .sort((a, b) => a.cost - b.cost)[0];
 
   const redeem = (reward: LoyaltyReward) => {
     setSpent((current) => current + reward.cost);
@@ -189,6 +203,9 @@ export function LoyaltyPanel() {
               </span>
               <span className="text-brand">{loyaltyCopy.unit}</span>
             </p>
+            <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              {loyaltyCopy.lifetimeLabel(loyaltyLifetime)}
+            </span>
           </div>
 
           <div className="flex flex-col items-start gap-1 sm:items-end">
@@ -220,9 +237,16 @@ export function LoyaltyPanel() {
               className="absolute left-3 top-[14px] block h-[3px] bg-brand transition-[width] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{ width: `calc(${railFill}% - 12px)` }}
             />
+            {/* You are here: the token rides the track at your lifetime
+                position, between the nodes rather than snapped to one. */}
+            <span
+              aria-hidden
+              className="loyalty-token absolute top-[14px] z-10 block size-[10px] -translate-x-1/2 -translate-y-[3.5px] rotate-45 border-2 border-bg-secondary bg-brand transition-[left] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{ left: `${railFill}%` }}
+            />
             <ol className="relative m-0 flex list-none justify-between p-0">
               {loyaltyTiers.map((item) => {
-                const reached = balance >= item.threshold;
+                const reached = loyaltyLifetime >= item.threshold;
                 const selected = item.id === openTier;
                 const here = item.id === tier.id;
                 return (
@@ -263,7 +287,7 @@ export function LoyaltyPanel() {
 
           <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
             {next
-              ? loyaltyCopy.toNext(next.threshold - balance, next.name)
+              ? loyaltyCopy.toNext(next.threshold - loyaltyLifetime, next.name)
               : loyaltyCopy.topTier}
           </p>
         </div>
@@ -276,14 +300,25 @@ export function LoyaltyPanel() {
             </span>
             <span
               className={`font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
-                balance >= detail.threshold
+                loyaltyLifetime >= detail.threshold
                   ? "text-brand"
                   : "text-content-secondary"
               }`}
             >
-              {detail.threshold.toLocaleString("en-US")}+ {loyaltyCopy.unit}
+              {loyaltyLifetime >= detail.threshold
+                ? loyaltyCopy.reached
+                : loyaltyCopy.locked(detail.threshold - loyaltyLifetime)}
             </span>
           </div>
+          {loyaltyLifetime < detail.threshold && (
+            <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-brand">
+              {loyaltyCopy.route(
+                Math.ceil(
+                  (detail.threshold - loyaltyLifetime) / loyaltyTopUpRate,
+                ),
+              )}
+            </p>
+          )}
           <ul key={detail.id} className="m-0 flex list-none flex-wrap gap-2 p-0">
             {detail.perks.map((perk, index) => (
               <li
@@ -331,7 +366,18 @@ export function LoyaltyPanel() {
           </ul>
         </Card>
 
-        <Card title={loyaltyCopy.rewardsTitle}>
+        <Card
+          title={loyaltyCopy.rewardsTitle}
+          trailing={
+            nearest ? (
+              <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                {balance >= nearest.cost
+                  ? loyaltyCopy.nearestReady(nearest.name)
+                  : loyaltyCopy.nearest(nearest.name, nearest.cost - balance)}
+              </span>
+            ) : undefined
+          }
+        >
           <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2">
             {loyaltyRewards.map((reward) => {
               const taken = redeemed.includes(reward.id);
@@ -372,8 +418,21 @@ export function LoyaltyPanel() {
                         {loyaltyCopy.redeemed}
                       </span>
                     ) : short > 0 ? (
-                      <span className="font-[family-name:var(--font-display)] text-[11px] leading-4 tracking-[0.11px] text-content-secondary">
-                        {loyaltyCopy.short(short)}
+                      <span className="flex flex-col gap-1">
+                        <span
+                          aria-hidden
+                          className="block h-[3px] w-full bg-white/10"
+                        >
+                          <span
+                            className="block h-full bg-brand/60 transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                            style={{
+                              width: `${Math.min(100, (balance / reward.cost) * 100)}%`,
+                            }}
+                          />
+                        </span>
+                        <span className="font-[family-name:var(--font-display)] text-[11px] leading-4 tracking-[0.11px] text-content-secondary">
+                          {loyaltyCopy.short(short)}
+                        </span>
                       </span>
                     ) : (
                       <button

@@ -1085,3 +1085,25 @@ html.has-cursor .cursor {
     animation: none;
   }
 }
+
+/* The token that marks where you stand on the loyalty rail. */
+.loyalty-token {
+  box-shadow: 0 0 0 0 rgba(251, 235, 28, 0.5);
+  animation: loyalty-token-pulse 2.6s ease-out infinite;
+}
+
+@keyframes loyalty-token-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(251, 235, 28, 0.5);
+  }
+  60%,
+  100% {
+    box-shadow: 0 0 0 10px rgba(251, 235, 28, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loyalty-token {
+    animation: none;
+  }
+}
