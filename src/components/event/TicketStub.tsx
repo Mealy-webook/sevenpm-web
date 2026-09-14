@@ -59,7 +59,14 @@ export function stubWidth(tier: TicketTier) {
   return paper.strip * 2 + paper.cardLength - 2;
 }
 
-export function TicketStub({ tier }: { tier: TicketTier }) {
+export function TicketStub({
+  tier,
+  href,
+}: {
+  tier: TicketTier;
+  /** Where the CTA goes; the tickets section points it at the booking flow. */
+  href?: string;
+}) {
   const dark = Boolean(tier.featured);
   const paper = dark ? DARK : GREY;
   const width = stubWidth(tier);
@@ -257,7 +264,7 @@ export function TicketStub({ tier }: { tier: TicketTier }) {
 
         {/* CTA */}
         <a
-          href={tier.href ?? "#tickets"}
+          href={href ?? tier.href ?? "#tickets"}
           data-magnetic="0.15"
           className={`ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${
             dark

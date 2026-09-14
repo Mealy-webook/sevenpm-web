@@ -79,7 +79,10 @@ export function TicketsSection({ event }: { event: EventDetails }) {
               }
             >
               <div className="ticket-stub-scale">
-                <TicketStub tier={tier} />
+                <TicketStub
+                  tier={tier}
+                  href={`/events/${event.slug}/book?tier=${tier.id}`}
+                />
               </div>
             </div>
           ))}

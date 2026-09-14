@@ -13,21 +13,22 @@ npm run dev
 
 ## What's here
 
-| Route               | Figma node                                                                         | Status |
-| ------------------- | ---------------------------------------------------------------------------------- | ------ |
-| `/`                 | `15:202` — Homepage                                                                | Built  |
-| `/events/[slug]`    | `2091:56421` — Event details page                                                  | Built  |
-| `/about`            | no comp — the site's system, content from seven-pm.com                             | Built  |
-| `/team`             | no comp — the crew on its own page                                                 | Built  |
-| `/news`             | no comp — newsroom index                                                           | Built  |
-| `/news/[slug]`      | no comp — article                                                                  | Built  |
-| `/careers`          | `2227:6749` — Careers                                                              | Built  |
-| `/careers/[id]`     | `2231:10129` — One role                                                            | Built  |
-| `/account`          | `2173:25780` / `2173:25975` — Bookings (empty and filled)                          | Built  |
-| `/account/wallet`   | `2196:12516` — Wallet                                                              | Built  |
-| `/account/profile`  | `2173:26214` — Profile                                                             | Built  |
-| `/account/payments` | no comp — the account system                                                       | Built  |
-| Header menus        | `2091:45854` account, `2091:45844` language/currency, `2227:5808` full-screen menu | Built  |
+| Route                 | Figma node                                                                         | Status |
+| --------------------- | ---------------------------------------------------------------------------------- | ------ |
+| `/`                   | `15:202` — Homepage                                                                | Built  |
+| `/events/[slug]`      | `2091:56421` — Event details page                                                  | Built  |
+| `/events/[slug]/book` | no comp — the booking flow                                                         | Built  |
+| `/about`              | no comp — the site's system, content from seven-pm.com                             | Built  |
+| `/team`               | no comp — the crew on its own page                                                 | Built  |
+| `/news`               | no comp — newsroom index                                                           | Built  |
+| `/news/[slug]`        | no comp — article                                                                  | Built  |
+| `/careers`            | `2227:6749` — Careers                                                              | Built  |
+| `/careers/[id]`       | `2231:10129` — One role                                                            | Built  |
+| `/account`            | `2173:25780` / `2173:25975` — Bookings (empty and filled)                          | Built  |
+| `/account/wallet`     | `2196:12516` — Wallet                                                              | Built  |
+| `/account/profile`    | `2173:26214` — Profile                                                             | Built  |
+| `/account/payments`   | no comp — the account system                                                       | Built  |
+| Header menus          | `2091:45854` account, `2091:45844` language/currency, `2227:5808` full-screen menu | Built  |
 
 ## Structure
 
@@ -48,6 +49,7 @@ src/
     careers/page.tsx        open roles
     careers/[id]/page.tsx   one role
     events/[slug]/page.tsx  the event details page — composes the sections
+    events/[slug]/book/     the booking flow
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
     home/                   one file per homepage section
@@ -55,6 +57,7 @@ src/
     account/                AccountShell, AccountNav, BookingsPanel,
                             WalletPanel, ProfilePanel, PaymentsPanel,
                             AccountCard
+    booking/                BookingFlow
     news/                   NewsList
     careers/                RolesList, ApplyButton, ApplyDialog
     event/                  one file per section of the event page (+ MiniPlayer)
@@ -66,6 +69,7 @@ src/
     about.ts                about copy, stats, festivals, team (from seven-pm.com)
     news.ts                 articles — the homepage and /news read this
     careers.ts              roles, and the apply dialog's copy
+    booking.ts              fees and the booking flow's copy
     account.ts              mock session: user, sidebar, bookings, wallet
 public/assets/              exported Figma artwork
 ```
@@ -493,6 +497,27 @@ Where the comps disagree with themselves: the role card in 2231:10129 says
 "Seasonal" while the same role's chip says "Full time Contract" (the page
 follows the role's own type), and the dial code in the dialog is `+966` from
 another template (the site uses `+212`).
+
+## Booking flow
+
+`/events/[slug]/book` — no comp, composed from the account system: cards and
+rows on the left, the "at a glance" card as a sticky order summary on the
+right, no footer. Three steps and a confirmation:
+
+1. **Tickets** — a row per tier with a stepper, capped at six per tier. The
+   ticket stubs on the event page link straight here with their tier
+   preselected (`?tier=weekend`).
+2. **Your details** — prefilled from the mock session; the booking reference
+   goes to that address.
+3. **Payment** — the wallet balance is applied first and the remainder goes to
+   a saved card. The summary totals live in `data/booking.ts`
+   (`bookingFees.perTicket`).
+
+**No payment provider is connected.** Confirming issues a reference and says
+plainly that nothing was charged and nothing was sent. Card numbers are never
+collected: new cards belong on the provider's own hosted page, which is what
+the payment step tells the visitor. Wire the provider in `goNext()` where the
+comment marks the spot.
 
 ## Performance notes
 

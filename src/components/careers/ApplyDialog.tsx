@@ -184,7 +184,9 @@ export function ApplyDialog({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[60] flex justify-center overflow-y-auto overscroll-contain bg-black/60 p-3 backdrop-blur-sm"
+      /* Above the film grain (z-80) so the overlay really covers the page;
+         the custom cursor (z-90) still draws on top of it. */
+      className="fixed inset-0 z-[85] flex justify-center overflow-y-auto overscroll-contain bg-black/80 p-3 backdrop-blur-md"
       data-lenis-prevent
       onMouseDown={(e) => {
         if (!sheet.current?.contains(e.target as Node)) onClose();
