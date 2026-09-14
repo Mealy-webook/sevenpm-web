@@ -21,11 +21,7 @@ export default function WalletPage() {
   ).length;
 
   return (
-    <AccountShell
-      activeId="wallet"
-      counts={{ bookings: upcoming }}
-      showEmail={false}
-    >
+    <AccountShell activeId="wallet" counts={{ bookings: upcoming }}>
       <WalletPanel
         balance={walletBalance}
         currency={walletCurrency}

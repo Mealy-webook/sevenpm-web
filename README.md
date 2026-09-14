@@ -405,16 +405,20 @@ and there is no server/client date mismatch to guard against.
 
 ### Profile
 
-`/account/profile` has no comp; it reuses the wallet's vocabulary — a card
-with an 18px title and rows of label over value with an inline action. Four
-cards: personal details (with the avatar and "Change photo"), preferences
-(language, currency, and three notification switches), payment details
-(`#payment-details`, the sidebar's Payment details row lands here) and
-security, ending on a destructive "Delete account" row. Every control is
-presentational except the switches, which hold local state.
+`/account/profile`, from Figma 2173:26214. Title with a description, then a
+card per section — contact information, personal information, security — each
+an 18px title over rows of label and value with a small inline action, and the
+destructive "Delete account" button outside the cards. A field with no value
+reads "Not provided" and offers "Add" instead of "Edit", which is how the comp
+shows what the visitor has never filled in.
 
-Loyalty program is the last account screen without a page; its row points at
-an anchor on the bookings page. "Logout" returns home. The account dropdown's
+Two notes on the comp: its mobile number is a Saudi one (`+966…`) left over
+from another template, so the mock keeps a Moroccan number; and the sidebar
+reads **Payments** here and in the bookings frames but **Payment details** in
+the wallet frame — the site follows the majority. Worth one word from design.
+
+Loyalty program and Payments are the account screens without designs; their
+rows point at anchors on the bookings page. "Logout" returns home. The account dropdown's
 View profile / My bookings / Wallet all land in this area.
 
 ## Performance notes

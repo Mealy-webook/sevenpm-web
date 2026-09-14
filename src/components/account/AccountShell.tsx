@@ -13,13 +13,10 @@ import { accountNav, accountUser } from "@/data/account";
 export function AccountShell({
   activeId,
   counts,
-  showEmail = true,
   children,
 }: {
   activeId: string;
   counts?: Record<string, number>;
-  /** The bookings comp shows the e-mail; the card-heavy screens don't. */
-  showEmail?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -37,15 +34,13 @@ export function AccountShell({
             >
               {accountUser.name}
             </DisplayHeading>
-            {showEmail && (
-              <p
-                className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary"
-                data-reveal="up"
-                data-reveal-delay="0.15"
-              >
-                {accountUser.email}
-              </p>
-            )}
+            <p
+              className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary"
+              data-reveal="up"
+              data-reveal-delay="0.15"
+            >
+              {accountUser.email}
+            </p>
           </div>
         </section>
 

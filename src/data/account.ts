@@ -9,12 +9,7 @@ export const accountUser = {
   email: "ahmed@gmail.com",
   avatar: "/assets/nav-avatar.jpg",
   phone: "+212 6 61 23 45 67",
-  birthday: "14 March 1994",
-  city: "Casablanca, Morocco",
-  language: "English",
-  currency: "Moroccan Dirham (MAD)",
 };
-
 /* ------------------------------------------------------------------ *
  * Wallet (Figma 2196:12516)
  *
@@ -158,9 +153,9 @@ export const accountNav: AccountNavItem[] = [
   },
   {
     id: "payments",
-    label: "Payment details",
+    label: "Payments",
     icon: "/assets/ic-acct-payments.svg",
-    href: "/account/profile#payment-details",
+    href: "/account#payments",
   },
 ];
 
@@ -205,117 +200,68 @@ export const bookingsCopy = {
 };
 
 /* ------------------------------------------------------------------ *
- * Profile — no comp; composed from the same cards and rows as the wallet.
+ * Profile (Figma 2173:26214)
+ *
+ * Three cards of rows. A field with no `value` renders as "Not provided"
+ * and offers "Add" rather than "Edit" — that is how the comp shows the
+ * fields the visitor has never filled in.
  * ------------------------------------------------------------------ */
 
 export type ProfileField = {
   id: string;
   label: string;
-  value: string;
+  value?: string;
   /** Label of the inline action; omit for a read-only row. */
   action?: string;
 };
 
-export type ProfileToggle = {
+export type ProfileSection = {
   id: string;
-  label: string;
-  detail: string;
-  on: boolean;
-};
-
-export type PaymentCard = {
-  id: string;
-  brand: string;
-  last4: string;
-  expiry: string;
-  primary?: boolean;
+  title: string;
+  fields: ProfileField[];
 };
 
 export const profileCopy = {
   title: "Profile",
-  personal: {
-    title: "Personal details",
-    photoAction: "Change photo",
-  },
-  preferences: {
-    title: "Preferences",
-  },
-  payment: {
-    title: "Payment details",
-    addCard: "Add a card",
-    primaryBadge: "Primary",
-  },
-  security: {
-    title: "Security",
-  },
+  description: "View & Update Your Personal and Contact Information",
+  emptyValue: "Not provided",
+  deleteCta: "Delete account",
 };
 
-export const profileFields: ProfileField[] = [
-  { id: "name", label: "Full name", value: accountUser.name, action: "Edit" },
-  { id: "email", label: "Email", value: accountUser.email, action: "Edit" },
-  { id: "phone", label: "Phone", value: accountUser.phone, action: "Edit" },
-  { id: "birthday", label: "Date of birth", value: accountUser.birthday },
-  { id: "city", label: "City", value: accountUser.city, action: "Edit" },
-];
-
-export const profilePreferences: ProfileField[] = [
+export const profileSections: ProfileSection[] = [
   {
-    id: "language",
-    label: "Language",
-    value: accountUser.language,
-    action: "Change",
+    id: "contact",
+    title: "Contact information",
+    fields: [
+      { id: "email", label: "Email", value: accountUser.email },
+      {
+        id: "phone",
+        label: "Mobile number",
+        value: accountUser.phone,
+        action: "Edit",
+      },
+    ],
   },
   {
-    id: "currency",
-    label: "Currency",
-    value: accountUser.currency,
-    action: "Change",
-  },
-];
-
-export const profileToggles: ProfileToggle[] = [
-  {
-    id: "newsletter",
-    label: "Newsletter",
-    detail: "Line-up announcements and presale codes",
-    on: true,
+    id: "personal",
+    title: "Personal information",
+    fields: [
+      { id: "name", label: "Name", value: accountUser.name, action: "Edit" },
+      { id: "birthday", label: "Date of birth", action: "Add" },
+      { id: "gender", label: "Gender", action: "Add" },
+      { id: "nationality", label: "Nationality", action: "Add" },
+    ],
   },
   {
-    id: "reminders",
-    label: "Ticket reminders",
-    detail: "A nudge the day before each festival",
-    on: true,
-  },
-  {
-    id: "sms",
-    label: "SMS alerts",
-    detail: "Gate changes and weather warnings only",
-    on: false,
-  },
-];
-
-export const paymentCards: PaymentCard[] = [
-  {
-    id: "visa-6411",
-    brand: "Visa",
-    last4: "6411",
-    expiry: "09/28",
-    primary: true,
-  },
-  { id: "mc-2044", brand: "Mastercard", last4: "2044", expiry: "03/27" },
-];
-
-export const securityFields: ProfileField[] = [
-  {
-    id: "password",
-    label: "Password",
-    value: "Last changed 4 months ago",
-    action: "Change",
-  },
-  {
-    id: "2fa",
-    label: "Two-factor authentication",
-    value: "Off — protect your tickets with a code",
-    action: "Turn on",
+    id: "security",
+    title: "Security",
+    fields: [
+      {
+        id: "password",
+        label: "Password",
+        value: "Last updated: 19 Mar, 2025",
+        action: "Update",
+      },
+    ],
   },
 ];
