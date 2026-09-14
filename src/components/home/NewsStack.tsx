@@ -7,6 +7,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
+ * Stacking cards. Unused since the homepage news list went flat
+ * (Figma 2231:12467); kept because the rig is generic and the treatment may
+ * come back.
+ *
  * Stacking cards. Each child sits in a sticky wrapper pinned a few pixels
  * lower than the one before, so as the page scrolls the cards pile up under
  * the heading. A scrubbed ScrollTrigger scales the card underneath back and

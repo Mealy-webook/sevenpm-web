@@ -83,6 +83,27 @@ export const newsItems: NewsItem[] = newsArticles
     href: `/news/${article.slug}`,
   }));
 
+/** The band under the hero — Figma 2227:5202. */
+export const homeStats = [
+  { value: "2018", label: "Founded in Casablanca" },
+  { value: "4", label: "Festivals produced every year" },
+  { value: "+20K", label: "Festival goers at Jazzablanca" },
+  { value: "22", label: "Editions of Tanjazz and counting" },
+];
+
+/** The story block — Figma 2227:5229. */
+export const homeStory = {
+  body: "SEVENPM, founded in 2018, was born from the desire to propel cultural events in Morocco to new heights. Since then, SEVENPM has established itself as an essential player, orchestrating iconic festivals.",
+  photos: ["/assets/gallery-2.jpg", "/assets/gallery-5.jpg"],
+  socials: [
+    { label: "Facebook", href: "https://facebook.com", icon: "/assets/ic-social-facebook.svg" },
+    { label: "X", href: "https://x.com", icon: "/assets/ic-social-x.svg" },
+    { label: "TikTok", href: "https://tiktok.com", icon: "/assets/ic-social-tiktok.svg" },
+    { label: "YouTube", href: "https://youtube.com", icon: "/assets/ic-social-youtube.svg" },
+    { label: "Instagram", href: "https://instagram.com", icon: "/assets/ic-social-instagram.svg" },
+  ],
+};
+
 export const homeCopy = {
   heroTitle: "More music more life",
   intro:

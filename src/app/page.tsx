@@ -8,6 +8,8 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { FestivalsStage } from "@/components/home/FestivalsStage";
 import { HomeGallery } from "@/components/home/HomeGallery";
 import { HomeHero } from "@/components/home/HomeHero";
+import { HomeStats } from "@/components/home/HomeStats";
+import { HomeStory } from "@/components/home/HomeStory";
 import { NewsSection } from "@/components/home/NewsSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { jazzablanca } from "@/data/events";
@@ -26,6 +28,7 @@ export default function Home() {
       <SiteHeader logoSize={100} />
       <main>
         <HomeHero />
+        <HomeStats />
 
         <section
           id="festivals"
@@ -39,6 +42,7 @@ export default function Home() {
           </div>
         </section>
 
+        <HomeStory />
         <NewsSection items={newsItems} />
         <HomeGallery rows={galleryRows} />
         {/* Partners are the same block as the event page's sponsors. */}
