@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BookingJourney } from "@/components/booking/BookingJourney";
 import { MotionProvider } from "@/components/motion/MotionProvider";
-import { SiteHeader } from "@/components/layout/SiteHeader";
-import { BookingFlow } from "@/components/booking/BookingFlow";
-import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { bookingCopy } from "@/data/booking";
+import { bookingConfig } from "@/data/booking";
 import { events, getEvent } from "@/data/events";
 
 type PageProps = {
@@ -30,9 +27,9 @@ export async function generateMetadata({
 }
 
 /**
- * Checkout. No Figma comp — the account system's cards and rows on the left,
- * the "at a glance" card as the order summary on the right. No footer: the
- * page has one job.
+ * The booking journey, from Figma 2138:3339 → 2033:18293. It carries its own
+ * chrome — back, breadcrumb, hold timer, globe — so neither the site header
+ * nor the footer is rendered here: the page has one job.
  */
 export default async function BookPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
@@ -43,22 +40,18 @@ export default async function BookPage({ params, searchParams }: PageProps) {
   return (
     <>
       <MotionProvider />
-      <SiteHeader />
-      <main className="pb-16 xl:pb-24">
-        <div className="shell flex flex-col gap-8 pt-6 xl:pt-12">
-          <Link
-            href={`/events/${event.slug}`}
-            className="link-sweep self-start font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-content-secondary transition-colors hover:text-brand"
-          >
-            ← {bookingCopy.backToEvent}
-          </Link>
-
-          <DisplayHeading as="h1" size="faq" align="left" reveal="clip">
-            {bookingCopy.title} {event.name}
-          </DisplayHeading>
-
-          <BookingFlow event={event} initialTier={tier} />
-        </div>
+      <main>
+        <BookingJourney
+          event={{
+            slug: event.slug,
+            name: event.name,
+            time: bookingConfig.sessionTime,
+            venue: event.venue.name,
+            venueUrl: event.venue.directionsUrl,
+            poster: bookingConfig.poster,
+          }}
+          initialTier={tier}
+        />
       </main>
     </>
   );
