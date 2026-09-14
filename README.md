@@ -17,6 +17,7 @@ npm run dev
 | ---------------- | ------------------------------------------------------------------------------- | ------ |
 | `/`              | `15:202` — Homepage (1512 × 5838)                                               | Built  |
 | `/events/[slug]` | `2091:56421` — Event details page (1512 × 7041)                                 | Built  |
+| `/about`         | no comp — designed in the site's system, content from seven-pm.com              | Built  |
 | Header menus     | `2091:45854` account, `2091:45844` language/currency, `15:790` full-screen menu | Built  |
 
 ## Structure
@@ -27,16 +28,19 @@ src/
     layout.tsx              fonts (Roboto / Figtree / Inter) + metadata
     globals.css             design tokens, shell, fixed-geometry stages, motion
     page.tsx                homepage — composes src/components/home
+    about/page.tsx          about page — composes src/components/about
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
     home/                   one file per homepage section
+    about/                  AboutStats, AboutFestivals, AboutTeam
     event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
   data/
     events.ts               all copy + imagery for the event page, typed
     home.ts                 homepage copy, festivals, news, gallery rows
+    about.ts                about copy, stats, festivals, team (from seven-pm.com)
 public/assets/              exported Figma artwork
 ```
 
@@ -288,6 +292,31 @@ sections.
 Festival names other than Jazzablanca are read off the poster artwork and
 marked as placeholders in `data/home.ts`.
 
+## About page
+
+`/about` has no Figma comp. It is composed from the system the other pages
+established — shell grid, Daltown display type, Roboto body, info tiles,
+stickers, GSAP reveals — with content taken from the current site,
+[seven-pm.com](https://www.seven-pm.com) (French, translated). Sections:
+
+- **Hero** — eyebrow, "ABOUT US", the manifesto in bold caps, a crowd photo with
+  parallax, and a peelable smiley sticker.
+- **Numbers** — 2018 / 4 festivals / 20,000+ / 22 editions, counting up on
+  first view (`AboutStats`). Figures are the ones the site states.
+- **Who we are** + **Mission / Vision / Values** tiles.
+- **Our festivals** (`AboutFestivals`) — an index of the four festivals; hovering
+  a row swaps the poster on the right. Links go to each festival's own site and
+  Instagram; Jazzablanca also links to its event page.
+- **The team** (`AboutTeam`) — the twelve people on seven-pm.com with their
+  portraits (downsized to 480px in `public/assets/team/`), roles translated,
+  company e-mail addresses only (two personal Gmail addresses on the current
+  site were left out).
+- **They trust us** reuses `SponsorsSection`; **Join the team** links to the
+  careers page on seven-pm.com, the playlist button to the Jazzablanca Spotify
+  playlist; address and contact e-mail as published.
+
+The menu's About us / Team / Careers entries point here.
+
 ## Performance notes
 
 Measured in-browser at the hero with a track playing: **23 fps → 120 fps**
@@ -314,8 +343,8 @@ after this pass. What mattered, in order:
 - **Day two of the artist lineup** isn't in the Figma. The tab is wired and
   populated with a resequenced day one — replace `artistDays[1]`.
 - **FAQ and news copy** are placeholders (`data/events.ts`, `data/home.ts`).
-- **Menu links** other than Festivals / News point at anchors that don't exist
-  yet (About us, Team, Careers).
+- **Careers** has no page of its own yet; the menu entry lands on the
+  "Join the team" block of the About page.
 - **Audio licensing** — see "Where the audio comes from" above.
 - **Smooth scroll** (Lenis or similar) is the one obvious motion piece not
   included — it interacts with ScrollTrigger and the scaled stages in ways worth
