@@ -129,7 +129,12 @@ export function StickerPeel({
       const newY = Math.max(0, Math.min(currentY, maxY));
 
       if (newX !== currentX || newY !== currentY) {
-        gsap.to(target, { x: newX, y: newY, duration: 0.3, ease: "power2.out" });
+        gsap.to(target, {
+          x: newX,
+          y: newY,
+          duration: 0.3,
+          ease: "power2.out",
+        });
       }
     };
 

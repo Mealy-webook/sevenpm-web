@@ -148,8 +148,20 @@ export function TicketStub({ tier }: { tier: TicketTier }) {
           }`}
           style={{ top: ROW_KICKER - 8, height: 16 }}
         >
-          <Image src="/assets/ic-star-12.svg" alt="" width={12} height={12} className="size-3" />
-          <Image src="/assets/ic-star-16.svg" alt="" width={16} height={16} className="size-4" />
+          <Image
+            src="/assets/ic-star-12.svg"
+            alt=""
+            width={12}
+            height={12}
+            className="size-3"
+          />
+          <Image
+            src="/assets/ic-star-16.svg"
+            alt=""
+            width={16}
+            height={16}
+            className="size-4"
+          />
           <span
             className={`font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[0.12px] ${
               dark ? "text-white" : "text-[#56565d]"
@@ -157,25 +169,32 @@ export function TicketStub({ tier }: { tier: TicketTier }) {
           >
             {tier.kicker}
           </span>
-          <Image src="/assets/ic-star-16.svg" alt="" width={16} height={16} className="size-4" />
-          <Image src="/assets/ic-star-12.svg" alt="" width={12} height={12} className="size-3" />
+          <Image
+            src="/assets/ic-star-16.svg"
+            alt=""
+            width={16}
+            height={16}
+            className="size-4"
+          />
+          <Image
+            src="/assets/ic-star-12.svg"
+            alt=""
+            width={12}
+            height={12}
+            className="size-3"
+          />
         </div>
 
-        {/* Title — Daltown 72px / 60 line box. The artwork is black; the dark
-            stub inverts it to white. */}
+        {/* Title — Daltown 72px / 60 line box */}
         <div
           className="absolute left-0 flex w-full items-center justify-center"
           style={{ top: ROW_TITLE - 30, height: 60 }}
         >
-          <Image
-            src={tier.titleArt.src}
-            alt={tier.title}
-            width={tier.titleArt.width}
-            height={tier.titleArt.height}
-            unoptimized
-            className={dark ? "invert" : ""}
-            style={{ width: tier.titleArt.width, height: "auto" }}
-          />
+          <span
+            className={`font-daltown whitespace-nowrap text-[72px] uppercase leading-[60px] tracking-[1.44px] ${ink}`}
+          >
+            {tier.title}
+          </span>
         </div>
 
         {/* From 50 MAD / Person  +  discount row */}
@@ -191,7 +210,9 @@ export function TicketStub({ tier }: { tier: TicketTier }) {
             >
               From
             </span>
-            <span className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}>
+            <span
+              className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
+            >
               {tier.priceFrom} {tier.currency}
             </span>
             <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">

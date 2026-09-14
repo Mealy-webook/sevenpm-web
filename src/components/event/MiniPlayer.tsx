@@ -16,7 +16,7 @@ function artworkAt(url: string, px: number) {
 }
 
 const btn =
-  "flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full text-content-primary transition-[background-color,transform] duration-300 hover:bg-white/10 active:scale-95";
+  "flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[background-color,transform] duration-300 active:scale-95";
 
 export function MiniPlayer({
   track,
@@ -90,9 +90,15 @@ export function MiniPlayer({
           onClick={onPrev}
           aria-label="Previous track"
           tabIndex={visible ? 0 : -1}
-          className={btn}
+          className={`${btn} text-content-primary hover:bg-white/10`}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden
+          >
             <path d="M5 4h2v12H5zM15.5 4.6v10.8a.6.6 0 0 1-.95.49L7.3 10.49a.6.6 0 0 1 0-.98l7.25-5.4a.6.6 0 0 1 .95.49Z" />
           </svg>
         </button>
@@ -102,14 +108,26 @@ export function MiniPlayer({
           aria-label={playing ? `Pause ${track.title}` : `Play ${track.title}`}
           aria-pressed={playing}
           tabIndex={visible ? 0 : -1}
-          className={`${btn} bg-brand text-[#0b0b0e] hover:bg-brand/90`}
+          className={`${btn} bg-brand text-[#0b0b0e] hover:bg-[#fff35a]`}
         >
           {playing ? (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden
+            >
               <path d="M5 4h3.5v12H5zM11.5 4H15v12h-3.5z" />
             </svg>
           ) : (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden
+            >
               <path d="M6.5 4.3v11.4a.6.6 0 0 0 .92.5l8.6-5.7a.6.6 0 0 0 0-1L7.42 3.8a.6.6 0 0 0-.92.5Z" />
             </svg>
           )}
@@ -119,9 +137,15 @@ export function MiniPlayer({
           onClick={onNext}
           aria-label="Next track"
           tabIndex={visible ? 0 : -1}
-          className={btn}
+          className={`${btn} text-content-primary hover:bg-white/10`}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden
+          >
             <path d="M13 4h2v12h-2zM4.5 4.6v10.8a.6.6 0 0 0 .95.49l7.25-5.4a.6.6 0 0 0 0-.98L5.45 4.11a.6.6 0 0 0-.95.49Z" />
           </svg>
         </button>

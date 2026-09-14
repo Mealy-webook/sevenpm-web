@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
-import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
+import { DisplayHeading } from "@/components/ui/DisplayHeading";
 
 /**
  * Homepage gallery, from Figma 2020:1977: two rows of 404 × 269 tiles with a
@@ -52,9 +52,7 @@ export function HomeGallery({ rows }: { rows: string[][] }) {
   return (
     <section id="gallery" className="relative py-16 xl:py-24 [overflow-x:clip]">
       <div className="shell flex flex-col items-center gap-12">
-        <DisplayHeading art={DISPLAY_ART.gallery} reveal="clip">
-          Gallery
-        </DisplayHeading>
+        <DisplayHeading reveal="clip">Gallery</DisplayHeading>
       </div>
 
       <div

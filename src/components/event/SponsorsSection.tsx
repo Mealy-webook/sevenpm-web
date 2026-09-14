@@ -27,7 +27,11 @@ function SponsorLogo({ name, logo }: { name: string; logo: string }) {
 export function SponsorsSection({ event }: { event: EventDetails }) {
   return (
     <section id="sponsors" className="relative py-16 xl:py-24">
-      <div className="shell flex flex-col items-center gap-8" data-reveal="up" data-reveal-stagger>
+      <div
+        className="shell flex flex-col items-center gap-8"
+        data-reveal="up"
+        data-reveal-stagger
+      >
         <SponsorLabel>Official sponsor</SponsorLabel>
         <SponsorLogo
           name={event.officialSponsor.name}

@@ -37,8 +37,6 @@ export type TicketTier = {
   kicker: string;
   /** Plain-text name, used as the accessible label ("1 Day pass"). */
   title: string;
-  /** Daltown artwork of the title — see DisplayHeading for why it's an image. */
-  titleArt: { src: string; width: number; height: number };
   /** Starting price, formatted ("1,000"). */
   priceFrom: string;
   /** ISO-ish currency code shown after the price ("MAD"). */
@@ -98,7 +96,6 @@ export type EventDetails = {
   name: string;
   /** Wordmark artwork — the Figma title is set in Daltown, a licensed
    *  display face, so it ships as artwork rather than live text. */
-  wordmark: { src: string; width: number; height: number; alt: string };
   intro: string;
   /** ISO datetime the doors open. Not rendered by the current comp — the
    *  hero countdown was dropped in the 2026-09-09 revision — but kept as the
@@ -129,12 +126,6 @@ export const FAQ_HEADLINE =
 export const jazzablanca: EventDetails = {
   slug: "jazzablanca",
   name: "Jazzablanca",
-  wordmark: {
-    src: "/assets/hero-jazzablanca.png",
-    width: 661,
-    height: 178,
-    alt: "Jazzablanca",
-  },
   intro:
     "A true urban boutique festival deeply embedded in the city of Casablanca, the festival embraces the urban landscape and brings the city to life. Beyond the concerts, it is a place for sharing, discovery, and culture, designed to awaken minds and transmit a passion for music.",
   startsAt: "2026-09-18T19:00:00+01:00",
@@ -190,7 +181,11 @@ export const jazzablanca: EventDetails = {
   ],
   schedule: [
     { icon: "/assets/ic-gates.svg", label: "Gates open", value: "7:00 PM" },
-    { icon: "/assets/ic-last-entry.svg", label: "Last entry", value: "8:00 PM" },
+    {
+      icon: "/assets/ic-last-entry.svg",
+      label: "Last entry",
+      value: "8:00 PM",
+    },
     { icon: "/assets/ic-showtime.svg", label: "Showtime", value: "9:30 PM" },
   ],
   ticketTiers: [
@@ -198,7 +193,6 @@ export const jazzablanca: EventDetails = {
       id: "day",
       kicker: "General admission",
       title: "1 Day pass",
-      titleArt: { src: "/assets/ticket-1daypass.png", width: 162, height: 50 },
       priceFrom: "50",
       currency: "MAD",
       wasPrice: "70",
@@ -209,7 +203,6 @@ export const jazzablanca: EventDetails = {
       id: "weekend",
       kicker: "General admission",
       title: "Weekend pass",
-      titleArt: { src: "/assets/ticket-weekendpass.png", width: 222, height: 50 },
       priceFrom: "100",
       currency: "MAD",
       wasPrice: "120",
@@ -221,7 +214,6 @@ export const jazzablanca: EventDetails = {
       id: "all-days",
       kicker: "General admission",
       title: "All days pass",
-      titleArt: { src: "/assets/ticket-alldayspass.png", width: 217, height: 50 },
       priceFrom: "500",
       currency: "MAD",
       wasPrice: "700",

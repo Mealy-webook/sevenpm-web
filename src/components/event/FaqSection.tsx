@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useId, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
-import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
+import { DisplayHeading } from "@/components/ui/DisplayHeading";
 
 /**
  * FAQ accordion. One item open at a time, the first by default. The answer
@@ -19,7 +19,7 @@ export function FaqSection({ event }: { event: EventDetails }) {
     <section id="faq" className="relative bg-ink-900 py-16 xl:py-24">
       <div className="shell flex flex-col items-start gap-12 lg:flex-row">
         <div className="flex min-w-0 flex-1 flex-col justify-center">
-          <DisplayHeading art={DISPLAY_ART.faq} align="left" reveal="clip">
+          <DisplayHeading size="faq" align="left" reveal="clip">
             Frequently asked questions
           </DisplayHeading>
         </div>
@@ -54,7 +54,9 @@ export function FaqSection({ event }: { event: EventDetails }) {
                       }`}
                     >
                       <Image
-                        src={open ? "/assets/ic-minus.svg" : "/assets/ic-plus.svg"}
+                        src={
+                          open ? "/assets/ic-minus.svg" : "/assets/ic-plus.svg"
+                        }
                         alt=""
                         width={24}
                         height={24}

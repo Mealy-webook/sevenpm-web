@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
-import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
+import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 import { GalleryStage } from "./GalleryStage";
 
@@ -22,9 +22,7 @@ export function GallerySection({ event }: { event: EventDetails }) {
       className="relative overflow-hidden bg-ink-900 py-16 xl:py-24"
     >
       <div className="shell flex flex-col items-start gap-12">
-        <DisplayHeading art={DISPLAY_ART.gallery} reveal="clip">
-          Gallery
-        </DisplayHeading>
+        <DisplayHeading reveal="clip">Gallery</DisplayHeading>
 
         <div className="stage-gallery relative w-full">
           <GalleryStage width={STAGE_WIDTH} height={STAGE_HEIGHT}>

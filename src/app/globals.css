@@ -4,7 +4,12 @@
  * Design tokens — mirrors the Figma variable collection on
  * "SevenPM — Web" (QoFwc4yLlCGUhMVma1ABhb).
  * ------------------------------------------------------------------ */
-@theme {
+/* `static` so every token is emitted as a CSS variable even when no utility
+   class uses it — plain CSS here (and `font-[family-name:var(--font-…)]`
+   arbitrary values) read them with `var()`, which Tailwind's tree-shaking
+   does not count as a use. Without it the font tokens were dropped and the
+   whole site fell back to the system font. */
+@theme static {
   /* Backgrounds */
   --color-bg-primary: #0b0b0e;
   --color-bg-secondary: #18181b;
@@ -33,6 +38,7 @@
   --font-display: var(--font-roboto), system-ui, sans-serif;
   --font-sans: var(--font-figtree), system-ui, sans-serif;
   --font-ui: var(--font-inter), system-ui, sans-serif;
+  --font-headline: var(--font-daltown), var(--font-roboto), sans-serif;
 }
 
 html {
@@ -79,12 +85,11 @@ body {
 }
 
 /* ------------------------------------------------------------------ *
- * Display type.
+ * Display type — Daltown, live text.
  *
- * Every oversized heading — the JAZZABLANCA lockup and the section titles —
- * is set in Daltown, a licensed display face, so it ships as artwork rather
- * than live text (see `DisplayHeading`). The boxes below reproduce the Figma
- * line boxes: 260px/208 for the section titles, 152px/118 ×2 for the FAQ.
+ * Figma sets the section titles at 260px on a 208px line box and the FAQ at
+ * 152/118. `--display-scale` steps the whole thing down on smaller screens so
+ * the composition (not just the type) keeps its proportions.
  * ------------------------------------------------------------------ */
 :root {
   --display-scale: 1;
@@ -105,27 +110,27 @@ body {
   }
 }
 
-.display-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(var(--display-line-box, 208px) * var(--display-scale));
-}
-
-.display-box img {
-  width: calc(var(--display-art-width, 661px) * var(--display-scale));
-  max-width: 100%;
-  height: auto;
-}
-
-/* Roboto Black fallback for headings that have no Daltown artwork yet. */
-.display-heading {
-  font-family: var(--font-display);
-  font-weight: 900;
+.display-text {
+  --display-size: 260px;
+  --display-line: 208px;
+  margin: 0;
+  font-family: var(--font-headline);
+  font-weight: 400;
   text-transform: uppercase;
-  font-size: clamp(48px, 6.6vw, 100px);
-  line-height: 0.87;
+  font-size: calc(var(--display-size) * var(--display-scale));
+  line-height: calc(var(--display-line) * var(--display-scale));
+  letter-spacing: 0;
   color: #fff;
+}
+
+.display-text--faq {
+  --display-size: 152px;
+  --display-line: 118px;
+}
+
+.font-daltown {
+  font-family: var(--font-headline);
+  font-weight: 400;
 }
 
 /* Padding half of `.shell`, for full-bleed sections that still need a gutter
@@ -733,4 +738,28 @@ body {
 
 .gallery-tile:hover img {
   transform: scale(1.05);
+}
+
+/* News stack: cards pin under the heading and pile up as the next one scrolls
+   in; the card underneath scales back a touch and dims. */
+.news-stack {
+  --stack-top: 120px;
+  --stack-step: 20px;
+}
+
+.news-stack__item {
+  position: sticky;
+  top: calc(var(--stack-top) + var(--stack-index) * var(--stack-step));
+}
+
+.news-stack__item > article {
+  transform-origin: top center;
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .news-stack {
+    --stack-top: 80px;
+    --stack-step: 12px;
+  }
 }

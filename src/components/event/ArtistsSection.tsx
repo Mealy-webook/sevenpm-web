@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import type { ArtistGroup, EventDetails } from "@/data/events";
-import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
+import { DisplayHeading } from "@/components/ui/DisplayHeading";
 
 /** The Figma row is 1938 wide (it deliberately bleeds past the 1512 frame). */
 const ROW_WIDTH = 1938;
@@ -48,7 +48,10 @@ function Group({ group, last }: { group: ArtistGroup; last: boolean }) {
   }
 
   return (
-    <div className="flex w-[400px] shrink-0 flex-wrap items-start" style={spacing}>
+    <div
+      className="flex w-[400px] shrink-0 flex-wrap items-start"
+      style={spacing}
+    >
       {group.items.map((item, index) =>
         item ? (
           <Circle
@@ -74,9 +77,7 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
   return (
     <section id="artists" className="relative overflow-hidden py-16 xl:py-24">
       <div className="shell flex flex-col items-center justify-center gap-12">
-        <DisplayHeading art={DISPLAY_ART.artists} reveal="clip">
-          Artists
-        </DisplayHeading>
+        <DisplayHeading reveal="clip">Artists</DisplayHeading>
 
         <div
           className="flex flex-wrap items-start justify-center gap-6"

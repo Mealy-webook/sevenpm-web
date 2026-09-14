@@ -139,7 +139,11 @@ export function VinylCarousel({
   const spinUp = (el: HTMLDivElement | null) => {
     if (!el) return;
     if (spinRef.current && spinRef.current.targets()[0] === el) {
-      gsap.to(spinRef.current, { timeScale: 1, duration: 0.8, ease: "power2.in" });
+      gsap.to(spinRef.current, {
+        timeScale: 1,
+        duration: 0.8,
+        ease: "power2.in",
+      });
       spinRef.current.play();
       return;
     }
@@ -189,7 +193,6 @@ export function VinylCarousel({
       spinDown();
       armTo("rest");
     }
-     
   }, [playing, ringActive]);
 
   const select = (k: number) => {
@@ -209,15 +212,39 @@ export function VinylCarousel({
     sequenceRef.current = tl;
 
     // 1. Head up, platter spinning down.
-    tl.to(arm, { rotation: ARM_REST, y: -14, scale: 1.03, duration: 0.45 * d, ease: "power2.out" }, 0);
+    tl.to(
+      arm,
+      {
+        rotation: ARM_REST,
+        y: -14,
+        scale: 1.03,
+        duration: 0.45 * d,
+        ease: "power2.out",
+      },
+      0,
+    );
     if (spinRef.current) {
-      tl.to(spinRef.current, { timeScale: 0, duration: 0.8 * d, ease: "power2.out" }, 0);
+      tl.to(
+        spinRef.current,
+        { timeScale: 0, duration: 0.8 * d, ease: "power2.out" },
+        0,
+      );
     }
     // 2. Discs travel (CSS transition, ~1.05s).
     tl.add(() => moveRing(k), 0.35 * d);
     tl.add(() => onSelect(k % tracks.length), 0.36 * d);
     // 3. Head drops onto the new record.
-    tl.to(arm, { rotation: ARM_PLAY, y: 0, scale: 1, duration: 0.55 * d, ease: "power2.inOut" }, 1.45 * d);
+    tl.to(
+      arm,
+      {
+        rotation: ARM_PLAY,
+        y: 0,
+        scale: 1,
+        duration: 0.55 * d,
+        ease: "power2.inOut",
+      },
+      1.45 * d,
+    );
     // 4. Platter up to speed as the audio starts.
     tl.add(() => {
       spinUp(rotators.current[k]);
@@ -245,7 +272,9 @@ export function VinylCarousel({
   const active = tracks[activeIndex];
   const previousTrack = ring.prev % tracks.length;
   const glowTracks =
-    previousTrack === activeIndex ? [activeIndex] : [previousTrack, activeIndex];
+    previousTrack === activeIndex
+      ? [activeIndex]
+      : [previousTrack, activeIndex];
 
   return (
     <div
@@ -340,7 +369,12 @@ export function VinylCarousel({
                   sizes={`${LABEL}px`}
                   priority={isCentre}
                   className="absolute rounded-full object-cover"
-                  style={{ left: LABEL_INSET, top: LABEL_INSET, width: LABEL, height: LABEL }}
+                  style={{
+                    left: LABEL_INSET,
+                    top: LABEL_INSET,
+                    width: LABEL,
+                    height: LABEL,
+                  }}
                 />
               ) : (
                 <Image
@@ -349,7 +383,12 @@ export function VinylCarousel({
                   width={LABEL}
                   height={LABEL}
                   className="absolute rounded-full object-cover"
-                  style={{ left: LABEL_INSET, top: LABEL_INSET, width: LABEL, height: LABEL }}
+                  style={{
+                    left: LABEL_INSET,
+                    top: LABEL_INSET,
+                    width: LABEL,
+                    height: LABEL,
+                  }}
                 />
               )}
             </div>
@@ -360,7 +399,12 @@ export function VinylCarousel({
       {/* Tonearm */}
       <div
         className="pointer-events-none absolute z-20 flex items-center justify-center"
-        style={{ left: ARM.left, top: ARM.top, width: ARM.width, height: ARM.height }}
+        style={{
+          left: ARM.left,
+          top: ARM.top,
+          width: ARM.width,
+          height: ARM.height,
+        }}
       >
         <div ref={armRef}>
           <Image
@@ -376,7 +420,8 @@ export function VinylCarousel({
       </div>
 
       <p className="sr-only" aria-live="polite">
-        {playing ? "Now playing" : "Selected"}: {active?.title} — {active?.artist}
+        {playing ? "Now playing" : "Selected"}: {active?.title} —{" "}
+        {active?.artist}
       </p>
     </div>
   );

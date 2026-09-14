@@ -57,10 +57,17 @@ gutter grid.
 - **Tokens.** Colours and type live in the `@theme` block at the top of
   `globals.css`, named after the Figma variables (`bg-primary`, `ink-600`,
   `text-secondary`, `brand`, …). Use those, not raw hex.
-- **Display type.** Every oversized heading is set in **Daltown**, a licensed
-  face, so it ships as artwork through `<DisplayHeading>` with the real text as
-  the accessible name. License Daltown for web and each one becomes live text
-  in a single edit.
+- **Display type.** Every oversized heading is live text in **Daltown**
+  (`src/fonts/Daltown.woff2`, loaded with `next/font/local` as
+  `--font-daltown`; `.display-text` sets Figma's 260/208, `.display-text--faq`
+  152/118, both scaled by `--display-scale`). Daltown is a licensed face — the
+  file is the team's own copy; check the licence covers web embedding before
+  launch. Ticket titles use `.font-daltown` at 72/60.
+- **`@theme static`.** Tailwind v4 only emits theme variables that a utility
+  class uses. Tokens read from plain CSS or from
+  `font-[family-name:var(--font-…)]` don't count, so the block is `static` —
+  without it the three font tokens vanished and the whole site rendered in the
+  system font.
 - **Fixed-geometry stages.** The hero deck, the artist circle row and the
   gallery polaroid fan are positioned at exact Figma pixel coordinates and
   scaled as a unit (`--hero-stage-scale`, `--artists-scale`, `--gallery-scale`)
@@ -203,14 +210,13 @@ stickers). Two details worth knowing:
 The tier cards are landscape **ticket stubs** (`TicketStub`, from Figma
 2179:33880 and 2179:35522): ticket paper with perforated ends and scooped
 corners, an inner body, and centred content — a "★ ★ GENERAL ADMISSION ★ ★"
-line, the tier name as Daltown artwork, "From **50 MAD** / Person", a struck
+line, the tier name in Daltown, "From **50 MAD** / Person", a struck
 previous price with "20% off", and the "Get your ticket" button. Two papers:
 
 - **Grey** — a photographic paper texture (`stub-paper.jpg` at 80% plus a 10%
   black wash), a textured light body PNG, and a translucent dark button.
 - **Dark** (`featured: true`, the weekend pass) — a 20% white card with a
-  noise-filtered dark body SVG, white text (the title artwork is inverted in
-  CSS) and the brand-yellow button.
+  noise-filtered dark body SVG, white text and the brand-yellow button.
 
 The comp draws each stub as a portrait column rotated 90°; the component lays
 the same exports out in screen orientation (403 × 250 grey, 393 × 250 dark —
@@ -219,7 +225,7 @@ rotate. Neighbouring stubs overlap by 6px so the corner notches merge into one
 hole; each stub passes its width to `.ticket-stub-box` through `--stub-w`, and
 the row scales down as a unit below one stub's width (`--stub-scale`).
 
-Tier data is `{ kicker, title, titleArt, priceFrom, currency, wasPrice?,
+Tier data is `{ kicker, title, priceFrom, currency, wasPrice?,
 discount?, cta, featured? }`. Prices follow the comp (50 / 100 / 500 MAD, was
 70 / 120 / 700). Note the comp styles the discount row differently on the two
 papers (10px struck price with a currency glyph on grey, 12px bold "120 MAD"
@@ -254,8 +260,11 @@ sections.
 
 `src/app/page.tsx`, from Figma 15:202. Sections in `src/components/home/`:
 
-- **HomeHero** — "MORE MUSIC MORE LIFE" as Daltown artwork (786 × 416 text
-  box), intro, and the comp's four yellow equaliser bars animated.
+- **HomeHero** — "MORE MUSIC MORE LIFE" in Daltown inside the comp's 786px
+  text box, intro, and the comp's four yellow equaliser bars animated. Moving
+  the cursor across the hero leaves a trail of concert photos behind the copy
+  (`components/ui/image-trail.tsx`, from 21st.dev on framer-motion; one
+  addition, `hideCursor={false}`, keeps the native cursor and touch scrolling).
 - **FestivalsStage** — the five poster exports in their fixed 1901.63 × 526
   composition, scaled with the viewport (`--home-stage-scale`) so it bleeds
   the same proportion past both edges. Side posters are grey (the comp's
@@ -266,6 +275,10 @@ sections.
   need flat poster exports — hence a fixed composition, not a carousel.
 - **NewsSection** — three paper cards with image tiles and "Load more"; the
   yellow scribble around "NEWS" is inlined SVG that draws itself on first view.
+  The cards are a **stack** (`NewsStack`): each one is `position: sticky`
+  pinned a little lower than the last, so they pile up under the heading as
+  the page scrolls, and a scrubbed ScrollTrigger scales the card underneath
+  back and dims it as the next slides over.
 - **HomeGallery** — two rows of 404 × 269 tiles drifting in opposite
   directions on a GSAP loop, slowed on hover. The comp shows empty grey tiles;
   the event photos fill them here — swap `galleryRows` in `data/home.ts`.

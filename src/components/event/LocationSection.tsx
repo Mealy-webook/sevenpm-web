@@ -70,7 +70,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
 
           {/* Rules */}
           <div
-            className="tile-row flex w-full items-stretch gap-8 overflow-x-auto lg:flex-wrap lg:items-center lg:justify-center lg:overflow-visible"
+            className="tile-row flex w-full items-stretch gap-8 overflow-x-auto lg:flex-wrap lg:justify-center lg:overflow-visible"
             data-reveal="up"
             data-reveal-stagger
           >

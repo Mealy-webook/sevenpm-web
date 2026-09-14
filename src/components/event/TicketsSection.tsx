@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
-import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
+import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { TicketStub, stubWidth } from "./TicketStub";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 
@@ -27,9 +27,7 @@ export function TicketsSection({ event }: { event: EventDetails }) {
       </div>
 
       <div className="shell flex flex-col items-center justify-center gap-12">
-        <DisplayHeading art={DISPLAY_ART.tickets} reveal="clip">
-          Tickets
-        </DisplayHeading>
+        <DisplayHeading reveal="clip">Tickets</DisplayHeading>
 
         {/* Gates open / Last entry / Showtime */}
         <div
@@ -76,7 +74,9 @@ export function TicketsSection({ event }: { event: EventDetails }) {
             <div
               key={tier.id}
               className="ticket-stub-box"
-              style={{ "--stub-w": `${stubWidth(tier)}px` } as React.CSSProperties}
+              style={
+                { "--stub-w": `${stubWidth(tier)}px` } as React.CSSProperties
+              }
             >
               <div className="ticket-stub-scale">
                 <TicketStub tier={tier} />

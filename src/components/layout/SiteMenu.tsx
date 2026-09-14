@@ -22,7 +22,13 @@ export const MENU_LINKS = [
   { label: "Careers", href: "/#careers" },
 ];
 
-export function SiteMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function SiteMenu({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   const root = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const year = new Date().getFullYear();
@@ -47,7 +53,9 @@ export function SiteMenu({ open, onClose }: { open: boolean; onClose: () => void
   useEffect(() => {
     const el = root.current;
     if (!open || !el) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduce) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
@@ -97,7 +105,13 @@ export function SiteMenu({ open, onClose }: { open: boolean; onClose: () => void
             onClick={onClose}
             className="flex size-[60px] cursor-pointer items-center justify-center bg-[rgba(37,37,37,0.5)] transition-colors hover:bg-[rgba(37,37,37,0.9)]"
           >
-            <Image src="/assets/ic-close.svg" alt="" width={20} height={20} className="size-5" />
+            <Image
+              src="/assets/ic-close.svg"
+              alt=""
+              width={20}
+              height={20}
+              className="size-5"
+            />
           </button>
         </div>
 

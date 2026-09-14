@@ -119,13 +119,14 @@ export function HeroSpectrum({
           target = mag * MAX_BAR * windowAt(i);
         } else {
           // Resting row: a slow travelling ripple.
-          target =
-            (IDLE_BAR + Math.sin(i * 0.22 - t * 1.6) * 3) * windowAt(i);
+          target = (IDLE_BAR + Math.sin(i * 0.22 - t * 1.6) * 3) * windowAt(i);
         }
 
         // Instant attack, slow release.
         heights[i] =
-          target > heights[i] ? target : heights[i] + (target - heights[i]) * 0.14;
+          target > heights[i]
+            ? target
+            : heights[i] + (target - heights[i]) * 0.14;
 
         peaks[i] =
           heights[i] > peaks[i] ? heights[i] : Math.max(0, peaks[i] - 1.1);
@@ -145,7 +146,12 @@ export function HeroSpectrum({
       ctx.beginPath();
       for (let i = 0; i < count; i += 1) {
         const h = still ? IDLE_BAR * windowAt(i) : Math.max(1, heights[i]);
-        ctx.roundRect(offset + i * PITCH, mid - h, BAR_W, h, [BAR_W / 2, BAR_W / 2, 0, 0]);
+        ctx.roundRect(offset + i * PITCH, mid - h, BAR_W, h, [
+          BAR_W / 2,
+          BAR_W / 2,
+          0,
+          0,
+        ]);
       }
       ctx.fillStyle = lit ? gradient : "rgba(255,255,255,0.16)";
       ctx.shadowColor = "rgba(251, 235, 28, 0.75)";

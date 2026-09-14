@@ -67,7 +67,9 @@ function SelectRow({
           }`}
         >
           <Image
-            src={selected ? "/assets/ic-check-on.svg" : "/assets/ic-check-off.svg"}
+            src={
+              selected ? "/assets/ic-check-on.svg" : "/assets/ic-check-off.svg"
+            }
             alt=""
             width={16}
             height={16}
@@ -101,7 +103,11 @@ export function LocaleMenu({
       aria-labelledby={labelledBy}
       className="popover flex w-[320px] flex-col gap-4 bg-[rgba(37,37,37,0.5)] p-4 backdrop-blur-2xl"
     >
-      <div role="radiogroup" aria-label="Language" className="flex w-full flex-col gap-2">
+      <div
+        role="radiogroup"
+        aria-label="Language"
+        className="flex w-full flex-col gap-2"
+      >
         <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
           Choose a language
         </p>
@@ -115,7 +121,11 @@ export function LocaleMenu({
         ))}
       </div>
 
-      <div role="radiogroup" aria-label="Currency" className="flex w-full flex-col gap-2">
+      <div
+        role="radiogroup"
+        aria-label="Currency"
+        className="flex w-full flex-col gap-2"
+      >
         <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
           Choose a Currency
         </p>

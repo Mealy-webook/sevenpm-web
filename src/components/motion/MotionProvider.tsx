@@ -76,52 +76,48 @@ export function MotionProvider() {
       /* ---------------------------------------------------------------- */
       /* Parallax                                                           */
       /* ---------------------------------------------------------------- */
-      gsap.utils
-        .toArray<HTMLElement>("[data-parallax]")
-        .forEach((el) => {
-          const speed = Number(el.dataset.parallax || 0.15);
-          gsap.to(el, {
-            yPercent: speed * 100,
-            ease: "none",
-            scrollTrigger: {
-              trigger: el.closest("section") ?? el,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 0.6,
-            },
-          });
+      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
+        const speed = Number(el.dataset.parallax || 0.15);
+        gsap.to(el, {
+          yPercent: speed * 100,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el.closest("section") ?? el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
+          },
         });
+      });
 
       /* ---------------------------------------------------------------- */
       /* Magnetic buttons                                                   */
       /* ---------------------------------------------------------------- */
       if (window.matchMedia("(hover: hover)").matches) {
-        gsap.utils
-          .toArray<HTMLElement>("[data-magnetic]")
-          .forEach((el) => {
-            const strength = Number(el.dataset.magnetic || 0.25);
-            const quickX = gsap.quickTo(el, "x", {
-              duration: 0.5,
-              ease: "power3.out",
-            });
-            const quickY = gsap.quickTo(el, "y", {
-              duration: 0.5,
-              ease: "power3.out",
-            });
-
-            const move = (e: MouseEvent) => {
-              const rect = el.getBoundingClientRect();
-              quickX((e.clientX - (rect.left + rect.width / 2)) * strength);
-              quickY((e.clientY - (rect.top + rect.height / 2)) * strength);
-            };
-            const reset = () => {
-              quickX(0);
-              quickY(0);
-            };
-
-            el.addEventListener("mousemove", move);
-            el.addEventListener("mouseleave", reset);
+        gsap.utils.toArray<HTMLElement>("[data-magnetic]").forEach((el) => {
+          const strength = Number(el.dataset.magnetic || 0.25);
+          const quickX = gsap.quickTo(el, "x", {
+            duration: 0.5,
+            ease: "power3.out",
           });
+          const quickY = gsap.quickTo(el, "y", {
+            duration: 0.5,
+            ease: "power3.out",
+          });
+
+          const move = (e: MouseEvent) => {
+            const rect = el.getBoundingClientRect();
+            quickX((e.clientX - (rect.left + rect.width / 2)) * strength);
+            quickY((e.clientY - (rect.top + rect.height / 2)) * strength);
+          };
+          const reset = () => {
+            quickX(0);
+            quickY(0);
+          };
+
+          el.addEventListener("mousemove", move);
+          el.addEventListener("mouseleave", reset);
+        });
       }
     });
 

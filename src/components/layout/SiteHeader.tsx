@@ -32,7 +32,10 @@ const DEFAULT_USER: AccountUser = {
 
 type Popover = "account" | "locale" | null;
 
-export function SiteHeader({ user = DEFAULT_USER, logoSize = 72 }: SiteHeaderProps) {
+export function SiteHeader({
+  user = DEFAULT_USER,
+  logoSize = 72,
+}: SiteHeaderProps) {
   const [popover, setPopover] = useState<Popover>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState<LanguageCode>("en");
@@ -77,11 +80,18 @@ export function SiteHeader({ user = DEFAULT_USER, logoSize = 72 }: SiteHeaderPro
             width={100}
             height={100}
             priority
-            className={logoSize === 100 ? "size-[64px] xl:size-[100px]" : "size-[56px] xl:size-[72px]"}
+            className={
+              logoSize === 100
+                ? "size-[64px] xl:size-[100px]"
+                : "size-[56px] xl:size-[72px]"
+            }
           />
         </Link>
 
-        <div ref={cluster} className="relative flex min-w-0 flex-1 items-center justify-end gap-1">
+        <div
+          ref={cluster}
+          className="relative flex min-w-0 flex-1 items-center justify-end gap-1"
+        >
           {user ? (
             <button
               id={`${accountId}-button`}
@@ -94,7 +104,13 @@ export function SiteHeader({ user = DEFAULT_USER, logoSize = 72 }: SiteHeaderPro
                 popover === "account" ? "is-active" : ""
               }`}
             >
-              <Image src="/assets/ic-user.svg" alt="" width={20} height={20} className="size-5" />
+              <Image
+                src="/assets/ic-user.svg"
+                alt=""
+                width={20}
+                height={20}
+                className="size-5"
+              />
               <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold uppercase leading-6 text-content-primary">
                 {firstName}
               </span>
@@ -120,7 +136,13 @@ export function SiteHeader({ user = DEFAULT_USER, logoSize = 72 }: SiteHeaderPro
               popover === "locale" ? "is-active" : ""
             }`}
           >
-            <Image src="/assets/ic-globe.svg" alt="" width={20} height={20} className="size-5" />
+            <Image
+              src="/assets/ic-globe.svg"
+              alt=""
+              width={20}
+              height={20}
+              className="size-5"
+            />
           </button>
 
           <button
@@ -134,13 +156,23 @@ export function SiteHeader({ user = DEFAULT_USER, logoSize = 72 }: SiteHeaderPro
             }}
             className="btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4"
           >
-            <Image src="/assets/ic-menu.svg" alt="" width={20} height={20} className="size-5" />
+            <Image
+              src="/assets/ic-menu.svg"
+              alt=""
+              width={20}
+              height={20}
+              className="size-5"
+            />
           </button>
 
           {/* Popovers hang off the right edge of the button cluster */}
           {popover === "account" && user && (
             <div className="absolute right-0 top-[calc(100%+8px)]">
-              <AccountMenu user={user} id={accountId} labelledBy={`${accountId}-button`} />
+              <AccountMenu
+                user={user}
+                id={accountId}
+                labelledBy={`${accountId}-button`}
+              />
             </div>
           )}
           {popover === "locale" && (

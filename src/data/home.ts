@@ -13,8 +13,6 @@ export type Festival = {
   href: string;
   /** Poster export from the comp — already drawn in perspective for its slot. */
   poster: { src: string; width: number; height: number };
-  /** Optional artwork for the name under the row (the comp's curved title). */
-  titleArt?: { src: string; width: number; height: number };
   /** Preview played while the visitor holds the spacebar. */
   audioSrc?: string;
 };
@@ -44,11 +42,6 @@ export const festivals: Festival[] = [
       src: "/assets/festival-poster-3.png",
       width: 305.5,
       height: 495.5,
-    },
-    titleArt: {
-      src: "/assets/festival-title-jazzablanca.png",
-      width: 632,
-      height: 34,
     },
     audioSrc: jazzablanca.playlist[0]?.audioSrc,
   },
@@ -109,12 +102,6 @@ export const newsItems: NewsItem[] = [
 
 export const homeCopy = {
   heroTitle: "More music more life",
-  heroTitleArt: {
-    src: "/assets/head-home-hero.png",
-    width: 628,
-    height: 387,
-    lineBox: 416,
-  },
   intro:
     "SEVENPM creates cultural experiences that bring the world’s artists, Moroccan talent and communities together—transforming cities through music, culture and unforgettable moments.",
   listenHint: ["Press & Hold", "spacebar to listen"],
@@ -142,4 +129,14 @@ export const galleryRows: string[][] = [
     "/assets/gallery-2.jpg",
     "/assets/gallery-3.jpg",
   ],
+];
+
+/** Concert photos that trail the cursor across the homepage hero. */
+export const heroTrailImages = [
+  { src: "/assets/gallery-1.jpg", alt: "" },
+  { src: "/assets/gallery-2.jpg", alt: "" },
+  { src: "/assets/gallery-3.jpg", alt: "" },
+  { src: "/assets/gallery-4.jpg", alt: "" },
+  { src: "/assets/gallery-5.jpg", alt: "" },
+  { src: "/assets/gallery-6.jpg", alt: "" },
 ];

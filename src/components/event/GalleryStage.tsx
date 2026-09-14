@@ -32,8 +32,12 @@ export function GalleryStage({
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
-    const slots = Array.from(stage.querySelectorAll<HTMLElement>(".gallery-slot"));
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const slots = Array.from(
+      stage.querySelectorAll<HTMLElement>(".gallery-slot"),
+    );
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     let top = 10;
 
     const raise = (el: HTMLElement) => {

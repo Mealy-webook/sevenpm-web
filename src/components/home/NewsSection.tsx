@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import type { NewsItem } from "@/data/home";
+import { DisplayHeading } from "@/components/ui/DisplayHeading";
+import { NewsStack } from "./NewsStack";
 import { Scribble } from "./Scribble";
 
 /**
@@ -13,25 +15,7 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
     <section id="news" className="relative py-16 xl:py-24">
       <div className="shell flex flex-col items-center gap-12">
         <div className="relative w-full">
-          <h2
-            className="display-box w-full"
-            data-reveal="clip"
-            style={
-              {
-                "--display-line-box": "208px",
-                "--display-art-width": "651px",
-              } as React.CSSProperties
-            }
-          >
-            <Image
-              src="/assets/head-news.png"
-              alt="Latest news"
-              width={651}
-              height={179}
-              unoptimized
-              style={{ height: "auto" }}
-            />
-          </h2>
+          <DisplayHeading reveal="clip">Latest news</DisplayHeading>
           {/* Scribble: 422.63 × 275.1 box at (749.38, 53.11) in the 1512
               frame → 629.38 from the column's left edge, −42.9 from the
               heading's top (the heading sits at y 96). */}
@@ -44,15 +28,11 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
           </div>
         </div>
 
-        <div
-          className="flex w-full flex-col gap-4"
-          data-reveal="up"
-          data-reveal-stagger
-        >
+        <NewsStack>
           {items.map((item, index) => (
             <article
               key={index}
-              className="news-card relative flex w-full flex-col gap-6 border-b border-border-tertiary bg-white p-6 md:flex-row md:items-center md:gap-8"
+              className="news-card relative flex w-full flex-col gap-6 border-b border-border-tertiary bg-white p-6 shadow-[0_-12px_40px_rgba(0,0,0,0.35)] md:flex-row md:items-center md:gap-8"
             >
               <div className="relative flex min-w-0 flex-1 flex-col items-start justify-center gap-3">
                 <time className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-[#56565d]">
@@ -80,7 +60,7 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
               </div>
             </article>
           ))}
-        </div>
+        </NewsStack>
 
         <a
           href="#news"

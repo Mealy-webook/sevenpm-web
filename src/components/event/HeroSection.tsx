@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
@@ -73,25 +72,8 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
         <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-24">
           <div className="shell-pad flex w-full flex-col items-center gap-4">
-            <h1
-              className="display-box w-full"
-              data-reveal="clip"
-              style={
-                {
-                  "--display-line-box": "208px",
-                  "--display-art-width": `${event.wordmark.width}px`,
-                } as React.CSSProperties
-              }
-            >
-              <Image
-                src={event.wordmark.src}
-                alt={event.wordmark.alt}
-                width={event.wordmark.width}
-                height={event.wordmark.height}
-                priority
-                unoptimized
-                style={{ height: "auto" }}
-              />
+            <h1 className="display-text w-full text-center" data-reveal="clip">
+              {event.name}
             </h1>
             <p
               className="max-w-[962px] text-center font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"

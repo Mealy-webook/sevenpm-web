@@ -27,7 +27,13 @@ function Row({
 }) {
   const inner = (
     <>
-      <Image src={icon} alt="" width={24} height={24} className="size-6 shrink-0" />
+      <Image
+        src={icon}
+        alt=""
+        width={24}
+        height={24}
+        className="size-6 shrink-0"
+      />
       <span className="flex min-w-0 flex-1 items-center gap-2 py-3">
         <span className="flex-1 truncate text-left font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
           {label}
@@ -57,7 +63,12 @@ function Row({
       {inner}
     </a>
   ) : (
-    <button type="button" role="menuitem" onClick={onClick} className={className}>
+    <button
+      type="button"
+      role="menuitem"
+      onClick={onClick}
+      className={className}
+    >
       {inner}
     </button>
   );
@@ -81,7 +92,13 @@ export function AccountMenu({
     >
       <div className="flex w-full items-center gap-4">
         <span className="relative block size-9 shrink-0 overflow-hidden">
-          <Image src={user.avatar} alt="" fill sizes="36px" className="object-cover" />
+          <Image
+            src={user.avatar}
+            alt=""
+            fill
+            sizes="36px"
+            className="object-cover"
+          />
         </span>
         <span className="flex min-w-0 flex-1 flex-col py-3">
           <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
@@ -102,7 +119,11 @@ export function AccountMenu({
       </a>
 
       <div className="flex w-full flex-col gap-2">
-        <Row icon="/assets/ic-ticket.svg" label="My bookings" href="#bookings" />
+        <Row
+          icon="/assets/ic-ticket.svg"
+          label="My bookings"
+          href="#bookings"
+        />
         <Row
           icon="/assets/ic-wallet.svg"
           label="Wallet"

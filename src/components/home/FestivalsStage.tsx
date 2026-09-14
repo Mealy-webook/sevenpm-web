@@ -147,21 +147,9 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
       {/* Title + hint */}
       <div className="flex w-full flex-col items-center gap-7" data-reveal="up">
         <div className="flex h-[34px] items-center justify-center">
-          {shown?.titleArt ? (
-            <Image
-              src={shown.titleArt.src}
-              alt={shown.name}
-              width={shown.titleArt.width}
-              height={shown.titleArt.height}
-              unoptimized
-              className="h-auto max-w-[80vw]"
-              style={{ width: shown.titleArt.width }}
-            />
-          ) : (
-            <span className="font-[family-name:var(--font-display)] text-[24px] font-black uppercase tracking-[0.12em] text-white">
-              {shown?.name}
-            </span>
-          )}
+          <span className="font-[family-name:var(--font-display)] text-[24px] font-black uppercase tracking-[0.12em] text-white">
+            {shown?.name}
+          </span>
         </div>
         <p
           className="text-center font-[family-name:var(--font-display)] text-[14px] font-light uppercase leading-[1.1] text-text-secondary"
