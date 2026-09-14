@@ -39,11 +39,17 @@ export type TicketTier = {
   title: string;
   /** Daltown artwork of the title — see DisplayHeading for why it's an image. */
   titleArt: { src: string; width: number; height: number };
-  /** Starting price, in dirhams, formatted ("1,000"). */
+  /** Starting price, formatted ("1,000"). */
   priceFrom: string;
+  /** ISO-ish currency code shown after the price ("MAD"). */
+  currency: string;
+  /** Previous price, shown struck through next to the discount. */
+  wasPrice?: string;
+  /** Discount label ("20% off"). */
+  discount?: string;
   cta: string;
   href?: string;
-  /** Brand-yellow ticket paper instead of grey. */
+  /** Dark ticket paper with the yellow CTA instead of the grey paper. */
   featured?: boolean;
 };
 
@@ -116,7 +122,8 @@ export type EventDetails = {
   goldSponsors: Sponsor[];
 };
 
-const FAQ_HEADLINE =
+// Kept for the news cards on the homepage.
+export const FAQ_HEADLINE =
   "Jazzablanca draws nearly 100,000 festival goers as 19th edition comes to a close";
 
 export const jazzablanca: EventDetails = {
@@ -193,6 +200,9 @@ export const jazzablanca: EventDetails = {
       title: "1 Day pass",
       titleArt: { src: "/assets/ticket-1daypass.png", width: 162, height: 50 },
       priceFrom: "50",
+      currency: "MAD",
+      wasPrice: "70",
+      discount: "20% off",
       cta: "Get your ticket",
     },
     {
@@ -200,9 +210,10 @@ export const jazzablanca: EventDetails = {
       kicker: "General admission",
       title: "Weekend pass",
       titleArt: { src: "/assets/ticket-weekendpass.png", width: 222, height: 50 },
-      // The comp reads "From 50" on all three; the earlier revision priced
-      // these 50 / 300 / 1,000, kept here until content confirms.
-      priceFrom: "300",
+      priceFrom: "100",
+      currency: "MAD",
+      wasPrice: "120",
+      discount: "20% off",
       cta: "Get your ticket",
       featured: true,
     },
@@ -211,7 +222,10 @@ export const jazzablanca: EventDetails = {
       kicker: "General admission",
       title: "All days pass",
       titleArt: { src: "/assets/ticket-alldayspass.png", width: 217, height: 50 },
-      priceFrom: "1,000",
+      priceFrom: "500",
+      currency: "MAD",
+      wasPrice: "700",
+      discount: "20% off",
       cta: "Get your ticket",
     },
   ],
@@ -317,16 +331,34 @@ export const jazzablanca: EventDetails = {
     { image: "/assets/gallery-2.jpg", x: 325.87, y: 254.62, rotate: -5.39 },
     { image: "/assets/gallery-1.jpg", x: 177.79, y: 200.8, rotate: 0 },
   ],
+  // Placeholder copy: the comp repeats one headline five times with a single
+  // answer. Replace with the real FAQ when content lands.
   faq: [
     {
-      question: FAQ_HEADLINE,
+      question: "Who can attend the festival?",
       answer:
-        "The 19th edition of Jazzablanca concluded after ten days of music and entertainment, attracting nearly 100,000 festivalgoers and reaffirming its position as one of Africa's leading cultural events.",
+        "Jazzablanca is open to everyone aged 18 and over. Bring a valid ID — it is checked at the gates along with your ticket.",
     },
-    { question: FAQ_HEADLINE },
-    { question: FAQ_HEADLINE },
-    { question: FAQ_HEADLINE },
-    { question: FAQ_HEADLINE },
+    {
+      question: "Can I get a refund or change my ticket?",
+      answer:
+        "Tickets are non-refundable, but you can transfer a ticket to a friend from your bookings up to 24 hours before the show.",
+    },
+    {
+      question: "What can I bring inside?",
+      answer:
+        "Small bags, empty reusable bottles and phone chargers are fine. Food, glass, professional cameras and umbrellas stay outside.",
+    },
+    {
+      question: "Is there parking at the venue?",
+      answer:
+        "Free parking is available around the Palais des Institutions Italiennes on a first-come basis. We recommend arriving before 7 PM.",
+    },
+    {
+      question: "Can I leave and come back?",
+      answer:
+        "Yes. Your wristband is scanned on the way out and back in, so you can re-enter any time before last entry at 8 PM.",
+    },
   ],
   officialSponsor: { name: "Saham Bank", logo: "/assets/sponsor-saham.svg" },
   goldSponsors: [

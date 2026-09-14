@@ -13,10 +13,11 @@ npm run dev
 
 ## What's here
 
-| Route | Figma node | Status |
-| --- | --- | --- |
-| `/events/[slug]` | `2091:56421` — Event details page (1512 × 7041) | Built |
-| `/` | — | Placeholder list of events, waiting on the homepage design |
+| Route            | Figma node                                                                      | Status |
+| ---------------- | ------------------------------------------------------------------------------- | ------ |
+| `/`              | `15:202` — Homepage (1512 × 5838)                                               | Built  |
+| `/events/[slug]` | `2091:56421` — Event details page (1512 × 7041)                                 | Built  |
+| Header menus     | `2091:45854` account, `2091:45844` language/currency, `15:790` full-screen menu | Built  |
 
 ## Structure
 
@@ -25,15 +26,17 @@ src/
   app/
     layout.tsx              fonts (Roboto / Figtree / Inter) + metadata
     globals.css             design tokens, shell, fixed-geometry stages, motion
-    page.tsx                placeholder home
+    page.tsx                homepage — composes src/components/home
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
-    layout/                 SiteHeader, SiteFooter (site-wide, reuse these)
-    event/                  one file per section of the event page
+    layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
+    home/                   one file per homepage section
+    event/                  one file per section of the event page (+ MiniPlayer)
     motion/MotionProvider   page-wide scroll motion, driven by data attributes
     ui/                     DisplayHeading, StickerPeel
   data/
-    events.ts               all copy + imagery for the page, typed
+    events.ts               all copy + imagery for the event page, typed
+    home.ts                 homepage copy, festivals, news, gallery rows
 public/assets/              exported Figma artwork
 ```
 
@@ -68,7 +71,7 @@ gutter grid.
   `tan(atan2(<column width>, 1294.42px))`, the one way CSS will divide two
   lengths into a unitless number. Scale factors are plain numbers
   stepped through media queries — a viewport ratio such as `calc(100vw / 900)`
-  resolves to a *length*, which silently invalidates both `scale()` and any
+  resolves to a _length_, which silently invalidates both `scale()` and any
   `calc(<px> * var(…))` height that uses it.
 - **Horizontal bleed.** Several blocks (the ticket ribbons, the artist row)
   extend past the 1512 frame on purpose. `html, body { overflow-x: clip }`
@@ -79,13 +82,13 @@ gutter grid.
 `<MotionProvider />` wires GSAP + ScrollTrigger to data attributes, so sections
 stay declarative:
 
-| Attribute | Effect |
-| --- | --- |
-| `data-reveal="up" \| "clip" \| "scale"` | fade + rise / mask wipe / settle in on scroll |
-| `data-reveal-stagger` | stagger the element's children instead of the element |
-| `data-reveal-delay="0.2"` | extra delay in seconds |
-| `data-parallax="-0.12"` | drift on scroll; negative moves against it |
-| `data-magnetic="0.25"` | nudge toward the cursor on hover |
+| Attribute                               | Effect                                                |
+| --------------------------------------- | ----------------------------------------------------- |
+| `data-reveal="up" \| "clip" \| "scale"` | fade + rise / mask wipe / settle in on scroll         |
+| `data-reveal-stagger`                   | stagger the element's children instead of the element |
+| `data-reveal-delay="0.2"`               | extra delay in seconds                                |
+| `data-parallax="-0.12"`                 | drift on scroll; negative moves against it            |
+| `data-magnetic="0.25"`                  | nudge toward the cursor on hover                      |
 
 Two rules keep this safe: nothing is hidden in CSS (the "from" state is set in
 JS before paint, so a script failure or `prefers-reduced-motion` just leaves the
@@ -117,7 +120,7 @@ Other pieces:
 
 ## The hero deck
 
-The records *are* the playlist (`VinylCarousel`, from Figma node 2091:56611):
+The records _are_ the playlist (`VinylCarousel`, from Figma node 2091:56611):
 the active disc sits under the tonearm at 612px with its neighbours receding
 either side at 245 and 191. Click a side disc to bring it in, click the centre
 one to pause and resume; a finished track advances by itself.
@@ -162,16 +165,21 @@ Two things to settle before this goes live:
 The comp's fourth track reads **"The Smile of Rotta — Parcels"**. No such track
 exists. It is **"The Smile of Rita" by Ibrahim Maalouf**, the Lebanese-French
 trumpeter who plays this circuit. The third is credited to "THE E.N.D", which is
-the Black Eyed Peas *album*, not the act. Both are corrected in
+the Black Eyed Peas _album_, not the act. Both are corrected in
 `src/data/events.ts` with a comment — revert the two fields if design disagrees.
 
 ## Location and FAQ
 
 The Location section has no visual heading in the current comp (an `sr-only`
 h2 keeps the landmark for assistive tech); the venue name and the info-tile
-titles are uppercase, so "AGE RESTRICTIONS" wraps and the tile row centres the
-shorter tiles against it. FAQ questions are uppercase too and wrap to three
-lines — same 22/28 bold style, just `text-transform`.
+titles are uppercase. Below `lg` the info tiles become one horizontal,
+snap-scrolling row that bleeds to the viewport edges (`.tile-row`) instead of
+wrapping into a grid.
+
+The FAQ is a single-open accordion. The answer panel is a _sibling_ of the
+question button (the earlier build nested it inside the button, which broke
+the open state), animated with `grid-template-rows: 0fr → 1fr`. All five items
+carry an answer; the copy is placeholder.
 
 ## Gallery
 
@@ -186,30 +194,86 @@ stickers). Two details worth knowing:
   anything inside never escapes — a CSS `:hover { z-index }` on the card did
   nothing.
 - Bounds are explicit numbers in the stage's own coordinates. Passing the stage
-  element to Draggable uses its *layout* box, which is wider than what's on
+  element to Draggable uses its _layout_ box, which is wider than what's on
   screen once `--gallery-scale` shrinks it; local numbers scale with the stage,
   so the clamp matches the visible edge at every width.
 
 ## Ticket stubs
 
 The tier cards are landscape **ticket stubs** (`TicketStub`, from Figma
-2179:33880): ticket paper with perforated ends and scooped corners, a white
-inner body, and centred content — a "★ ★ GENERAL ADMISSION ★ ★" line, the tier
-name as Daltown artwork, "From ⃀ price" and a yellow "Get your ticket" button.
-Paper is grey (`#d4d4d8`); a tier with `featured: true` gets brand-yellow paper
-(the weekend pass in the comp). The comp draws each stub as a portrait column
-rotated 90°; the component lays the same exported vectors out directly in
-screen orientation (393 × 250.46), so only the strip and body vectors rotate.
+2179:33880 and 2179:35522): ticket paper with perforated ends and scooped
+corners, an inner body, and centred content — a "★ ★ GENERAL ADMISSION ★ ★"
+line, the tier name as Daltown artwork, "From **50 MAD** / Person", a struck
+previous price with "20% off", and the "Get your ticket" button. Two papers:
 
-Neighbouring stubs overlap by 6px so the corner notches of two stubs merge into
-one hole, as in the comp. Three fit edge to edge at 1512, wrap below the column
-width, and scale down as a unit once the viewport is narrower than one stub
-(`--stub-scale`, same `tan(atan2())` trick as the gallery). A draggable guitar
-sticker (`StickerPeel`) sits over the heading at ≥ xl.
+- **Grey** — a photographic paper texture (`stub-paper.jpg` at 80% plus a 10%
+  black wash), a textured light body PNG, and a translucent dark button.
+- **Dark** (`featured: true`, the weekend pass) — a 20% white card with a
+  noise-filtered dark body SVG, white text (the title artwork is inverted in
+  CSS) and the brand-yellow button.
 
-Tier data is `{ kicker, title, titleArt, priceFrom, cta, featured? }`. The comp
-reads "From 50" on all three tiers; the earlier revision priced them 50 / 300 /
-1,000, which is what ships until content confirms.
+The comp draws each stub as a portrait column rotated 90°; the component lays
+the same exports out in screen orientation (403 × 250 grey, 393 × 250 dark —
+the dark card is 12px shorter in the comp) so only the strip and body artwork
+rotate. Neighbouring stubs overlap by 6px so the corner notches merge into one
+hole; each stub passes its width to `.ticket-stub-box` through `--stub-w`, and
+the row scales down as a unit below one stub's width (`--stub-scale`).
+
+Tier data is `{ kicker, title, titleArt, priceFrom, currency, wasPrice?,
+discount?, cta, featured? }`. Prices follow the comp (50 / 100 / 500 MAD, was
+70 / 120 / 700). Note the comp styles the discount row differently on the two
+papers (10px struck price with a currency glyph on grey, 12px bold "120 MAD"
+on dark) — reproduced as drawn; worth unifying with design.
+
+## Header, menus and the floating player
+
+`SiteHeader` is a client component. Its buttons are the design system's
+**Secondary** style (5% white fill, 0.5px 10% white border):
+
+- **Account** (`AccountMenu`, Figma 2091:45854) — name/email, "View profile",
+  My bookings, Wallet with balance, Logout. Pass `user={null}` for the
+  logged-out "Login / sign up" header the homepage comp shows; the mock
+  session is on by default so the menu can be tried on every page.
+- **Globe** (`LocaleMenu`, 2091:45844) — language and currency radio groups.
+  UI state only for now; wire `onLanguage` / `onCurrency` to i18n when ready.
+- **Menu** (`SiteMenu`, 15:790) — full-screen: yellow panel with the
+  luminosity-blended photo and wordmark, Roboto Black navigation, social links
+  and copyright. Locks page scroll, closes on Escape, animates in with GSAP.
+
+Popovers close on outside click and Escape; only one is open at a time.
+
+On the event page, `MiniPlayer` slides in at the bottom once the deck scrolls
+out of view: cover (spins while playing), title/artist, previous / play-pause
+/ next. Prev/next run the deck's real arm-and-disc swap through a
+`stepRequest` prop on `VinylCarousel`; the cover scrolls back to the deck. It
+is rendered as a sibling of the hero section, not inside it — the section is a
+stacking context and a `position: fixed` child would paint under later
+sections.
+
+## Homepage
+
+`src/app/page.tsx`, from Figma 15:202. Sections in `src/components/home/`:
+
+- **HomeHero** — "MORE MUSIC MORE LIFE" as Daltown artwork (786 × 416 text
+  box), intro, and the comp's four yellow equaliser bars animated.
+- **FestivalsStage** — the five poster exports in their fixed 1901.63 × 526
+  composition, scaled with the viewport (`--home-stage-scale`) so it bleeds
+  the same proportion past both edges. Side posters are grey (the comp's
+  luminosity blend) and come back to colour on hover, which also swaps the
+  name under the row. **Press & hold spacebar** (or press the centre poster)
+  plays the featured festival's preview and stops on release. The posters are
+  drawn in perspective _per slot_, so rotating them through the slots would
+  need flat poster exports — hence a fixed composition, not a carousel.
+- **NewsSection** — three paper cards with image tiles and "Load more"; the
+  yellow scribble around "NEWS" is inlined SVG that draws itself on first view.
+- **HomeGallery** — two rows of 404 × 269 tiles drifting in opposite
+  directions on a GSAP loop, slowed on hover. The comp shows empty grey tiles;
+  the event photos fill them here — swap `galleryRows` in `data/home.ts`.
+- **Partners** reuse the event page's `SponsorsSection`; **NewsletterSection**
+  is the yellow headline + pill button (the comp has no input field).
+
+Festival names other than Jazzablanca are read off the poster artwork and
+marked as placeholders in `data/home.ts`.
 
 ## Performance notes
 
@@ -236,8 +300,9 @@ after this pass. What mattered, in order:
 
 - **Day two of the artist lineup** isn't in the Figma. The tab is wired and
   populated with a resequenced day one — replace `artistDays[1]`.
-- **FAQ copy** is the placeholder text from the comp (the same headline five
-  times, one answer). Replace in `data/events.ts`.
+- **FAQ and news copy** are placeholders (`data/events.ts`, `data/home.ts`).
+- **Menu links** other than Festivals / News point at anchors that don't exist
+  yet (About us, Team, Careers).
 - **Audio licensing** — see "Where the audio comes from" above.
 - **Smooth scroll** (Lenis or similar) is the one obvious motion piece not
   included — it interacts with ScrollTrigger and the scaled stages in ways worth

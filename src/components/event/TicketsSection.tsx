@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
 import { DISPLAY_ART, DisplayHeading } from "@/components/ui/DisplayHeading";
-import { TicketStub } from "./TicketStub";
+import { TicketStub, stubWidth } from "./TicketStub";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 
 export function TicketsSection({ event }: { event: EventDetails }) {
@@ -73,7 +73,11 @@ export function TicketsSection({ event }: { event: EventDetails }) {
           data-reveal-stagger
         >
           {event.ticketTiers.map((tier) => (
-            <div key={tier.id} className="ticket-stub-box">
+            <div
+              key={tier.id}
+              className="ticket-stub-box"
+              style={{ "--stub-w": `${stubWidth(tier)}px` } as React.CSSProperties}
+            >
               <div className="ticket-stub-scale">
                 <TicketStub tier={tier} />
               </div>

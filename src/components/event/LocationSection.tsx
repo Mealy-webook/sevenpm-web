@@ -70,14 +70,14 @@ export function LocationSection({ event }: { event: EventDetails }) {
 
           {/* Rules */}
           <div
-            className="flex w-full flex-wrap items-center justify-center gap-8"
+            className="tile-row flex w-full items-stretch gap-8 overflow-x-auto lg:flex-wrap lg:items-center lg:justify-center lg:overflow-visible"
             data-reveal="up"
             data-reveal-stagger
           >
             {infoTiles.map((tile) => (
               <div
                 key={tile.title}
-                className="lift info-tile flex w-[228px] flex-col items-center justify-center gap-4 overflow-hidden border border-ink-600 p-6 text-center"
+                className="lift info-tile flex w-[228px] shrink-0 snap-center flex-col items-center justify-center gap-4 overflow-hidden border border-ink-600 p-6 text-center"
               >
                 <Image
                   src={tile.icon}

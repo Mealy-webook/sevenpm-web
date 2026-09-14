@@ -70,6 +70,7 @@ export function VinylCarousel({
   onPlay,
   onTogglePlay,
   advanceRequest,
+  stepRequest,
   analyser,
 }: {
   tracks: PlaylistTrack[];
@@ -82,6 +83,8 @@ export function VinylCarousel({
   onTogglePlay: () => void;
   /** Bump to run the swap sequence onto the next disc (track ended). */
   advanceRequest: number;
+  /** External prev/next (the floating player): a new `id` runs one step. */
+  stepRequest?: { id: number; dir: -1 | 1 };
   analyser: React.RefObject<AnalyserNode | null>;
 }) {
   /* A ring with at least seven positions gives the swap a hidden buffer on
@@ -230,6 +233,14 @@ export function VinylCarousel({
     select((ringActive + 1) % ringSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [advanceRequest]);
+
+  const lastStep = useRef(stepRequest?.id ?? 0);
+  useEffect(() => {
+    if (!stepRequest || stepRequest.id === lastStep.current) return;
+    lastStep.current = stepRequest.id;
+    select((ringActive + stepRequest.dir + ringSize) % ringSize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepRequest]);
 
   const active = tracks[activeIndex];
   const previousTrack = ring.prev % tracks.length;
