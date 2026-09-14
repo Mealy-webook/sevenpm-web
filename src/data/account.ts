@@ -188,7 +188,7 @@ export const accountNav: AccountNavItem[] = [
     id: "loyalty",
     label: "Loyalty program",
     icon: "/assets/ic-acct-loyalty.svg",
-    href: "/account#loyalty",
+    href: "/account/loyalty",
   },
   {
     id: "profile",
@@ -203,6 +203,202 @@ export const accountNav: AccountNavItem[] = [
     href: "/account/payments",
   },
 ];
+
+/* ------------------------------------------------------------------ *
+ * Loyalty
+ * ------------------------------------------------------------------ */
+
+export type LoyaltyTier = {
+  id: string;
+  name: string;
+  /** Beats needed to reach it. */
+  threshold: number;
+  perks: string[];
+};
+
+export type LoyaltyReward = {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  icon: string;
+};
+
+export type LoyaltyEntry = {
+  id: string;
+  label: string;
+  detail: string;
+  /** Positive earns, negative redeems. */
+  beats: number;
+  dayOffset: number;
+};
+
+/**
+ * The loyalty programme. No Figma comp — built from the account system's own
+ * parts: the wallet's balance card, the payments page's rows and the event
+ * page's chips.
+ *
+ * Points are "Beats": one per dirham spent, which keeps the maths legible on
+ * screen and means every price on the site doubles as its own earn rate.
+ */
+export const loyaltyTiers: LoyaltyTier[] = [
+  {
+    id: "crowd",
+    name: "Crowd",
+    threshold: 0,
+    perks: ["Presale access 24 hours early", "Birthday drink at any bar"],
+  },
+  {
+    id: "front-row",
+    name: "Front row",
+    threshold: 1000,
+    perks: [
+      "Presale access 48 hours early",
+      "10% off merchandise",
+      "Dedicated gate at every festival",
+    ],
+  },
+  {
+    id: "backstage",
+    name: "Backstage",
+    threshold: 5000,
+    perks: [
+      "Presale access 72 hours early",
+      "20% off merchandise",
+      "One guest upgrade a year",
+      "Free parking",
+    ],
+  },
+  {
+    id: "headliner",
+    name: "Headliner",
+    threshold: 12000,
+    perks: [
+      "First refusal on every announcement",
+      "25% off merchandise",
+      "Two guest upgrades a year",
+      "Soundcheck invitations",
+    ],
+  },
+];
+
+/** Where Beats come from. */
+export const loyaltyEarn = [
+  {
+    id: "tickets",
+    label: "Book a ticket",
+    detail: "1 Beat for every dirham, credited when the gate scans it",
+    icon: "/assets/ic-ticket.svg",
+  },
+  {
+    id: "wallet",
+    label: "Top up your wallet",
+    detail: "2 Beats for every dirham you load before the festival",
+    icon: "/assets/ic-wallet.svg",
+  },
+  {
+    id: "merch",
+    label: "Buy merchandise",
+    detail: "1 Beat for every dirham, in the shop or at the stand",
+    icon: "/assets/ic-tshirt-16.svg",
+  },
+  {
+    id: "refer",
+    label: "Bring someone new",
+    detail: "500 Beats each when their first booking is scanned",
+    icon: "/assets/ic-user.svg",
+  },
+];
+
+export const loyaltyRewards: LoyaltyReward[] = [
+  {
+    id: "drink",
+    name: "Drink on us",
+    description: "Any single drink at any SEVENPM bar",
+    cost: 400,
+    icon: "/assets/ic-food.svg",
+  },
+  {
+    id: "parking",
+    name: "VIP parking",
+    description: "One festival day, the gate closest to the stage",
+    cost: 900,
+    icon: "/assets/ic-parking-16.svg",
+  },
+  {
+    id: "tee",
+    name: "Festival T-shirt",
+    description: "Any shirt in the merchandise line-up, your size",
+    cost: 1800,
+    icon: "/assets/ic-tshirt-16.svg",
+  },
+  {
+    id: "upgrade",
+    name: "VIP box upgrade",
+    description: "Move one booking into a VIP box, subject to space",
+    cost: 4500,
+    icon: "/assets/ic-star-16.svg",
+  },
+];
+
+/** Recent movement, newest first. */
+export const loyaltyActivity: LoyaltyEntry[] = [
+  {
+    id: "l1",
+    label: "Jazzablanca — 2 tickets",
+    detail: "Scanned at the main gate",
+    beats: 100,
+    dayOffset: 0,
+  },
+  {
+    id: "l2",
+    label: "Wallet top up",
+    detail: "150 MAD loaded before the festival",
+    beats: 300,
+    dayOffset: 1,
+  },
+  {
+    id: "l3",
+    label: "Drink on us",
+    detail: "Redeemed at the Anfa Park bar",
+    beats: -400,
+    dayOffset: 3,
+  },
+  {
+    id: "l4",
+    label: "Casablanca L'Arche T-shirt",
+    detail: "Merchandise stand, main gate",
+    beats: 50,
+    dayOffset: 6,
+  },
+];
+
+/** What the visitor has banked. */
+export const loyaltyBalance = 2450;
+
+export const loyaltyCopy = {
+  title: "Loyalty program",
+  unit: "Beats",
+  balanceLabel: "Your Beats",
+  memberSince: "Member since 2024",
+  tierLabel: (name: string) => `${name} member`,
+  toNext: (beats: number, tier: string) =>
+    `${beats.toLocaleString("en-US")} Beats to ${tier}`,
+  topTier: "You are at the top tier. Nothing left to climb.",
+  tiersTitle: "Tiers",
+  currentTier: "Where you are",
+  earnTitle: "Ways to earn",
+  rewardsTitle: "Spend your Beats",
+  redeem: "Redeem",
+  redeemed: "Redeemed",
+  short: (beats: number) => `${beats.toLocaleString("en-US")} Beats short`,
+  confirmTitle: "Redeem",
+  confirmBody: (name: string, cost: number) =>
+    `Spend ${cost.toLocaleString("en-US")} Beats on ${name}?`,
+  cancel: "Cancel",
+  activityTitle: "Beats activity",
+  note: "Beats and rewards here are a prototype. Nothing is issued and no balance leaves this page.",
+};
 
 /* ------------------------------------------------------------------ *
  * Bookings
