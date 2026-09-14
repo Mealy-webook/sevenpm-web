@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 
@@ -11,15 +11,16 @@ import { socialLinks } from "@/data/events";
 gsap.registerPlugin(CustomEase);
 
 /**
- * Full-screen menu, from Figma 2227:5808 (1512 × 853). The left panel is a
- * yellow fill with a photo, blended in luminosity against the dark page so it
- * reads as greyscale (as in the comp), with the wordmark on top; the right
- * column is the primary navigation in Roboto Black 72, white, right-aligned,
- * with 5% hairlines between entries.
+ * Menu, from Figma 2231:12258 (collapsed) and 2231:12302 (Festivals open).
+ *
+ * A right-hand drawer 765 wide over the dimmed page: a 525 column inside a
+ * 120 gutter, entries in Roboto Black 72 right-aligned with a hairline under
+ * each, then the socials and the copyright. Festivals carries the four
+ * festivals and opens them on click rather than listing them at rest.
  *
  * Motion follows the kinetic-navigation reference: three backdrop layers wipe
  * across one after another, the links drop in rotated behind a CSS mask, and
- * an ambient shape lights up behind whichever entry is hovered. Closing plays
+ * an ambient wash lights up behind whichever entry is hovered. Closing plays
  * in reverse and only then tells the header to unmount us — which is why
  * every dismissal goes through `requestClose`.
  *
@@ -41,6 +42,7 @@ type MenuLink = { label: string; href: string };
 type MenuEntry = MenuLink & { children?: MenuLink[] };
 
 export const MENU_LINKS: MenuEntry[] = [
+  { label: "Home", href: "/" },
   {
     label: "Festivals",
     href: "/#festivals",
@@ -61,7 +63,6 @@ function AmbientShapes() {
   return (
     <div
       aria-hidden
-      data-menu-shapes
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
       {MENU_LINKS.map((entry, index) => (
@@ -70,16 +71,16 @@ function AmbientShapes() {
           data-menu-shape={index}
           viewBox="0 0 400 400"
           preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-y-0 right-0 h-full w-full opacity-0 lg:w-[60%]"
+          className="absolute inset-0 h-full w-full opacity-0"
         >
-          {index === 0 && (
+          {index % 4 === 0 && (
             <>
               <circle data-shape-el cx="300" cy="110" r="90" fill="rgba(251,235,28,0.10)" />
               <circle data-shape-el cx="140" cy="250" r="60" fill="rgba(255,255,255,0.06)" />
               <circle data-shape-el cx="330" cy="310" r="40" fill="rgba(251,235,28,0.08)" />
             </>
           )}
-          {index === 1 && (
+          {index % 4 === 1 && (
             <>
               <path
                 data-shape-el
@@ -97,7 +98,7 @@ function AmbientShapes() {
               />
             </>
           )}
-          {index === 2 && (
+          {index % 4 === 2 && (
             <>
               {[70, 160, 250, 340].map((y) =>
                 [90, 200, 310].map((x) => (
@@ -113,7 +114,7 @@ function AmbientShapes() {
               )}
             </>
           )}
-          {index === 3 && (
+          {index % 4 === 3 && (
             <>
               <line
                 data-shape-el
@@ -141,6 +142,9 @@ function AmbientShapes() {
   );
 }
 
+const ENTRY_TYPE =
+  "block font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]";
+
 export function SiteMenu({
   open,
   onClose,
@@ -150,25 +154,24 @@ export function SiteMenu({
 }) {
   const root = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const submenu = useRef<HTMLDivElement>(null);
   const leaving = useRef(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const submenuId = useId();
   const year = new Date().getFullYear();
 
   /**
    * Play the exit, then unmount. Every dismissal routes through here so the
-   * menu is never yanked off screen — except a link, which navigates anyway.
+   * drawer is never yanked off screen — except a link, which navigates anyway.
    */
   const requestClose = () => {
     const el = root.current;
-    if (!el || leaving.current) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!el || leaving.current || reduce) {
       onClose();
       return;
     }
     leaving.current = true;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      onClose();
-      return;
-    }
     gsap
       .timeline({ onComplete: onClose })
       .to(el.querySelector("[data-menu-overlay]"), {
@@ -183,7 +186,7 @@ export function SiteMenu({
       );
   };
 
-  // Lock the page behind the menu and close on Escape.
+  // Lock the page behind the drawer and close on Escape.
   useEffect(() => {
     if (!open) return;
     leaving.current = false;
@@ -198,7 +201,7 @@ export function SiteMenu({
       document.body.style.overflow = previous;
       document.removeEventListener("keydown", onKey);
     };
-    // `requestClose` is stable enough for this: it only reads refs and props.
+    // `requestClose` only reads refs and props, so it needn't be a dependency.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, onClose]);
 
@@ -214,26 +217,26 @@ export function SiteMenu({
       gsap
         .timeline({ defaults: { ease: EASE, duration: 0.7 } })
         .fromTo("[data-menu-overlay]", { autoAlpha: 0 }, { autoAlpha: 1 })
+        .fromTo(
+          "[data-menu-sheet]",
+          { xPercent: 110 },
+          { xPercent: 0, duration: 0.75 },
+          "<",
+        )
         // The three layers wipe across one behind the other — yellow, grey,
-        // then the ground the menu actually sits on.
+        // then the ground the drawer actually sits on.
         .fromTo(
           "[data-menu-layer]",
           { xPercent: 101 },
           { xPercent: 0, stagger: 0.12, duration: 0.575 },
-          "<",
-        )
-        .fromTo(
-          "[data-menu-panel]",
-          { scale: 1.06, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.9 },
-          "<+=0.3",
+          "<+=0.1",
         )
         // Masked by `.menu-mask`, so the rotation reads as a card dropping in.
         .fromTo(
           "[data-menu-link]",
           { yPercent: 140, rotate: 10 },
           { yPercent: 0, rotate: 0, stagger: 0.05 },
-          "<+=0.05",
+          "<+=0.2",
         )
         .fromTo(
           "[data-menu-rule]",
@@ -306,6 +309,36 @@ export function SiteMenu({
     };
   }, [open]);
 
+  /**
+   * The submenu. Height is animated rather than toggled so the rules below it
+   * slide rather than jump; the festivals themselves drop in like the entries
+   * above them.
+   */
+  useEffect(() => {
+    const el = submenu.current;
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!openGroup) {
+      if (reduce) gsap.set(el, { height: 0 });
+      else gsap.to(el, { height: 0, duration: 0.4, ease: EASE });
+      return;
+    }
+
+    const items = el.querySelectorAll("[data-menu-sub-link]");
+    if (reduce) {
+      gsap.set(el, { height: "auto" });
+      return;
+    }
+    gsap.set(el, { height: "auto" });
+    gsap.from(el, { height: 0, duration: 0.55, ease: EASE });
+    gsap.fromTo(
+      items,
+      { yPercent: 140, rotate: 8 },
+      { yPercent: 0, rotate: 0, duration: 0.6, stagger: 0.05, ease: EASE },
+    );
+  }, [openGroup]);
+
   if (!open) return null;
 
   return (
@@ -315,7 +348,7 @@ export function SiteMenu({
       aria-modal="true"
       aria-label="Menu"
       data-lenis-prevent
-      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain"
+      className="fixed inset-0 z-50"
     >
       <button
         type="button"
@@ -323,10 +356,13 @@ export function SiteMenu({
         aria-hidden
         data-menu-overlay
         onClick={requestClose}
-        className="fixed inset-0 cursor-default bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 cursor-default bg-black/70 backdrop-blur-sm"
       />
 
-      <div data-menu-sheet className="relative min-h-full">
+      <div
+        data-menu-sheet
+        className="absolute inset-y-0 right-0 flex w-full max-w-[765px] flex-col overflow-y-auto overscroll-contain"
+      >
         {/* The curtain: three layers, wiped in one after another */}
         <div aria-hidden className="absolute inset-0 overflow-hidden">
           <div data-menu-layer className="absolute inset-0 bg-brand" />
@@ -336,14 +372,15 @@ export function SiteMenu({
 
         <AmbientShapes />
 
-        <div className="shell relative flex min-h-full flex-col gap-8 py-6 xl:py-14">
-          <div className="flex w-full items-center justify-end">
+        {/* 525 column inside a 120 gutter, as the comp sets it */}
+        <div className="relative flex min-h-full flex-col px-6 py-8 sm:px-12 xl:px-[120px] xl:py-14">
+          <div className="flex w-full justify-end">
             <button
               ref={closeButton}
               type="button"
               aria-label="Close menu"
               onClick={requestClose}
-              className="flex size-[60px] cursor-pointer items-center justify-center bg-[rgba(37,37,37,0.5)] transition-colors hover:bg-[rgba(37,37,37,0.9)]"
+              className="flex size-[52px] cursor-pointer items-center justify-center bg-[rgba(37,37,37,0.5)] transition-colors hover:bg-[rgba(37,37,37,0.9)]"
             >
               <Image
                 src="/assets/ic-close.svg"
@@ -355,82 +392,87 @@ export function SiteMenu({
             </button>
           </div>
 
-          <div className="flex w-full flex-col gap-8 lg:flex-row lg:items-stretch lg:justify-end">
-            {/* Left panel */}
-            <div
-              data-menu-panel
-              className="relative flex min-h-[320px] w-full shrink-0 flex-col items-center justify-end overflow-hidden bg-brand p-10 mix-blend-luminosity lg:min-h-0 lg:w-[511px]"
-            >
-              <Image
-                src="/assets/menu-panel.jpg"
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 511px, 100vw"
-                priority
-                className="object-cover"
-              />
-              <Image
-                src="/assets/menu-logo.png"
-                alt="SEVENPM"
-                width={397}
-                height={62}
-                unoptimized
-                className="relative h-auto w-[80%] max-w-[409px]"
-              />
-            </div>
-
-            {/* Navigation */}
-            <nav
-              aria-label="Primary"
-              className="flex min-w-0 flex-1 flex-col items-end justify-center gap-6"
-            >
-              {MENU_LINKS.map((entry, index) => (
+          <nav
+            aria-label="Primary"
+            className="mt-8 flex w-full flex-col items-end gap-6"
+          >
+            {MENU_LINKS.map((entry, index) => {
+              const expanded = openGroup === entry.label;
+              return (
                 <div
                   key={entry.label}
                   data-menu-entry={index}
                   className="flex w-full flex-col items-end gap-6"
                 >
                   <span className="menu-mask">
-                    <Link
-                      href={entry.href}
-                      data-menu-link
-                      onClick={onClose}
-                      className="menu-link block font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]"
-                    >
-                      {entry.label}
-                    </Link>
+                    {entry.children ? (
+                      <button
+                        type="button"
+                        data-menu-link
+                        aria-expanded={expanded}
+                        aria-controls={submenuId}
+                        onClick={() =>
+                          setOpenGroup(expanded ? null : entry.label)
+                        }
+                        /* The comp keeps the expanded entry white, so the
+                           only colour cue is hover. */
+                        className={`${ENTRY_TYPE} cursor-pointer`}
+                      >
+                        {entry.label}
+                      </button>
+                    ) : (
+                      <Link
+                        href={entry.href}
+                        data-menu-link
+                        onClick={onClose}
+                        className={`menu-link ${ENTRY_TYPE}`}
+                      >
+                        {entry.label}
+                      </Link>
+                    )}
                   </span>
+
                   {entry.children && (
-                    <ul className="m-0 flex list-none flex-col items-end gap-4 p-0">
-                      {entry.children.map((child) => (
-                        <li key={child.label} className="menu-mask">
-                          <Link
-                            href={child.href}
-                            data-menu-link
-                            onClick={onClose}
-                            className="block font-[family-name:var(--font-display)] text-[20px] uppercase leading-[0.8] tracking-[-0.02em] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    <div
+                      /* One ref serves the single group in MENU_LINKS. Give
+                         each group its own ref if a second one appears. */
+                      ref={submenu}
+                      id={submenuId}
+                      className="h-0 w-full overflow-hidden"
+                    >
+                      <ul className="m-0 flex list-none flex-col items-end gap-4 p-0">
+                        {entry.children.map((child) => (
+                          <li key={child.label} className="menu-mask">
+                            <Link
+                              href={child.href}
+                              data-menu-sub-link
+                              tabIndex={expanded ? undefined : -1}
+                              onClick={onClose}
+                              className="block font-[family-name:var(--font-display)] text-[20px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
+
                   <span
                     data-menu-rule
-                    className="block h-px w-full bg-white/5"
+                    className="block h-px w-full bg-white/10"
                     aria-hidden
                   />
                 </div>
-              ))}
-            </nav>
-          </div>
+              );
+            })}
+          </nav>
 
-          <div className="flex w-full flex-col items-center gap-4">
+          <div className="mt-auto flex w-full flex-col items-end gap-6 pt-12">
             <nav
               aria-label="Social"
               data-menu-meta
-              className="flex w-full flex-wrap items-center justify-end gap-6"
+              className="flex w-full flex-wrap items-center justify-end gap-x-6 gap-y-4"
             >
               {socialLinks.map((link) => (
                 <a
@@ -438,7 +480,7 @@ export function SiteMenu({
                   href={link.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
+                  className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
                 >
                   {link.label}
                 </a>
