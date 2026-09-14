@@ -1,6 +1,7 @@
 /**
  * Careers. Placeholder roles written around the team on seven-pm.com —
- * replace with the real openings (or a feed) before launch.
+ * replace with the real openings (or a feed) before launch. `/careers` lists
+ * these and `/careers/[id]` renders one.
  */
 
 export type JobRole = {
@@ -10,6 +11,17 @@ export type JobRole = {
   location: string;
   /** Full time, seasonal, internship… */
   type: string;
+  /** One line under the title on the detail page. */
+  summary: string;
+  postedIso: string;
+  postedLabel: string;
+  reportsTo: string;
+  starts: string;
+  /** Opening paragraphs of the detail page. */
+  about: string[];
+  responsibilities: string[];
+  requirements: string[];
+  niceToHave: string[];
 };
 
 export const careersCopy = {
@@ -21,12 +33,31 @@ export const careersCopy = {
   empty:
     "No roles are open right now. Send us a line anyway — we keep every application.",
   applyCta: "Apply",
+  viewRole: "View role",
   speculativeTitle: "Nothing that fits?",
   speculativeBody:
     "Write to us with what you do and the festival you would want to work on. We read everything and keep good applications on file for the next season.",
   speculativeCta: "Write to us",
   email: "hello@seven-pm.com",
   perksTitle: "What it's like",
+  role: {
+    back: "All roles",
+    about: "About the role",
+    responsibilities: "What you'll do",
+    requirements: "What you bring",
+    niceToHave: "Nice to have",
+    summary: "At a glance",
+    team: "Team",
+    location: "Location",
+    type: "Contract",
+    starts: "Starts",
+    reportsTo: "Reports to",
+    posted: "Posted",
+    applyTitle: "Sound like you?",
+    applyBody:
+      "Send a CV and a short note about the festivals you've worked on. No cover letter needed.",
+    other: "Other open roles",
+  },
 };
 
 export const perks = [
@@ -51,6 +82,32 @@ export const jobRoles: JobRole[] = [
     team: "Production",
     location: "Casablanca",
     type: "Seasonal",
+    summary:
+      "Run one of the Anfa Park stages across Jazzablanca and Casa Anfa Latina.",
+    postedIso: "2026-05-28",
+    postedLabel: "28 May, 2026",
+    reportsTo: "Head of Production",
+    starts: "April 2026",
+    about: [
+      "You own a stage for the length of a festival: the running order, the changeovers, and the mood of everyone standing behind the line.",
+      "Our stages turn over fast — eight acts a night on the main stage during Jazzablanca — so the job is equal parts planning in the spring and calm on the night.",
+    ],
+    responsibilities: [
+      "Build and hold the day schedule for your stage, from load-in to curfew",
+      "Run changeovers with the backline and audio crews, and keep them inside the gap",
+      "Meet artists and tour managers on arrival and walk them through the site",
+      "Call the show, and make the decision when weather or a late arrival forces one",
+    ],
+    requirements: [
+      "Three seasons or more managing a stage at a festival or a mid-size venue",
+      "Calm under a running clock, and clear on the radio",
+      "French and Arabic or English; most tour managers arrive with one of them",
+      "Available from April through September, on site for the full festival runs",
+    ],
+    niceToHave: [
+      "Experience with jazz and world-music backlines",
+      "A licence to drive a van around a site",
+    ],
   },
   {
     id: "production-coordinator",
@@ -58,6 +115,32 @@ export const jobRoles: JobRole[] = [
     team: "Production",
     location: "Casablanca",
     type: "Full time",
+    summary:
+      "Hold the production paperwork for all four festivals, year round.",
+    postedIso: "2026-05-28",
+    postedLabel: "28 May, 2026",
+    reportsTo: "Head of Production",
+    starts: "As soon as you can",
+    about: [
+      "Every artist we book arrives with a rider, a flight, a hotel and a set of questions. You are the person who answers them, and the reason nothing lands on site as a surprise.",
+      "The role runs across the whole season: advancing in the winter and spring, on site through the summer.",
+    ],
+    responsibilities: [
+      "Advance riders with tour managers and turn them into site-ready documents",
+      "Book travel, hotels and ground transport for artists and crew",
+      "Keep the production schedule current and share it with everyone who needs it",
+      "Handle accreditation, passes and the guest lists at each festival",
+    ],
+    requirements: [
+      "Two years coordinating live events, or a season on a festival production team",
+      "Fluent written French and English; Arabic an advantage",
+      "Fast and accurate with spreadsheets — this job lives in them",
+      "The instinct to chase an unanswered email before it becomes a problem",
+    ],
+    niceToHave: [
+      "Experience with Moroccan customs paperwork for touring equipment",
+      "A second season under a festival's belt",
+    ],
   },
   {
     id: "partnerships-manager",
@@ -65,6 +148,32 @@ export const jobRoles: JobRole[] = [
     team: "Commercial",
     location: "Casablanca",
     type: "Full time",
+    summary:
+      "Build the sponsor side of the season, from first meeting to on-site activation.",
+    postedIso: "2026-05-28",
+    postedLabel: "28 May, 2026",
+    reportsTo: "Sales Director",
+    starts: "As soon as you can",
+    about: [
+      "Our partners pay for a good part of the season, and the good ones bring something to it — a stage, a bar, a workshop, a reason for people to stop walking.",
+      "You find them, agree what they get, and then make sure what was promised actually happens on site.",
+    ],
+    responsibilities: [
+      "Build and work a pipeline of brands across Morocco and the region",
+      "Write proposals and negotiate contracts alongside the Sales Director",
+      "Turn each deal into a delivery plan with production and communications",
+      "Report back to partners after each festival with what they actually got",
+    ],
+    requirements: [
+      "Three years in sponsorship, media sales or brand partnerships",
+      "A network in Morocco you can pick up the phone to",
+      "French and English; Arabic strongly preferred",
+      "Comfortable being on site while your partners are there",
+    ],
+    niceToHave: [
+      "Experience selling into culture and sport",
+      "A portfolio of activations you can walk us through",
+    ],
   },
   {
     id: "social-media-lead",
@@ -72,6 +181,32 @@ export const jobRoles: JobRole[] = [
     team: "Communications",
     location: "Casablanca",
     type: "Full time",
+    summary:
+      "Own the voice of four festivals across the channels people actually use.",
+    postedIso: "2026-05-28",
+    postedLabel: "28 May, 2026",
+    reportsTo: "PR Manager",
+    starts: "As soon as you can",
+    about: [
+      "Announcements, line-up drops, ticket reminders and ten days of live coverage a summer — you plan all of it and shoot most of it.",
+      "The job is as much editing on a phone at midnight as it is a content calendar in March.",
+    ],
+    responsibilities: [
+      "Plan and publish across Instagram, TikTok, X and YouTube for all four festivals",
+      "Shoot and cut short-form video on site, often the same night",
+      "Brief and work with photographers and videographers during the runs",
+      "Watch the numbers and tell us plainly what worked",
+    ],
+    requirements: [
+      "Two years running social for a brand, venue or festival",
+      "You edit your own video, quickly",
+      "Darija and French for the audience, English for the artists",
+      "A feed or a portfolio that shows your taste",
+    ],
+    niceToHave: [
+      "Photography that can stand on its own",
+      "Paid social and community management experience",
+    ],
   },
   {
     id: "ticketing-support",
@@ -79,6 +214,32 @@ export const jobRoles: JobRole[] = [
     team: "Support",
     location: "Casablanca",
     type: "Seasonal",
+    summary:
+      "Answer the people buying tickets, before and during the festivals.",
+    postedIso: "2026-05-28",
+    postedLabel: "28 May, 2026",
+    reportsTo: "Head of Support",
+    starts: "May 2026",
+    about: [
+      "Every presale brings a wave of questions: a card that did not go through, a name to change, a wristband that will not scan at the gate.",
+      "You answer them, in the language the person wrote in, and you flag what keeps coming up so we can fix the cause.",
+    ],
+    responsibilities: [
+      "Answer email, chat and social messages about bookings and wallets",
+      "Work the box office and the accreditation desk during the festivals",
+      "Resolve payment and transfer problems with the ticketing platform",
+      "Keep a list of what people ask most, and help us fix it",
+    ],
+    requirements: [
+      "Written Darija, French and English",
+      "Patience, and a clear way of writing a short answer",
+      "Available evenings and weekends through the season",
+      "Comfortable on your feet at the gate for a ten-day run",
+    ],
+    niceToHave: [
+      "Experience with a ticketing back office",
+      "A first season on a festival, in any role",
+    ],
   },
   {
     id: "design-intern",
@@ -86,5 +247,31 @@ export const jobRoles: JobRole[] = [
     team: "Studio",
     location: "Casablanca",
     type: "Internship",
+    summary: "Six months in the studio, on real festival work.",
+    postedIso: "2026-05-28",
+    postedLabel: "28 May, 2026",
+    reportsTo: "Graphic & Web Designer",
+    starts: "January 2026",
+    about: [
+      "You sit with our designer and work on what the season actually needs: line-up posts, stage signage, ticket artwork, the odd page on this site.",
+      "It is a real brief with real deadlines, and your work goes out under the festival's name.",
+    ],
+    responsibilities: [
+      "Adapt campaign artwork across social, print and on-site formats",
+      "Prepare files for print and for the web",
+      "Help keep the asset library in order",
+      "Bring your own ideas to the weekly studio review",
+    ],
+    requirements: [
+      "Studying design, or just finished",
+      "Comfortable in Figma and the Adobe suite",
+      "A portfolio, however small, that shows how you think",
+      "Based in Casablanca for the six months",
+    ],
+    niceToHave: ["Motion or 3D", "A love of music posters"],
   },
 ];
+
+export function getRole(id: string) {
+  return jobRoles.find((role) => role.id === id);
+}

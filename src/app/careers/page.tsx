@@ -129,11 +129,9 @@ export default function CareersPage() {
                     key={role.id}
                     className="group border-b border-border-tertiary transition-colors hover:border-white/25"
                   >
-                    <a
-                      href={`mailto:${careersCopy.email}?subject=${encodeURIComponent(
-                        `${role.title} — application`,
-                      )}`}
-                      data-cursor="Apply"
+                    <Link
+                      href={`/careers/${role.id}`}
+                      data-cursor="Open"
                       className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <span className="flex min-w-0 flex-col gap-2">
@@ -148,10 +146,10 @@ export default function CareersPage() {
                       </span>
                       <span className="btn-secondary flex shrink-0 items-center justify-center self-start px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary sm:self-auto">
                         <span className="flex h-5 items-center">
-                          {careersCopy.applyCta}
+                          {careersCopy.viewRole}
                         </span>
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ol>

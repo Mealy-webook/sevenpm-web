@@ -22,6 +22,7 @@ npm run dev
 | `/news`             | no comp — newsroom index                                                           | Built  |
 | `/news/[slug]`      | no comp — article                                                                  | Built  |
 | `/careers`          | no comp — open roles                                                               | Built  |
+| `/careers/[id]`     | no comp — one open role                                                            | Built  |
 | `/account`          | `2173:25780` / `2173:25975` — Bookings (empty and filled)                          | Built  |
 | `/account/wallet`   | `2196:12516` — Wallet                                                              | Built  |
 | `/account/profile`  | `2173:26214` — Profile                                                             | Built  |
@@ -45,6 +46,7 @@ src/
     news/page.tsx           newsroom index
     news/[slug]/page.tsx    one article
     careers/page.tsx        open roles
+    careers/[id]/page.tsx   one role
     events/[slug]/page.tsx  the event details page — composes the sections
   components/
     layout/                 SiteHeader (+ AccountMenu, LocaleMenu, SiteMenu), SiteFooter
@@ -455,7 +457,11 @@ action — so Payments and Profile are the same object with different data.
   live in `data/news.ts`, and the homepage's three cards are the first three
   entries of that same list, so the two can never drift.
 - **`/careers`** — the event page's info tiles for "what it's like", then the
-  open roles as an index; each role opens a pre-addressed e-mail.
+  open roles as an index.
+- **`/careers/[id]`** — the article page's shape for one role: back link, meta
+  line, headline, summary, then what you'll do and what you bring. An "at a
+  glance" card sticks to the right with the contract facts and the apply
+  button, which opens a pre-addressed e-mail; the other roles follow.
 
 All of this copy is placeholder, written around what seven-pm.com states.
 
