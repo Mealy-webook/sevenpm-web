@@ -8,9 +8,10 @@ import type { JobRole } from "@/data/careers";
 import { applyCopy, careersCopy } from "@/data/careers";
 
 /**
- * Apply dialog, from Figma 2231:10633: a 402px sheet centred over the page,
- * rounded at the top, with the role in the header, the fields stacked in the
- * body and one full-width CTA in the dock.
+ * Apply dialog, from Figma 2231:10633: a 402px sheet centred over the page
+ * with the role in the header, the fields stacked in the body and one
+ * full-width CTA in the dock. Square corners, like every other surface on
+ * the site — the comps round this one, and we do not.
  *
  * It renders through a portal on `document.body`. That is not optional: the
  * Apply buttons sit inside elements MotionProvider animates, and a
@@ -197,10 +198,10 @@ export function ApplyDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${baseId}-title`}
-        className="my-auto flex h-fit w-full max-w-[402px] flex-col rounded-t-[38px] bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
+        className="my-auto flex h-fit w-full max-w-[402px] flex-col bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
       >
         {/* Header */}
-        <div className="flex items-start gap-2 rounded-t-[38px] px-5 pt-5 backdrop-blur-[32px]">
+        <div className="flex items-start gap-2 px-5 pt-5 backdrop-blur-[32px]">
           <h2
             id={`${baseId}-title`}
             className="m-0 flex-1 truncate font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"

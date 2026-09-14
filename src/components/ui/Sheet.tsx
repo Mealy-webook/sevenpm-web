@@ -165,7 +165,11 @@ export function SheetField({
   autoComplete,
   maxLength,
   placeholder,
+  leading,
   trailing,
+  type = "text",
+  disabled = false,
+  autoFocus = false,
   className = "",
 }: {
   id: string;
@@ -177,7 +181,13 @@ export function SheetField({
   autoComplete?: string;
   maxLength?: number;
   placeholder?: string;
+  /** Fixed content before the input, such as a dial code. */
+  leading?: React.ReactNode;
   trailing?: React.ReactNode;
+  type?: string;
+  /** Read-only rows, like the address carried into sign-up. */
+  disabled?: boolean;
+  autoFocus?: boolean;
   className?: string;
 }) {
   const filled = value.length > 0;
@@ -186,8 +196,9 @@ export function SheetField({
       <div
         className={`flex min-w-0 items-center gap-2 border bg-white/5 px-4 py-2 transition-colors focus-within:border-content-primary ${
           error ? "border-[#ff6c6c]" : "border-white/10"
-        }`}
+        } ${disabled ? "opacity-60" : ""}`}
       >
+        {leading}
         <span className="flex h-9 min-w-0 flex-1 flex-col justify-center">
           {filled && (
             <span
@@ -209,6 +220,9 @@ export function SheetField({
             inputMode={inputMode}
             autoComplete={autoComplete}
             maxLength={maxLength}
+            type={type}
+            disabled={disabled}
+            autoFocus={autoFocus}
             className={`w-full bg-transparent font-[family-name:var(--font-display)] text-content-primary caret-brand outline-none placeholder:text-content-secondary ${
               filled
                 ? "text-[15px] font-semibold leading-[22px] tracking-[0.19px]"

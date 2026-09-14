@@ -8,6 +8,9 @@ import { createPortal } from "react-dom";
  * and two equal buttons. No close button — cancelling is one of the two
  * actions, so a third way out would only add noise.
  *
+ * Square corners. The comp rounds the top 38px; every surface on this site
+ * is square, so the dialogs are too.
+ *
  * It renders through a portal on `document.body`, like the booking sheets: a
  * transformed ancestor becomes the containing block for `position: fixed`,
  * and the rows that open this sit inside elements MotionProvider animates.
@@ -67,9 +70,9 @@ export function ConfirmDialog({
           aria-modal="true"
           aria-labelledby={titleId}
           aria-describedby={bodyId}
-          className="flex w-full flex-col rounded-t-[38px] bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
+          className="flex w-full flex-col bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
         >
-          <div className="flex flex-col gap-1 rounded-t-[38px] px-5 py-5 backdrop-blur-[32px]">
+          <div className="flex flex-col gap-1 px-5 py-5 backdrop-blur-[32px]">
             <h2
               id={titleId}
               className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { AccountMenu, type AccountUser } from "./AccountMenu";
+import { AuthDialog } from "@/components/auth/AuthDialog";
 import { useSignedIn } from "@/components/auth/session";
+import { authCopy } from "@/data/auth";
 import { LocaleMenu, type CurrencyCode, type LanguageCode } from "./LocaleMenu";
 import { SiteMenu } from "./SiteMenu";
 
@@ -46,6 +48,7 @@ export function SiteHeader({
   const account = signedIn ? user : null;
   const [popover, setPopover] = useState<Popover>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
   const [language, setLanguage] = useState<LanguageCode>("en");
   const [currency, setCurrency] = useState<CurrencyCode>("MAD");
   const [hidden, setHidden] = useState(false);
@@ -144,12 +147,13 @@ export function SiteHeader({
               </span>
             </button>
           ) : (
-            <a
-              href="#login"
-              className="flex h-[52px] items-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
+            <button
+              type="button"
+              onClick={() => setAuthOpen(true)}
+              className="flex h-[52px] cursor-pointer items-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
             >
-              Login / sign up
-            </a>
+              {authCopy.open}
+            </button>
           )}
 
           <button
@@ -220,6 +224,7 @@ export function SiteHeader({
       </div>
 
       <SiteMenu open={menuOpen} onClose={closeMenu} />
+      {authOpen && <AuthDialog onClose={() => setAuthOpen(false)} />}
     </header>
   );
 }
