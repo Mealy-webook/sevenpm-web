@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import type { Totals } from "./cart";
+import { Confetti } from "@/components/ui/Confetti";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { bookingCopy, formatMoney } from "@/data/booking";
 
@@ -19,6 +20,11 @@ gsap.registerPlugin(ScrollTrigger);
  * row is scrolled into place. The layout is the fanned row at all times; GSAP
  * only transforms each card back onto the pile and scrubs it off again, so
  * nothing reflows while they move.
+ *
+ * Confetti fires once on arrival and the hero lands a piece at a time: this
+ * is the one screen in the journey where nothing is left to do, so it is the
+ * one place a flourish is not in the way. All of it sits out under
+ * prefers-reduced-motion.
  */
 
 type ConfirmationEvent = {
@@ -162,6 +168,43 @@ export function BookingConfirmation({
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
   const cardsRoot = useRef<HTMLDivElement>(null);
+  const hero = useRef<HTMLElement>(null);
+
+  /** The hero lands a piece at a time, top to bottom. */
+  useEffect(() => {
+    const el = hero.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from("[data-hero-sticker]", {
+          scale: 0.4,
+          rotate: -14,
+          opacity: 0,
+          duration: 0.9,
+          ease: "back.out(1.7)",
+        })
+        .from(
+          "[data-hero-title]",
+          { yPercent: 40, opacity: 0, duration: 0.8 },
+          "-=0.5",
+        )
+        .from(
+          "[data-hero-body]",
+          { y: 16, opacity: 0, duration: 0.7 },
+          "-=0.55",
+        )
+        .from(
+          "[data-hero-action]",
+          { y: 16, opacity: 0, duration: 0.6, stagger: 0.08 },
+          "-=0.45",
+        );
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
 
   /**
    * Deal the cards out on scroll. Each one starts a column back from where it
@@ -323,11 +366,16 @@ export function BookingConfirmation({
 
   return (
     <>
+      <Confetti />
       <SiteHeader />
       <main className="pb-16">
         {/* Hero */}
-        <section className="shell flex flex-col items-center gap-6 pt-16 text-center">
+        <section
+          ref={hero}
+          className="shell flex flex-col items-center gap-6 pt-16 text-center"
+        >
           <Image
+            data-hero-sticker
             src="/assets/conf-hands.png"
             alt=""
             width={181}
@@ -336,21 +384,26 @@ export function BookingConfirmation({
             priority
           />
           <div className="flex max-w-[642px] flex-col gap-1">
-            <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]">
+            <h1 data-hero-title className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]">
               {copy.title}
             </h1>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary">
+            <p
+              data-hero-body
+              className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary"
+            >
               {copy.body(event.name)}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
+              data-hero-action
               href="/account"
               className="flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
             >
               {copy.viewBooking}
             </Link>
             <button
+              data-hero-action
               type="button"
               onClick={addToCalendar}
               className="flex cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
