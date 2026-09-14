@@ -369,7 +369,7 @@ e-mail under it on the secondary background; below, a 293px sidebar
 (`AccountNav`: Bookings, Wallet with balance, Loyalty program, Profile,
 Payments, divider, Logout — the active row on the yellow accent) sits beside
 the panel (`BookingsPanel`: title, description, Upcoming / Past chips, cards
-or the cassette empty state).
+or the cassette empty state). No footer — the comp is one 853px screen.
 
 Everything comes from `data/account.ts`, a mock session. The one booking is
 dated to the Jazzablanca event, so Upcoming shows the card and Past shows the

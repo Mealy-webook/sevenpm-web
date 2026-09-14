@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { MotionProvider } from "@/components/motion/MotionProvider";
-import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AccountNav } from "@/components/account/AccountNav";
 import { BookingsPanel } from "@/components/account/BookingsPanel";
@@ -17,7 +16,8 @@ export const metadata: Metadata = {
  * Account — bookings, from Figma 2173:25780 (empty) and 2173:25975 (one
  * upcoming booking). The header drops the account button here; the name
  * band is Daltown 160/108 on the secondary background; below it the sidebar
- * and the bookings panel sit in a 32px-gap row.
+ * and the bookings panel sit in a 32px-gap row. No footer — the comp is a
+ * single 853px screen, so the section fills the viewport instead.
  */
 export default function AccountPage() {
   const upcoming = bookings.filter(
@@ -28,7 +28,7 @@ export default function AccountPage() {
     <>
       <MotionProvider />
       <SiteHeader hideAccount />
-      <main>
+      <main className="flex min-h-screen flex-col">
         {/* Name band */}
         <section className="bg-bg-secondary">
           <div className="shell flex flex-col gap-3 pb-12 pt-8">
@@ -51,7 +51,7 @@ export default function AccountPage() {
         </section>
 
         {/* Sidebar + panel */}
-        <section className="min-h-[513px]">
+        <section className="flex-1">
           <div className="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-start">
             <AccountNav
               items={accountNav}
@@ -62,7 +62,6 @@ export default function AccountPage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
     </>
   );
 }
