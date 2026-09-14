@@ -477,6 +477,13 @@ whatever you were reading, with the role in the header, floating-label fields,
 and one CTA in the dock. It owns its state in `ApplyButton`, so both the role
 rows and the role page open the same thing.
 
+It renders through a **portal on `document.body`**, and that is load-bearing.
+The Apply buttons sit inside elements `MotionProvider` animates, and a
+transformed ancestor becomes the containing block for `position: fixed` — left
+in place, the sheet was trapped inside the sidebar card and clipped at the
+viewport edge. Any future overlay rendered from inside page content needs the
+same treatment.
+
 There is still no backend, so sending composes a pre-filled e-mail and says
 so. Two things the comp leaves out and a real launch needs: a privacy or
 consent line next to the submit, and a way to attach a CV — the field asks for

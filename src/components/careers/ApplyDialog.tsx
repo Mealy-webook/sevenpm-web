@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import type { JobRole } from "@/data/careers";
 import { applyCopy, careersCopy } from "@/data/careers";
@@ -10,6 +11,11 @@ import { applyCopy, careersCopy } from "@/data/careers";
  * Apply dialog, from Figma 2231:10633: a 402px sheet centred over the page,
  * rounded at the top, with the role in the header, the fields stacked in the
  * body and one full-width CTA in the dock.
+ *
+ * It renders through a portal on `document.body`. That is not optional: the
+ * Apply buttons sit inside elements MotionProvider animates, and a
+ * transformed ancestor becomes the containing block for `position: fixed`,
+ * which trapped the sheet inside the sidebar card.
  *
  * There is no backend yet, so sending composes a pre-filled e-mail to the
  * office rather than posting anywhere — nothing is silently lost, and the day
@@ -55,7 +61,7 @@ function Field({
 }) {
   const filled = value.length > 0;
   return (
-    <div className="flex w-full flex-col gap-1">
+    <div className="flex w-full min-w-0 flex-1 flex-col gap-1">
       <div
         className={`flex w-full items-center gap-3 border-[0.5px] bg-white/5 py-3 pl-4 pr-2 transition-colors focus-within:border-content-primary ${
           error ? "border-[#ff6c6c]" : "border-white/10"
@@ -176,9 +182,9 @@ export function ApplyDialog({
     setSent(true);
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/60 p-3 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex justify-center overflow-y-auto overscroll-contain bg-black/60 p-3 backdrop-blur-sm"
       data-lenis-prevent
       onMouseDown={(e) => {
         if (!sheet.current?.contains(e.target as Node)) onClose();
@@ -189,7 +195,7 @@ export function ApplyDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${baseId}-title`}
-        className="apply-sheet flex w-full max-w-[402px] flex-col rounded-t-[38px] bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
+        className="my-auto flex h-fit w-full max-w-[402px] flex-col rounded-t-[38px] bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
       >
         {/* Header */}
         <div className="flex items-start gap-2 rounded-t-[38px] px-5 pt-5 backdrop-blur-[32px]">
@@ -342,6 +348,7 @@ export function ApplyDialog({
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
