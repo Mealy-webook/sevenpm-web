@@ -28,7 +28,7 @@ export default function AccountPage() {
     <>
       <MotionProvider />
       <SiteHeader hideAccount />
-      <main className="flex min-h-screen flex-col">
+      <main className="account-main flex flex-col">
         {/* Name band */}
         <section className="bg-bg-secondary">
           <div className="shell flex flex-col gap-3 pb-12 pt-8">

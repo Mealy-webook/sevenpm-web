@@ -997,3 +997,14 @@ html.has-cursor .cursor {
     transition: none;
   }
 }
+
+/* Account: header + page fill exactly one screen (the comp is 853px tall). */
+.account-main {
+  min-height: calc(100svh - 112px);
+}
+
+@media (min-width: 1280px) {
+  .account-main {
+    min-height: calc(100svh - 152px);
+  }
+}
