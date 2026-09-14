@@ -3,6 +3,8 @@ import { Figtree, Inter, Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
+import { Experience } from "@/components/motion/Experience";
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "700", "900"],
@@ -51,7 +53,10 @@ export default function RootLayout({
       lang="en"
       className={`${roboto.variable} ${figtree.variable} ${inter.variable} ${daltown.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Experience />
+      </body>
     </html>
   );
 }

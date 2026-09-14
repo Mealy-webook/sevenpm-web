@@ -40,7 +40,23 @@ export function SiteHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState<LanguageCode>("en");
   const [currency, setCurrency] = useState<CurrencyCode>("MAD");
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const cluster = useRef<HTMLDivElement>(null);
+
+  // Slide away on the way down, come back on the way up; frost once scrolled.
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      if (Math.abs(y - last) < 6) return;
+      setHidden(y > last && y > 160 && !popover && !menuOpen);
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [popover, menuOpen]);
   const baseId = useId();
 
   const accountId = `${baseId}-account`;
@@ -71,7 +87,11 @@ export function SiteHeader({
   const firstName = user?.name.split(" ")[0] ?? "";
 
   return (
-    <header className="relative z-20">
+    <header
+      className="site-header sticky top-0 z-30"
+      data-hidden={hidden}
+      data-scrolled={scrolled}
+    >
       <div className="shell flex items-start gap-[52px] pb-8 pt-6 xl:pb-12 xl:pt-8">
         <Link href="/" aria-label="SEVENPM home" className="shrink-0">
           <Image

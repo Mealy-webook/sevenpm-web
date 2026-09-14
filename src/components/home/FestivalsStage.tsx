@@ -115,6 +115,7 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
                     : festival.name
                 }
                 className={`festival-poster absolute top-0 block ${centre ? "is-centre" : ""}`}
+                data-cursor={centre ? "Hold" : "Open"}
                 style={{
                   left: SLOT_X[i],
                   width: poster.width,

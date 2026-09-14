@@ -334,6 +334,7 @@ export function VinylCarousel({
             aria-hidden={!slot.visible}
             tabIndex={slot.visible && Math.abs(off) <= 1 ? 0 : -1}
             data-side={isCentre ? "false" : "true"}
+            data-cursor={isCentre ? (playing ? "Pause" : "Play") : "Play"}
             className="vinyl-slot absolute left-0 top-0 block appearance-none border-0 bg-transparent p-0"
             style={{
               width: DISC,

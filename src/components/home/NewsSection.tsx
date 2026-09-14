@@ -32,6 +32,7 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
           {items.map((item, index) => (
             <article
               key={index}
+              data-cursor="Read"
               className="news-card relative flex w-full flex-col gap-6 border-b border-border-tertiary bg-white p-6 shadow-[0_-12px_40px_rgba(0,0,0,0.35)] md:flex-row md:items-center md:gap-8"
             >
               <div className="relative flex min-w-0 flex-1 flex-col items-start justify-center gap-3">

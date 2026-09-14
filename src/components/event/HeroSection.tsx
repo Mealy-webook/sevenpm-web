@@ -77,7 +77,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
             </h1>
             <p
               className="max-w-[962px] text-center font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
-              data-reveal="up"
+              data-split="lines"
               data-reveal-delay="0.12"
             >
               {event.intro}

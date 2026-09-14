@@ -129,6 +129,42 @@ Other pieces:
   several on one page — per-instance SVG filter ids, and class names namespaced
   under `.sticker-peel`.
 
+## Experience layer
+
+`<Experience />` is mounted once in `app/layout.tsx` and carries everything
+that is site-wide rather than per section:
+
+- **Smooth scroll** — [Lenis](https://lenis.darkroom.engineering), driven
+  from GSAP's ticker so ScrollTrigger and the scroll position agree. Anchor
+  links glide. Anything that sets `body { overflow: hidden }` (the menu, the
+  preloader) pauses it automatically through a MutationObserver, and
+  `data-lenis-prevent` keeps native wheel on nested scrollers (the location
+  tile row).
+- **Custom cursor** — a dot and a trailing ring, fine pointers only. Links and
+  buttons grow the ring; `data-cursor="Play"` (deck), `"Drag"` (polaroids),
+  `"Peel"` (stickers), `"Hold"` (featured poster), `"Read"` / `"Open"` fill it
+  yellow with the word. The native cursor stays on touch devices and whenever
+  JS hasn't mounted.
+- **Preloader** — first visit per tab: wordmark, a 000→100 counter in Daltown
+  and a hairline, then the sheet lifts (~2.5s). Repeat visits skip it
+  (`sessionStorage` key `sevenpm:seen`). `MotionProvider` holds its
+  ScrollTriggers until the preloader's `sevenpm:ready` event so the hero
+  plays after the reveal, not under it.
+- **Route transitions** — internal link clicks are intercepted in the capture
+  phase; a yellow then a black sheet wipe up, the route changes through
+  `router.push`, and the sheets wipe away when the new pathname renders.
+  Modifier-clicks, `target="_blank"` and same-page hashes pass through.
+- **Type reveals** — GSAP SplitText (free since 3.13): every `.display-text`
+  heading rises character by character; paragraphs marked
+  `data-split="lines"` rise line by line through a mask.
+- **Header** — sticky, frosts and shrinks the logo once scrolled, slides away
+  on the way down and back on the way up (never while a menu is open).
+- **Footer** — live Casablanca time and a magnetic "Back to top".
+- **Film grain** — a 256px noise tile at 4.5% overlay, jittering in 8 steps.
+
+Everything respects `prefers-reduced-motion`: Lenis, the cursor, the preloader
+and the transitions all step aside, and the page is plain scrolling.
+
 ## The hero deck
 
 The records _are_ the playlist (`VinylCarousel`, from Figma node 2091:56611):
@@ -346,6 +382,5 @@ after this pass. What mattered, in order:
 - **Careers** has no page of its own yet; the menu entry lands on the
   "Join the team" block of the About page.
 - **Audio licensing** — see "Where the audio comes from" above.
-- **Smooth scroll** (Lenis or similar) is the one obvious motion piece not
-  included — it interacts with ScrollTrigger and the scaled stages in ways worth
-  testing deliberately rather than assuming.
+- **Smooth scroll** is in (Lenis). Worth a deliberate pass on a trackpad and a
+  mouse wheel for the horizontal tile row and the poster stage.

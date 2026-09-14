@@ -70,6 +70,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
 
           {/* Rules */}
           <div
+            data-lenis-prevent
             className="tile-row flex w-full items-stretch gap-8 overflow-x-auto lg:flex-wrap lg:justify-center lg:overflow-visible"
             data-reveal="up"
             data-reveal-stagger

@@ -33,6 +33,7 @@ export function GallerySection({ event }: { event: EventDetails }) {
               <div
                 key={shot.image}
                 className="gallery-slot absolute"
+                data-cursor="Drag"
                 data-reveal="up"
                 data-reveal-delay={0.06 * index}
                 style={{

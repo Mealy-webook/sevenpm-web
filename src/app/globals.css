@@ -42,7 +42,25 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Lenis handles smooth scrolling and anchors; see SmoothScroll. */
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 html,
@@ -775,4 +793,200 @@ body {
 .team-card:hover .team-photo {
   filter: none;
   transform: scale(1.04);
+}
+
+/* ---------------------------------------------------------------------------
+   Site-wide experience layer: cursor, preloader, transitions, grain, header
+   ------------------------------------------------------------------------- */
+
+/* Custom cursor — only once JS has mounted it (fine pointers). */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+html.has-cursor .cursor {
+  display: block;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: var(--color-brand);
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition:
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    opacity 0.3s ease;
+}
+
+.cursor-ring.is-down {
+  transform: scale(0.85);
+}
+
+.cursor-ring[data-state="link"] {
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border-color: var(--color-brand);
+  background: rgba(251, 235, 28, 0.12);
+}
+
+.cursor-ring[data-state="label"] {
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+}
+
+.cursor-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0b0b0e;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.cursor-ring[data-state="label"] .cursor-label {
+  opacity: 1;
+  transform: none;
+}
+
+/* Film grain over everything, gently jittering. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 80;
+  pointer-events: none;
+  background: url("/assets/grain.png") repeat;
+  background-size: 256px 256px;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  animation: grain 0.8s steps(8) infinite;
+}
+
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  12.5% {
+    transform: translate(-3%, 2%);
+  }
+  25% {
+    transform: translate(2%, -4%);
+  }
+  37.5% {
+    transform: translate(-4%, -1%);
+  }
+  50% {
+    transform: translate(3%, 3%);
+  }
+  62.5% {
+    transform: translate(-1%, 4%);
+  }
+  75% {
+    transform: translate(4%, -2%);
+  }
+  87.5% {
+    transform: translate(-2%, -3%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Preloader sheet: clipped away from the bottom up by GSAP. */
+.preloader {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Header: frosted once scrolled, slides away on the way down. */
+.site-header {
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.site-header[data-scrolled="true"] {
+  background: rgba(11, 11, 14, 0.72);
+  border-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.site-header[data-scrolled="true"] > .shell {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.site-header[data-scrolled="true"] img[alt="SEVENPM"] {
+  width: 48px;
+  height: 48px;
+}
+
+.site-header[data-hidden="true"] {
+  transform: translateY(-100%);
+}
+
+.site-header > .shell {
+  transition:
+    padding-top 0.4s ease,
+    padding-bottom 0.4s ease;
+}
+
+.site-header img[alt="SEVENPM"] {
+  transition:
+    width 0.4s ease,
+    height 0.4s ease;
+}
+
+/* SplitText pieces */
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.split-line {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
+  .site-header {
+    transition: none;
+  }
 }

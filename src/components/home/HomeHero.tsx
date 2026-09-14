@@ -32,7 +32,7 @@ export function HomeHero() {
           </h1>
           <p
             className="max-w-[786px] font-[family-name:var(--font-display)] text-[18px] leading-[1.6] text-content-secondary"
-            data-reveal="up"
+            data-split="lines"
             data-reveal-delay="0.12"
           >
             {homeCopy.intro}
@@ -42,7 +42,9 @@ export function HomeHero() {
             className="eq-bars absolute bottom-16 right-[var(--shell-gutter)] hidden items-end gap-0.5 xl:flex"
             aria-hidden
           >
-            <span style={{ "--h": "6px", "--d": "0s" } as React.CSSProperties} />
+            <span
+              style={{ "--h": "6px", "--d": "0s" } as React.CSSProperties}
+            />
             <span
               style={{ "--h": "16px", "--d": "-0.4s" } as React.CSSProperties}
             />

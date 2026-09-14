@@ -63,7 +63,7 @@ export default function AboutPage() {
             <div className="grid gap-8 lg:grid-cols-12">
               <p
                 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:col-span-7 lg:text-[28px] lg:leading-9"
-                data-reveal="up"
+                data-split="lines"
                 data-reveal-delay="0.1"
               >
                 {aboutCopy.manifesto}

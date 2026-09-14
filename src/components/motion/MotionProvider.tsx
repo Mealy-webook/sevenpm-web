@@ -3,8 +3,11 @@
 import { useEffect, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
-gsap.registerPlugin(ScrollTrigger);
+import { READY_EVENT, SEEN_KEY } from "./Preloader";
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 /**
  * Page-wide motion, driven by data attributes so the section components stay
@@ -17,6 +20,8 @@ gsap.registerPlugin(ScrollTrigger);
  *   data-reveal-delay="0.15"    extra delay, seconds
  *   data-parallax="-0.12"       drift on scroll; negative moves against it
  *   data-magnetic               nudge toward the cursor on hover
+ *   data-split="lines"          paragraph rises line by line through a mask
+ *   .display-text               headings reveal character by character
  *
  * Two rules keep this from ever stranding content:
  *   1. nothing is hidden in CSS — the "from" state is set here, before paint,
@@ -33,11 +38,69 @@ export function MotionProvider() {
   useIsomorphicLayoutEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    /* On a first visit the preloader covers the page for ~2.5s; the hero's
+     * reveals wait for its `sevenpm:ready` so they play once it lifts. The
+     * from-states are still applied immediately (inside the context below),
+     * so nothing flashes. */
+    let seen = true;
+    try {
+      seen = Boolean(sessionStorage.getItem(SEEN_KEY));
+    } catch {
+      seen = true;
+    }
+    if (!seen) {
+      ScrollTrigger.getAll().forEach((t) => t.disable(false));
+    }
+
     const ctx = gsap.context(() => {
+      /* ---------------------------------------------------------------- */
+      /* Display headings: characters rise in one after another            */
+      /* ---------------------------------------------------------------- */
+      gsap.utils.toArray<HTMLElement>(".display-text").forEach((el) => {
+        const split = SplitText.create(el, {
+          type: "chars,words",
+          charsClass: "split-char",
+          wordsClass: "split-word",
+        });
+        gsap.set(split.chars, { yPercent: 60, opacity: 0, rotate: 4 });
+        gsap.to(split.chars, {
+          yPercent: 0,
+          opacity: 1,
+          rotate: 0,
+          duration: 1.1,
+          ease: "expo.out",
+          stagger: { each: 0.022, from: "start" },
+          delay: Number(el.dataset.revealDelay ?? 0),
+          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+        });
+      });
+
+      /* ---------------------------------------------------------------- */
+      /* Paragraphs: line by line through a mask                           */
+      /* ---------------------------------------------------------------- */
+      gsap.utils.toArray<HTMLElement>('[data-split="lines"]').forEach((el) => {
+        const split = SplitText.create(el, {
+          type: "lines",
+          mask: "lines",
+          linesClass: "split-line",
+        });
+        gsap.set(split.lines, { yPercent: 110 });
+        gsap.to(split.lines, {
+          yPercent: 0,
+          duration: 1,
+          ease: "expo.out",
+          stagger: 0.08,
+          delay: Number(el.dataset.revealDelay ?? 0),
+          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+        });
+      });
+
       /* ---------------------------------------------------------------- */
       /* Scroll reveals                                                     */
       /* ---------------------------------------------------------------- */
       gsap.utils.toArray<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
+        // Headings and split paragraphs animate above; skip them here.
+        if (el.matches('.display-text, [data-split="lines"]')) return;
         const kind = el.dataset.reveal || "up";
         const delay = Number(el.dataset.revealDelay ?? 0);
         const isStagger = el.hasAttribute("data-reveal-stagger");
@@ -121,11 +184,39 @@ export function MotionProvider() {
       }
     });
 
+    let onReady: (() => void) | null = null;
+    if (!seen) {
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach((t) => t.disable(false));
+      onReady = () => {
+        triggers.forEach((t) => t.enable(false));
+        ScrollTrigger.refresh();
+      };
+      document.addEventListener(READY_EVENT, onReady, { once: true });
+    }
+
     /* Safety net: anything still hidden but on screen after the page has
      * settled gets shown. Guards against a trigger that never fires because
      * of a late layout shift. */
     const rescue = () => {
       ScrollTrigger.refresh();
+      document
+        .querySelectorAll<HTMLElement>(".split-char, .split-line")
+        .forEach((node) => {
+          const rect = node.getBoundingClientRect();
+          if (
+            rect.top < window.innerHeight &&
+            rect.bottom > 0 &&
+            Number(getComputedStyle(node).opacity) < 1
+          ) {
+            gsap.to(node, {
+              yPercent: 0,
+              opacity: 1,
+              rotate: 0,
+              duration: 0.4,
+            });
+          }
+        });
       document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
         const nodes = el.hasAttribute("data-reveal-stagger")
           ? (Array.from(el.children) as HTMLElement[])
@@ -146,12 +237,13 @@ export function MotionProvider() {
       });
     };
 
-    const rescueTimer = window.setTimeout(rescue, 2500);
+    const rescueTimer = window.setTimeout(rescue, seen ? 2500 : 6000);
     window.addEventListener("load", rescue);
 
     return () => {
       window.clearTimeout(rescueTimer);
       window.removeEventListener("load", rescue);
+      if (onReady) document.removeEventListener(READY_EVENT, onReady);
       ctx.revert();
     };
   }, []);
