@@ -111,23 +111,35 @@ export type Totals = {
   itemsTotal: number;
   delivery: number;
   subtotal: number;
-  /** What the wallet actually covers — never more than the subtotal. */
+  /** Flat per-order fee — the comps' "Innovation fees". */
+  fee: number;
+  /** What the promo code takes off, never more than what is owed. */
+  promo: number;
+  /** What the wallet actually covers — never more than what is left. */
   wallet: number;
   total: number;
   vat: number;
 };
 
-export function totals(cart: Cart, options?: { wallet?: boolean; delivery?: number }): Totals {
-  const priced = cart.map(priceLine).filter((line): line is PricedLine => line !== null);
+export function totals(
+  cart: Cart,
+  options?: { wallet?: boolean; delivery?: number; promo?: number },
+): Totals {
+  const priced = cart
+    .map(priceLine)
+    .filter((line): line is PricedLine => line !== null);
   const ticketLines = priced.filter((line) => line.kind === "ticket");
   const addonLines = priced.filter((line) => line.kind === "addon");
   const itemsTotal = priced.reduce((sum, line) => sum + line.amount, 0);
   const delivery = options?.delivery ?? 0;
   const subtotal = itemsTotal + delivery;
+  const fee = subtotal > 0 ? bookingConfig.innovationFee : 0;
+  const promo = Math.min(options?.promo ?? 0, subtotal + fee);
+  const owed = subtotal + fee - promo;
   const wallet = options?.wallet
-    ? Math.min(bookingConfig.walletCredit, subtotal)
+    ? Math.min(bookingConfig.walletCredit, owed)
     : 0;
-  const total = subtotal - wallet;
+  const total = owed - wallet;
   return {
     ticketLines,
     addonLines,
@@ -136,6 +148,8 @@ export function totals(cart: Cart, options?: { wallet?: boolean; delivery?: numb
     itemsTotal,
     delivery,
     subtotal,
+    fee,
+    promo,
     wallet,
     total,
     /** VAT is inside the total, not added to it — see `bookingConfig`. */

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { BookingJourney } from "@/components/booking/BookingJourney";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { accountUser } from "@/data/account";
 import { bookingConfig } from "@/data/booking";
 import { events, getEvent } from "@/data/events";
 
@@ -49,6 +50,8 @@ export default async function BookPage({ params, searchParams }: PageProps) {
             venue: event.venue.name,
             venueUrl: event.venue.directionsUrl,
             poster: bookingConfig.poster,
+            startsAt: event.startsAt,
+            email: accountUser.email,
           }}
           initialTier={tier}
         />

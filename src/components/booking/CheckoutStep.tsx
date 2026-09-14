@@ -1,19 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useState } from "react";
 
+import type { SavedCard } from "./CardDialog";
 import type { Totals } from "./cart";
 import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
 
 /**
- * Step 3, from Figma 2033:18293: delivery, payment method and promo code on
- * the left, the price details card on the right.
- *
- * No card number is ever typed here. Picking "Card" hands over to the payment
- * provider's own page, which is the only place a number should be entered —
- * and there is no provider connected to this build, so confirming charges
- * nothing. `BookingJourney` says so in as many words on the done screen.
+ * Step 3, from Figma 2033:18293 and 2139:6888: delivery, payment method and
+ * discounts on the left, the price details card on the right. Each row opens
+ * its own sheet — delivery details, add new card, add promocode.
  */
 
 const SECTION =
@@ -67,33 +63,31 @@ export function CheckoutStep({
   onWallet,
   method,
   onMethod,
-  delivery,
-  onDelivery,
+  deliverySummary,
+  onEditDelivery,
   needsDelivery,
+  card,
+  onAddCard,
   promo,
-  onPromo,
+  onAddPromo,
+  onRemovePromo,
 }: {
   wallet: boolean;
   onWallet: (on: boolean) => void;
   method: string;
   onMethod: (id: string) => void;
-  delivery: string | null;
-  onDelivery: (id: string) => void;
+  /** One line describing the saved choice, or null while there is none. */
+  deliverySummary: string | null;
+  onEditDelivery: () => void;
   /** False when the basket has no merchandise to send anywhere. */
   needsDelivery: boolean;
-  promo: string;
-  onPromo: (code: string) => void;
+  card: SavedCard | null;
+  onAddCard: () => void;
+  promo: { code: string; off: number } | null;
+  onAddPromo: () => void;
+  onRemovePromo: () => void;
 }) {
   const copy = bookingCopy.checkout;
-  const [deliveryOpen, setDeliveryOpen] = useState(false);
-  const [promoOpen, setPromoOpen] = useState(false);
-  const [promoDraft, setPromoDraft] = useState(promo);
-  const [promoError, setPromoError] = useState("");
-  const promoId = useId();
-
-  const chosenDelivery = copy.deliveryOptions.find(
-    (option) => option.id === delivery,
-  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -104,65 +98,26 @@ export function CheckoutStep({
       <section className="flex flex-col gap-4">
         <h2 className={SECTION}>{copy.delivery}</h2>
         {needsDelivery ? (
-          <>
-            <div className={`${ROW} py-3`}>
-              <Image
-                src="/assets/ic-delivery-24.svg"
-                alt=""
-                width={24}
-                height={24}
-                className="size-6 shrink-0"
-              />
-              <span className="flex min-w-0 flex-1 flex-col">
-                <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
-                  {chosenDelivery ? chosenDelivery.label : copy.deliveryMethod}
-                </span>
-                <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-                  {chosenDelivery ? chosenDelivery.hint : copy.deliveryHint}
-                </span>
+          <div className={`${ROW} py-3`}>
+            <Image
+              src="/assets/ic-delivery-24.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="size-6 shrink-0"
+            />
+            <span className="flex min-w-0 flex-1 flex-col">
+              <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                {copy.deliveryMethod}
               </span>
-              <SmallButton onClick={() => setDeliveryOpen((open) => !open)}>
-                {chosenDelivery ? copy.change : copy.add}
-              </SmallButton>
-            </div>
-
-            {deliveryOpen && (
-              <div
-                role="radiogroup"
-                aria-label={copy.deliveryMethod}
-                className="flex flex-col gap-2"
-              >
-                {copy.deliveryOptions.map((option) => {
-                  const selected = option.id === delivery;
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => {
-                        onDelivery(option.id);
-                        setDeliveryOpen(false);
-                      }}
-                      className={`${ROW} cursor-pointer py-3 text-left transition-colors ${
-                        selected ? "border-content-primary bg-white/10" : "hover:bg-white/5"
-                      }`}
-                    >
-                      <span className="flex min-w-0 flex-1 flex-col">
-                        <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
-                          {option.label}
-                        </span>
-                        <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-                          {option.hint}
-                        </span>
-                      </span>
-                      <Radio selected={selected} />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </>
+              <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                {deliverySummary ?? copy.deliveryHint}
+              </span>
+            </span>
+            <SmallButton onClick={onEditDelivery}>
+              {deliverySummary ? copy.edit : copy.add}
+            </SmallButton>
+          </div>
         ) : (
           <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
             {copy.deliveryNone}
@@ -213,7 +168,11 @@ export function CheckoutStep({
           </button>
         </div>
 
-        <div role="radiogroup" aria-label={copy.payWith} className="flex flex-col gap-2">
+        <div
+          role="radiogroup"
+          aria-label={copy.payWith}
+          className="flex flex-col gap-2"
+        >
           {copy.payMethods.map((option) => {
             const selected = method === option.id;
             const isCard = option.id === "card";
@@ -225,7 +184,9 @@ export function CheckoutStep({
                 aria-checked={selected}
                 onClick={() => onMethod(option.id)}
                 className={`${ROW} cursor-pointer py-3 text-left transition-colors ${
-                  selected ? "border-content-primary bg-white/5" : "hover:bg-white/5"
+                  selected
+                    ? "border-content-primary bg-white/5"
+                    : "hover:bg-white/5"
                 }`}
               >
                 <Image
@@ -239,36 +200,52 @@ export function CheckoutStep({
                   <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
                     {option.label}
                   </span>
-                  {isCard && (
-                    <span className="flex items-center gap-1">
-                      {copy.cardMarks.map((mark) => (
-                        <Image
-                          key={mark}
-                          src={mark}
-                          alt=""
-                          width={26}
-                          height={16}
-                          className="h-4 w-auto"
-                        />
-                      ))}
-                    </span>
-                  )}
+                  {isCard &&
+                    (card ? (
+                      <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                        **** {card.last4}
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        {copy.cardMarks.map((mark) => (
+                          <Image
+                            key={mark}
+                            src={mark}
+                            alt=""
+                            width={26}
+                            height={16}
+                            className="h-4 w-auto"
+                          />
+                        ))}
+                      </span>
+                    ))}
                 </span>
                 <Radio selected={selected} />
               </button>
             );
           })}
-        </div>
 
-        {method === "card" && (
-          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-            {copy.cardNote}
-          </p>
-        )}
+          <button
+            type="button"
+            onClick={onAddCard}
+            className="btn-secondary flex cursor-pointer items-center justify-center gap-1 self-start px-3 py-[10px]"
+          >
+            <Image
+              src="/assets/ic-plus-16.svg"
+              alt=""
+              width={16}
+              height={16}
+              className="size-4"
+            />
+            <span className="px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+              {copy.addCard}
+            </span>
+          </button>
+        </div>
       </section>
 
       <section className="flex flex-col gap-4">
-        <h2 className={SECTION}>{copy.discount}</h2>
+        <h2 className={SECTION}>{copy.discounts}</h2>
         <div className={`${ROW} py-[14px]`}>
           <Image
             src="/assets/ic-promo-24.svg"
@@ -277,53 +254,40 @@ export function CheckoutStep({
             height={24}
             className="size-6 shrink-0"
           />
-          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
-            {promo || copy.promo}
-          </span>
-          <SmallButton onClick={() => setPromoOpen((open) => !open)}>
-            {promo ? copy.change : copy.add}
-          </SmallButton>
-        </div>
-
-        {promoOpen && (
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <label htmlFor={promoId} className="sr-only">
-                {copy.promo}
-              </label>
-              <input
-                id={promoId}
-                value={promoDraft}
-                onChange={(event) => {
-                  setPromoDraft(event.target.value);
-                  setPromoError("");
-                }}
-                placeholder={copy.promoPlaceholder}
-                className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-content-secondary focus:border-content-primary"
-              />
+          {promo ? (
+            <>
+              <span className="flex min-w-0 flex-1 flex-col">
+                <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                  {promo.code}
+                </span>
+                <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#4ade80]">
+                  {copy.promoSaved(formatMoney(promo.off))}
+                </span>
+              </span>
               <button
                 type="button"
-                onClick={() => {
-                  // No promotions are loaded in this build, so every code is
-                  // unknown. The day they arrive, only this branch changes.
-                  setPromoError(copy.promoUnknown);
-                  onPromo("");
-                }}
-                className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center px-4 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary"
+                onClick={onRemovePromo}
+                aria-label={copy.promoRemove}
+                className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center p-[6px]"
               >
-                {copy.promoApply}
+                <Image
+                  src="/assets/ic-trash-16.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="size-4"
+                />
               </button>
-            </div>
-            {promoError && (
-              <p
-                role="alert"
-                className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#ff6c6c]"
-              >
-                {promoError}
-              </p>
-            )}
-          </div>
-        )}
+            </>
+          ) : (
+            <>
+              <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                {copy.promo}
+              </span>
+              <SmallButton onClick={onAddPromo}>{copy.add}</SmallButton>
+            </>
+          )}
+        </div>
       </section>
     </div>
   );
@@ -343,6 +307,7 @@ export function PriceDetails({
 }) {
   const copy = bookingCopy.checkout;
   const summary = bookingCopy.orderSummary;
+  const price = bookingCopy.confirmation.price;
 
   return (
     <div className="flex flex-col gap-3 border border-white/5 p-4">
@@ -356,6 +321,22 @@ export function PriceDetails({
           {formatMoney(totals.subtotal)}
         </span>
       </div>
+
+      {totals.fee > 0 && (
+        <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px]">
+          <span className="text-content-secondary">{price.fee}</span>
+          <span className="font-semibold text-content-primary">
+            {formatMoney(totals.fee)}
+          </span>
+        </div>
+      )}
+
+      {totals.promo > 0 && (
+        <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#4ade80]">
+          <span>{price.promo}</span>
+          <span className="font-semibold">−{formatMoney(totals.promo)}</span>
+        </div>
+      )}
 
       {totals.wallet > 0 && (
         <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#4ade80]">

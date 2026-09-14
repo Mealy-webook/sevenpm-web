@@ -17,6 +17,7 @@ export function Sheet({
   open,
   onClose,
   title,
+  subtitle,
   titleId,
   closeLabel,
   children,
@@ -25,6 +26,8 @@ export function Sheet({
   open: boolean;
   onClose: () => void;
   title: string;
+  /** Second line under the title, as the delivery and card dialogs carry. */
+  subtitle?: string;
   titleId: string;
   closeLabel: string;
   children: React.ReactNode;
@@ -69,12 +72,19 @@ export function Sheet({
         className="my-auto flex h-fit w-full max-w-[378px] flex-col bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
       >
         <div className="flex items-start gap-2 px-5 pt-5">
-          <h2
-            id={titleId}
-            className="m-0 flex-1 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
-          >
-            {title}
-          </h2>
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <h2
+              id={titleId}
+              className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+            >
+              {title}
+            </h2>
+            {subtitle && (
+              <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                {subtitle}
+              </p>
+            )}
+          </div>
           <button
             ref={closeButton}
             type="button"
@@ -138,5 +148,109 @@ export function SheetPrice({
         </p>
       )}
     </div>
+  );
+}
+
+/**
+ * The dialogs' text field: the label sits inside the box, small above the
+ * value once there is one, and doubles as the placeholder when empty.
+ */
+export function SheetField({
+  id,
+  label,
+  value,
+  onChange,
+  error,
+  inputMode,
+  autoComplete,
+  maxLength,
+  placeholder,
+  trailing,
+  className = "",
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+  inputMode?: "text" | "numeric";
+  autoComplete?: string;
+  maxLength?: number;
+  placeholder?: string;
+  trailing?: React.ReactNode;
+  className?: string;
+}) {
+  const filled = value.length > 0;
+  return (
+    <div className={`flex min-w-0 flex-col gap-1 ${className}`}>
+      <div
+        className={`flex min-w-0 items-center gap-2 border bg-white/5 px-4 py-2 transition-colors focus-within:border-content-primary ${
+          error ? "border-[#ff6c6c]" : "border-white/10"
+        }`}
+      >
+        <span className="flex h-9 min-w-0 flex-1 flex-col justify-center">
+          {filled && (
+            <span
+              className={`font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
+                error ? "text-[#ff6c6c]" : "text-content-secondary"
+              }`}
+            >
+              {label}
+            </span>
+          )}
+          <input
+            id={id}
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            placeholder={placeholder ?? label}
+            aria-label={label}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? `${id}-error` : undefined}
+            inputMode={inputMode}
+            autoComplete={autoComplete}
+            maxLength={maxLength}
+            className={`w-full bg-transparent font-[family-name:var(--font-display)] text-content-primary caret-brand outline-none placeholder:text-content-secondary ${
+              filled
+                ? "text-[15px] font-semibold leading-[22px] tracking-[0.19px]"
+                : "text-[15px] leading-[22px] tracking-[0.19px]"
+            }`}
+          />
+        </span>
+        {trailing}
+      </div>
+      {error && (
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#ff6c6c]"
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/** The white dock button the booking dialogs end with. */
+export function SheetSubmit({
+  children,
+  onClick,
+  disabled,
+  type = "button",
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit";
+}) {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+    >
+      {children}
+    </button>
   );
 }

@@ -2,12 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
+import { BookingConfirmation } from "./BookingConfirmation";
+import { CardDialog, type SavedCard } from "./CardDialog";
 import { CheckoutStep, PriceDetails } from "./CheckoutStep";
+import {
+  DeliveryDialog,
+  describeDelivery,
+  type DeliveryChoice,
+} from "./DeliveryDialog";
 import { ExtrasStep } from "./ExtrasStep";
 import { ItemDetailsDialog } from "./ItemDetailsDialog";
 import { OrderSummaryDialog } from "./OrderSummaryDialog";
+import { PromoDialog } from "./PromoDialog";
 import { SummaryBar } from "./SummaryBar";
 import { TicketInfoDialog } from "./TicketInfoDialog";
 import { TicketsStep } from "./TicketsStep";
@@ -26,17 +41,31 @@ import {
 } from "@/data/booking";
 
 /**
- * The booking journey, from Figma 2138:3339 → 2033:18293.
+ * The booking journey, from Figma 2138:3339 → 2033:18293, ending on the
+ * confirmation at 2192:5369.
  *
  * Three steps behind one piece of chrome: a back button, the breadcrumb, the
  * hold countdown and the globe. The right column carries the poster and the
  * summary bar on the first two steps, and the price details card on the last.
  *
- * Nothing here talks to a payment provider. Confirming mints a reference and
- * says plainly that no money moved — see the done panel at the bottom.
+ * Nothing here talks to a payment provider. Confirming mints an order number
+ * and the confirmation says plainly that no money moved.
  */
 
 type StepId = "tickets" | "extras" | "checkout";
+type Dialog = "delivery" | "card" | "promo" | "summary" | null;
+
+export type BookingEvent = {
+  slug: string;
+  name: string;
+  time: string;
+  venue: string;
+  venueUrl: string;
+  poster: string;
+  startsAt: string;
+  /** Where the confirmation says the booking was sent. */
+  email: string;
+};
 
 function clock(seconds: number) {
   const safe = Math.max(0, seconds);
@@ -48,14 +77,7 @@ export function BookingJourney({
   event,
   initialTier,
 }: {
-  event: {
-    slug: string;
-    name: string;
-    time: string;
-    venue: string;
-    venueUrl: string;
-    poster: string;
-  };
+  event: BookingEvent;
   /** `?tier=` from the event page's ticket stubs. */
   initialTier?: string;
 }) {
@@ -69,15 +91,16 @@ export function BookingJourney({
   );
   const [infoTicket, setInfoTicket] = useState<BookingTicket | null>(null);
   const [detailsAddon, setDetailsAddon] = useState<BookingAddon | null>(null);
-  const [summaryOpen, setSummaryOpen] = useState(false);
+  const [dialog, setDialog] = useState<Dialog>(null);
 
   const [wallet, setWallet] = useState(true);
   const [method, setMethod] = useState("apple-pay");
-  const [delivery, setDelivery] = useState<string | null>(null);
-  const [promo, setPromo] = useState("");
+  const [delivery, setDelivery] = useState<DeliveryChoice | null>(null);
+  const [card, setCard] = useState<SavedCard | null>(null);
+  const [promo, setPromo] = useState<{ code: string; off: number } | null>(null);
   const [agreed, setAgreed] = useState(false);
   const [agreeError, setAgreeError] = useState("");
-  const [reference, setReference] = useState<string | null>(null);
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
   const [seconds, setSeconds] = useState(bookingConfig.holdSeconds);
   const [localeOpen, setLocaleOpen] = useState(false);
@@ -88,22 +111,22 @@ export function BookingJourney({
 
   // The hold. It stops once the booking is confirmed — nothing left to hold.
   useEffect(() => {
-    if (reference) return;
+    if (orderNumber) return;
     const id = window.setInterval(() => {
       setSeconds((current) => (current <= 0 ? 0 : current - 1));
     }, 1000);
     return () => window.clearInterval(id);
-  }, [reference]);
+  }, [orderNumber]);
 
   useEffect(() => {
     if (!localeOpen) return;
-    const onDown = (event: MouseEvent) => {
-      if (!localeWrap.current?.contains(event.target as Node)) {
+    const onDown = (pointer: MouseEvent) => {
+      if (!localeWrap.current?.contains(pointer.target as Node)) {
         setLocaleOpen(false);
       }
     };
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setLocaleOpen(false);
+    const onKey = (key: KeyboardEvent) => {
+      if (key.key === "Escape") setLocaleOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -114,28 +137,19 @@ export function BookingJourney({
   }, [localeOpen]);
 
   const hasMerchandise = useMemo(
-    () =>
-      cart.some((line) => line.kind === "addon" && line.size !== undefined),
+    () => cart.some((line) => line.kind === "addon" && line.size !== undefined),
     [cart],
   );
-
-  const deliveryFee = useMemo(() => {
-    if (!hasMerchandise) return 0;
-    const option = bookingCopy.checkout.deliveryOptions.find(
-      (item) => item.id === delivery,
-    );
-    return option?.fee ?? 0;
-  }, [delivery, hasMerchandise]);
 
   const totals = useMemo(
     () =>
       priceCart(cart, {
-        // Credit is only applied once the visitor reaches payment — the
+        // Credit and codes only apply once the visitor reaches payment — the
         // earlier steps quote the plain price, as the comps do.
         wallet: step === "checkout" && wallet,
-        delivery: step === "checkout" ? deliveryFee : 0,
+        promo: step === "checkout" ? (promo?.off ?? 0) : 0,
       }),
-    [cart, deliveryFee, step, wallet],
+    [cart, promo, step, wallet],
   );
 
   const adjustTicket = useCallback((id: string, by: number) => {
@@ -149,7 +163,7 @@ export function BookingJourney({
     [],
   );
 
-  const expired = seconds <= 0 && !reference;
+  const expired = seconds <= 0 && !orderNumber;
 
   const restart = () => {
     setCart([]);
@@ -164,8 +178,11 @@ export function BookingJourney({
       setAgreeError(bookingCopy.checkout.agreementError);
       return;
     }
-    const random = Math.random().toString(36).slice(2, 6).toUpperCase();
-    setReference(`SVN-${new Date().getFullYear()}-${random}`);
+    // Eight hex characters, as the confirmation comp shows them.
+    const random = Array.from({ length: 8 }, () =>
+      Math.floor(Math.random() * 16).toString(16),
+    ).join("");
+    setOrderNumber(random);
   };
 
   const steps = bookingCopy.steps;
@@ -176,12 +193,24 @@ export function BookingJourney({
     setStep(steps[stepIndex - 1].id as StepId);
   };
 
+  if (orderNumber) {
+    return (
+      <BookingConfirmation
+        event={event}
+        totals={totals}
+        orderNumber={orderNumber}
+        email={event.email}
+        deliverySummary={hasMerchandise ? describeDelivery(delivery) : null}
+      />
+    );
+  }
+
   return (
     <div className="shell flex flex-col gap-8 pb-24 pt-8 lg:pb-16">
       {/* Chrome */}
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
-          {stepIndex <= 0 || reference ? (
+          {stepIndex <= 0 ? (
             <Link
               href={`/events/${event.slug}`}
               aria-label={bookingCopy.chrome.back}
@@ -235,8 +264,8 @@ export function BookingJourney({
                   )}
                   <button
                     type="button"
-                    onClick={() => done && !reference && setStep(item.id as StepId)}
-                    disabled={!done || Boolean(reference)}
+                    onClick={() => done && setStep(item.id as StepId)}
+                    disabled={!done}
                     aria-current={current ? "step" : undefined}
                     className={`whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] transition-colors ${
                       current
@@ -255,15 +284,13 @@ export function BookingJourney({
         </div>
 
         <div className="flex shrink-0 items-center gap-3 sm:gap-4">
-          {!reference && (
-            <p
-              className={`m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] ${
-                seconds <= 60 ? "text-[#ff6c6c]" : "text-content-primary"
-              }`}
-            >
-              {bookingCopy.chrome.timer(clock(seconds))}
-            </p>
-          )}
+          <p
+            className={`m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] ${
+              seconds <= 60 ? "text-[#ff6c6c]" : "text-content-primary"
+            }`}
+          >
+            {bookingCopy.chrome.timer(clock(seconds))}
+          </p>
           <div ref={localeWrap} className="relative">
             <button
               type="button"
@@ -300,9 +327,7 @@ export function BookingJourney({
         </div>
       </div>
 
-      {reference ? (
-        <Done reference={reference} slug={event.slug} />
-      ) : expired ? (
+      {expired ? (
         <div className="flex max-w-[620px] flex-col gap-4 border border-white/5 p-8">
           <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white">
             {bookingCopy.chrome.expired}
@@ -346,11 +371,14 @@ export function BookingJourney({
                 onWallet={setWallet}
                 method={method}
                 onMethod={setMethod}
-                delivery={delivery}
-                onDelivery={setDelivery}
+                deliverySummary={describeDelivery(delivery)}
+                onEditDelivery={() => setDialog("delivery")}
                 needsDelivery={hasMerchandise}
+                card={card}
+                onAddCard={() => setDialog("card")}
                 promo={promo}
-                onPromo={setPromo}
+                onAddPromo={() => setDialog("promo")}
+                onRemovePromo={() => setPromo(null)}
               />
             )}
           </div>
@@ -395,7 +423,7 @@ export function BookingJourney({
                   else if (step === "extras") setStep("checkout");
                   else confirm();
                 }}
-                onOpenSummary={() => setSummaryOpen(true)}
+                onOpenSummary={() => setDialog("summary")}
               />
             </div>
 
@@ -458,50 +486,41 @@ export function BookingJourney({
         />
       )}
 
-      {summaryOpen && (
-        <OrderSummaryDialog
-          totals={totals}
-          onClose={() => setSummaryOpen(false)}
+      {dialog === "summary" && (
+        <OrderSummaryDialog totals={totals} onClose={() => setDialog(null)} />
+      )}
+
+      {dialog === "delivery" && (
+        <DeliveryDialog
+          value={delivery}
+          onClose={() => setDialog(null)}
+          onSave={(choice) => {
+            setDelivery(choice);
+            setDialog(null);
+          }}
         />
       )}
-    </div>
-  );
-}
 
-/** Confirmation. No provider is connected, and the copy says so. */
-function Done({ reference, slug }: { reference: string; slug: string }) {
-  const copy = bookingCopy.done;
-  return (
-    <div className="flex max-w-[620px] flex-col gap-4 border border-white/5 p-8">
-      <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-brand sm:text-[40px]">
-        {copy.title}
-      </h1>
-      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-        {copy.reference}
-      </p>
-      <p className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold leading-7 tracking-[0.22px] text-white">
-        {reference}
-      </p>
-      <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary">
-        {copy.body}
-      </p>
-      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-primary">
-        {copy.note}
-      </p>
-      <div className="flex flex-wrap gap-3">
-        <Link
-          href="/account"
-          className="flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
-        >
-          {copy.bookings}
-        </Link>
-        <Link
-          href={`/events/${slug}`}
-          className="btn-secondary flex items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary"
-        >
-          {copy.event}
-        </Link>
-      </div>
+      {dialog === "card" && (
+        <CardDialog
+          onClose={() => setDialog(null)}
+          onAdd={(saved) => {
+            setCard(saved);
+            setMethod("card");
+            setDialog(null);
+          }}
+        />
+      )}
+
+      {dialog === "promo" && (
+        <PromoDialog
+          onClose={() => setDialog(null)}
+          onApply={(code, off) => {
+            setPromo({ code, off });
+            setDialog(null);
+          }}
+        />
+      )}
     </div>
   );
 }

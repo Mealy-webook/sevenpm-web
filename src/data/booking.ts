@@ -166,6 +166,13 @@ export const bookingConfig = {
   /** Credit on the visitor's SEVENPM wallet, applied before anything else. */
   walletCredit: 10,
   /**
+   * Flat per-order fee. The confirmation comp (2192:5369) bills it as
+   * "Innovation fees"; the checkout comp predates the line, but hiding it
+   * there would make the two screens quote different totals for one order,
+   * so it appears on both.
+   */
+  innovationFee: 10,
+  /**
    * VAT is included in the total rather than added to it, which is how the
    * comp reads it ("Total Incl. VAT" with "VAT 27.75 MAD" beneath).
    */
@@ -178,6 +185,30 @@ export const bookingConfig = {
    */
   sessionTime: "07:00 PM - 12:00 AM",
 };
+
+/** Collection points inside the venue — Figma 2139:4597. */
+export const pickupPoints = [
+  { id: "gate-4", label: "Pickup point 1", hint: "Gate 4 (in venue)" },
+  { id: "gate-5", label: "Pickup point 2", hint: "Gate 5 (in venue)" },
+];
+
+/** Where a courier can reach — Figma 2139:4953. */
+export const deliveryCountries = [
+  { code: "MA", label: "Morocco", cities: ["Casablanca", "Rabat", "Marrakech", "Tangier"] },
+  { code: "SA", label: "Saudi Arabia", cities: ["Riyadh", "Jeddah", "Dammam"] },
+  { code: "FR", label: "France", cities: ["Paris", "Lyon", "Marseille"] },
+];
+
+/**
+ * The codes this build accepts. A real shop asks the server; this list is
+ * what lets the promo dialog show both its valid and invalid states.
+ */
+export const promoCodes = [{ code: "SEVENPM", off: 50 }];
+
+export function findPromo(code: string) {
+  const wanted = code.trim().toUpperCase();
+  return promoCodes.find((promo) => promo.code === wanted);
+}
 
 export const bookingCopy = {
   steps: [
@@ -248,27 +279,22 @@ export const bookingCopy = {
     delivery: "Delivery",
     deliveryMethod: "Delivery method",
     deliveryHint: "Choose how you would like to get your merchandise items",
-    deliveryOptions: [
-      {
-        id: "pickup",
-        label: "Collect at the festival",
-        hint: "The merchandise stand by the main gate, from 4 PM on the day.",
-      },
-      {
-        id: "courier",
-        label: "Courier to my address",
-        hint: "2 to 4 working days in Morocco. Adds 30 MAD.",
-        fee: 30,
-      },
-    ],
     deliveryNone: "Nothing to deliver — you have no merchandise in this order.",
     add: "Add",
-    change: "Change",
+    edit: "Edit",
     payWith: "Pay with",
     wallet: "Use webook credit",
     payMethods: [
-      { id: "installment", label: "Pay in installment", icon: "/assets/ic-installment-24.svg" },
-      { id: "apple-pay", label: "Apple Pay", icon: "/assets/ic-applepay-24.svg" },
+      {
+        id: "installment",
+        label: "Pay in installment",
+        icon: "/assets/ic-installment-24.svg",
+      },
+      {
+        id: "apple-pay",
+        label: "Apple Pay",
+        icon: "/assets/ic-applepay-24.svg",
+      },
       { id: "card", label: "Card", icon: "/assets/ic-card-24.svg" },
     ],
     cardMarks: [
@@ -277,16 +303,15 @@ export const bookingCopy = {
       "/assets/pay-visa.svg",
       "/assets/pay-mastercard.svg",
     ],
-    cardNote:
-      "Card details are taken on the payment provider's own page, so SEVENPM never sees the number.",
-    discount: "Discount",
+    cardEmpty: "No card saved yet",
+    addCard: "Add new card",
+    discounts: "Discounts",
     promo: "Promo code",
-    promoPlaceholder: "Enter your code",
-    promoApply: "Apply",
-    promoUnknown: "We don't know that code",
+    promoSaved: (amount: string) => `You saved ${amount}`,
+    promoRemove: "Remove the promo code",
     priceDetails: "Price details",
     agreement:
-      "I agree that reselling a ticket on any platform is illegal and will result in account ban, ticket cancellation, and no eligibility for ticket or value refund.",
+      "I agree that reselling a ticket on any platform other than webook.com is illegal and will result in account ban, ticket cancellation, and no eligibility for ticket or value refund.",
     agreementError: "We need this before you can pay",
     terms: "By purchasing you'll agree to our",
     termsLink: "Terms and Conditions",
@@ -294,13 +319,110 @@ export const bookingCopy = {
     privacyLink: "Privacy Policy",
     privacyTail: "will apply.",
   },
-  done: {
-    title: "You're in",
-    reference: "Booking reference",
-    body: "Your tickets are held against this reference. In a live shop the payment provider would take over here and the confirmation e-mail would go out.",
-    note: "This build has no payment provider connected, so nothing was charged and nothing was sent.",
-    bookings: "See it in my bookings",
-    event: "Back to the event",
+  /** Delivery details dialog — Figma 2139:4597 and 2139:4953. */
+  deliveryDialog: {
+    title: "Delivery details",
+    subtitle: "Choose how you would like to get your merchandise items",
+    close: "Close",
+    tabs: [
+      { id: "pickup", label: "Pickup" },
+      { id: "address", label: "Deliver to address" },
+    ],
+    pickupLabel: "Please select pickup location",
+    addressLabel: "Please enter your delivery address",
+    country: "Country",
+    city: "City",
+    address: "Address",
+    save: "Save",
+    errors: {
+      pickup: "Choose a pickup point",
+      country: "Choose a country",
+      city: "Choose a city",
+      address: "We need a street address",
+    },
+  },
+  /** Add-new-card dialog — Figma 2139:5400, 2213:15202, 2213:15353. */
+  cardDialog: {
+    title: "Add new card",
+    subtitle: "Your card details is encrypted and secured",
+    close: "Close",
+    number: "Card number",
+    scan: "Scan your card",
+    expiry: "MM/YY",
+    cvc: "CVC",
+    cvcHint: "The three digits on the back of your card",
+    name: "Name on card",
+    note: "Note: we will deduct 1 MAD to ensure the card is valid, it will be refunded automatically",
+    save: "Save card for future use",
+    submit: "Add new card",
+    errors: {
+      number: "Check the card number",
+      expiry: "Expire date is due",
+      cvc: "Check the security code",
+      name: "We need the name on the card",
+    },
+  },
+  /** Promocode dialog — Figma 2146:7159, 2146:7509, 2146:7842. */
+  promoDialog: {
+    title: "Add promocode",
+    close: "Close",
+    label: "Promocode",
+    clear: "Clear the code",
+    apply: "Apply",
+    invalid: "Oops! Invalid code",
+  },
+  /** Confirmation — Figma 2192:5369 and 2213:16229. */
+  confirmation: {
+    title: "Let's turn up the volume!",
+    body: (event: string) =>
+      `Your tickets to ${event} are confirmed. Get ready for an epic night of music and memories.`,
+    viewBooking: "View booking",
+    addToCalendar: "Add to calendar",
+    summary: {
+      title: "Order summary",
+      orderNumber: "Order number",
+      copy: "Copy the order number",
+      copied: "Copied",
+      dateTime: "Date and time",
+      location: "Location",
+      directions: "Open directions",
+      share: "Share booking details",
+      shared: "Link copied",
+    },
+    tickets: {
+      title: "Where to find tickets?",
+      body: (email: string) =>
+        `Download or update the Seven PM app to the latest version, then log in using the same email address: ${email}.`,
+      account: "Access tickets in your account",
+      scan: "Scan to download the app and access your tickets",
+    },
+    price: {
+      title: "Price details",
+      subtotal: "Subtotal",
+      fee: "Innovation fees",
+      promo: "Promocode",
+      wallet: "Wallet credit",
+      total: "Total Incl. VAT",
+      vat: (amount: string) => `VAT ${amount}`,
+      receipt: "Download receipt",
+    },
+    order: {
+      title: "Order details",
+      sentTo: (email: string) =>
+        `We sent email with your booking details to ${email}`,
+      tickets: (count: number) => `Tickets (${count})`,
+      addons: (count: number) => `Add-ons (${count})`,
+      size: (size: string) => `Size: ${size}`,
+    },
+    delivery: {
+      title: "Delivery information",
+      method: "Delivery method",
+    },
+    /**
+     * There is no payment provider behind this build, so the confirmation is
+     * a rehearsal. Said plainly rather than left to be discovered.
+     */
+    note: "This build has no payment provider connected, so nothing was charged and no e-mail was sent.",
   },
 };
 
