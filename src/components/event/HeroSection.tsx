@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
+import { ConcertLights } from "@/components/motion/ConcertLights";
+import { StagePulse } from "@/components/motion/StagePulse";
+import { setStageAnalyser } from "@/components/motion/stageAudio";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 import { MiniPlayer } from "./MiniPlayer";
 import { VinylCarousel } from "./VinylCarousel";
@@ -11,13 +14,21 @@ import { useAudioAnalyser } from "./useAudioAnalyser";
 /* Authored against the 1512 × 1076 Figma hero (node 2091:56451). The deck
  * and the stickers keep their Figma coordinates; the deck stage is scaled as a
  * unit rather than reflowed, and clips at the viewport edges on the way down
- * so the centre record stays centred. */
+ * so the centre record stays centred.
+ *
+ * The page opens with the music running, a lighting rig behind it and the
+ * event name breathing on the beat — the same rig the homepage hero uses,
+ * reading the same clock. The deck's own analyser drives it here, so the
+ * light is the track rather than a stand-in for it. */
 const FRAME_WIDTH = 1512;
 const FRAME_HEIGHT = 1052;
 const STAGE_HEIGHT = 612;
 
 export function HeroSection({ event }: { event: EventDetails }) {
-  const [playing, setPlaying] = useState(false);
+  /* The deck starts running. Whether it is allowed to is up to the browser —
+     see the autoplay effect below. */
+  const [playing, setPlaying] = useState(true);
+  const blocked = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [advanceRequest, setAdvanceRequest] = useState(0);
   const [stepRequest, setStepRequest] = useState<{ id: number; dir: -1 | 1 }>();
@@ -55,13 +66,46 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
     audio.play().catch(() => {
       // Autoplay policy or a bad URL — keep the UI honest.
+      blocked.current = true;
       setPlaying(false);
     });
   }, [playing, activeIndex, activeTrack?.audioSrc]);
 
+  /* Browsers refuse audio nobody asked for until the visitor has interacted
+     with the page. When that is what stopped us, arm the first gesture so the
+     music starts the moment they touch anything — rather than leaving a deck
+     that was told to play sitting silent. */
+  useEffect(() => {
+    let spent = false;
+    const kick = () => {
+      if (spent) return;
+      spent = true;
+      off();
+      if (blocked.current) setPlaying(true);
+    };
+    const off = () => {
+      window.removeEventListener("pointerdown", kick);
+      window.removeEventListener("keydown", kick);
+    };
+    window.addEventListener("pointerdown", kick);
+    window.addEventListener("keydown", kick);
+    return off;
+  }, []);
+
+  /* Hand the signal to the rig while the deck is running, and take it back
+     when it stops so the rig falls to the house beat. */
+  useEffect(() => {
+    setStageAnalyser(playing ? analyser.current : null);
+    return () => setStageAnalyser(null);
+  }, [playing, analyser]);
+
   return (
     <>
-      <section className="relative z-0 overflow-hidden xl:min-h-[1052px]">
+      {/* Clipped on one axis only: the deck bleeds past the viewport edges and
+          must be cut there, but the lighting rig reaches up over the header to
+          the top of the page and must not be. */}
+      <section className="relative z-0 [overflow-x:clip] xl:min-h-[1052px]">
+        <ConcertLights scrim="even" />
         <audio
           ref={audioRef}
           src={activeTrack?.audioSrc}
@@ -72,9 +116,14 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
         <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-24">
           <div className="shell-pad flex w-full flex-col items-center gap-4">
-            <h1 className="display-text w-full text-center" data-reveal="clip">
-              {event.name}
-            </h1>
+            <StagePulse className="w-full">
+              <h1
+                className="display-text w-full text-center"
+                data-reveal="clip"
+              >
+                {event.name}
+              </h1>
+            </StagePulse>
             <p
               className="max-w-[962px] text-center font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
               data-split="lines"

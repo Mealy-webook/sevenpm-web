@@ -113,7 +113,11 @@ export const homeStory = {
 };
 
 export const homeCopy = {
+  /** The accessible name for the hero heading, which is shown a word at a
+      time — see `HeroHeadline`. */
   heroTitle: "More music more life",
+  heroLead: "More",
+  heroWords: ["Music", "Life"],
   intro:
     "SEVENPM creates cultural experiences that bring the world’s artists, Moroccan talent and communities together—transforming cities through music, culture and unforgettable moments.",
   listenHint: ["Press & Hold", "spacebar to listen"],

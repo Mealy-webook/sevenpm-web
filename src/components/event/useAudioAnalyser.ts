@@ -6,9 +6,12 @@ import { useEffect, useRef } from "react";
  * Taps a Web Audio analyser off the hero's <audio> element so the visualiser
  * can read the real signal.
  *
- * The graph is built once, lazily, on the first play — which is a user gesture,
- * so the AudioContext is allowed to start. `createMediaElementSource` may only
- * be called once per element, hence the refs.
+ * The graph is built once, lazily, on the first play, and kept for the life of
+ * the page. `createMediaElementSource` may only ever be called once for an
+ * element, so the graph cannot be rebuilt — which is why unmounting suspends
+ * the context rather than closing it. A closed context cannot be resumed, and
+ * with nothing left to rebuild it from, the visualiser would read silence for
+ * the rest of the session.
  *
  * Reading the samples needs the audio to be CORS-clean; the Apple previews in
  * `events.ts` are (`access-control-allow-origin: *`), and the <audio> element
@@ -52,13 +55,14 @@ export function useAudioAnalyser(
       }
     }
 
-    void ctxRef.current?.resume();
+    const ctx = ctxRef.current;
+    if (ctx && ctx.state !== "closed") void ctx.resume();
   }, [audioRef, playing]);
 
   useEffect(() => {
-    const ctx = ctxRef.current;
     return () => {
-      void ctx?.close();
+      const ctx = ctxRef.current;
+      if (ctx && ctx.state === "running") void ctx.suspend();
     };
   }, []);
 

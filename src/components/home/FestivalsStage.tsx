@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import { setStageAnalyser } from "@/components/motion/stageAudio";
+import { useAudioAnalyser } from "@/components/event/useAudioAnalyser";
 import type { Festival } from "@/data/home";
 import { homeCopy } from "@/data/home";
 
@@ -16,6 +18,10 @@ import { homeCopy } from "@/data/home";
  *
  * "Press & hold spacebar to listen": holding Space (or pressing the centre
  * poster) plays the featured festival's preview and lets go on release.
+ *
+ * While it plays, the analyser is handed to `stageAudio` so the hero's
+ * lighting rig and headline move to the actual track rather than to the house
+ * beat they fall back on.
  */
 
 const STAGE_WIDTH = 1901.634;
@@ -39,6 +45,14 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
       audio.pause();
     }
   }, [listening, featured?.audioSrc]);
+
+  /* Hand the signal to the hero while the preview is playing, and take it
+     back when it stops so the rig returns to the house beat. */
+  const analyserRef = useAudioAnalyser(audioRef, listening);
+  useEffect(() => {
+    setStageAnalyser(listening ? analyserRef.current : null);
+    return () => setStageAnalyser(null);
+  }, [listening, analyserRef]);
 
   // Spacebar: down starts, up stops. Ignored while typing in a field.
   useEffect(() => {
