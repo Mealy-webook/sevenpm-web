@@ -1,32 +1,40 @@
 "use client";
 
 /**
- * The turntable's own noises: the needle landing, and the surface it lands on.
+ * The sound of dropping the needle: the click of it landing, the weight of the
+ * arm behind it, and a moment of groove hiss before the track comes in. The
+ * hiss carries on under the first second of music and then it is gone.
  *
- * Synthesised rather than sampled. A needle drop is a filtered noise burst
- * over a low thud, and vinyl surface noise is band-limited hiss with random
- * pops through it — perhaps sixty lines of Web Audio, against an audio file
- * that would need a licence, a download and a place to live. It also means the
- * crackle can run live underneath the track for as long as it plays instead of
- * looping a fixed take.
+ * Synthesised rather than sampled. A needle drop is a click over a low thud
+ * and a short scrape; groove noise is band-limited hiss with dust through it.
+ * That is maybe a hundred lines of Web Audio against an audio file that would
+ * need a licence, a download and somewhere to live.
  *
- * It is deliberately quiet. This is the room the music is playing in, not a
- * sound effect: the drop peaks around a tenth of full scale and the surface
- * sits near a fiftieth.
+ * The whole thing is scheduled on the audio clock in one go — every envelope,
+ * every speck of dust — so it needs no timers, cannot be left running, and
+ * nothing has to remember to stop it.
  *
- * Nothing here is routed through the analyser — that taps the <audio> element
- * — so the lighting rig still moves to the music and not to the hiss.
+ * It is deliberately quiet: this is the room the record is playing in, not a
+ * sound effect.
+ *
+ * Nothing here goes through the analyser, which taps the <audio> element, so
+ * the lighting rig moves to the music and not to the hiss. And nothing here is
+ * ever allowed to hold the music up: a browser will not start an AudioContext
+ * before the visitor has interacted with the page, and a `resume()` asked for
+ * too early can sit unresolved rather than failing — so this reports how long
+ * it needs and returns zero when it made no sound, instead of handing the
+ * caller a promise to wait on.
  */
 
-/** How long the needle takes to land, seconds. Music follows it. */
-export const DROP_SECONDS = 0.42;
+/** Needle down to the groove settling. */
+const DROP = 0.45;
+/** Groove hiss on its own before the track starts. */
+const LEAD = 0.8;
+/** How long the hiss lasts under the opening of the track. */
+const TAIL = 1.1;
 
 let ctx: AudioContext | null = null;
 let noise: AudioBuffer | null = null;
-
-/** The running surface-noise bed, if one is playing. */
-let bed: { source: AudioBufferSourceNode; gain: GainNode } | null = null;
-let popTimer: ReturnType<typeof setTimeout> | null = null;
 
 function audio() {
   if (ctx) return ctx;
@@ -39,7 +47,7 @@ function audio() {
   return ctx;
 }
 
-/** Two seconds of white noise, reused for everything here. */
+/** Two seconds of white noise, the raw material for everything here. */
 function noiseBuffer(context: AudioContext) {
   if (noise) return noise;
   const frames = context.sampleRate * 2;
@@ -49,139 +57,135 @@ function noiseBuffer(context: AudioContext) {
   return noise;
 }
 
-/** A single click of dust, a few milliseconds long. */
-function pop(context: AudioContext, at: number, level: number) {
+type Band = {
+  type: BiquadFilterType;
+  from: number;
+  /** Sweep to this by `until`, if given. */
+  to?: number;
+  q?: number;
+};
+
+/**
+ * A shaped burst of noise: one filter, one gain envelope, scheduled and
+ * self-stopping. Everything but the low thud is built from this.
+ */
+function burst(
+  context: AudioContext,
+  at: number,
+  length: number,
+  peak: number,
+  band: Band,
+  attack = 0.004,
+) {
   const source = context.createBufferSource();
   source.buffer = noiseBuffer(context);
   source.loop = true;
 
-  const shape = context.createBiquadFilter();
-  shape.type = "bandpass";
-  shape.frequency.value = 1800 + Math.random() * 2600;
-  shape.Q.value = 1.4;
+  const filter = context.createBiquadFilter();
+  filter.type = band.type;
+  filter.frequency.setValueAtTime(band.from, at);
+  if (band.to) filter.frequency.exponentialRampToValueAtTime(band.to, at + length);
+  if (band.q) filter.Q.value = band.q;
 
   const gain = context.createGain();
-  gain.gain.setValueAtTime(level, at);
-  gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.014);
+  gain.gain.setValueAtTime(0.0001, at);
+  gain.gain.exponentialRampToValueAtTime(peak, at + attack);
+  gain.gain.exponentialRampToValueAtTime(0.0001, at + length);
 
-  source.connect(shape).connect(gain).connect(context.destination);
+  source.connect(filter).connect(gain).connect(context.destination);
   source.start(at);
-  source.stop(at + 0.02);
+  source.stop(at + length + 0.02);
 }
 
 /**
- * The needle landing: a broadband knock, a low thud under it, and a short
- * scrape as it settles into the groove.
+ * Drops the needle and runs the groove under the opening of the track.
+ *
+ * Returns how many milliseconds the caller should hold the music back — zero
+ * if nothing sounded, because silence must never delay a track.
  */
-export async function needleDrop() {
+export function needleDrop() {
   const context = audio();
-  if (!context) return;
-  if (context.state === "suspended") {
-    /* Refused because there has been no gesture yet — the music still goes
-       ahead without us. */
-    try {
-      await context.resume();
-    } catch {
-      return;
-    }
+  if (!context) return 0;
+
+  if (context.state !== "running") {
+    /* Ask to start, but never wait on the answer. The next play gets it. */
+    void context.resume().catch(() => {});
+    return 0;
   }
 
-  const now = context.currentTime;
+  const t = context.currentTime;
 
-  // The knock.
-  const knock = context.createBufferSource();
-  knock.buffer = noiseBuffer(context);
-  knock.loop = true;
-  const knockTone = context.createBiquadFilter();
-  knockTone.type = "bandpass";
-  knockTone.frequency.value = 1400;
-  knockTone.Q.value = 0.9;
-  const knockGain = context.createGain();
-  knockGain.gain.setValueAtTime(0.0001, now);
-  knockGain.gain.exponentialRampToValueAtTime(0.1, now + 0.006);
-  knockGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
-  knock.connect(knockTone).connect(knockGain).connect(context.destination);
-  knock.start(now);
-  knock.stop(now + 0.2);
+  /* The click of the tip meeting the record — brief and bright, the part that
+     actually reads as "needle" rather than as a generic thump. */
+  burst(context, t, 0.03, 0.14, { type: "highpass", from: 2600 }, 0.001);
 
-  // The thud of the arm's weight.
+  /* The arm's weight coming down through the plinth. */
   const thud = context.createOscillator();
   thud.type = "sine";
-  thud.frequency.setValueAtTime(110, now);
-  thud.frequency.exponentialRampToValueAtTime(42, now + 0.14);
+  thud.frequency.setValueAtTime(150, t);
+  thud.frequency.exponentialRampToValueAtTime(48, t + 0.13);
   const thudGain = context.createGain();
-  thudGain.gain.setValueAtTime(0.0001, now);
-  thudGain.gain.exponentialRampToValueAtTime(0.085, now + 0.008);
-  thudGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+  thudGain.gain.setValueAtTime(0.0001, t);
+  thudGain.gain.exponentialRampToValueAtTime(0.09, t + 0.008);
+  thudGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
   thud.connect(thudGain).connect(context.destination);
-  thud.start(now);
-  thud.stop(now + 0.22);
+  thud.start(t);
+  thud.stop(t + 0.24);
 
-  // Settling into the groove.
-  const scrape = context.createBufferSource();
-  scrape.buffer = noiseBuffer(context);
-  scrape.loop = true;
-  const scrapeTone = context.createBiquadFilter();
-  scrapeTone.type = "highpass";
-  scrapeTone.frequency.setValueAtTime(5200, now + 0.05);
-  scrapeTone.frequency.exponentialRampToValueAtTime(900, now + 0.34);
-  const scrapeGain = context.createGain();
-  scrapeGain.gain.setValueAtTime(0.0001, now + 0.05);
-  scrapeGain.gain.exponentialRampToValueAtTime(0.04, now + 0.1);
-  scrapeGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.36);
-  scrape.connect(scrapeTone).connect(scrapeGain).connect(context.destination);
-  scrape.start(now + 0.05);
-  scrape.stop(now + 0.38);
+  /* Body under the click, so it lands on something. */
+  burst(context, t, 0.12, 0.07, { type: "lowpass", from: 320 }, 0.003);
 
-  await new Promise((done) => setTimeout(done, DROP_SECONDS * 1000));
-}
+  /* Settling across a groove or two before it sits down. */
+  burst(context, t + 0.04, 0.26, 0.045, {
+    type: "bandpass",
+    from: 4200,
+    to: 900,
+    q: 0.8,
+  });
 
-/** Surface noise under the track: band-limited hiss, plus dust. */
-export function startCrackle() {
-  const context = audio();
-  if (!context || bed) return;
-
-  const source = context.createBufferSource();
-  source.buffer = noiseBuffer(context);
-  source.loop = true;
+  /* The groove itself: it comes up after the needle settles, plays alone
+     through the lead-in, and is gone shortly after the music arrives. */
+  const groove = context.createBufferSource();
+  groove.buffer = noiseBuffer(context);
+  groove.loop = true;
 
   const low = context.createBiquadFilter();
   low.type = "highpass";
-  low.frequency.value = 1200;
+  low.frequency.value = 900;
   const high = context.createBiquadFilter();
   high.type = "lowpass";
-  high.frequency.value = 7000;
+  high.frequency.value = 6500;
 
-  const gain = context.createGain();
-  gain.gain.setValueAtTime(0.0001, context.currentTime);
-  gain.gain.linearRampToValueAtTime(0.02, context.currentTime + 0.5);
+  const grooveGain = context.createGain();
+  const grooveStart = t + DROP * 0.4;
+  const musicAt = t + DROP + LEAD;
+  const grooveEnd = musicAt + TAIL;
+  grooveGain.gain.setValueAtTime(0.0001, grooveStart);
+  grooveGain.gain.exponentialRampToValueAtTime(0.03, grooveStart + 0.18);
+  grooveGain.gain.setValueAtTime(0.03, musicAt);
+  grooveGain.gain.exponentialRampToValueAtTime(0.0001, grooveEnd);
 
-  source.connect(low).connect(high).connect(gain).connect(context.destination);
-  source.start();
-  bed = { source, gain };
+  groove
+    .connect(low)
+    .connect(high)
+    .connect(grooveGain)
+    .connect(context.destination);
+  groove.start(grooveStart);
+  groove.stop(grooveEnd + 0.05);
 
-  /* Dust is irregular by nature, so each click schedules the next one rather
-     than running off a fixed interval. */
-  const scatter = () => {
-    if (!bed || !ctx) return;
-    pop(ctx, ctx.currentTime + 0.01, 0.02 + Math.random() * 0.05);
-    popTimer = setTimeout(scatter, 120 + Math.random() * 900);
-  };
-  popTimer = setTimeout(scatter, 300);
-}
-
-export function stopCrackle() {
-  if (popTimer) {
-    clearTimeout(popTimer);
-    popTimer = null;
+  /* Dust. Scattered by hand across the window rather than spaced evenly,
+     because evenly spaced clicks read as a fault rather than as a record. */
+  for (let at = grooveStart + 0.1; at < grooveEnd - 0.1; ) {
+    burst(
+      context,
+      at,
+      0.012,
+      0.025 + Math.random() * 0.045,
+      { type: "bandpass", from: 1800 + Math.random() * 2800, q: 1.4 },
+      0.001,
+    );
+    at += 0.09 + Math.random() * 0.5;
   }
-  if (!bed || !ctx) return;
 
-  const { source, gain } = bed;
-  bed = null;
-  const end = ctx.currentTime + 0.35;
-  gain.gain.cancelScheduledValues(ctx.currentTime);
-  gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.0001, end);
-  source.stop(end + 0.05);
+  return (DROP + LEAD) * 1000;
 }

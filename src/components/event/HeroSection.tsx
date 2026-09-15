@@ -10,16 +10,16 @@ import { StickerPeel } from "@/components/ui/StickerPeel";
 import { MiniPlayer } from "./MiniPlayer";
 import { VinylCarousel } from "./VinylCarousel";
 import { useAudioAnalyser } from "./useAudioAnalyser";
-import { needleDrop, startCrackle, stopCrackle } from "./vinylNoise";
+import { needleDrop } from "./vinylNoise";
 
 /* Authored against the 1512 × 1076 Figma hero (node 2091:56451). The deck
  * and the stickers keep their Figma coordinates; the deck stage is scaled as a
  * unit rather than reflowed, and clips at the viewport edges on the way down
  * so the centre record stays centred.
  *
- * It is a record deck, so it sounds like one: the needle lands before the
- * track starts and surface noise runs under it until it stops (`vinylNoise`,
- * synthesised — no sample to licence).
+ * It is a record deck, so it sounds like one: the needle lands, the groove
+ * hisses for a moment, and then the track comes in over the tail of it
+ * (`vinylNoise`, synthesised — no sample to licence).
  *
  * The page opens with the music running, a lighting rig behind it and the
  * event name breathing on the beat — the same rig the homepage hero uses,
@@ -65,35 +65,33 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
     if (!playing) {
       audio.pause();
-      stopCrackle();
       return;
     }
     if (!activeTrack?.audioSrc) return;
 
-    /* Drop the needle, then start the track. If this effect is torn down
-       mid-drop — a fast pause, or a track change — the play that was queued
-       behind it must not land afterwards. */
-    let live = true;
-
-    void (async () => {
-      await needleDrop();
-      if (!live) return;
-      startCrackle();
+    /* Drop the needle, then bring the track in behind it. The wait is however
+       long the drop said it needed and nothing more — it is zero when the
+       browser would not let it sound, so the music is never held up by a noise
+       that is not playing. */
+    const start = () => {
       audio.play().catch(() => {
         // Autoplay policy or a bad URL — keep the UI honest.
         blocked.current = true;
-        stopCrackle();
         setPlaying(false);
       });
-    })();
-
-    return () => {
-      live = false;
     };
-  }, [playing, activeIndex, activeTrack?.audioSrc]);
 
-  /* Nothing should keep hissing after the page has gone. */
-  useEffect(() => stopCrackle, []);
+    const wait = needleDrop();
+    if (!wait) {
+      start();
+      return;
+    }
+
+    /* Torn down mid-drop — a fast pause, or a track change — and the play
+       queued behind it must not land afterwards. */
+    const timer = setTimeout(start, wait);
+    return () => clearTimeout(timer);
+  }, [playing, activeIndex, activeTrack?.audioSrc]);
 
   /* Browsers refuse audio nobody asked for until the visitor has interacted
      with the page. When that is what stopped us, arm the first gesture so the
@@ -130,11 +128,17 @@ export function HeroSection({ event }: { event: EventDetails }) {
           the top of the page and must not be. */}
       <section className="relative z-0 [overflow-x:clip] xl:min-h-[1052px]">
         <ConcertLights scrim="even" />
+        {/* The element is the truth about whether anything is playing, and the
+            platter follows it. Without this a stall, a media-session pause or
+            an OS interruption would stop the sound and leave the record
+            turning. */}
         <audio
           ref={audioRef}
           src={activeTrack?.audioSrc}
           crossOrigin="anonymous"
           preload="none"
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
           onEnded={() => setAdvanceRequest((n) => n + 1)}
         />
 
