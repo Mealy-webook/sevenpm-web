@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import type { TicketTier } from "@/data/events";
+import { CountUp } from "@/components/ui/CountUp";
 
 /**
  * A ticket stub, from Figma 2179:33880 (grey paper) and 2179:35522 (dark
@@ -12,6 +13,10 @@ import type { TicketTier } from "@/data/events";
  * except the strip and body artwork. Mapping a portrait point (x, y) in the
  * comp to the screen is (cardLength − y, x); every content block lands on the
  * card's horizontal centre, so only the vertical offsets are kept below.
+ *
+ * The stub leans toward the cursor and its ends pull away from the card on
+ * hover — see `StubTilt` and the `.stub-tilt` rules; the strips below carry
+ * `data-strip` for that. The price rolls up the first time it is seen.
  *
  * Grey paper is a photographic texture (`stub-paper.jpg` at 80% over the page
  * background, plus a 10% black wash) with a textured body PNG; dark paper is a
@@ -77,6 +82,7 @@ export function TicketStub({
     <div
       className={`pointer-events-none absolute top-0 ${side === "left" ? "left-0" : "right-0"}`}
       style={{ width: paper.strip, height: STRIP_LONG }}
+      data-strip={side}
       aria-hidden
     >
       <Image
@@ -220,7 +226,7 @@ export function TicketStub({
             <span
               className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
             >
-              {tier.priceFrom} {tier.currency}
+              <CountUp value={tier.priceFrom} /> {tier.currency}
             </span>
             <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
               {" / Person"}

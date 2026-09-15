@@ -3,12 +3,17 @@
 import Image from "next/image";
 
 import type { Totals } from "./cart";
+import { TickingValue } from "@/components/ui/RollingNumber";
 import { bookingCopy, formatMoney } from "@/data/booking";
 
 /**
  * Booking summary bar, from Figma 2138:3409 / 2033:14633: what is in the
  * basket on the left, the step's one action on the right. It sits under the
  * poster on desktop and sticks to the bottom of the viewport on phones.
+ *
+ * The total travels to its new figure as the basket changes. It is the number
+ * people are watching while they add things; seeing it move is the feedback
+ * that the tap landed.
  */
 export function SummaryBar({
   totals,
@@ -63,9 +68,11 @@ export function SummaryBar({
                 <span className="font-[family-name:var(--font-sans)] text-[14px] leading-5 text-content-secondary">
                   {bookingCopy.summaryBar.total}
                 </span>
-                <span className="font-[family-name:var(--font-sans)] text-[18px] font-medium leading-7 text-content-primary">
-                  {formatMoney(totals.total)}
-                </span>
+                <TickingValue
+                  value={totals.total}
+                  format={formatMoney}
+                  className="font-[family-name:var(--font-sans)] text-[18px] font-medium leading-7 text-content-primary"
+                />
               </p>
             </>
           )}

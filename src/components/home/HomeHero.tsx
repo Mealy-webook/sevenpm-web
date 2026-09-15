@@ -1,4 +1,5 @@
 import { ConcertLights } from "@/components/motion/ConcertLights";
+import { StageMeter } from "@/components/motion/StageMeter";
 import { HeroHeadline } from "@/components/home/HeroHeadline";
 import { ImageTrail } from "@/components/ui/image-trail";
 import { heroTrailImages, homeCopy } from "@/data/home";
@@ -8,7 +9,7 @@ import { heroTrailImages, homeCopy } from "@/data/home";
  * Daltown 260/208 over two lines; here the second line cycles between the two
  * words instead of printing both (`HeroHeadline`). The
  * little yellow equaliser in the bottom-right corner is the comp's four bars,
- * kept moving. Moving the cursor across the hero leaves a trail of SEVENPM
+ * reading the spectrum of whatever is playing. Moving the cursor across the hero leaves a trail of SEVENPM
  * concert photos behind the copy (`ImageTrail`); the native cursor and touch
  * scrolling are left alone.
  *
@@ -43,23 +44,7 @@ export function HomeHero() {
             {homeCopy.intro}
           </p>
 
-          <div
-            className="eq-bars absolute bottom-16 right-[var(--shell-gutter)] hidden items-end gap-0.5 xl:flex"
-            aria-hidden
-          >
-            <span
-              style={{ "--h": "6px", "--d": "0s" } as React.CSSProperties}
-            />
-            <span
-              style={{ "--h": "16px", "--d": "-0.4s" } as React.CSSProperties}
-            />
-            <span
-              style={{ "--h": "12px", "--d": "-0.8s" } as React.CSSProperties}
-            />
-            <span
-              style={{ "--h": "2px", "--d": "-1.2s" } as React.CSSProperties}
-            />
-          </div>
+          <StageMeter className="absolute bottom-16 right-[var(--shell-gutter)] hidden items-end gap-0.5 xl:flex" />
         </div>
       </ImageTrail>
     </section>

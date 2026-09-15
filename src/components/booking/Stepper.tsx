@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 
+import { Odometer } from "@/components/ui/RollingNumber";
 import { bookingConfig, bookingCopy } from "@/data/booking";
 
 /**
@@ -15,6 +16,10 @@ import { bookingConfig, bookingCopy } from "@/data/booking";
  *
  * `emphasised` swaps the 5% overlay for the solid elevated surface, for the
  * control that floats over a product photo.
+ *
+ * The count is a digit wheel rather than a figure that blinks: pressing + is
+ * the one place in the flow where a number changes under your finger, and it
+ * should look like it moved.
  */
 
 const SHELL =
@@ -89,11 +94,12 @@ export function Stepper({
           className="size-4"
         />
       </button>
-      <span
-        aria-live="polite"
-        className="min-w-5 text-center font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary"
-      >
-        {value}
+      <span aria-live="polite" className="contents">
+        <Odometer
+          value={value}
+          max={bookingConfig.maxPerLine}
+          className="min-w-5 font-[family-name:var(--font-display)] text-[15px] font-semibold tracking-[0.19px] text-content-primary"
+        />
       </span>
       <button
         type="button"

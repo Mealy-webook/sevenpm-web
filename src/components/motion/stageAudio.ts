@@ -25,6 +25,15 @@ let bins: Uint8Array<ArrayBuffer> | null = null;
 
 /** Smoothed 0–1 level. Fast attack, slow release — a pulse, not a wobble. */
 let level = 0;
+
+/**
+ * How many bands the spectrum is folded down to. Enough for a meter to read
+ * as a meter; anything finer is noise at the sizes these are drawn.
+ */
+export const BANDS = 8;
+
+/* Smoothed per-band energy, bass on the left. */
+const bands = new Float32Array(BANDS);
 /**
  * Decaying peak, so a quiet master still fills the range instead of leaving
  * the rig at a permanent half-brightness.
@@ -74,11 +83,31 @@ function sample(dt: number) {
     peak = Math.max(raw, peak * 0.9995);
     const target = Math.min(1, raw / Math.max(peak, 0.08));
     level += (target - level) * (target > level ? 0.5 : Math.min(1, dt * 4));
+
+    /* Fold the spectrum into bands on a roughly logarithmic split — even
+       slices would give a meter that is all bass and no treble, since most of
+       an FFT's bins sit above anything you can hear as pitch. */
+    for (let b = 0; b < BANDS; b += 1) {
+      const from = Math.floor(bins.length * Math.pow(b / BANDS, 2) * 0.6);
+      const to = Math.max(
+        from + 1,
+        Math.floor(bins.length * Math.pow((b + 1) / BANDS, 2) * 0.6),
+      );
+      let band = 0;
+      for (let i = from; i < to; i += 1) band += bins[i];
+      const value = Math.min(1, band / (to - from) / 200);
+      bands[b] += (value - bands[b]) * (value > bands[b] ? 0.55 : 0.18);
+    }
     return;
   }
   /* Silence: fade out rather than cut. */
-  level += (0 - level) * Math.min(1, dt * 3);
+  const fall = Math.min(1, dt * 3);
+  level += (0 - level) * fall;
   if (level < 0.001) level = 0;
+  for (let b = 0; b < BANDS; b += 1) {
+    bands[b] += (0 - bands[b]) * fall;
+    if (bands[b] < 0.001) bands[b] = 0;
+  }
 }
 
 function tick(ts: number) {
@@ -121,6 +150,15 @@ export function onStageFrame(fn: Listener) {
     listeners.delete(fn);
     if (!listeners.size) stop();
   };
+}
+
+/**
+ * The current per-band energy, bass first. Read it inside an `onStageFrame`
+ * callback; the array is reused every frame rather than reallocated, so copy
+ * anything you intend to keep.
+ */
+export function stageBands() {
+  return bands;
 }
 
 /** True while a real track is driving the level. */

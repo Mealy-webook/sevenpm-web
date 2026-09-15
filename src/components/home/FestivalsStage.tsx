@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { setStageAnalyser } from "@/components/motion/stageAudio";
+import { onStageFrame, setStageAnalyser } from "@/components/motion/stageAudio";
 import { useAudioAnalyser } from "@/components/event/useAudioAnalyser";
 import type { Festival } from "@/data/home";
 import { homeCopy } from "@/data/home";
@@ -20,8 +20,8 @@ import { homeCopy } from "@/data/home";
  * poster) plays the featured festival's preview and lets go on release.
  *
  * While it plays, the analyser is handed to `stageAudio` so the hero's
- * lighting rig and headline move to the actual track rather than to the house
- * beat they fall back on.
+ * lighting rig, headline and meter move to the actual track, and the colour
+ * wash behind the centre poster breathes with it.
  */
 
 const STAGE_WIDTH = 1901.634;
@@ -33,6 +33,7 @@ const GLOW_LEFT = 702.817;
 export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
   const featured = festivals[Math.floor(festivals.length / 2)];
   const audioRef = useRef<HTMLAudioElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
   const [listening, setListening] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -53,6 +54,19 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
     setStageAnalyser(listening ? analyserRef.current : null);
     return () => setStageAnalyser(null);
   }, [listening, analyserRef]);
+
+  /* The wash swells on the beat. Only `scale` is written here — the CSS owns
+     opacity and the transform that widens it while listening, and two writers
+     on one property spend the frame undoing each other. */
+  useEffect(() => {
+    const glow = glowRef.current;
+    if (!glow) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    return onStageFrame((_t, level) => {
+      glow.style.scale = String(1 + level * 0.14);
+    });
+  }, []);
 
   // Spacebar: down starts, up stops. Ignored while typing in a field.
   useEffect(() => {
@@ -80,8 +94,18 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
 
   return (
     <div className="flex w-full flex-col items-center gap-12">
+      {/* `crossOrigin` is what lets the analyser read the samples at all —
+          without it the preview plays but every meter reading comes back
+          silent, because the browser will not hand over cross-origin audio
+          data. The Apple previews send `access-control-allow-origin: *`. */}
       {featured?.audioSrc && (
-        <audio ref={audioRef} src={featured.audioSrc} preload="none" loop />
+        <audio
+          ref={audioRef}
+          src={featured.audioSrc}
+          crossOrigin="anonymous"
+          preload="none"
+          loop
+        />
       )}
 
       {/* Stage: 1901.63 × 526 at 1512, scaled with the viewport */}
@@ -103,6 +127,7 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
         >
           {/* Colour wash behind the featured poster */}
           <div
+            ref={glowRef}
             aria-hidden
             className="festival-glow pointer-events-none absolute"
             style={{ left: GLOW_LEFT, top: -1, width: GLOW, height: GLOW }}

@@ -10,11 +10,16 @@ import { StickerPeel } from "@/components/ui/StickerPeel";
 import { MiniPlayer } from "./MiniPlayer";
 import { VinylCarousel } from "./VinylCarousel";
 import { useAudioAnalyser } from "./useAudioAnalyser";
+import { needleDrop, startCrackle, stopCrackle } from "./vinylNoise";
 
 /* Authored against the 1512 × 1076 Figma hero (node 2091:56451). The deck
  * and the stickers keep their Figma coordinates; the deck stage is scaled as a
  * unit rather than reflowed, and clips at the viewport edges on the way down
  * so the centre record stays centred.
+ *
+ * It is a record deck, so it sounds like one: the needle lands before the
+ * track starts and surface noise runs under it until it stops (`vinylNoise`,
+ * synthesised — no sample to licence).
  *
  * The page opens with the music running, a lighting rig behind it and the
  * event name breathing on the beat — the same rig the homepage hero uses,
@@ -60,16 +65,35 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
     if (!playing) {
       audio.pause();
+      stopCrackle();
       return;
     }
     if (!activeTrack?.audioSrc) return;
 
-    audio.play().catch(() => {
-      // Autoplay policy or a bad URL — keep the UI honest.
-      blocked.current = true;
-      setPlaying(false);
-    });
+    /* Drop the needle, then start the track. If this effect is torn down
+       mid-drop — a fast pause, or a track change — the play that was queued
+       behind it must not land afterwards. */
+    let live = true;
+
+    void (async () => {
+      await needleDrop();
+      if (!live) return;
+      startCrackle();
+      audio.play().catch(() => {
+        // Autoplay policy or a bad URL — keep the UI honest.
+        blocked.current = true;
+        stopCrackle();
+        setPlaying(false);
+      });
+    })();
+
+    return () => {
+      live = false;
+    };
   }, [playing, activeIndex, activeTrack?.audioSrc]);
+
+  /* Nothing should keep hissing after the page has gone. */
+  useEffect(() => stopCrackle, []);
 
   /* Browsers refuse audio nobody asked for until the visitor has interacted
      with the page. When that is what stopped us, arm the first gesture so the

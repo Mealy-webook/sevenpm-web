@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
+import { MapPin } from "./MapPin";
 
 export function LocationSection({ event }: { event: EventDetails }) {
   const { venue, infoTiles } = event;
@@ -24,7 +25,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
               width={1426}
               height={960}
               sizes="(max-width: 1512px) 120vw, 1426px"
-              className="absolute max-w-none object-cover"
+              className="map-drift absolute max-w-none object-cover"
               style={{
                 height: "274.94%",
                 width: "112.11%",
@@ -33,16 +34,9 @@ export function LocationSection({ event }: { event: EventDetails }) {
               }}
             />
 
-            <Image
-              src="/assets/ic-map-pin.svg"
-              alt=""
-              width={56}
-              height={56}
-              className="absolute size-14"
-              style={{
-                left: `${(venue.pin.x / 1272) * 100}%`,
-                top: `${(venue.pin.y / 349) * 100}%`,
-              }}
+            <MapPin
+              x={(venue.pin.x / 1272) * 100}
+              y={(venue.pin.y / 349) * 100}
             />
 
             <div className="relative flex w-full flex-col gap-4 bg-gradient-to-b from-transparent to-black to-[65.385%] p-6 sm:flex-row sm:items-center sm:gap-8">

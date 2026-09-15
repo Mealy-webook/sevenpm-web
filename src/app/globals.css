@@ -351,6 +351,131 @@ body {
   transform: translateY(-8px);
 }
 
+/* Membership track: a highlight travels the rails you have already earned, so
+   the reached part of the journey reads as live rather than as a filled bar.
+   Staggered per segment, so it runs the length of the track once. */
+.tier-rail {
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-rail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-brand) 50%,
+    transparent 100%
+  );
+  translate: -100% 0;
+  animation: rail-glint 4.5s cubic-bezier(0.45, 0, 0.2, 1) var(--rail-delay, 0s)
+    infinite;
+}
+
+@keyframes rail-glint {
+  0% {
+    translate: -100% 0;
+  }
+  38%,
+  100% {
+    translate: 100% 0;
+  }
+}
+
+/* Quantity wheel: the strip of digits steps to the one on show. */
+.odometer-strip {
+  transition: translate 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .odometer-strip {
+    transition: none;
+  }
+
+  .tier-rail::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Venue marker: drops in when the map is first seen, then a ring keeps
+   going out from under it. */
+.map-pin {
+  opacity: 0;
+  translate: 0 -28px;
+  scale: 0.8;
+}
+
+.map-pin[data-landed="true"] {
+  animation: pin-drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pin-drop {
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+.map-pin-ring {
+  position: absolute;
+  left: 50%;
+  top: 74%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid var(--color-brand);
+  border-radius: 999px;
+  opacity: 0;
+}
+
+.map-pin[data-landed="true"] .map-pin-ring {
+  animation: pin-ring 2.6s ease-out 0.7s infinite;
+}
+
+@keyframes pin-ring {
+  0% {
+    opacity: 0.7;
+    scale: 0.4;
+  }
+  70%,
+  100% {
+    opacity: 0;
+    scale: 3.4;
+  }
+}
+
+/* The map itself drifts, so the panel is never quite a still photograph. */
+.map-drift {
+  animation: map-drift 38s ease-in-out infinite alternate;
+}
+
+@keyframes map-drift {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.07;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-pin {
+    opacity: 1;
+    translate: none;
+    scale: none;
+  }
+
+  .map-pin[data-landed="true"],
+  .map-pin[data-landed="true"] .map-pin-ring,
+  .map-drift {
+    animation: none;
+  }
+}
+
 /* Ticket stubs are drawn at their Figma size (403 or 393 × 250, set per stub
    through `--stub-w`) and scaled down as a unit once the viewport is narrower
    than one stub. */
@@ -371,6 +496,40 @@ body {
 .ticket-stub-scale {
   transform: scale(var(--stub-scale));
   transform-origin: top left;
+}
+
+/* The stub leans toward the cursor (`StubTilt`), and its perforated ends pull
+   away from the card as if the tear were starting. */
+.ticket-stub-box {
+  perspective: 1100px;
+}
+
+.stub-tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stub-tilt [data-strip] {
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stub-tilt[data-lean="true"] [data-strip="left"] {
+  translate: -5px 0;
+}
+
+.stub-tilt[data-lean="true"] [data-strip="right"] {
+  translate: 5px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stub-tilt,
+  .stub-tilt [data-strip] {
+    transition: none;
+  }
+
+  .stub-tilt[data-lean="true"] [data-strip] {
+    translate: none;
+  }
 }
 
 /* Stub CTA: dark fill sweeps up from the bottom edge on hover. Kept off the
@@ -701,29 +860,15 @@ body {
 }
 
 /* Hero equaliser: the comp's four little bars, kept moving. */
+/* Heights come from the comp; `StageMeter` scales them from the spectrum
+   while something is playing and lets them settle back when it stops. */
 .eq-bars span {
   display: block;
   width: 5px;
   height: var(--h);
   background: var(--color-brand);
-  animation: eq-bounce 1.4s ease-in-out infinite alternate;
-  animation-delay: var(--d);
   transform-origin: bottom;
-}
-
-@keyframes eq-bounce {
-  from {
-    transform: scaleY(0.35);
-  }
-  to {
-    transform: scaleY(1.25);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eq-bars span {
-    animation: none;
-  }
+  transition: scale 0.25s ease-out;
 }
 
 /* News cards: the paper texture from the comp over white. */

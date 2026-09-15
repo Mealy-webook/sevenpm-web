@@ -4,12 +4,16 @@ import Image from "next/image";
 import { useId, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
+import { FaqAnswer } from "./FaqAnswer";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
 
 /**
  * FAQ accordion. One item open at a time, the first by default. The answer
  * panel is a sibling of the question button (not inside it), so the button
  * stays a plain toggle and the panel is its own landmark for assistive tech.
+ *
+ * The panel opens on a 0fr → 1fr grid; `FaqAnswer` walks the text up into it a
+ * line at a time as it goes.
  */
 export function FaqSection({ event }: { event: EventDetails }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -84,9 +88,12 @@ export function FaqSection({ event }: { event: EventDetails }) {
                   }}
                 >
                   <div className="overflow-hidden">
-                    <p className="m-0 px-6 pb-6 pl-[calc(1.5rem+56px+2rem)] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+                    <FaqAnswer
+                      open={open}
+                      className="m-0 px-6 pb-6 pl-[calc(1.5rem+56px+2rem)] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
+                    >
                       {item.answer ?? "Details coming soon."}
-                    </p>
+                    </FaqAnswer>
                   </div>
                 </div>
               </div>

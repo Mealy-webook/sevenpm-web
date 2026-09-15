@@ -55,7 +55,11 @@ function slotFor(offset: number) {
 const ARM = { left: 841.5, top: -65, width: 396.053, height: 450.136 };
 const ARM_REST = 15;
 const ARM_PLAY = 9;
-const SPIN_SECONDS = 3.2;
+/* 33⅓ RPM, the speed an LP actually turns: one revolution every 1.8 seconds.
+   The platter still eases up to it and coasts down, which is the part that
+   reads as a real deck rather than a looping GIF. */
+const RPM = 100 / 3;
+const SPIN_SECONDS = 60 / RPM;
 
 /** Apple artwork URLs carry their size in the path; ask for the size we need. */
 function artworkAt(url: string, px: number) {

@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { HowToEarnDialog } from "./HowToEarnDialog";
 import { useLoyalty } from "./loyaltyStore";
+import { TickingValue } from "@/components/ui/RollingNumber";
 import {
   accountUser,
   loyaltyCopy,
@@ -18,7 +19,9 @@ import {
  * on the left, the Beats card on the right.
  *
  * The balance comes from the shared store so redeeming in the panel below
- * moves the number up here too.
+ * moves the number up here too — and it counts down to the new figure rather
+ * than cutting to it, which is the whole feedback for a redemption that
+ * happens two sections away.
  *
  * The card carries the balance in Daltown 64/44, the distance to the next
  * membership, when Beats expire, and the membership track — reached stops in
@@ -30,6 +33,10 @@ import {
  * disagrees with itself — it says "Crowd Member" while the track marks Front
  * row as reached, so the chip names the highest membership actually held.
  */
+/** Module-level so `TickingValue` gets the same function every render. */
+const beats = (value: number) =>
+  Math.round(value).toLocaleString("en-US");
+
 export function LoyaltyBanner() {
   const { balance } = useLoyalty();
   const [howToOpen, setHowToOpen] = useState(false);
@@ -74,9 +81,11 @@ export function LoyaltyBanner() {
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="m-0 flex items-end gap-2 font-daltown text-[48px] uppercase leading-[44px] xl:text-[64px]">
-                <span className="tabular-nums text-white">
-                  {balance.toLocaleString("en-US")}
-                </span>
+                <TickingValue
+                  value={balance}
+                  format={beats}
+                  className="tabular-nums text-white"
+                />
                 <span className="text-brand">{loyaltyCopy.unit}</span>
               </p>
 
@@ -129,8 +138,11 @@ export function LoyaltyBanner() {
                     <span
                       aria-hidden
                       className={`mt-[10.5px] h-[3px] min-w-px flex-1 ${
-                        index <= reachedIndex ? "bg-white" : "bg-white/5"
+                        index <= reachedIndex
+                          ? "tier-rail bg-white"
+                          : "bg-white/5"
                       }`}
+                      style={{ "--rail-delay": `${index * 0.5}s` } as React.CSSProperties}
                     />
                   )}
                   <span className="flex shrink-0 flex-col items-center gap-2">
