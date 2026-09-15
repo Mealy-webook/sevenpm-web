@@ -220,7 +220,10 @@ export type LoyaltyReward = {
   name: string;
   cost: number;
   icon: string;
-  /** The membership this reward belongs to — the chips filter on it. */
+  /**
+   * The membership this reward is filed under. It drives the chips only —
+   * whether a reward can be taken is a question of Beats, not rank.
+   */
   tier: string;
 };
 
@@ -249,9 +252,9 @@ export const loyaltyBalance = 500;
 
 export const loyaltyTiers: LoyaltyTier[] = [
   { id: "crowd", name: "Crowd", threshold: 0 },
-  { id: "front-row", name: "Front row", threshold: 1000 },
-  { id: "back-stage", name: "Back stage", threshold: 5000 },
-  { id: "headliner", name: "Headliner", threshold: 12000 },
+  { id: "front-row", name: "Front row", threshold: 500 },
+  { id: "back-stage", name: "Back stage", threshold: 1000 },
+  { id: "headliner", name: "Headliner", threshold: 2500 },
 ];
 
 export const loyaltyRewards: LoyaltyReward[] = [
@@ -316,9 +319,9 @@ export const loyaltyActivity: LoyaltyEntry[] = [
   },
 ];
 
-/** What the "How to earn beats" sheet explains. */
+/** What the "How it works" sheet explains. */
 export const loyaltyHowTo = {
-  title: "How to earn beats",
+  title: "How it works",
   intro:
     "Beats are what SevenPM Rewards runs on. You earn them by turning up, and you spend them on the rewards your membership unlocks.",
   earnTitle: "Ways to earn",
@@ -363,7 +366,7 @@ export const loyaltyCopy = {
   greeting: (name: string) => `Hi, ${name}`,
   memberLabel: (tier: string) => `${tier} Member`,
   memberSince: "Since 2026",
-  howTo: "How to earn beats",
+  howTo: "How it works",
   /** Beats expire, so the card says when and how many. */
   expiring: 100,
   expiresAt: "20 Sep 2026",
@@ -376,8 +379,9 @@ export const loyaltyCopy = {
   allMemberships: "All Memberships",
   redeem: "Redeem",
   redeemed: "Redeemed",
+  /** Not enough Beats yet. Rank never locks a reward, only the balance does. */
   locked: "Locked",
-  short: (beats: number) => `${beats.toLocaleString("en-US")} Beats short`,
+  today: "Today",
   activityTitle: "Beats activity",
   beats: (beats: number) => `${Math.abs(beats).toLocaleString("en-US")} Beats`,
   earned: (beats: number) => `+${beats.toLocaleString("en-US")} Beats`,

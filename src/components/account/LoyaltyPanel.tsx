@@ -7,7 +7,6 @@ import { redeemReward, useLoyalty } from "./loyaltyStore";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import {
   loyaltyCopy,
-  loyaltyLifetime,
   loyaltyRewards,
   loyaltyTiers,
   type LoyaltyEntry,
@@ -15,12 +14,13 @@ import {
 } from "@/data/account";
 
 /**
- * SevenPM Rewards, from Figma 2250:10073: the rewards card with its
- * membership chips, then the Beats ledger grouped by day.
+ * SevenPM Rewards, from Figma 2250:10073: the rewards list with its membership
+ * chips, then the Beats ledger grouped by day. Both sit flush on the page
+ * ground — the comp draws no card around either.
  *
- * A reward belongs to a membership. One from a membership you have not
- * reached reads "Locked" — the chips above filter the same list, so the row
- * has to say why it cannot be taken rather than just hiding.
+ * A reward you cannot afford reads "Locked". Rank files a reward under a
+ * membership and the chips filter on that, but it is the balance that decides
+ * whether a row can be taken — which is what the comp shows at 500 Beats.
  *
  * Redeeming spends Beats here and logs the movement, which is as far as a
  * prototype should go; the note at the bottom says so rather than leaving
@@ -28,7 +28,7 @@ import {
  */
 
 const dayLabel = (offset: number) => {
-  if (offset === 0) return "Today";
+  if (offset === 0) return loyaltyCopy.today;
   if (offset === 1) return "Yesterday";
   return `${offset} days ago`;
 };
@@ -41,10 +41,10 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** The 48px dark tile every row leads with. */
+/** The 40px tile every row leads with. */
 function RowIcon({ src }: { src: string }) {
   return (
-    <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden bg-bg-secondary">
+    <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden bg-bg-tertiary p-2">
       <Image src={src} alt="" width={24} height={24} className="size-6" />
     </span>
   );
@@ -55,13 +55,6 @@ export function LoyaltyPanel() {
   const [pending, setPending] = useState<LoyaltyReward | null>(null);
   const [openEntry, setOpenEntry] = useState<string | null>(null);
   const [filter, setFilter] = useState("all");
-
-  /* Status is banked, not spent: membership reads off everything ever
-     earned, so redeeming never costs it. */
-  const reachedTiers = loyaltyTiers.filter(
-    (tier) => loyaltyLifetime >= tier.threshold,
-  );
-  const reached = new Set(reachedTiers.map((tier) => tier.id));
 
   const isRedeemed = (id: string) => redeemed.includes(id);
 
@@ -93,140 +86,124 @@ export function LoyaltyPanel() {
           <SectionTitle>{loyaltyCopy.title}</SectionTitle>
         </span>
 
-        <div className="flex flex-col gap-6 border border-white/5 p-6">
-          <div
-            role="tablist"
-            aria-label={loyaltyCopy.title}
-            className="flex flex-wrap gap-[10px]"
-          >
-            {[{ id: "all", name: loyaltyCopy.allMemberships }, ...loyaltyTiers].map(
-              (chip) => {
-                const selected = filter === chip.id;
-                return (
-                  <button
-                    key={chip.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={selected}
-                    onClick={() => setFilter(chip.id)}
-                    className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
-                      selected
-                        ? "border border-content-primary bg-white/10"
-                        : "border border-white/10 bg-white/5 hover:bg-white/10"
-                    }`}
-                  >
-                    {chip.name}
-                  </button>
-                );
-              },
-            )}
-          </div>
-
-          {shown.length === 0 ? (
-            <p className="m-0 py-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
-              {loyaltyCopy.empty}
-            </p>
-          ) : (
-            <ul className="m-0 flex list-none flex-col p-0">
-              {shown.map((reward, index) => {
-                const taken = isRedeemed(reward.id);
-                const unlocked = reached.has(reward.tier);
-                const short = reward.cost - balance;
-                const last = index === shown.length - 1;
-
-                return (
-                  <li key={reward.id} className="flex items-center gap-4">
-                    <RowIcon src={reward.icon} />
-                    <span
-                      className={`flex min-w-0 flex-1 items-center gap-2 py-3 ${
-                        last ? "" : "border-b-[0.5px] border-white/10"
-                      }`}
-                    >
-                      <span className="flex min-w-0 flex-1 flex-col">
-                        <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
-                          {reward.name}
-                        </span>
-                        <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-                          {reward.cost.toLocaleString("en-US")}{" "}
-                          {loyaltyCopy.unit}
-                        </span>
-                      </span>
-
-                      {taken ? (
-                        <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-[#4ade80]">
-                          {loyaltyCopy.redeemed}
-                        </span>
-                      ) : !unlocked ? (
-                        <span className="flex shrink-0 items-center justify-center gap-1 bg-white/5 p-3">
-                          <Image
-                            src="/assets/ic-lock-locked-16.svg"
-                            alt=""
-                            width={16}
-                            height={16}
-                            className="size-4"
-                          />
-                          <span className="px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white/30">
-                            {loyaltyCopy.locked}
-                          </span>
-                        </span>
-                      ) : short > 0 ? (
-                        <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-                          {loyaltyCopy.short(short)}
-                        </span>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setPending(reward)}
-                          className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 transition-colors hover:bg-white/90"
-                        >
-                          <span className="flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-[#18181b]">
-                            {loyaltyCopy.redeem}
-                          </span>
-                        </button>
-                      )}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
+        <div
+          role="tablist"
+          aria-label={loyaltyCopy.title}
+          className="flex flex-wrap gap-[10px]"
+        >
+          {[{ id: "all", name: loyaltyCopy.allMemberships }, ...loyaltyTiers].map(
+            (chip) => {
+              const selected = filter === chip.id;
+              return (
+                <button
+                  key={chip.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  onClick={() => setFilter(chip.id)}
+                  className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
+                    selected
+                      ? "border border-content-primary bg-white/10"
+                      : "border border-white/10 bg-white/5 hover:bg-white/10"
+                  }`}
+                >
+                  {chip.name}
+                </button>
+              );
+            },
           )}
         </div>
+
+        {shown.length === 0 ? (
+          <p className="m-0 py-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+            {loyaltyCopy.empty}
+          </p>
+        ) : (
+          <ul className="m-0 flex list-none flex-col gap-3 p-0">
+            {shown.map((reward) => {
+              const taken = isRedeemed(reward.id);
+              const affordable = balance >= reward.cost;
+
+              return (
+                /* 66px rows on a 12px gap — the comp's 300px frame, exactly. */
+                <li
+                  key={reward.id}
+                  className="flex h-[66px] items-center gap-4"
+                >
+                  <RowIcon src={reward.icon} />
+                  <span className="flex min-w-0 flex-1 items-center gap-2">
+                    <span className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                        {reward.name}
+                      </span>
+                      <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                        {reward.cost.toLocaleString("en-US")} {loyaltyCopy.unit}
+                      </span>
+                    </span>
+
+                    {taken ? (
+                      <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-[#22c55e]">
+                        {loyaltyCopy.redeemed}
+                      </span>
+                    ) : affordable ? (
+                      <button
+                        type="button"
+                        onClick={() => setPending(reward)}
+                        className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 transition-colors hover:bg-white/90"
+                      >
+                        <span className="flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-[#18181b]">
+                          {loyaltyCopy.redeem}
+                        </span>
+                      </button>
+                    ) : (
+                      <span className="flex shrink-0 items-center justify-center gap-1 bg-white/5 p-3">
+                        <Image
+                          src="/assets/ic-lock-locked-16.svg"
+                          alt=""
+                          width={16}
+                          height={16}
+                          className="size-4"
+                        />
+                        <span className="px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white/30">
+                          {loyaltyCopy.locked}
+                        </span>
+                      </span>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {/* Ledger */}
       <div className="flex flex-col gap-6">
         <SectionTitle>{loyaltyCopy.activityTitle}</SectionTitle>
 
-        <div className="flex flex-col gap-6 border border-white/5 p-6">
+        <div className="flex flex-col gap-6">
           {groups.map((group) => (
             <div key={group.offset} className="flex flex-col gap-1">
-              <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-[22px] tracking-[0.13px] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-secondary">
                 {dayLabel(group.offset)}
               </p>
 
               <ul className="m-0 flex list-none flex-col p-0">
-                {group.items.map((entry, index) => {
+                {group.items.map((entry) => {
                   const open = openEntry === entry.id;
-                  const last = index === group.items.length - 1;
                   return (
-                    <li key={entry.id} className="flex items-start gap-4">
+                    <li key={entry.id} className="flex items-start gap-4 py-3">
                       <RowIcon
                         src={
                           entry.kind === "earn"
-                            ? "/assets/ic-plus-16.svg"
-                            : "/assets/ic-minus-16.svg"
+                            ? "/assets/ic-beats-earn.svg"
+                            : "/assets/ic-beats-burn.svg"
                         }
                       />
-                      <span
-                        className={`flex min-w-0 flex-1 flex-col py-3 ${
-                          last ? "" : "border-b-[0.5px] border-white/10"
-                        }`}
-                      >
+                      <span className="flex min-w-0 flex-1 flex-col">
                         <button
                           type="button"
-                          onClick={() =>
-                            setOpenEntry(open ? null : entry.id)
-                          }
+                          onClick={() => setOpenEntry(open ? null : entry.id)}
                           aria-expanded={open}
                           aria-controls={`${entry.id}-detail`}
                           className="flex w-full cursor-pointer items-center gap-2 text-left"
@@ -243,7 +220,7 @@ export function LoyaltyPanel() {
                           <span
                             className={`shrink-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] ${
                               entry.kind === "earn"
-                                ? "text-[#4ade80]"
+                                ? "text-[#22c55e]"
                                 : "text-content-primary"
                             }`}
                           >
@@ -252,15 +229,17 @@ export function LoyaltyPanel() {
                               : loyaltyCopy.beats(entry.beats)}
                           </span>
 
-                          <Image
-                            src="/assets/ic-chevron-down-16.svg"
-                            alt=""
-                            width={16}
-                            height={16}
-                            className={`size-4 shrink-0 transition-transform duration-300 ${
-                              open ? "rotate-180" : ""
-                            }`}
-                          />
+                          <span className="flex size-7 shrink-0 items-center justify-center bg-bg-tertiary p-[6px]">
+                            <Image
+                              src="/assets/ic-chevron-down-row.svg"
+                              alt=""
+                              width={16}
+                              height={16}
+                              className={`size-4 transition-[rotate] duration-300 ${
+                                open ? "rotate-180" : ""
+                              }`}
+                            />
+                          </span>
                         </button>
 
                         <span

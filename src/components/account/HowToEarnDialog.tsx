@@ -7,7 +7,7 @@ import { Sheet, SheetSubmit } from "@/components/ui/Sheet";
 import { loyaltyCopy, loyaltyHowTo, loyaltyTiers } from "@/data/account";
 
 /**
- * "How to earn beats", behind the button on the Beats card. No Figma comp —
+ * "How it works", behind the button on the Beats card. No Figma comp —
  * built from the sheet the booking journey already uses, so it matches every
  * other dialog on the site.
  *

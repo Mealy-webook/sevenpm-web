@@ -24,9 +24,11 @@ import {
  * membership, when Beats expire, and the membership track — reached stops in
  * brand yellow with a tick, the rest outlined with a lock.
  *
- * The comp draws Front row as reached while also saying "Earn 500 more to
- * unlock Front Row". Both cannot be true, so the track reads off the data:
- * with 500 Beats earned all time only Crowd is reached.
+ * The track reads off the data rather than being drawn by hand: with 500 Beats
+ * earned all time, Crowd and Front row are reached and Back stage is 500 away,
+ * which is exactly what the comp shows. The chip is the one place the comp
+ * disagrees with itself — it says "Crowd Member" while the track marks Front
+ * row as reached, so the chip names the highest membership actually held.
  */
 export function LoyaltyBanner() {
   const { balance } = useLoyalty();
