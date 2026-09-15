@@ -236,7 +236,10 @@ export function SiteMenu({
         </div>
 
         {/* 525 column inside a 120 gutter, as the comp sets it */}
-        <div className="relative flex min-h-full flex-col px-6 py-8 sm:px-12 xl:px-[120px] xl:py-14">
+        {/* The gutter is the site's own token, not a matching set of
+            breakpoints — copied values drift apart the first time one of them
+            changes. */}
+        <div className="relative flex min-h-full flex-col px-[var(--shell-gutter)] py-8 xl:py-14">
           <div className="flex w-full justify-end">
             <button
               ref={closeButton}

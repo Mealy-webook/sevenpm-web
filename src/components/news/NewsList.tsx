@@ -9,8 +9,13 @@ import { newsCategories, newsCopy } from "@/data/news";
 
 /**
  * The newsroom index: category chips (the account screens' chip) over a grid
- * of article cards. Cards are the homepage's paper cards, shrunk to two
- * columns and given the image on top.
+ * of article cards. Cards are the homepage's paper cards with the image on
+ * top.
+ *
+ * Three columns from 1280 up, which lands each card at 403px on the 1272
+ * column — the same width the homepage gives a news photograph. At two columns
+ * a card was over 600px wide with a 390px image, which read as a feature
+ * rather than as one item in an index.
  */
 export function NewsList({ articles }: { articles: NewsArticle[] }) {
   const [category, setCategory] = useState<string>(newsCategories[0]);
@@ -49,7 +54,7 @@ export function NewsList({ articles }: { articles: NewsArticle[] }) {
       </div>
 
       <ul
-        className="m-0 grid list-none grid-cols-1 gap-8 p-0 md:grid-cols-2"
+        className="m-0 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 xl:grid-cols-3"
         data-reveal="up"
         data-reveal-stagger
       >
@@ -58,14 +63,14 @@ export function NewsList({ articles }: { articles: NewsArticle[] }) {
             <Link
               href={`/news/${article.slug}`}
               data-cursor="Read"
-              className="news-card group relative flex h-full flex-col gap-4 bg-white p-6"
+              className="news-card group relative flex h-full flex-col gap-4 bg-white p-5"
             >
               <span className="relative block aspect-[16/10] w-full overflow-hidden bg-[#27272a]">
                 <Image
                   src={article.image}
                   alt=""
                   fill
-                  sizes="(min-width: 768px) 45vw, 90vw"
+                  sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 90vw"
                   className="news-image object-cover"
                 />
               </span>
@@ -75,10 +80,12 @@ export function NewsList({ articles }: { articles: NewsArticle[] }) {
                   <span aria-hidden>·</span>
                   <time dateTime={article.date}>{article.dateLabel}</time>
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-[#18181b]">
+                <span className="font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-[#18181b]">
                   {article.title}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-[#56565d]">
+                {/* Clamped so a long standfirst cannot make one card in a row
+                    taller than the rest of it. */}
+                <span className="line-clamp-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-[#56565d]">
                   {article.excerpt}
                 </span>
                 <span className="mt-auto pt-2 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-[#18181b] underline decoration-transparent underline-offset-4 transition-colors group-hover:decoration-current">

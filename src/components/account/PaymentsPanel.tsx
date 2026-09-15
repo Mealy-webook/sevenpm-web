@@ -1,21 +1,41 @@
-import Image from "next/image";
+"use client";
 
-import type { PaymentCard, Receipt } from "@/data/account";
-import { paymentsCopy } from "@/data/account";
+import Image from "next/image";
+import { useState } from "react";
+
+import { CardTile } from "./CardTile";
 import {
   AccountCard,
   AccountRow,
   ActionButton,
 } from "@/components/account/AccountCard";
+import { CardDialog } from "@/components/ui/CardDialog";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import type { PaymentCard, Receipt } from "@/data/account";
+import { paymentsCopy } from "@/data/account";
 
 /**
- * Payments. No Figma comp — composed from the account vocabulary: the
- * wallet's leading icon tile for the saved cards, the profile's card and
- * row for everything else. Three cards: saved cards, billing details and
- * receipts.
+ * Payments, from Figma 2205:7060: "Manage your cards" over a wrapping grid of
+ * card tiles, each with its default toggle and Remove.
+ *
+ * Billing details and receipts are not in that comp but are kept below it —
+ * they work, nothing replaces them, and the comp simply stops at the cards
+ * rather than saying to drop them.
+ *
+ * Adding reuses the booking journey's `CardDialog`, so raw card data is
+ * handled in exactly one place on the site: the number, expiry and CVC live
+ * and die inside that component and only the brand, mark and last four ever
+ * reach this panel. A card added here therefore has no expiry to show, and the
+ * tile leaves that line out rather than inventing one. In production the
+ * dialog's fields must be replaced by the payment provider's hosted fields so
+ * raw card data never touches our DOM at all.
+ *
+ * State is local and deliberately not persisted: this is a prototype, no
+ * provider is connected, and the note under the grid says so rather than
+ * leaving someone to discover it.
  */
 export function PaymentsPanel({
-  cards,
+  cards: initialCards,
   billing,
   receipts,
 }: {
@@ -23,68 +43,72 @@ export function PaymentsPanel({
   billing: { label: string; value?: string; action: string }[];
   receipts: Receipt[];
 }) {
+  const [cards, setCards] = useState(initialCards);
+  const [defaultId, setDefaultId] = useState(
+    initialCards.find((card) => card.primary)?.id ?? initialCards[0]?.id,
+  );
+  const [adding, setAdding] = useState(false);
+  const [pending, setPending] = useState<PaymentCard | null>(null);
+
+  const copy = paymentsCopy.cards;
+
+  const remove = (card: PaymentCard) => {
+    setCards((current) => current.filter((item) => item.id !== card.id));
+    setPending(null);
+  };
+
   return (
     <div
       className="flex min-w-0 flex-1 flex-col gap-6"
       aria-labelledby="payments-title"
     >
-      <div className="flex flex-col gap-1">
+      {/* Section title */}
+      <div className="flex items-center gap-4">
         <h2
           id="payments-title"
-          className="m-0 font-[family-name:var(--font-display)] text-[26px] font-bold uppercase leading-8 tracking-[-0.13px] text-content-primary"
+          className="m-0 min-w-0 flex-1 truncate font-[family-name:var(--font-display)] text-[26px] font-bold uppercase leading-8 tracking-[-0.13px] text-content-primary"
         >
-          {paymentsCopy.title}
+          {copy.title}
         </h2>
-        <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-          {paymentsCopy.description}
-        </p>
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center gap-1 p-[10px]"
+        >
+          <Image
+            src="/assets/ic-plus-13.svg"
+            alt=""
+            width={16}
+            height={16}
+            className="size-4"
+          />
+          <span className="px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+            {copy.addCard}
+          </span>
+        </button>
       </div>
 
-      <AccountCard
-        id="cards"
-        title={paymentsCopy.cards.title}
-        action={<ActionButton>{paymentsCopy.cards.addCard}</ActionButton>}
-      >
-        {cards.length === 0 ? (
-          <div className="flex min-h-[160px] flex-col items-center justify-center gap-4">
-            <Image
-              src="/assets/sticker-cassette.png"
-              alt=""
-              width={256}
-              height={233}
-              className="h-auto w-[120px]"
-            />
-            <p className="m-0 text-center font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
-              {paymentsCopy.cards.empty}
-            </p>
-          </div>
-        ) : (
-          cards.map((card, index) => (
-            <AccountRow
+      {cards.length === 0 ? (
+        <p className="m-0 py-6 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+          {copy.empty}
+        </p>
+      ) : (
+        <ul className="m-0 flex list-none flex-wrap items-start gap-6 p-0">
+          {cards.map((card) => (
+            <CardTile
               key={card.id}
-              icon="/assets/ic-acct-payments.svg"
-              label={`${card.brand} •••• ${card.last4}`}
-              value={`${paymentsCopy.cards.expires} ${card.expiry}`}
-              divider={index < cards.length - 1}
-            >
-              {card.primary ? (
-                <span className="shrink-0 bg-brand px-2 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[0.12px] text-[#0b0b0e]">
-                  {paymentsCopy.cards.primaryBadge}
-                </span>
-              ) : (
-                <ActionButton
-                  label={`Make ${card.brand} ending ${card.last4} the primary card`}
-                >
-                  {paymentsCopy.cards.makePrimary}
-                </ActionButton>
-              )}
-              <ActionButton label={`Remove ${card.brand} ending ${card.last4}`}>
-                {paymentsCopy.cards.remove}
-              </ActionButton>
-            </AccountRow>
-          ))
-        )}
-      </AccountCard>
+              card={card}
+              isDefault={card.id === defaultId}
+              onMakeDefault={() => setDefaultId(card.id)}
+              onRemove={() => setPending(card)}
+            />
+          ))}
+        </ul>
+      )}
+
+      <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+        {copy.note}
+      </p>
 
       <AccountCard id="billing" title={paymentsCopy.billing.title}>
         {billing.map((field, index) => (
@@ -120,6 +144,39 @@ export function PaymentsPanel({
           </AccountRow>
         ))}
       </AccountCard>
+
+      {adding && (
+        <CardDialog
+          title={copy.addTitle}
+          submitLabel={copy.addCard}
+          showNote={false}
+          onClose={() => setAdding(false)}
+          onAdd={(saved) => {
+            setCards((current) => [
+              ...current,
+              {
+                id: `${saved.brand}-${saved.last4}-${current.length}`,
+                brand: saved.brand,
+                last4: saved.last4,
+                mark: saved.mark,
+              },
+            ]);
+            setAdding(false);
+          }}
+        />
+      )}
+
+      {pending && (
+        <ConfirmDialog
+          title={copy.confirmTitle}
+          body={copy.confirmBody(`${pending.brand} ending ${pending.last4}`)}
+          cancelLabel={copy.cancel}
+          confirmLabel={copy.remove}
+          destructive
+          onCancel={() => setPending(null)}
+          onConfirm={() => remove(pending)}
+        />
+      )}
     </div>
   );
 }

@@ -178,17 +178,17 @@ export const accountNav: AccountNavItem[] = [
     href: "/account",
   },
   {
+    id: "loyalty",
+    label: "SevenPM Rewards",
+    icon: "/assets/ic-acct-loyalty.svg",
+    href: "/account/loyalty",
+  },
+  {
     id: "wallet",
     label: "Wallet",
     icon: "/assets/ic-acct-wallet.svg",
     href: "/account/wallet",
     trailing: `${walletBalance} ${walletCurrency}`,
-  },
-  {
-    id: "loyalty",
-    label: "SevenPM Rewards",
-    icon: "/assets/ic-acct-loyalty.svg",
-    href: "/account/loyalty",
   },
   {
     id: "profile",
@@ -198,7 +198,7 @@ export const accountNav: AccountNavItem[] = [
   },
   {
     id: "payments",
-    label: "Payment details",
+    label: "Payments",
     icon: "/assets/ic-acct-payments.svg",
     href: "/account/payments",
   },
@@ -508,8 +508,14 @@ export type PaymentCard = {
   id: string;
   brand: string;
   last4: string;
-  /** MM/YY. */
-  expiry: string;
+  /**
+   * MM/YY. Optional: a card added through `CardDialog` never hands its expiry
+   * out — only the brand, mark and last four leave that component — so a card
+   * saved in this session has none to show.
+   */
+  expiry?: string;
+  /** Brand logo for the card face. */
+  mark?: string;
   primary?: boolean;
 };
 
@@ -526,13 +532,21 @@ export const paymentsCopy = {
   description:
     "The cards you pay with and every receipt SEVENPM has issued you.",
   cards: {
-    title: "Saved cards",
-    addCard: "Add a card",
-    expires: "Expires",
-    primaryBadge: "Primary",
-    makePrimary: "Make primary",
+    title: "Manage your cards",
+    addCard: "Add card",
+    addTitle: "Add card",
+    expires: "Exp. date",
+    setDefault: "Set as default",
+    /** Why the default card's Remove button is dead rather than missing. */
+    defaultLocked: "Your default card cannot be removed",
     remove: "Remove",
+    confirmTitle: "Remove card",
+    confirmBody: (card: string) =>
+      `Remove ${card}? You can add it again at any time.`,
+    cancel: "Cancel",
     empty: "No cards saved yet",
+    /** Cards are a mock here; nothing is stored and nothing is charged. */
+    note: "Cards on this page are a prototype. Nothing is stored and no payment method is charged.",
   },
   billing: {
     title: "Billing details",
@@ -550,9 +564,16 @@ export const paymentCards: PaymentCard[] = [
     brand: "Visa",
     last4: "6411",
     expiry: "09/28",
+    mark: "/assets/pay-visa-mark.svg",
     primary: true,
   },
-  { id: "mc-2044", brand: "Mastercard", last4: "2044", expiry: "03/27" },
+  {
+    id: "mc-2044",
+    brand: "Mastercard",
+    last4: "2044",
+    expiry: "03/27",
+    mark: "/assets/pay-mastercard.svg",
+  },
 ];
 
 export const billingDetails = [

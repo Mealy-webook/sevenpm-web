@@ -37,7 +37,15 @@ import {
 const beats = (value: number) =>
   Math.round(value).toLocaleString("en-US");
 
-export function LoyaltyBanner() {
+export function LoyaltyBanner({
+  /** Rewards greets you by name; Payments (2205:7060) just states it. */
+  greet = true,
+  /** Only the Rewards comp carries the expiry line. */
+  showExpiry = true,
+}: {
+  greet?: boolean;
+  showExpiry?: boolean;
+} = {}) {
   const { balance } = useLoyalty();
   const [howToOpen, setHowToOpen] = useState(false);
 
@@ -54,7 +62,7 @@ export function LoyaltyBanner() {
         {/* Greeting */}
         <div className="flex min-w-0 flex-col gap-6">
           <h1 className="account-name display-text m-0 text-left" data-no-split>
-            {loyaltyCopy.greeting(accountUser.name)}
+            {greet ? loyaltyCopy.greeting(accountUser.name) : accountUser.name}
           </h1>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -123,9 +131,11 @@ export function LoyaltyBanner() {
             </p>
           </div>
 
-          <p className="m-0 font-[family-name:var(--font-sans)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-            {loyaltyCopy.expiry(loyaltyCopy.expiring, loyaltyCopy.expiresAt)}
-          </p>
+          {showExpiry && (
+            <p className="m-0 font-[family-name:var(--font-sans)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+              {loyaltyCopy.expiry(loyaltyCopy.expiring, loyaltyCopy.expiresAt)}
+            </p>
+          )}
 
           {/* Membership track */}
           <ol className="m-0 flex list-none items-start gap-1 p-0 pb-6">
