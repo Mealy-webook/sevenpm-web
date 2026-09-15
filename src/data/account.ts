@@ -316,6 +316,47 @@ export const loyaltyActivity: LoyaltyEntry[] = [
   },
 ];
 
+/** What the "How to earn beats" sheet explains. */
+export const loyaltyHowTo = {
+  title: "How to earn beats",
+  intro:
+    "Beats are what SevenPM Rewards runs on. You earn them by turning up, and you spend them on the rewards your membership unlocks.",
+  earnTitle: "Ways to earn",
+  earn: [
+    {
+      id: "tickets",
+      label: "Book a ticket",
+      detail: "1 Beat per dirham, credited when the gate scans it",
+      icon: "/assets/ic-ticket-24.svg",
+    },
+    {
+      id: "wallet",
+      label: "Top up your wallet",
+      detail: "2 Beats per dirham loaded before the festival",
+      icon: "/assets/ic-wallet.svg",
+    },
+    {
+      id: "merch",
+      label: "Buy merchandise",
+      detail: "1 Beat per dirham, in the shop or at the stand",
+      icon: "/assets/ic-tshirt-16.svg",
+    },
+    {
+      id: "refer",
+      label: "Bring someone new",
+      detail: "500 Beats each once their first booking is scanned",
+      icon: "/assets/ic-user.svg",
+    },
+  ],
+  membershipTitle: "How memberships work",
+  membershipBody:
+    "Your membership comes from Beats earned all time, so spending them never moves you down a level. Each level keeps everything the one below it unlocked.",
+  expiryTitle: "When Beats expire",
+  expiryBody:
+    "Beats last twelve months from the day they land. The card at the top of this page always names the next batch to go.",
+  done: "Got it",
+};
+
 export const loyaltyCopy = {
   title: "SevenPM Rewards",
   unit: "Beats",

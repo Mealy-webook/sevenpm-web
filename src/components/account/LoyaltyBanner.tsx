@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
+import { HowToEarnDialog } from "./HowToEarnDialog";
 import { useLoyalty } from "./loyaltyStore";
 import {
   accountUser,
@@ -28,6 +30,7 @@ import {
  */
 export function LoyaltyBanner() {
   const { balance } = useLoyalty();
+  const [howToOpen, setHowToOpen] = useState(false);
 
   const tier =
     [...loyaltyTiers]
@@ -77,6 +80,7 @@ export function LoyaltyBanner() {
 
               <button
                 type="button"
+                onClick={() => setHowToOpen(true)}
                 className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center gap-1 p-[10px]"
               >
                 <Image
@@ -159,6 +163,8 @@ export function LoyaltyBanner() {
           </ol>
         </div>
       </div>
+
+      {howToOpen && <HowToEarnDialog onClose={() => setHowToOpen(false)} />}
     </section>
   );
 }
