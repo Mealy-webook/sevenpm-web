@@ -2,7 +2,6 @@ import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { StubTilt } from "./StubTilt";
 import { TicketStub, stubWidth } from "./TicketStub";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 
@@ -81,14 +80,12 @@ export function TicketsSection({ event }: { event: EventDetails }) {
                 { "--stub-w": `${stubWidth(tier)}px` } as React.CSSProperties
               }
             >
-              <StubTilt>
-                <div className="ticket-stub-scale">
-                  <TicketStub
-                    tier={tier}
-                    href={`/events/${event.slug}/book?tier=${tier.id}`}
-                  />
-                </div>
-              </StubTilt>
+              <div className="ticket-stub-scale">
+                <TicketStub
+                  tier={tier}
+                  href={`/events/${event.slug}/book?tier=${tier.id}`}
+                />
+              </div>
             </div>
           ))}
         </div>

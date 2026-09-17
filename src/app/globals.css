@@ -498,39 +498,6 @@ body {
   transform-origin: top left;
 }
 
-/* The stub leans toward the cursor (`StubTilt`), and its perforated ends pull
-   away from the card as if the tear were starting. */
-.ticket-stub-box {
-  perspective: 1100px;
-}
-
-.stub-tilt {
-  transform-style: preserve-3d;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.stub-tilt [data-strip] {
-  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.stub-tilt[data-lean="true"] [data-strip="left"] {
-  translate: -5px 0;
-}
-
-.stub-tilt[data-lean="true"] [data-strip="right"] {
-  translate: 5px 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stub-tilt,
-  .stub-tilt [data-strip] {
-    transition: none;
-  }
-
-  .stub-tilt[data-lean="true"] [data-strip] {
-    translate: none;
-  }
-}
 
 /* Stub CTA: dark fill sweeps up from the bottom edge on hover. Kept off the
    generic `.sweep` class because that one sets `position: relative`, which
