@@ -112,7 +112,7 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
   return (
     <section id="artists" className="relative overflow-hidden py-16 xl:py-24">
       <div className="shell flex flex-col items-center justify-center gap-12">
-        <DisplayHeading reveal="clip">Artists</DisplayHeading>
+        <DisplayHeading reveal="clip">Line-up</DisplayHeading>
 
         <div
           className="flex flex-wrap items-start justify-center gap-6"

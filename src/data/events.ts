@@ -264,7 +264,7 @@ export const jazzablanca: EventDetails = {
   artistDays: [
     {
       id: "18-september",
-      label: "18 September",
+      label: "18 Sep",
       groups: [
         { type: "solo", image: "/assets/artist-1.png", name: "Artist 1", time: "11:15 PM" },
         {
@@ -293,7 +293,7 @@ export const jazzablanca: EventDetails = {
       // Day two isn't specified in the Figma yet — same treatment, resequenced,
       // so the tab is wired up and ready for the real lineup.
       id: "19-september",
-      label: "19 September",
+      label: "19 Sep",
       groups: [
         { type: "solo", image: "/assets/artist-7.png", name: "Artist 7", time: "11:15 PM" },
         {

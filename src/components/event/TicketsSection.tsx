@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import type { EventDetails } from "@/data/events";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { StubTilt } from "./StubTilt";
@@ -27,6 +29,42 @@ export function TicketsSection({ event }: { event: EventDetails }) {
 
       <div className="shell flex flex-col items-center justify-center gap-12">
         <DisplayHeading reveal="clip">Explore tickets</DisplayHeading>
+
+        {/* Gates open / Last entry / Showtime. These moved to the hero in an
+            earlier comp and back again in 2393:16729 — they sit under the
+            title here, above the tiers they qualify. */}
+        <div
+          className="flex flex-wrap items-center justify-center gap-8"
+          data-reveal="up"
+        >
+          {event.schedule.map((tile, index) => (
+            <div key={tile.label} className="flex items-center gap-8">
+              {index > 0 && (
+                <span
+                  aria-hidden
+                  className="hidden h-[81px] w-px bg-ink-600 sm:block"
+                />
+              )}
+              <div className="flex items-center gap-4">
+                <Image
+                  src={tile.icon}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="size-8 shrink-0"
+                />
+                <div className="flex flex-col items-start whitespace-nowrap">
+                  <span className="font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary">
+                    {tile.label}
+                  </span>
+                  <span className="font-[family-name:var(--font-display)] text-2xl font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
+                    {tile.value}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* Ticket stubs — edge to edge, 393px each, wrapping below the
          *  column width and scaling down on phones */}

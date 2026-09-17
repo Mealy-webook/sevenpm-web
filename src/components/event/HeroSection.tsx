@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
@@ -184,43 +183,6 @@ export function HeroSection({ event }: { event: EventDetails }) {
               {event.intro}
             </p>
 
-            {/* Gates open / Last entry / Showtime. These sat above the ticket
-                tiers until the comp moved them up here, where they answer the
-                question the hero raises rather than the one the tiers do. */}
-            <div
-              className="flex flex-wrap items-center justify-center gap-8 pt-2"
-              data-reveal="up"
-              data-reveal-delay="0.16"
-            >
-              {event.schedule.map((tile, index) => (
-                <div key={tile.label} className="flex items-center gap-8">
-                  {index > 0 && (
-                    <span aria-hidden className="hidden h-[52px] w-px bg-ink-600 sm:block" />
-                  )}
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={tile.icon}
-                      alt=""
-                      width={32}
-                      height={32}
-                      className="size-8 shrink-0"
-                    />
-                    <div className="flex flex-col items-start whitespace-nowrap">
-                      <span className="font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary">
-                        {tile.label}
-                      </span>
-                      <span className="font-[family-name:var(--font-display)] text-2xl font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
-                        {tile.value}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div data-reveal="up" data-reveal-delay="0.24">
-              <ShareButton eventName={event.name} />
-            </div>
           </div>
 
           {/* The deck — one Figma stage at every width, scaled as a unit */}
@@ -255,6 +217,11 @@ export function HeroSection({ event }: { event: EventDetails }) {
                 onTogglePlay={() => setPlaying((value) => !value)}
               />
             </div>
+          </div>
+
+          {/* Below the deck, where 2393:16345 puts it. */}
+          <div data-reveal="up" data-reveal-delay="0.1">
+            <ShareButton eventName={event.name} />
           </div>
         </div>
 
