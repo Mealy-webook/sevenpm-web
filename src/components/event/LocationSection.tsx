@@ -3,6 +3,15 @@ import Image from "next/image";
 import type { EventDetails } from "@/data/events";
 import { MapPin } from "./MapPin";
 
+/**
+ * Venue and house rules, from Figma 2236:13117: the map panel with its name
+ * and directions bar, then the five rule tiles.
+ *
+ * The tiles are pinned to the comp's 228 × 178 rather than left to size
+ * themselves. 178 is what the tallest of them comes to naturally — "Age
+ * restrictions" is the one that wraps to two lines — so fixing it costs
+ * nothing today and keeps the row square if a rule is ever reworded.
+ */
 export function LocationSection({ event }: { event: EventDetails }) {
   const { venue, infoTiles } = event;
 
@@ -72,7 +81,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
             {infoTiles.map((tile) => (
               <div
                 key={tile.title}
-                className="lift info-tile flex w-[228px] shrink-0 snap-center flex-col items-center justify-center gap-4 overflow-hidden border border-ink-600 p-6 text-center"
+                className="lift info-tile flex h-[178px] w-[228px] shrink-0 snap-center flex-col items-center justify-center gap-4 overflow-hidden border border-ink-600 p-6 text-center"
               >
                 <Image
                   src={tile.icon}
