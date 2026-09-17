@@ -114,6 +114,30 @@
   background: rgba(255, 255, 255, 0.7);
 }
 
+/* ---- the tonearm, over the record ---- */
+
+/* 225 x 198 at (210, 55) on the 405 square. It overhangs the right edge by
+   30px, and the panel's overflow is what cuts it — the comp has the arm's
+   pivot running off the side. */
+.mpw .arm {
+  position: absolute;
+  left: 51.85%;
+  top: 13.58%;
+  width: 55.62%;
+  height: 48.93%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.mpw .arm img {
+  /* 153.7 of the 225.2-wide box; the height follows the asset. The arm is
+     exported upright and the comp lays it across the record at 105deg. */
+  width: 68.25%;
+  height: auto;
+  rotate: 105deg;
+}
+
 /* ---- the column under it ---- */
 
 .mpw .info {
@@ -122,7 +146,9 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  /* 12 between the name, the bar and the clock; the comp then leaves 16
+     before the transport, which `.controls` adds back. */
+  gap: 12px;
   text-align: center;
 }
 
@@ -224,6 +250,7 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
+  margin-top: 4px;
 }
 
 .mpw .ctrl {

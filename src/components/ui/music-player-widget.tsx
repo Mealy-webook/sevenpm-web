@@ -713,6 +713,28 @@ function Disc({
   );
 }
 
+/* ------------------------------------------------------------------ Arm */
+
+/**
+ * The tonearm, laid across the record (2399:20192). It is a sibling of the
+ * disc, not a child: the disc is a circular mask that spins, and the arm
+ * neither turns with it nor stops at its edge — it runs off the right of the
+ * panel, where the panel's own overflow cuts it, exactly as the comp does.
+ */
+function Arm() {
+  return (
+    <div className="arm" aria-hidden>
+      <Image
+        src="/assets/hero-tonearm.png"
+        alt=""
+        width={482}
+        height={602}
+        draggable={false}
+      />
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------ TrackInfo */
 
 function TrackInfo({ layers }: { layers: Layer[] }) {
@@ -946,6 +968,7 @@ export function MusicPlayer({
         direction={player.state.direction}
         onZoomToggle={() => setIsZoomed((z) => !z)}
       />
+      <Arm />
       <div className="info">
         <ScalesMixer
           isPlaying={player.state.isPlaying}

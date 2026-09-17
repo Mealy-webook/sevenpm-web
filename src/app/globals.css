@@ -1247,3 +1247,62 @@ html.has-cursor .cursor {
   color: #fff;
 }
 
+
+/* The booking column's scroller. On a wide screen the journey is one
+   screenful and the page itself does not move, so this is the only thing
+   that scrolls — and it carries a quiet bar of its own rather than the
+   browser's, which would sit over the ticket rows' hover border. */
+.booking-scroll {
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.booking-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.booking-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.booking-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.booking-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* The Beats card on the confirmation: one ring of brand light let go behind
+   it as it lands, then gone. Timed to arrive with the card's GSAP entrance,
+   which starts about a second in. */
+.beats-earned::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-brand);
+  opacity: 0;
+  pointer-events: none;
+  animation: beats-ring 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.15s 1 both;
+}
+
+@keyframes beats-ring {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18, 1.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beats-earned::before {
+    animation: none;
+  }
+}

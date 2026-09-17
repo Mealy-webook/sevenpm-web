@@ -84,3 +84,42 @@ export function redeemReward(reward: LoyaltyReward) {
   };
   listeners.forEach((listener) => listener());
 }
+
+/* Orders already credited, so a confirmation that mounts twice — React's
+   development double-invocation, or a re-render of the page — pays once. */
+const credited = new Set<string>();
+
+/**
+ * Credit Beats for a booking. The confirmation page calls this with the order
+ * number, and the header's chip and the account's activity feed pick it up
+ * through the same subscription redeeming uses.
+ *
+ * The lifetime total (`loyaltyLifetime`, which sets the membership) is a
+ * constant in the data and is not touched here: earning is real enough for a
+ * prototype when the spendable balance moves.
+ */
+export function earnBeats(orderNumber: string, amount: number, detail: string) {
+  if (credited.has(orderNumber)) return;
+  credited.add(orderNumber);
+
+  state = {
+    ...state,
+    balance: state.balance + amount,
+    entries: [
+      {
+        id: `e-${orderNumber}`,
+        kind: "earn",
+        label: "Earn beats",
+        time: new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        }),
+        detail,
+        beats: amount,
+        dayOffset: 0,
+      },
+      ...state.entries,
+    ],
+  };
+  listeners.forEach((listener) => listener());
+}

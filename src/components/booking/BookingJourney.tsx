@@ -267,7 +267,12 @@ export function BookingJourney({
   }
 
   return (
-    <div className="shell flex flex-col gap-8 pb-24 pt-8 lg:pb-16">
+    /* On a wide screen the journey is one screenful and stays put: the
+       chrome, the event's name and the player do not move, and the list in
+       the middle is what scrolls. Below `lg` the columns stack and the page
+       scrolls normally — a locked viewport on a phone would leave the summary
+       bar fighting the browser's own chrome. */
+    <div className="shell flex flex-col gap-8 pb-24 pt-8 lg:h-[100svh] lg:min-h-0 lg:overflow-hidden lg:pb-8">
       {/* Chrome */}
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
@@ -405,9 +410,9 @@ export function BookingJourney({
           </button>
         </div>
       ) : (
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+        <div className="flex flex-col gap-12 lg:min-h-0 lg:flex-1 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
           {/* 620 + 405 inside the 1272 content column, as the comps set it. */}
-          <div className="flex min-w-0 flex-1 flex-col lg:max-w-[620px]">
+          <div className="flex min-w-0 flex-1 flex-col lg:h-full lg:min-h-0 lg:max-w-[620px]">
             {step === "tickets" && (
               <TicketsStep
                 eventName={event.name}
@@ -420,27 +425,37 @@ export function BookingJourney({
               />
             )}
             {step === "extras" && (
-              <ExtrasStep
-                cart={cart}
-                onAdjust={adjustAddon}
-                onDetails={setDetailsAddon}
-              />
+              <div
+                data-lenis-prevent
+                className="booking-scroll flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-3"
+              >
+                <ExtrasStep
+                  cart={cart}
+                  onAdjust={adjustAddon}
+                  onDetails={setDetailsAddon}
+                />
+              </div>
             )}
             {step === "checkout" && (
-              <CheckoutStep
-                wallet={wallet}
-                onWallet={setWallet}
-                method={method}
-                onMethod={setMethod}
-                deliverySummary={describeDelivery(delivery)}
-                onEditDelivery={() => setDialog("delivery")}
-                needsDelivery={hasMerchandise}
-                card={card}
-                onAddCard={() => setDialog("card")}
-                promo={promo}
-                onAddPromo={() => setDialog("promo")}
-                onRemovePromo={() => setPromo(null)}
-              />
+              <div
+                data-lenis-prevent
+                className="booking-scroll flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-3"
+              >
+                <CheckoutStep
+                  wallet={wallet}
+                  onWallet={setWallet}
+                  method={method}
+                  onMethod={setMethod}
+                  deliverySummary={describeDelivery(delivery)}
+                  onEditDelivery={() => setDialog("delivery")}
+                  needsDelivery={hasMerchandise}
+                  card={card}
+                  onAddCard={() => setDialog("card")}
+                  promo={promo}
+                  onAddPromo={() => setDialog("promo")}
+                  onRemovePromo={() => setPromo(null)}
+                />
+              </div>
             )}
           </div>
 

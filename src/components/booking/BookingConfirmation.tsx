@@ -9,7 +9,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Totals } from "./cart";
 import { Confetti } from "@/components/ui/Confetti";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { earnBeats } from "@/components/account/loyaltyStore";
 import { bookingCopy, formatMoney } from "@/data/booking";
+import { whoosh } from "./whoosh";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,8 +25,12 @@ gsap.registerPlugin(ScrollTrigger);
  *
  * Confetti fires once on arrival and the hero lands a piece at a time: this
  * is the one screen in the journey where nothing is left to do, so it is the
- * one place a flourish is not in the way. All of it sits out under
- * prefers-reduced-motion.
+ * one place a flourish is not in the way. The booking's Beats arrive in the
+ * middle of it — the card pops in on a whoosh and the number rolls up from
+ * nothing, while the same credit lands in the loyalty store so the chip in
+ * the header climbs with it. All of it sits out under prefers-reduced-motion;
+ * the Beats are still credited and the card still says so, without the roll
+ * or the sound.
  */
 
 type ConfirmationEvent = {
@@ -169,6 +175,14 @@ export function BookingConfirmation({
   const [shared, setShared] = useState(false);
   const cardsRoot = useRef<HTMLDivElement>(null);
   const hero = useRef<HTMLElement>(null);
+  const beatsCount = useRef<HTMLSpanElement>(null);
+  const earned = copy.earnedBeats;
+
+  /* The booking pays out. Once per order — the store keeps the ledger, so a
+     second mount of this page does not pay twice. */
+  useEffect(() => {
+    earnBeats(orderNumber, earned, event.name);
+  }, [orderNumber, earned, event.name]);
 
   /** The hero lands a piece at a time, top to bottom. */
   useEffect(() => {
@@ -177,6 +191,15 @@ export function BookingConfirmation({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
+      /* The number rolls up from nothing as the card lands. It is written
+         straight to the node: a hundred re-renders for a counter is the
+         wrong tool, and GSAP already has the clock. */
+      const counter = { value: 0 };
+      const write = () => {
+        const node = beatsCount.current;
+        if (node) node.textContent = Math.round(counter.value).toLocaleString("en-US");
+      };
+
       gsap
         .timeline({ defaults: { ease: "power3.out" } })
         .from("[data-hero-sticker]", {
@@ -196,15 +219,34 @@ export function BookingConfirmation({
           { y: 16, opacity: 0, duration: 0.7 },
           "-=0.55",
         )
+        /* The Beats card: a whoosh, a pop, and the count climbing. */
+        .call(whoosh, [], "-=0.3")
+        .from(
+          "[data-hero-beats]",
+          {
+            scale: 0.82,
+            y: 14,
+            opacity: 0,
+            duration: 0.75,
+            ease: "back.out(1.6)",
+          },
+          "<",
+        )
+        .set(counter, { value: 0, onUpdate: write }, "<")
+        .to(
+          counter,
+          { value: earned, duration: 1.1, ease: "power2.out", onUpdate: write },
+          "<0.15",
+        )
         .from(
           "[data-hero-action]",
           { y: 16, opacity: 0, duration: 0.6, stagger: 0.08 },
-          "-=0.45",
+          "<0.25",
         );
     }, el);
 
     return () => ctx.revert();
-  }, []);
+  }, [earned]);
 
   /**
    * Deal the cards out on scroll. Each one starts a column back from where it
@@ -394,6 +436,29 @@ export function BookingConfirmation({
               {copy.body(event.name)}
             </p>
           </div>
+
+          {/* What the booking earned. Reads the same as the chip in the header
+              — Daltown, the number in white, the unit in brand — so it is
+              plainly the same currency arriving. */}
+          <div
+            data-hero-beats
+            className="beats-earned relative flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border border-white/5 bg-bg-secondary px-6 py-4"
+            role="status"
+          >
+            <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary">
+              {copy.earnedLead}
+            </span>
+            <span className="flex items-baseline gap-1.5 font-daltown uppercase leading-none">
+              <span
+                ref={beatsCount}
+                className="text-[40px] tabular-nums text-white"
+              >
+                {earned.toLocaleString("en-US")}
+              </span>
+              <span className="text-[40px] text-brand">{copy.earnedUnit}</span>
+            </span>
+          </div>
+
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               data-hero-action

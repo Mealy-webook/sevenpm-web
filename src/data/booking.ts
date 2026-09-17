@@ -378,6 +378,12 @@ export const bookingCopy = {
       `Your tickets to ${event} are confirmed. Get ready for an epic night of music and memories.`,
     viewBooking: "View booking",
     addToCalendar: "Add to calendar",
+    /** The Beats a booking earns. A flat figure for now — the programme has
+        no earning rule on the web yet, so this is the number the brief gave
+        rather than one worked out from the total. */
+    earnedBeats: 100,
+    earnedLead: "Congrats! 🎉 you’ve earned",
+    earnedUnit: "beats",
     summary: {
       title: "Order summary",
       orderNumber: "Order number",

@@ -46,8 +46,11 @@ export function TicketsStep({
   ];
 
   return (
-    <div className="flex flex-col gap-8">
-      <header className="flex flex-col gap-2">
+    /* The name, the times and the type chips are the page's header and stay
+       where they are; only the tickets below them travel. On a phone the
+       column is not height-constrained and the whole page scrolls instead. */
+    <div className="flex flex-col gap-8 lg:h-full lg:min-h-0">
+      <header className="flex shrink-0 flex-col gap-2">
         <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]">
           {eventName}
         </h1>
@@ -82,7 +85,11 @@ export function TicketsStep({
         </p>
       </header>
 
-      <div role="tablist" aria-label="Ticket type" className="flex flex-wrap gap-2">
+      <div
+        role="tablist"
+        aria-label="Ticket type"
+        className="flex shrink-0 flex-wrap gap-2"
+      >
         {chips.map((chip) => {
           const selected = filter === chip.id;
           return (
@@ -104,7 +111,12 @@ export function TicketsStep({
         })}
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div
+        /* Lenis takes the wheel at window level; without this it would scroll
+           a page that no longer moves and this list would never budge. */
+        data-lenis-prevent
+        className="booking-scroll flex flex-col gap-8 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pb-2 lg:pr-3"
+      >
         {groups.map((group) => (
           <section key={group.id} className="flex flex-col gap-4">
             <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 text-white">
