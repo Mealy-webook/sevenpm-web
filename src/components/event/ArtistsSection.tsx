@@ -130,16 +130,58 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
       const track = el.querySelector<HTMLElement>("[data-artist-track]");
       if (!track) return;
 
+      /* Travel the distance between the two copies, measured rather than
+         assumed — that is the loop period by construction, whatever the
+         groups inside happen to add up to. */
+      const first = track.children[0] as HTMLElement | undefined;
+      const second = track.children[1] as HTMLElement | undefined;
+      const span =
+        first && second ? second.offsetLeft - first.offsetLeft : ROW_WIDTH;
+
       const tween = gsap.fromTo(
         track,
         { x: 0 },
-        { x: -ROW_WIDTH, duration: 48, ease: "none", repeat: -1 },
+        {
+          x: -span,
+          /* Held at a constant speed rather than a constant duration, so the
+             row does not race when there are more acts on a day. */
+          duration: span / 40,
+          ease: "none",
+          repeat: -1,
+        },
       );
 
       /* Eased rather than cut, so the row settles under the cursor instead of
          stopping dead the instant it crosses an edge. */
-      const slow = () => gsap.to(tween, { timeScale: 0, duration: 0.5 });
-      const go = () => gsap.to(tween, { timeScale: 1, duration: 0.7 });
+      let hovered = false;
+      let onScreen = true;
+      const settle = () =>
+        gsap.to(tween, {
+          timeScale: hovered || !onScreen ? 0 : 1,
+          duration: hovered ? 0.5 : 0.7,
+        });
+      const slow = () => {
+        hovered = true;
+        settle();
+      };
+      const go = () => {
+        hovered = false;
+        settle();
+      };
+
+      /* Off screen it stops entirely. Eighteen portraits across 3,100px is
+         real compositing work to be doing for nobody, and this row is a long
+         way above the sections below it. */
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          onScreen = entry.isIntersecting;
+          if (onScreen) tween.play();
+          settle();
+          if (!onScreen) tween.pause();
+        },
+        { rootMargin: "200px 0px" },
+      );
+      io.observe(el);
 
       el.addEventListener("pointerenter", slow);
       el.addEventListener("pointerleave", go);
@@ -148,6 +190,7 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
       el.addEventListener("focusout", go);
 
       return () => {
+        io.disconnect();
         el.removeEventListener("pointerenter", slow);
         el.removeEventListener("pointerleave", go);
         el.removeEventListener("focusin", slow);
@@ -207,14 +250,21 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
               <div
                 key={copy}
                 className="flex shrink-0 items-start"
-                style={{ width: ROW_WIDTH }}
+                /* The copies overlap each other by the same −20 every pair of
+                   groups inside them does, so the seam is not the one junction
+                   in the row that looks different. */
+                style={copy > 0 ? { marginLeft: -20 } : undefined}
                 aria-hidden={copy === 1}
               >
+                {/* Never `last`: that flag drops the −20px overlap every
+                    other junction has, and in a row that loops there is no
+                    last group — the seam would sit 20px wider than the rest
+                    and read as a gap. */}
                 {day.groups.map((group, index) => (
                   <Group
                     key={`${day.id}-${copy}-${index}`}
                     group={group}
-                    last={index === day.groups.length - 1}
+                    last={false}
                   />
                 ))}
               </div>

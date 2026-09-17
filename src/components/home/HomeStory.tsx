@@ -49,7 +49,7 @@ export function HomeStory() {
           {/* Peelable, and only from xl — below that the photographs already
               fill the width and a dragged sticker has nowhere to go. */}
           <div
-            className="pointer-events-none absolute inset-0 hidden xl:block"
+            className="pointer-events-none absolute inset-0 hidden xl:block z-20"
             aria-hidden
           >
             <StickerPeel

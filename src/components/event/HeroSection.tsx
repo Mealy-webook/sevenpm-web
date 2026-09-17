@@ -110,13 +110,6 @@ export function HeroSection({ event }: { event: EventDetails }) {
               </a>
             </div>
 
-            <p
-              className="max-w-[962px] text-center font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
-              data-split="lines"
-              data-reveal-delay="0.12"
-            >
-              {event.intro}
-            </p>
 
           </div>
 
@@ -165,7 +158,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
          *  clicks through so it can sit over the deck; only the stickers are
          *  interactive. */}
         <div
-          className="pointer-events-none absolute inset-0 mx-auto hidden xl:block"
+          className="pointer-events-none absolute inset-0 mx-auto hidden xl:block z-20"
           style={{ maxWidth: FRAME_WIDTH, minHeight: FRAME_HEIGHT }}
           aria-hidden
         >
