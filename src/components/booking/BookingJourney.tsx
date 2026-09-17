@@ -81,6 +81,17 @@ export function BookingJourney({
   /** `?tier=` from the event page's ticket stubs. */
   initialTier?: string;
 }) {
+  /* The floating player is mounted above the router and knows nothing about
+     this screen. Tell it how much room the summary bar needs, so it stops
+     landing on the only action here. */
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty("--mini-player-lift", "96px");
+    return () => {
+      root.style.removeProperty("--mini-player-lift");
+    };
+  }, []);
+
   const [step, setStep] = useState<StepId>("tickets");
   const [cart, setCart] = useState<Cart>(() =>
     // The event page's stubs sell tiers, not the journey's dated tickets, so
