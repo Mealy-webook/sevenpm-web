@@ -12,6 +12,8 @@ import {
 } from "react";
 
 import { BookingConfirmation } from "./BookingConfirmation";
+import { setPlaying as setDeckPlaying } from "@/components/event/deckStore";
+import { MusicPlayer, type Track } from "@/components/ui/music-player-widget";
 import { CardDialog, type SavedCard } from "@/components/ui/CardDialog";
 import { CheckoutStep, PriceDetails } from "./CheckoutStep";
 import {
@@ -62,6 +64,8 @@ export type BookingEvent = {
   venue: string;
   venueUrl: string;
   poster: string;
+  /** The event's own playlist, for the player that replaces the poster. */
+  playlist: { title: string; artist: string; artworkUrl?: string; audioSrc?: string }[];
   startsAt: string;
   /** Where the confirmation says the booking was sent. */
   email: string;
@@ -81,6 +85,28 @@ export function BookingJourney({
   /** `?tier=` from the event page's ticket stubs. */
   initialTier?: string;
 }) {
+  /* The event's playlist, in the shape the widget takes. */
+  const playerTracks = useMemo<Track[]>(
+    () =>
+      event.playlist
+        .filter((t) => t.audioSrc)
+        .map((t) => ({
+          title: t.title,
+          artist: t.artist,
+          cover: t.artworkUrl ?? event.poster,
+          src: t.audioSrc as string,
+        })),
+    [event.playlist, event.poster],
+  );
+
+  /* One player at a time. The deck that follows you in from the event page
+     stands down while this screen owns the music, so the two are never
+     singing over each other. It costs the continuity of the track — this
+     starts from the top — which is the trade Ahmed picked. */
+  useEffect(() => {
+    setDeckPlaying(false);
+  }, []);
+
   /* The floating player is mounted above the router and knows nothing about
      this screen. Tell it how much room the summary bar needs, so it stops
      landing on the only action here. */
@@ -406,16 +432,9 @@ export function BookingJourney({
                 error={agreeError}
               />
             ) : (
-              <span className="relative hidden aspect-square w-full overflow-hidden lg:block">
-                <Image
-                  src={event.poster}
-                  alt={`${event.name} poster`}
-                  fill
-                  sizes="405px"
-                  className="object-cover"
-                  priority
-                />
-              </span>
+              <div className="hidden w-full lg:block">
+                <MusicPlayer tracks={playerTracks} crossOrigin="anonymous" />
+              </div>
             )}
 
             <div className="max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-40">

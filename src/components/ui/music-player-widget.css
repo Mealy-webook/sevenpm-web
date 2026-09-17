@@ -1,0 +1,297 @@
+/* ------------------------------------------------------------------ *
+ * Music Player Widget
+ *
+ * The upstream component (21st.dev, @smammar) ships its styling through the
+ * 21st registry, which needs an API key we do not have. This is written from
+ * scratch against its markup and to this site's rules instead — square edges,
+ * brand yellow, the house type — so it belongs here rather than looking like
+ * a component borrowed from somewhere else.
+ *
+ * Everything is scoped under `.mpw`. The component's own class names are
+ * `card`, `info`, `bar`, `time`, `controls` — far too generic to let loose in
+ * a global sheet.
+ * ------------------------------------------------------------------ */
+
+.mpw {
+  --mpw-face: 172px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 24px;
+  background: var(--color-bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ---- the record ---- */
+
+.mpw .mask {
+  position: relative;
+  width: var(--mpw-face);
+  height: var(--mpw-face);
+  flex: none;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: #000;
+  /* The one round thing in the widget, because it is a record. */
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.mpw .spin {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.mpw .cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 9999px;
+}
+
+.mpw .cover-enter {
+  animation: mpw-cover-in 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mpw .cover-exit {
+  animation: mpw-cover-out 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes mpw-cover-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mpw-cover-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* The spindle. */
+.mpw .hole {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 9999px;
+  background: rgba(11, 11, 14, 0.92);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.mpw .hole-inner {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--color-brand);
+}
+
+/* ---- the right-hand column ---- */
+
+.mpw .info {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* The dot-grid visualiser sits behind the type, not beside it — at this size
+   there is no room for both, and it reads as texture rather than as a chart. */
+.mpw .scales {
+  position: absolute;
+  right: 0;
+  top: -6px;
+  width: 92px;
+  height: 100px;
+  opacity: 0.16;
+  fill: var(--color-brand);
+  pointer-events: none;
+}
+
+.mpw.is-playing .scales {
+  opacity: 0.32;
+}
+
+.mpw .track-info {
+  position: relative;
+  min-height: 52px;
+}
+
+.mpw .ti-layer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mpw .ti-abs {
+  position: absolute;
+  inset: 0;
+}
+
+.mpw .artist {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0.13px;
+  color: var(--color-content-secondary);
+}
+
+.mpw .track {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.11px;
+  text-transform: uppercase;
+  color: var(--color-content-primary);
+}
+
+.mpw .ti-enter {
+  animation: mpw-ti-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mpw .ti-exit {
+  animation: mpw-ti-out 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes mpw-ti-in {
+  from { opacity: 0; transform: translateX(var(--dx, 0)); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes mpw-ti-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(var(--dx, 0)); }
+}
+
+/* ---- progress ---- */
+
+.mpw .bar {
+  position: relative;
+  height: 3px;
+  width: 100%;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mpw .bar:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+}
+
+.mpw .bar-fill {
+  height: 100%;
+  background: var(--color-brand);
+}
+
+.mpw .time {
+  display: flex;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.12px;
+  color: var(--color-content-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- transport ---- */
+
+.mpw .controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.mpw .ctrl {
+  position: relative;
+  display: flex;
+  height: 36px;
+  width: 36px;
+  flex: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-content-primary);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.mpw .ctrl:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mpw .ctrl:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.mpw .ctrl-play {
+  background: var(--color-brand);
+  border-color: transparent;
+  color: #0b0b0e;
+}
+
+.mpw .ctrl-play:hover {
+  background: #fff35a;
+}
+
+.mpw .ctrl-toggle.is-active {
+  color: var(--color-brand);
+  border-color: rgba(251, 235, 28, 0.4);
+}
+
+.mpw .loop-one {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+}
+
+.mpw .ctrl-loop.mode-one .loop-one {
+  opacity: 1;
+}
+
+/* Wider than a phone, the record and the column sit side by side. */
+@media (min-width: 480px) {
+  .mpw {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .mpw .info {
+    flex: 1 1 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mpw .cover-enter,
+  .mpw .cover-exit,
+  .mpw .ti-enter,
+  .mpw .ti-exit {
+    animation: none;
+  }
+}

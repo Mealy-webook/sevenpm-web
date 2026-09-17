@@ -50,6 +50,7 @@ export default async function BookPage({ params, searchParams }: PageProps) {
             venue: event.venue.name,
             venueUrl: event.venue.directionsUrl,
             poster: bookingConfig.poster,
+            playlist: event.playlist,
             startsAt: event.startsAt,
             email: accountUser.email,
           }}
