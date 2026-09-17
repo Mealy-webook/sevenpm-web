@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 
 import type { ArtistGroup, EventDetails } from "@/data/events";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
@@ -105,9 +106,58 @@ function Group({ group, last }: { group: ArtistGroup; last: boolean }) {
 
 export function ArtistsSection({ event }: { event: EventDetails }) {
   const [activeDay, setActiveDay] = useState(event.artistDays[0].id);
+  const stage = useRef<HTMLDivElement>(null);
   const day =
     event.artistDays.find((entry) => entry.id === activeDay) ??
     event.artistDays[0];
+
+  /* The row drifts, and stops under the cursor.
+   *
+   * The composition is 1938 wide and bleeds past the frame, so it is laid out
+   * twice and travelled by exactly one width — at which point the second copy
+   * is standing where the first was and the loop is seamless.
+   *
+   * The translation goes on an inner track because `.artist-row` already
+   * carries the responsive `scale()`, and GSAP writes the whole `transform`
+   * property: animating x on that node would throw the scale away.
+   */
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      const track = el.querySelector<HTMLElement>("[data-artist-track]");
+      if (!track) return;
+
+      const tween = gsap.fromTo(
+        track,
+        { x: 0 },
+        { x: -ROW_WIDTH, duration: 48, ease: "none", repeat: -1 },
+      );
+
+      /* Eased rather than cut, so the row settles under the cursor instead of
+         stopping dead the instant it crosses an edge. */
+      const slow = () => gsap.to(tween, { timeScale: 0, duration: 0.5 });
+      const go = () => gsap.to(tween, { timeScale: 1, duration: 0.7 });
+
+      el.addEventListener("pointerenter", slow);
+      el.addEventListener("pointerleave", go);
+      /* Keyboard users land on a portrait without ever pointing at it. */
+      el.addEventListener("focusin", slow);
+      el.addEventListener("focusout", go);
+
+      return () => {
+        el.removeEventListener("pointerenter", slow);
+        el.removeEventListener("pointerleave", go);
+        el.removeEventListener("focusin", slow);
+        el.removeEventListener("focusout", go);
+      };
+    }, el);
+
+    return () => ctx.revert();
+    /* Re-armed when the day changes: the groups are different elements. */
+  }, [day.id]);
 
   return (
     <section id="artists" className="relative overflow-hidden py-16 xl:py-24">
@@ -139,7 +189,7 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
         </div>
       </div>
 
-      <div className="stage-artists relative mt-12 w-full">
+      <div ref={stage} className="stage-artists relative mt-12 w-full">
         <div
           className="artist-row absolute left-1/2 top-0 flex items-start"
           style={{
@@ -150,13 +200,26 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
             transformOrigin: "top center",
           }}
         >
-          {day.groups.map((group, index) => (
-            <Group
-              key={`${day.id}-${index}`}
-              group={group}
-              last={index === day.groups.length - 1}
-            />
-          ))}
+          {/* Laid out twice so the travel loops without a seam. The second
+              pass is decorative — screen readers read the line-up once. */}
+          <div data-artist-track className="flex items-start">
+            {[0, 1].map((copy) => (
+              <div
+                key={copy}
+                className="flex shrink-0 items-start"
+                style={{ width: ROW_WIDTH }}
+                aria-hidden={copy === 1}
+              >
+                {day.groups.map((group, index) => (
+                  <Group
+                    key={`${day.id}-${copy}-${index}`}
+                    group={group}
+                    last={index === day.groups.length - 1}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
