@@ -27,18 +27,17 @@ export const referral = {
 
 export const shareCopy = {
   open: "Share & Earn",
-  title: "Share this event",
-  subtitle: "Send it on, and get paid in Beats when it lands.",
-  earn: (beats: number) =>
-    `Earn ${beats.toLocaleString("en-US")} Beats`,
-  earnDetail:
-    "Credited once someone books through your link and their ticket is scanned at the gate.",
-  signedOut: "Sign in first, or the booking cannot be credited to you.",
+  title: "Share & earn",
+  /** The comp states the reward in the subtitle rather than in a panel. */
+  subtitle: (beats: number) =>
+    `Earn ${beats.toLocaleString("en-US")} Beats once someone books through your link.`,
+  signedOut: "Sign in first, or a booking cannot be credited to you.",
   targets: "Share to",
+  or: "OR",
   linkLabel: "Your link",
   copy: "Copy",
   copied: "Copied",
-  done: "Done",
+  copyHint: "Copy your link",
   cancel: "Close",
 };
 /* ------------------------------------------------------------------ *

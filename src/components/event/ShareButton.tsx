@@ -4,46 +4,27 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { ShareDialog } from "./ShareDialog";
-import { shareUrl } from "./shareLink";
-import { useSignedIn } from "@/components/auth/session";
 import { shareCopy } from "@/data/account";
 
 /**
- * "Share" on the event page.
+ * "Share & Earn" on the event page.
  *
- * Where the browser has a share sheet of its own it hands off to that — it
- * reaches Messages, WhatsApp and everything else already on the phone, which
- * no list of three links can match. Everywhere else it opens our own sheet.
+ * It always opens our own sheet. The browser's share sheet is still reachable
+ * — it is the "More" tile inside — but it is no longer what the button does,
+ * because handing straight off would skip the one thing the sheet exists to
+ * say: that sharing pays in Beats.
  *
- * Either way the link carries the visitor's referral code when they are signed
- * in, so a booking made through it can be credited back in Beats.
+ * The link carries the visitor's referral code when they are signed in, so a
+ * booking made through it can be credited back.
  */
 export function ShareButton({ eventName }: { eventName: string }) {
-  const account = useSignedIn();
   const [open, setOpen] = useState(false);
-
-  const share = async () => {
-    if (typeof navigator.share === "function") {
-      try {
-        await navigator.share({
-          title: `${eventName} — SEVENPM`,
-          text: shareCopy.subtitle,
-          url: shareUrl(Boolean(account)),
-        });
-        return;
-      } catch {
-        /* Dismissed, or the sheet refused. Fall through to ours rather than
-           leaving the press with nothing to show for it. */
-      }
-    }
-    setOpen(true);
-  };
 
   return (
     <>
       <button
         type="button"
-        onClick={share}
+        onClick={() => setOpen(true)}
         className="btn-secondary flex cursor-pointer items-center justify-center gap-1 p-3"
       >
         <Image

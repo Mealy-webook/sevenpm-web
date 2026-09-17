@@ -9,44 +9,54 @@ import { Sheet } from "@/components/ui/Sheet";
 import { referral, shareCopy } from "@/data/account";
 
 /**
- * Share an event, and say what sharing is worth.
+ * Share & earn, from Figma 2389:12972: the reward stated in the subtitle, four
+ * round share targets, then the link itself.
  *
- * The point of the sheet is the Beats line: a plain share button gives people
- * no reason to press it, and the referral reward is the reason. It is the same
- * 500 the rewards programme promises for bringing someone new, read from one
- * constant so the two cannot drift.
+ * "More" is the native share sheet. Putting it last, behind the three named
+ * apps, is the right way round for the web: the browsers that have a share
+ * sheet are phones, where it reaches everything installed, and the ones that
+ * do not are desktops, where the three named targets are all there is. Either
+ * way nothing here is a dead end.
  *
- * Signed out there is no code to tag the link with, so the link goes out
- * untagged and the sheet says why rather than promising Beats that could never
- * be credited.
+ * Signed out there is no code to tag the link with, so it goes out untagged
+ * and the subtitle says why rather than promising Beats that could never be
+ * credited.
  *
- * Where the browser has a share sheet of its own — every phone — the button
- * hands off to it instead of opening this. A native sheet reaches the apps
- * people actually use; a list of four is a worse version of it.
+ * The field is the copy control, as the comp draws it — the whole row is the
+ * button, not just the word "Copy".
  */
 
-type Target = { id: string; label: string; icon: string; href: (u: string, t: string) => string };
+type Target = {
+  id: string;
+  label: string;
+  icon: string;
+  /** Absent for "More", which is handed to the browser instead. */
+  href?: (url: string, text: string) => string;
+};
 
-/* Only the networks we hold a real mark for and that have a share URL. There
-   is deliberately no WhatsApp here: it is the channel most people in Morocco
-   would actually use, but we have no licensed mark for it and drawing one by
-   hand would be wrong. The native sheet — which is what phones get, and where
-   WhatsApp lives — covers it. */
 const TARGETS: Target[] = [
-  {
-    id: "x",
-    label: "X",
-    icon: "/assets/ic-social-x.svg",
-    href: (url, text) =>
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-  },
   {
     id: "facebook",
     label: "Facebook",
-    icon: "/assets/ic-social-facebook.svg",
+    icon: "/assets/ic-share-facebook.svg",
     href: (url) =>
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
   },
+  {
+    id: "whatsapp",
+    label: "WhatsApp",
+    icon: "/assets/ic-share-whatsapp.svg",
+    href: (url, text) =>
+      `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
+  },
+  {
+    id: "messenger",
+    label: "Messenger",
+    icon: "/assets/ic-share-messenger.svg",
+    href: (url) =>
+      `https://www.facebook.com/dialog/send?link=${encodeURIComponent(url)}&redirect_uri=${encodeURIComponent(url)}&app_id=`,
+  },
+  { id: "more", label: "More", icon: "/assets/ic-share-more.svg" },
 ];
 
 export function ShareDialog({
@@ -61,9 +71,10 @@ export function ShareDialog({
   const [copied, setCopied] = useState(false);
 
   /* Derived, not stored: the link is a function of the address bar and of who
-     is signed in, and keeping a copy in state only creates a second version
-     of it that can go stale. */
+     is signed in, and a copy in state is only a second version that can go
+     stale. */
   const url = useMemo(() => shareUrl(Boolean(account)), [account]);
+  const text = `${eventName} — SEVENPM`;
 
   useEffect(() => {
     if (!copied) return;
@@ -71,97 +82,122 @@ export function ShareDialog({
     return () => clearTimeout(timer);
   }, [copied]);
 
-  const text = `${eventName} — SEVENPM`;
-
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
     } catch {
-      /* Clipboard refused — the field below is selectable, so there is still
-         a way to take the link. */
+      /* Clipboard refused. Nothing to recover — the link is on screen. */
     }
   };
+
+  const openNative = async () => {
+    try {
+      await navigator.share({ title: text, url });
+    } catch {
+      /* Dismissed, or unsupported. The named targets are still there. */
+    }
+  };
+
+  /* The browser's own sheet is only offered where there is one. */
+  const shown = TARGETS.filter(
+    (target) =>
+      target.href ||
+      (typeof navigator !== "undefined" && typeof navigator.share === "function"),
+  );
 
   return (
     <Sheet
       open
       onClose={onClose}
       title={shareCopy.title}
-      subtitle={shareCopy.subtitle}
+      subtitle={
+        account ? shareCopy.subtitle(referral.beats) : shareCopy.signedOut
+      }
       titleId={titleId}
       closeLabel={shareCopy.cancel}
     >
-      <div className="flex flex-col gap-5 px-5 pb-5 pt-4">
-        {/* What it is worth */}
-        <section className="flex items-start gap-3 border border-white/10 bg-white/5 p-4">
-          <Image
-            src="/assets/ic-beats-earn.svg"
-            alt=""
-            width={24}
-            height={24}
-            className="size-6 shrink-0"
-          />
-          <span className="flex min-w-0 flex-col gap-1">
-            <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-brand">
-              {shareCopy.earn(referral.beats)}
-            </span>
-            <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-              {account ? shareCopy.earnDetail : shareCopy.signedOut}
-            </span>
-          </span>
-        </section>
-
-        {/* Where to */}
+      <div className="flex flex-col gap-4 px-5 pb-5 pt-4">
+        {/* Share to */}
         <section className="flex flex-col gap-2">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[0.16px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
             {shareCopy.targets}
           </h3>
-          <ul className="m-0 flex list-none gap-2 p-0">
-            {TARGETS.map((target) => (
-              <li key={target.id} className="flex-1">
-                <a
-                  href={url ? target.href(url, text) : undefined}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="btn-secondary flex h-full cursor-pointer flex-col items-center justify-center gap-2 p-3"
-                >
-                  <Image
-                    src={target.icon}
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="size-6"
-                  />
-                  <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-primary">
+          <ul className="m-0 flex list-none items-start gap-2 p-0">
+            {shown.map((target) => {
+              const face = (
+                <>
+                  {/* The one round thing in the sheet: these read as app
+                      badges, and a square badge reads as a tile. */}
+                  <span className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-full border border-white/10 transition-colors group-hover:border-white/30">
+                    <Image
+                      src={target.icon}
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="size-6"
+                    />
+                  </span>
+                  <span className="w-full truncate text-center font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
                     {target.label}
                   </span>
-                </a>
-              </li>
-            ))}
+                </>
+              );
+
+              return (
+                <li key={target.id} className="min-w-0 flex-1">
+                  {target.href ? (
+                    <a
+                      href={target.href(url, text)}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="group flex cursor-pointer flex-col items-center gap-2"
+                    >
+                      {face}
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={openNative}
+                      className="group flex w-full cursor-pointer flex-col items-center gap-2"
+                    >
+                      {face}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
 
-        {/* The link itself */}
+        {/* OR */}
+        <div className="flex items-center justify-center gap-4 py-1">
+          <span aria-hidden className="h-px flex-1 bg-white/10" />
+          <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+            {shareCopy.or}
+          </span>
+          <span aria-hidden className="h-px flex-1 bg-white/10" />
+        </div>
+
+        {/* Your link */}
         <section className="flex flex-col gap-2">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[0.16px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
             {shareCopy.linkLabel}
           </h3>
-          <div className="flex items-stretch gap-2">
-            <input
-              readOnly
-              value={url}
-              aria-label={shareCopy.linkLabel}
-              onFocus={(event) => event.currentTarget.select()}
-              className="min-w-0 flex-1 border border-white/10 bg-white/5 px-3 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary outline-none focus:border-white/30"
-            />
-            <button
-              type="button"
-              onClick={copy}
-              className="btn-secondary flex shrink-0 cursor-pointer items-center gap-1 p-3"
-            >
+          <button
+            type="button"
+            onClick={copy}
+            aria-label={`${shareCopy.copyHint} — ${url}`}
+            className="flex w-full cursor-pointer items-center gap-3 border-[0.5px] border-white/10 bg-white/5 py-3 pl-4 pr-2 text-left transition-colors hover:bg-white/10"
+          >
+            <span className="flex h-9 min-w-0 flex-1 items-center">
+              <span className="truncate font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary">
+                {url}
+              </span>
+            </span>
+            <span className="btn-secondary flex shrink-0 items-center justify-center p-1.5">
               <Image
-                src="/assets/ic-copy-20.svg"
+                src="/assets/ic-copy-16.svg"
                 alt=""
                 width={16}
                 height={16}
@@ -174,8 +210,8 @@ export function ShareDialog({
               >
                 {copied ? shareCopy.copied : shareCopy.copy}
               </span>
-            </button>
-          </div>
+            </span>
+          </button>
         </section>
       </div>
     </Sheet>
