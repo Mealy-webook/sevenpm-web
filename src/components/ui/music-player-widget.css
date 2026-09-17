@@ -1,43 +1,55 @@
 /* ------------------------------------------------------------------ *
- * Music Player Widget
+ * Music Player Widget — 21st.dev (@smammar)
  *
- * The upstream component (21st.dev, @smammar) ships its styling through the
- * 21st registry, which needs an API key we do not have. This is written from
- * scratch against its markup and to this site's rules instead — square edges,
- * brand yellow, the house type — so it belongs here rather than looking like
- * a component borrowed from somewhere else.
+ * The author's stylesheet is behind the 21st registry's API key, so this is
+ * written against the original's own screenshot: a portrait card, the record
+ * bleeding off the top edge, everything below it centred, and a black play
+ * button. An earlier pass here invented a horizontal dark layout instead;
+ * this is the component as designed.
  *
- * Everything is scoped under `.mpw`. The component's own class names are
- * `card`, `info`, `bar`, `time`, `controls` — far too generic to let loose in
- * a global sheet.
+ * Everything is scoped under `.mpw`. The component's class names — `card`,
+ * `info`, `bar`, `time`, `controls` — are far too generic to let loose in a
+ * global sheet.
  * ------------------------------------------------------------------ */
 
 .mpw {
-  --mpw-face: 172px;
+  --mpw-ink: #0b0b0e;
+  --mpw-dim: #8a8a91;
+  --mpw-rule: rgba(11, 11, 14, 0.12);
+
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
   width: 100%;
-  padding: 24px;
-  background: var(--color-bg-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  background: #fff;
+  /* The original is a soft-cornered card. This is the one place the house's
+     square-edge rule gives way, because the disc is a circle and a square
+     corner beside it reads as a mistake. */
+  border-radius: 24px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  color: var(--mpw-ink);
+  font-family: var(--font-display);
 }
 
-/* ---- the record ---- */
+/* ---- the record, cropped by the top of the card ---- */
 
 .mpw .mask {
   position: relative;
-  width: var(--mpw-face);
-  height: var(--mpw-face);
+  width: 118%;
+  aspect-ratio: 1;
   flex: none;
+  /* Pulled up so only the lower dome shows, as the original crops it. */
+  margin: -42% 0 0;
   border-radius: 9999px;
   overflow: hidden;
-  background: #000;
-  /* The one round thing in the widget, because it is a record. */
-  box-shadow:
-    0 18px 48px rgba(0, 0, 0, 0.55),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: #d9d9de;
+  cursor: zoom-in;
+}
+
+.mpw .mask.is-zoomed {
+  cursor: zoom-out;
 }
 
 .mpw .spin {
@@ -73,65 +85,64 @@
   to { opacity: 0; }
 }
 
-/* The spindle. */
+/* The spindle, sitting in the cropped-away part of the disc. */
 .mpw .hole {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
+  width: 21%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: rgba(11, 11, 14, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   display: grid;
   place-items: center;
   pointer-events: none;
 }
 
 .mpw .hole-inner {
-  width: 10px;
-  height: 10px;
+  width: 26%;
+  aspect-ratio: 1;
   border-radius: 9999px;
-  background: var(--color-brand);
+  background: rgba(255, 255, 255, 0.85);
 }
 
-/* ---- the right-hand column ---- */
+/* ---- everything under the record, centred ---- */
 
 .mpw .info {
   position: relative;
   display: flex;
   width: 100%;
-  min-width: 0;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 28px 30px;
+  text-align: center;
 }
 
-/* The dot-grid visualiser sits behind the type, not beside it — at this size
-   there is no room for both, and it reads as texture rather than as a chart. */
+/* The dot-grid visualiser is a small mark above the artist, not a backdrop. */
 .mpw .scales {
-  position: absolute;
-  right: 0;
-  top: -6px;
-  width: 92px;
-  height: 100px;
-  opacity: 0.16;
-  fill: var(--color-brand);
-  pointer-events: none;
+  width: 56px;
+  height: 22px;
+  fill: var(--mpw-dim);
+  opacity: 0.55;
 }
 
 .mpw.is-playing .scales {
-  opacity: 0.32;
+  opacity: 1;
 }
 
 .mpw .track-info {
   position: relative;
-  min-height: 52px;
+  width: 100%;
+  min-height: 74px;
 }
 
 .mpw .ti-layer {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
+  width: 100%;
 }
 
 .mpw .ti-abs {
@@ -141,22 +152,21 @@
 
 .mpw .artist {
   margin: 0;
-  font-family: var(--font-display);
   font-size: 13px;
-  line-height: 20px;
-  letter-spacing: 0.13px;
-  color: var(--color-content-secondary);
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mpw-dim);
 }
 
 .mpw .track {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 28px;
-  letter-spacing: -0.11px;
-  text-transform: uppercase;
-  color: var(--color-content-primary);
+  line-height: 36px;
+  letter-spacing: -0.4px;
+  color: var(--mpw-ink);
 }
 
 .mpw .ti-enter {
@@ -177,34 +187,34 @@
   to { opacity: 0; transform: translateX(var(--dx, 0)); }
 }
 
-/* ---- progress ---- */
+/* ---- the rule, then the clock ---- */
 
 .mpw .bar {
   position: relative;
-  height: 3px;
+  height: 2px;
   width: 100%;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--mpw-rule);
 }
 
 .mpw .bar:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 4px;
+  outline: 2px solid var(--mpw-ink);
+  outline-offset: 6px;
 }
 
 .mpw .bar-fill {
   height: 100%;
-  background: var(--color-brand);
+  background: var(--mpw-ink);
 }
 
 .mpw .time {
   display: flex;
-  gap: 4px;
-  font-family: var(--font-display);
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.12px;
-  color: var(--color-content-secondary);
+  gap: 10px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+  color: var(--mpw-dim);
   font-variant-numeric: tabular-nums;
 }
 
@@ -213,57 +223,79 @@
 .mpw .controls {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-top: 2px;
+  justify-content: center;
+  gap: 26px;
+  padding-top: 4px;
 }
 
 .mpw .ctrl {
-  position: relative;
   display: flex;
-  height: 36px;
-  width: 36px;
+  height: 28px;
+  width: 28px;
   flex: none;
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--color-content-primary);
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease;
+  border: 0;
+  background: none;
+  color: var(--mpw-ink);
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
 }
 
 .mpw .ctrl:hover {
-  background: rgba(255, 255, 255, 0.1);
+  opacity: 1;
 }
 
 .mpw .ctrl:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 2px;
+  outline: 2px solid var(--mpw-ink);
+  outline-offset: 4px;
 }
 
+/* The one filled control, and the only circle down here. */
 .mpw .ctrl-play {
-  background: var(--color-brand);
-  border-color: transparent;
-  color: #0b0b0e;
+  height: 72px;
+  width: 72px;
+  border-radius: 9999px;
+  background: var(--mpw-ink);
+  color: #fff;
+  opacity: 1;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mpw .ctrl-play:hover {
-  background: #fff35a;
+  transform: scale(1.05);
+}
+
+.mpw .ctrl-play svg {
+  width: 20px;
+  height: 20px;
 }
 
 .mpw .ctrl-toggle.is-active {
-  color: var(--color-brand);
-  border-color: rgba(251, 235, 28, 0.4);
+  opacity: 1;
+}
+
+.mpw .ctrl-toggle.is-active::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 9999px;
+  background: var(--mpw-ink);
+}
+
+.mpw .ctrl-toggle {
+  position: relative;
 }
 
 .mpw .loop-one {
   position: absolute;
-  right: 4px;
-  bottom: 2px;
-  font-family: var(--font-display);
+  right: -2px;
+  top: -2px;
   font-size: 9px;
   font-weight: 700;
   line-height: 1;
@@ -274,24 +306,15 @@
   opacity: 1;
 }
 
-/* Wider than a phone, the record and the column sit side by side. */
-@media (min-width: 480px) {
-  .mpw {
-    flex-direction: row;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .mpw .info {
-    flex: 1 1 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .mpw .cover-enter,
   .mpw .cover-exit,
   .mpw .ti-enter,
   .mpw .ti-exit {
     animation: none;
+  }
+
+  .mpw .ctrl-play:hover {
+    transform: none;
   }
 }

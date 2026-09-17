@@ -41,6 +41,49 @@ export type LoopMode = "off" | "all" | "one";
 export type Direction = "next" | "prev" | null;
 type AudioCtor = typeof AudioContext;
 
+/* -------------------------------------------------- useTransitionSound */
+
+/** The short blip the original plays when the track changes, pitched off the
+ *  bass energy of the track you are leaving. */
+function useTransitionSound() {
+  const ctxRef = useRef<AudioContext | null>(null);
+  useEffect(() => {
+    return () => {
+      ctxRef.current?.close().catch(() => {});
+      ctxRef.current = null;
+    };
+  }, []);
+  return useCallback((bassEnergy = 0.5) => {
+    try {
+      if (!ctxRef.current) {
+        const Ctor: AudioCtor =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: AudioCtor })
+            .webkitAudioContext;
+        if (!Ctor) return;
+        ctxRef.current = new Ctor();
+      }
+      const ctx = ctxRef.current;
+      if (ctx.state === "suspended") ctx.resume();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const startFreq = 440 + bassEnergy * 440;
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(startFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(startFreq * (2 / 3), now + 0.09);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.06, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.18);
+    } catch {
+      /* Web Audio unavailable */
+    }
+  }, []);
+}
+
 /* ------------------------------------------------------------- useRafLoop */
 
 function useRafLoop(cb: (now: number, dt: number) => void) {
@@ -128,7 +171,17 @@ function useWidgetAnalyser(audioRef: React.RefObject<HTMLAudioElement | null>) {
     return dataRef.current;
   }, []);
 
-  return { getFrequencyData };
+  const getBandEnergy = useCallback((startBin: number, endBin: number) => {
+    if (!analyserRef.current) return 0;
+    const data = dataRef.current;
+    const count = endBin - startBin;
+    if (count <= 0) return 0;
+    let sum = 0;
+    for (let i = startBin; i < endBin && i < data.length; i += 1) sum += data[i];
+    return sum / count / 255;
+  }, []);
+
+  return { getFrequencyData, getBandEnergy };
 }
 
 /* ------------------------------------------------------ useAudioPlayer */
@@ -202,23 +255,25 @@ function useAudioPlayer(
     currentIndex: 0,
     order: Array.from({ length: tracks.length }, (_, i) => i),
     shuffled: false,
-    loopMode: "all",
+    loopMode: "off",
     isPlaying: false,
     direction: null,
   });
 
-  const { getFrequencyData } = useWidgetAnalyser(audioRef);
+  const { getFrequencyData, getBandEnergy } = useWidgetAnalyser(audioRef);
+  const playTransitionSound = useTransitionSound();
 
   const loadTrack = useCallback(
     (index: number, autoplay: boolean, direction: Direction) => {
       const audio = audioRef.current;
       if (!audio) return;
+      playTransitionSound(getBandEnergy(0, 4));
       dispatch({ type: "SET_TRACK", index, direction });
       audio.src = tracks[index].src;
       audio.load();
       if (autoplay) audio.play().catch(() => {});
     },
-    [tracks, audioRef],
+    [tracks, audioRef, playTransitionSound, getBandEnergy],
   );
 
   const toggle = useCallback(() => {
@@ -234,7 +289,7 @@ function useAudioPlayer(
     const pos = state.order.indexOf(state.currentIndex);
     const np = pos + 1;
     if (np >= state.order.length) {
-      if (state.loopMode !== "off")
+      if (state.loopMode === "all")
         loadTrack(state.order[0], !audio.paused, "next");
       else {
         audio.pause();
@@ -255,7 +310,7 @@ function useAudioPlayer(
     const pos = state.order.indexOf(state.currentIndex);
     const pp = pos - 1;
     if (pp < 0) {
-      if (state.loopMode !== "off")
+      if (state.loopMode === "all")
         loadTrack(state.order[state.order.length - 1], !audio.paused, "prev");
       else audio.currentTime = 0;
       return;
@@ -534,13 +589,17 @@ interface Layer {
 function Disc({
   layers,
   isPlaying,
+  isZoomed,
   trackKey,
   direction,
+  onZoomToggle,
 }: {
   layers: Layer[];
   isPlaying: boolean;
+  isZoomed: boolean;
   trackKey: number;
   direction: Direction;
+  onZoomToggle: () => void;
 }) {
   const spinRef = useRef<HTMLDivElement>(null);
   const rotRef = useRef(0);
@@ -566,7 +625,14 @@ function Disc({
       velRef.current *= 0.96;
       if (velRef.current < 0.001) velRef.current = 0;
     }
-    rotRef.current += velRef.current;
+    if (isZoomed) {
+      /* Settle to a whole turn so the artwork sits square while zoomed. */
+      const target = Math.round(rotRef.current / 360) * 360;
+      const nx = rotRef.current + (target - rotRef.current) * 0.08;
+      rotRef.current = Math.abs(target - nx) < 0.1 ? target : nx;
+    } else {
+      rotRef.current += velRef.current;
+    }
     const burst = burstRef.current;
     if (burst.pending) {
       burst.start = now;
@@ -579,11 +645,23 @@ function Disc({
       if (t >= 1) burst.active = false;
       else b = burst.from * (1 - (1 - Math.pow(1 - t, 3)));
     }
-    el.style.transform = `rotate(${rotRef.current + b}deg)`;
+    el.style.transform = `scale(1.01) rotate(${rotRef.current + b}deg)`;
   });
 
   return (
-    <div className="mask">
+    <div
+      className={`mask ${isZoomed ? "is-zoomed" : ""}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        onZoomToggle();
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label="Zoom the record"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") onZoomToggle();
+      }}
+    >
       <div className="spin" ref={spinRef}>
         {layers.map((l, i) => {
           const isNewest = i === layers.length - 1;
@@ -597,7 +675,7 @@ function Disc({
             <img
               key={l.id}
               src={l.track.cover}
-              alt=""
+              alt={`${l.track.title} — ${l.track.artist}`}
               className={cls}
               draggable={false}
             />
@@ -773,6 +851,7 @@ export function MusicPlayer({ tracks, crossOrigin }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const player = useAudioPlayer(tracks, audioRef);
   const root = useRef<HTMLDivElement>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const [layers, setLayers] = useState<Layer[]>(() =>
     tracks.length ? [{ id: 0, track: tracks[0], dir: null }] : [],
@@ -822,16 +901,23 @@ export function MusicPlayer({ tracks, crossOrigin }: MusicPlayerProps) {
   return (
     <div
       ref={root}
-      className={`mpw card ${player.state.isPlaying ? "is-playing" : ""}`}
+      className={`mpw card ${player.state.isPlaying ? "is-playing" : ""} ${
+        isZoomed ? "is-zoomed" : ""
+      }`}
       role="region"
       aria-label="Music player"
+      onClick={(e) => {
+        if (!(e.target as HTMLElement).closest(".mask")) setIsZoomed(false);
+      }}
     >
       <audio ref={audioRef} preload="metadata" crossOrigin={crossOrigin} />
       <Disc
         layers={layers}
         isPlaying={player.state.isPlaying}
+        isZoomed={isZoomed}
         trackKey={player.state.currentIndex}
         direction={player.state.direction}
+        onZoomToggle={() => setIsZoomed((z) => !z)}
       />
       <div className="info">
         <ScalesMixer
