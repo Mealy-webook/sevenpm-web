@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
@@ -153,6 +154,28 @@ export function HeroSection({ event }: { event: EventDetails }) {
                 {event.name}
               </h1>
             </StagePulse>
+            {/* Time and place, under the name. The venue is the directions
+                link: the comp dropped the map panel further down the page and
+                underlines the venue here instead, so this is where getting
+                there now lives. */}
+            <div
+              className="flex flex-col items-center gap-2"
+              data-reveal="up"
+              data-reveal-delay="0.08"
+            >
+              <p className="m-0 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 tracking-[0.085px] text-brand">
+                {event.sessionTime}
+              </p>
+              <a
+                href={event.venue.directionsUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary underline underline-offset-4 transition-colors hover:text-brand"
+              >
+                {event.venue.name}
+              </a>
+            </div>
+
             <p
               className="max-w-[962px] text-center font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
               data-split="lines"
@@ -160,7 +183,42 @@ export function HeroSection({ event }: { event: EventDetails }) {
             >
               {event.intro}
             </p>
-            <div data-reveal="up" data-reveal-delay="0.2">
+
+            {/* Gates open / Last entry / Showtime. These sat above the ticket
+                tiers until the comp moved them up here, where they answer the
+                question the hero raises rather than the one the tiers do. */}
+            <div
+              className="flex flex-wrap items-center justify-center gap-8 pt-2"
+              data-reveal="up"
+              data-reveal-delay="0.16"
+            >
+              {event.schedule.map((tile, index) => (
+                <div key={tile.label} className="flex items-center gap-8">
+                  {index > 0 && (
+                    <span aria-hidden className="hidden h-[52px] w-px bg-ink-600 sm:block" />
+                  )}
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src={tile.icon}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="size-8 shrink-0"
+                    />
+                    <div className="flex flex-col items-start whitespace-nowrap">
+                      <span className="font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary">
+                        {tile.label}
+                      </span>
+                      <span className="font-[family-name:var(--font-display)] text-2xl font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
+                        {tile.value}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div data-reveal="up" data-reveal-delay="0.24">
               <ShareButton eventName={event.name} />
             </div>
           </div>
@@ -213,7 +271,10 @@ export function HeroSection({ event }: { event: EventDetails }) {
             imageSrc="/assets/sticker-cassette.png"
             width={256}
             height={233}
-            initialPosition={{ x: 120, y: 167 }}
+            /* Beside the title, as the comp places it. It used to sit lower,
+               which was clear of everything until the hero grew a time, a
+               venue and a schedule under the name. */
+            initialPosition={{ x: 96, y: 24 }}
             peelBackHoverPct={22}
             peelBackActivePct={34}
             shadowIntensity={0.6}
@@ -224,7 +285,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
             imageSrc="/assets/sticker-boombox.png"
             width={230}
             height={270}
-            initialPosition={{ x: 1215, y: 0 }}
+            initialPosition={{ x: 1190, y: 18 }}
             peelBackHoverPct={22}
             peelBackActivePct={34}
             shadowIntensity={0.6}

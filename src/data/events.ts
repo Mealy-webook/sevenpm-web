@@ -104,6 +104,8 @@ export type EventDetails = {
    *  hero countdown was dropped in the 2026-09-09 revision — but kept as the
    *  event's canonical start time. */
   startsAt: string;
+  /** Doors-to-close, as the hero states it. */
+  sessionTime: string;
   playlist: PlaylistTrack[];
   schedule: ScheduleTile[];
   ticketTiers: TicketTier[];
@@ -132,6 +134,7 @@ export const jazzablanca: EventDetails = {
   intro:
     "A true urban boutique festival deeply embedded in the city of Casablanca, the festival embraces the urban landscape and brings the city to life. Beyond the concerts, it is a place for sharing, discovery, and culture, designed to awaken minds and transmit a passion for music.",
   startsAt: "2026-09-18T19:00:00+01:00",
+  sessionTime: "07:00 PM - 12:00 AM",
   playlist: [
     {
       title: "Celebration",

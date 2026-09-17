@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { AccountMenu, type AccountUser } from "./AccountMenu";
+import { useLoyalty } from "@/components/account/loyaltyStore";
 import { AuthDialog } from "@/components/auth/AuthDialog";
 import { useSignedIn } from "@/components/auth/session";
 import { authCopy } from "@/data/auth";
+import { loyaltyCopy } from "@/data/account";
 import { LocaleMenu, type CurrencyCode, type LanguageCode } from "./LocaleMenu";
 import { SiteMenu } from "./SiteMenu";
 
@@ -46,6 +48,23 @@ const DEFAULT_USER: AccountUser = {
 };
 
 type Popover = "account" | "locale" | null;
+
+function BeatsChip() {
+  const { balance } = useLoyalty();
+
+  return (
+    <Link
+      href="/account/loyalty"
+      aria-label={`${balance.toLocaleString("en-US")} ${loyaltyCopy.unit}`}
+      className="btn-secondary flex h-[52px] shrink-0 items-center gap-1.5 px-4 font-daltown text-[20px] uppercase leading-none"
+    >
+      <span className="tabular-nums text-white">
+        {balance.toLocaleString("en-US")}
+      </span>
+      <span className="text-brand">{loyaltyCopy.unit}</span>
+    </Link>
+  );
+}
 
 export function SiteHeader({
   user = DEFAULT_USER,
@@ -135,6 +154,12 @@ export function SiteHeader({
           ref={cluster}
           className="relative flex min-w-0 flex-1 items-center justify-end gap-1"
         >
+          {/* Beats balance, from Figma 2091:56422. Signed-in only — it is a
+              balance, and there is nothing to state without an account. It
+              reads the shared store, so redeeming on the rewards page moves
+              the number up here in the same frame. */}
+          {account && !hideAccount && <BeatsChip />}
+
           {account ? (
             hideAccount ? null : (
             <button

@@ -46,9 +46,9 @@ export default async function EventDetailsPage({ params }: PageProps) {
         <HeroSection event={event} />
         <TicketsMarquee />
         <TicketsSection event={event} />
-        <LocationSection event={event} />
         <ArtistsSection event={event} />
         <GallerySection event={event} />
+        <LocationSection event={event} />
         <FaqSection event={event} />
         <SponsorsSection event={event} />
       </main>

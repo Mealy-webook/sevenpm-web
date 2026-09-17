@@ -26,7 +26,7 @@ export const referral = {
 };
 
 export const shareCopy = {
-  open: "Share",
+  open: "Share & Earn",
   title: "Share this event",
   subtitle: "Send it on, and get paid in Beats when it lands.",
   earn: (beats: number) =>
