@@ -3,9 +3,12 @@
  *
  * The author's stylesheet is behind the 21st registry's API key, so this is
  * written against the original's own screenshot: a portrait card, the record
- * bleeding off the top edge, everything below it centred, and a black play
- * button. An earlier pass here invented a horizontal dark layout instead;
- * this is the component as designed.
+ * bleeding off the top edge, everything below it centred.
+ *
+ * Two departures from that screenshot, both asked for: it is dark rather than
+ * white, so it belongs on this site's ground instead of punching a hole in it,
+ * and it is smaller — less of the disc shows and everything under it is
+ * tightened, because it shares a column with the order summary.
  *
  * Everything is scoped under `.mpw`. The component's class names — `card`,
  * `info`, `bar`, `time`, `controls` — are far too generic to let loose in a
@@ -13,9 +16,9 @@
  * ------------------------------------------------------------------ */
 
 .mpw {
-  --mpw-ink: #0b0b0e;
-  --mpw-dim: #8a8a91;
-  --mpw-rule: rgba(11, 11, 14, 0.12);
+  --mpw-ink: var(--color-content-primary);
+  --mpw-dim: var(--color-content-secondary);
+  --mpw-rule: rgba(255, 255, 255, 0.12);
 
   position: relative;
   display: flex;
@@ -23,12 +26,13 @@
   align-items: center;
   width: 100%;
   overflow: hidden;
-  background: #fff;
+  background: var(--color-bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   /* The original is a soft-cornered card. This is the one place the house's
      square-edge rule gives way, because the disc is a circle and a square
      corner beside it reads as a mistake. */
-  border-radius: 24px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
   color: var(--mpw-ink);
   font-family: var(--font-display);
 }
@@ -37,14 +41,16 @@
 
 .mpw .mask {
   position: relative;
-  width: 118%;
+  width: 108%;
   aspect-ratio: 1;
   flex: none;
-  /* Pulled up so only the lower dome shows, as the original crops it. */
-  margin: -42% 0 0;
+  /* Pulled up so only the lower dome shows, as the original crops it — deeper
+     here than the original, which is most of what makes this the smaller
+     card. */
+  margin: -62% 0 0;
   border-radius: 9999px;
   overflow: hidden;
-  background: #d9d9de;
+  background: #0b0b0e;
   cursor: zoom-in;
 }
 
@@ -115,17 +121,17 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 26px 28px 30px;
+  gap: 10px;
+  padding: 16px 20px 20px;
   text-align: center;
 }
 
 /* The dot-grid visualiser is a small mark above the artist, not a backdrop. */
 .mpw .scales {
-  width: 56px;
-  height: 22px;
-  fill: var(--mpw-dim);
-  opacity: 0.55;
+  width: 44px;
+  height: 18px;
+  fill: var(--color-brand);
+  opacity: 0.45;
 }
 
 .mpw.is-playing .scales {
@@ -135,13 +141,13 @@
 .mpw .track-info {
   position: relative;
   width: 100%;
-  min-height: 74px;
+  min-height: 54px;
 }
 
 .mpw .ti-layer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   width: 100%;
 }
 
@@ -152,7 +158,7 @@
 
 .mpw .artist {
   margin: 0;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   line-height: 16px;
   letter-spacing: 0.22em;
@@ -162,10 +168,10 @@
 
 .mpw .track {
   margin: 0;
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 700;
-  line-height: 36px;
-  letter-spacing: -0.4px;
+  line-height: 28px;
+  letter-spacing: -0.2px;
   color: var(--mpw-ink);
 }
 
@@ -198,7 +204,7 @@
 }
 
 .mpw .bar:focus-visible {
-  outline: 2px solid var(--mpw-ink);
+  outline: 2px solid var(--color-brand);
   outline-offset: 6px;
 }
 
@@ -209,10 +215,10 @@
 
 .mpw .time {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 13px;
+  line-height: 18px;
   letter-spacing: 0.06em;
   color: var(--mpw-dim);
   font-variant-numeric: tabular-nums;
@@ -224,14 +230,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 26px;
-  padding-top: 4px;
+  gap: 18px;
+  padding-top: 2px;
 }
 
 .mpw .ctrl {
   display: flex;
-  height: 28px;
-  width: 28px;
+  height: 24px;
+  width: 24px;
   flex: none;
   cursor: pointer;
   align-items: center;
@@ -248,17 +254,18 @@
 }
 
 .mpw .ctrl:focus-visible {
-  outline: 2px solid var(--mpw-ink);
+  outline: 2px solid var(--color-brand);
   outline-offset: 4px;
 }
 
 /* The one filled control, and the only circle down here. */
 .mpw .ctrl-play {
-  height: 72px;
-  width: 72px;
+  height: 52px;
+  width: 52px;
   border-radius: 9999px;
-  background: var(--mpw-ink);
-  color: #fff;
+  /* Brand yellow, matching the floating player's transport elsewhere. */
+  background: var(--color-brand);
+  color: #0b0b0e;
   opacity: 1;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -268,8 +275,8 @@
 }
 
 .mpw .ctrl-play svg {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .mpw .ctrl-toggle.is-active {
@@ -285,7 +292,7 @@
   height: 4px;
   margin-left: -2px;
   border-radius: 9999px;
-  background: var(--mpw-ink);
+  background: var(--color-brand);
 }
 
 .mpw .ctrl-toggle {
