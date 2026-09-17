@@ -10,6 +10,8 @@ import {
   useState,
 } from "react";
 
+import Image from "next/image";
+
 import "./music-player-widget.css";
 
 /**
@@ -577,7 +579,10 @@ function ScalesMixer({
 
 /* ------------------------------------------------------- Disc + layers */
 
-const SPIN_MAX = 0.4375;
+/* 33⅓ RPM — 200°/s — which is the speed the comp annotates and the speed the
+   hero's deck turns at. Applied per millisecond rather than per frame, so it
+   is the same record on a 120Hz screen. */
+const SPIN_DEG_PER_MS = 200 / 1000;
 const BURST_DURATION = 620;
 
 interface Layer {
@@ -617,10 +622,12 @@ function Disc({
     }
   }, [trackKey, direction]);
 
-  useRafLoop((now) => {
+  useRafLoop((now, dt) => {
     const el = spinRef.current;
     if (!el) return;
-    if (isPlaying) velRef.current += (SPIN_MAX - velRef.current) * 0.2;
+    /* `vel` is a 0–1 spin-up factor; the platter eases to speed and coasts
+       down rather than cutting, which is the part that reads as a deck. */
+    if (isPlaying) velRef.current += (1 - velRef.current) * 0.2;
     else {
       velRef.current *= 0.96;
       if (velRef.current < 0.001) velRef.current = 0;
@@ -631,7 +638,7 @@ function Disc({
       const nx = rotRef.current + (target - rotRef.current) * 0.08;
       rotRef.current = Math.abs(target - nx) < 0.1 ? target : nx;
     } else {
-      rotRef.current += velRef.current;
+      rotRef.current += SPIN_DEG_PER_MS * dt * velRef.current;
     }
     const burst = burstRef.current;
     if (burst.pending) {
@@ -718,9 +725,10 @@ function TrackInfo({ layers }: { layers: Layer[] }) {
 
 /* ----------------------------------------------------------- ProgressBar */
 
+/** The comp spaces the colon: "0 : 18 / 0 : 30". */
 function fmt(s: number): string {
-  if (!Number.isFinite(s)) return "0:00";
-  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  if (!Number.isFinite(s)) return "0 : 00";
+  return `${Math.floor(s / 60)} : ${String(Math.floor(s % 60)).padStart(2, "0")}`;
 }
 
 function ProgressBar({
@@ -765,43 +773,31 @@ function ProgressBar({
 
 /* -------------------------------------------------------------- Controls */
 
+/**
+ * Three controls, not the component's five. The comp (2398:17712) draws
+ * rewind, play and fast-forward and nothing else; shuffle and loop are still
+ * in the machinery above, just not on this face.
+ *
+ * The outer two move between tracks rather than seeking within one. The comp's
+ * icons say rewind and fast-forward, but these are thirty-second previews —
+ * nudging five seconds along one is not worth a control, and stepping the
+ * playlist is.
+ */
 function Controls({
   isPlaying,
-  shuffled,
-  loopMode,
   onToggle,
   onNext,
   onPrev,
-  onShuffle,
-  onLoop,
 }: {
   isPlaying: boolean;
-  shuffled: boolean;
-  loopMode: LoopMode;
   onToggle: () => void;
   onNext: () => void;
   onPrev: () => void;
-  onShuffle: () => void;
-  onLoop: () => void;
 }) {
   return (
     <div className="controls">
-      <button
-        type="button"
-        className={`ctrl ctrl-toggle ${shuffled ? "is-active" : ""}`}
-        onClick={onShuffle}
-        aria-pressed={shuffled}
-        aria-label="Shuffle"
-      >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 3h5v5" /><path d="M21 3l-7 7" /><path d="M3 21l7-7" />
-          <path d="M16 21h5v-5" /><path d="M21 21l-7-7" /><path d="M3 3l7 7" />
-        </svg>
-      </button>
       <button type="button" className="ctrl" onClick={onPrev} aria-label="Previous track">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M19 5L8 12l11 7zM5 5h2v14H5z" />
-        </svg>
+        <Image src="/assets/ic-player-rewind.svg" alt="" width={16} height={16} />
       </button>
       <button
         type="button"
@@ -810,31 +806,15 @@ function Controls({
         aria-label={isPlaying ? "Pause" : "Play"}
       >
         {isPlaying ? (
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden>
             <path d="M6 5h3v14H6zM15 5h3v14h-3z" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-            <path d="M7 5v14l11-7z" />
-          </svg>
+          <Image src="/assets/ic-player-play.svg" alt="" width={16} height={16} />
         )}
       </button>
       <button type="button" className="ctrl" onClick={onNext} aria-label="Next track">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M5 5l11 7L5 19zM17 5h2v14h-2z" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        className={`ctrl ctrl-toggle ctrl-loop ${loopMode !== "off" ? "is-active" : ""} ${loopMode === "one" ? "mode-one" : ""}`}
-        onClick={onLoop}
-        aria-label={`Loop: ${loopMode}`}
-      >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 12V8a2 2 0 0 1 2-2h12" /><path d="M16 3l4 3l-4 3" />
-          <path d="M20 12v4a2 2 0 0 1-2 2H6" /><path d="M8 21l-4-3l4-3" />
-        </svg>
-        <span className="loop-one">1</span>
+        <Image src="/assets/ic-player-forward.svg" alt="" width={16} height={16} />
       </button>
     </div>
   );
@@ -932,13 +912,9 @@ export function MusicPlayer({ tracks, crossOrigin }: MusicPlayerProps) {
         />
         <Controls
           isPlaying={player.state.isPlaying}
-          shuffled={player.state.shuffled}
-          loopMode={player.state.loopMode}
           onToggle={player.toggle}
           onNext={player.next}
           onPrev={player.prev}
-          onShuffle={player.toggleShuffle}
-          onLoop={player.cycleLoop}
         />
       </div>
     </div>
