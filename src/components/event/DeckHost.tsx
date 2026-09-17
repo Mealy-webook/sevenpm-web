@@ -8,6 +8,7 @@ import {
   requestAdvance,
   requestStep,
   setPlaying,
+  setResumeAt,
   togglePlaying,
   useDeck,
 } from "./deckStore";
@@ -31,12 +32,27 @@ import { setStageAnalyser } from "@/components/motion/stageAudio";
 /** Shared so the deck on the event page can drive its own visualiser. */
 export const analyserRef: { current: AnalyserNode | null } = { current: null };
 
+/**
+ * The element itself, so a screen taking the music over can read where it got
+ * to and carry on from there — and write a position back on the way out.
+ */
+export const deckAudioRef: { current: HTMLAudioElement | null } = {
+  current: null,
+};
+
 export function DeckHost() {
   const deck = useDeck();
   const router = useRouter();
   const pathname = usePathname();
   const audioRef = useRef<HTMLAudioElement>(null);
   const blocked = useRef(false);
+
+  useEffect(() => {
+    deckAudioRef.current = audioRef.current;
+    return () => {
+      deckAudioRef.current = null;
+    };
+  }, []);
 
   const track = deck.tracks[deck.activeIndex];
   const analyser = useAudioAnalyser(audioRef, deck.playing);
@@ -76,6 +92,27 @@ export function DeckHost() {
     const timer = setTimeout(start, wait);
     return () => clearTimeout(timer);
   }, [deck.playing, deck.activeIndex, track?.audioSrc]);
+
+  /* A screen handing the music back says where it got to. The element cannot
+     be seeked until it knows how long the track is, so this waits for the
+     metadata and then spends the position — once. */
+  const resume = deck.resumeAt;
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !resume) return;
+    if (resume.index !== deck.activeIndex) return;
+
+    const seek = () => {
+      if (Number.isFinite(audio.duration)) {
+        audio.currentTime = Math.min(resume.time, audio.duration);
+      }
+      setResumeAt(undefined);
+    };
+
+    if (audio.readyState >= 1) seek();
+    else audio.addEventListener("loadedmetadata", seek, { once: true });
+    return () => audio.removeEventListener("loadedmetadata", seek);
+  }, [resume, deck.activeIndex]);
 
   /* Autoplay is refused until the visitor has interacted. When that is what
      stopped us, arm the first gesture so the music starts the moment they

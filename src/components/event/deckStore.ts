@@ -34,6 +34,12 @@ export type Deck = {
    */
   deckOnScreen: boolean;
   /**
+   * Where the deck should pick up when it next loads a track. Setting
+   * `currentTime` directly does not survive the element swapping its `src`,
+   * so the position is left here and applied once the track is ready.
+   */
+  resumeAt?: { index: number; time: number };
+  /**
    * A screen has taken the music over and is showing its own player — the
    * booking journey does this. The floating player stands down: two players
    * on one screen is one too many, whichever of them is making the sound.
@@ -90,6 +96,11 @@ export function loadDeck(deck: {
   emit();
 }
 
+/** The current state, for a one-shot read that should not subscribe. */
+export function readDeck(): Deck {
+  return state;
+}
+
 export function selectTrack(index: number) {
   set({ activeIndex: index, playing: false });
 }
@@ -110,6 +121,10 @@ export function requestAdvance() {
 export function setDeckOnScreen(on: boolean) {
   if (state.deckOnScreen === on) return;
   set({ deckOnScreen: on });
+}
+
+export function setResumeAt(at: { index: number; time: number } | undefined) {
+  set({ resumeAt: at });
 }
 
 export function setHandedOver(on: boolean) {

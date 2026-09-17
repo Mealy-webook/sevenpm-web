@@ -12,9 +12,13 @@ import {
 } from "react";
 
 import { BookingConfirmation } from "./BookingConfirmation";
+import { deckAudioRef } from "@/components/event/DeckHost";
 import {
+  readDeck,
+  selectTrack as selectDeckTrack,
   setHandedOver,
   setPlaying as setDeckPlaying,
+  setResumeAt,
 } from "@/components/event/deckStore";
 import { MusicPlayer, type Track } from "@/components/ui/music-player-widget";
 import { CardDialog, type SavedCard } from "@/components/ui/CardDialog";
@@ -102,14 +106,40 @@ export function BookingJourney({
     [event.playlist, event.poster],
   );
 
-  /* One player on this screen, and it is the one in the column. The deck that
-     follows you in from the event page stops, and the floating player it would
-     otherwise put up stands down with it. Playback starts from the top of the
-     track rather than carrying on, which is the cost of the hand-over. */
+  /* One player on this screen, and it is the one in the column — the deck that
+     follows you in stops, and the floating player it would otherwise put up
+     stands down with it.
+     
+     The hand-over carries the position, so the music does not restart: the
+     deck's track and moment are read before it is paused, and the widget opens
+     there and keeps playing. Read synchronously on mount rather than through
+     the store, because the element knows the time and the store does not. */
+  /* Read once, on the first render, before anything has been paused. The
+     element knows the moment and the store does not, so this goes to the
+     element directly. */
+  const [handoff] = useState(() => {
+    const audio = deckAudioRef.current;
+    return {
+      index: readDeck().activeIndex,
+      time: audio?.currentTime ?? 0,
+      playing: audio ? !audio.paused : false,
+    };
+  });
+
+  /* Where the widget has got to, so leaving hands the position back. */
+  const position = useRef({ index: handoff.index, time: handoff.time });
+
   useEffect(() => {
     setDeckPlaying(false);
     setHandedOver(true);
-    return () => setHandedOver(false);
+    return () => {
+      /* On the way out, hand the position back. The deck applies it when the
+         track is loaded — writing `currentTime` here would be thrown away by
+         the element's own load. */
+      selectDeckTrack(position.current.index);
+      setResumeAt(position.current);
+      setHandedOver(false);
+    };
   }, []);
 
   const [step, setStep] = useState<StepId>("tickets");
@@ -427,7 +457,18 @@ export function BookingJourney({
               />
             ) : (
               <div className="hidden w-full lg:block">
-                <MusicPlayer tracks={playerTracks} crossOrigin="anonymous" />
+                <MusicPlayer
+                  tracks={playerTracks}
+                  crossOrigin="anonymous"
+                  startIndex={handoff.index}
+                  startTime={handoff.time}
+                  /* Only if it was already playing — pressing "Get your
+                     ticket" is not a request to start music that was off. */
+                  autoPlay={handoff.playing}
+                  onPosition={(at) => {
+                    position.current = at;
+                  }}
+                />
               </div>
             )}
 

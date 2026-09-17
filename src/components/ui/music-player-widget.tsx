@@ -249,12 +249,13 @@ function reducer(state: State, action: Action): State {
 function useAudioPlayer(
   tracks: Track[],
   audioRef: React.RefObject<HTMLAudioElement | null>,
+  start: { startIndex: number; startTime: number; autoPlay: boolean },
 ) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const [state, dispatch] = useReducer(reducer, {
-    currentIndex: 0,
+    currentIndex: start.startIndex,
     order: Array.from({ length: tracks.length }, (_, i) => i),
     shuffled: false,
     loopMode: "off",
@@ -379,12 +380,28 @@ function useAudioPlayer(
     };
   }, [state.loopMode, next, audioRef]);
 
+  /* Open on the handed-over track, at the handed-over moment, and carry on if
+     that is what was happening. Runs once: after this the reducer owns which
+     track is loaded. */
+  const opened = useRef(false);
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || !tracks.length) return;
-    audio.src = tracks[0].src;
+    if (!audio || !tracks.length || opened.current) return;
+    opened.current = true;
+
+    const index = Math.min(Math.max(start.startIndex, 0), tracks.length - 1);
+    audio.src = tracks[index].src;
     audio.load();
-  }, [tracks, audioRef]);
+
+    if (start.startTime > 0) {
+      const seek = () => {
+        audio.currentTime = Math.min(start.startTime, audio.duration || 0);
+        audio.removeEventListener("loadedmetadata", seek);
+      };
+      audio.addEventListener("loadedmetadata", seek);
+    }
+    if (start.autoPlay) audio.play().catch(() => {});
+  }, [tracks, audioRef, start.startIndex, start.startTime, start.autoPlay]);
 
   return {
     state,
@@ -825,11 +842,31 @@ function Controls({
 export interface MusicPlayerProps {
   tracks: Track[];
   crossOrigin?: "anonymous" | "use-credentials";
+  /** Track to open on, for picking up where something else left off. */
+  startIndex?: number;
+  /** Seconds into that track. */
+  startTime?: number;
+  /** Start playing without being asked. Only honour this when the visitor has
+   *  already interacted — a click is what got them to this screen. */
+  autoPlay?: boolean;
+  /** Reports where playback has got to, so the position can be handed on. */
+  onPosition?: (position: { index: number; time: number }) => void;
 }
 
-export function MusicPlayer({ tracks, crossOrigin }: MusicPlayerProps) {
+export function MusicPlayer({
+  tracks,
+  crossOrigin,
+  startIndex = 0,
+  startTime = 0,
+  autoPlay = false,
+  onPosition,
+}: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const player = useAudioPlayer(tracks, audioRef);
+  const player = useAudioPlayer(tracks, audioRef, {
+    startIndex,
+    startTime,
+    autoPlay,
+  });
   const root = useRef<HTMLDivElement>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -890,7 +927,17 @@ export function MusicPlayer({ tracks, crossOrigin }: MusicPlayerProps) {
         if (!(e.target as HTMLElement).closest(".mask")) setIsZoomed(false);
       }}
     >
-      <audio ref={audioRef} preload="metadata" crossOrigin={crossOrigin} />
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        crossOrigin={crossOrigin}
+        onTimeUpdate={(e) =>
+          onPosition?.({
+            index: player.state.currentIndex,
+            time: e.currentTarget.currentTime,
+          })
+        }
+      />
       <Disc
         layers={layers}
         isPlaying={player.state.isPlaying}
