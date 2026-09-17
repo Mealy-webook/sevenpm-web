@@ -8,6 +8,7 @@ import { StagePulse } from "@/components/motion/StagePulse";
 import { setStageAnalyser } from "@/components/motion/stageAudio";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 import { MiniPlayer } from "./MiniPlayer";
+import { ShareButton } from "./ShareButton";
 import { VinylCarousel } from "./VinylCarousel";
 import { useAudioAnalyser } from "./useAudioAnalyser";
 import { needleDrop } from "./vinylNoise";
@@ -159,6 +160,9 @@ export function HeroSection({ event }: { event: EventDetails }) {
             >
               {event.intro}
             </p>
+            <div data-reveal="up" data-reveal-delay="0.2">
+              <ShareButton eventName={event.name} />
+            </div>
           </div>
 
           {/* The deck — one Figma stage at every width, scaled as a unit */}

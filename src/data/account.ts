@@ -9,6 +9,37 @@ export const accountUser = {
   email: "ahmed@gmail.com",
   avatar: "/assets/nav-avatar.jpg",
   phone: "+212 6 61 23 45 67",
+  /** Tags a shared link so a booking made through it can be credited. */
+  referralCode: "AHMED7PM",
+};
+
+/* ------------------------------------------------------------------ *
+ * Referrals — the Beats you earn for bringing someone in.
+ *
+ * The reward is the same 500 the "Bring someone new" line in `loyaltyHowTo`
+ * promises; it is stated once here so the two cannot drift apart.
+ * ------------------------------------------------------------------ */
+export const referral = {
+  beats: 500,
+  /** Query parameter a shared link carries. */
+  param: "ref",
+};
+
+export const shareCopy = {
+  open: "Share",
+  title: "Share this event",
+  subtitle: "Send it on, and get paid in Beats when it lands.",
+  earn: (beats: number) =>
+    `Earn ${beats.toLocaleString("en-US")} Beats`,
+  earnDetail:
+    "Credited once someone books through your link and their ticket is scanned at the gate.",
+  signedOut: "Sign in first, or the booking cannot be credited to you.",
+  targets: "Share to",
+  linkLabel: "Your link",
+  copy: "Copy",
+  copied: "Copied",
+  done: "Done",
+  cancel: "Close",
 };
 /* ------------------------------------------------------------------ *
  * Wallet (Figma 2196:12516)
