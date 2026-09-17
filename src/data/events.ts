@@ -120,8 +120,11 @@ export type EventDetails = {
   artistDays: ArtistDay[];
   gallery: GalleryShot[];
   faq: FaqItem[];
-  officialSponsor: Sponsor;
-  goldSponsors: Sponsor[];
+  /**
+   * One flat list. The comp (2279:20300) shows a single "Official sponsor"
+   * label over an untiered grid, so the old official/gold split is gone.
+   */
+  sponsors: Sponsor[];
 };
 
 // Kept for the news cards on the homepage.
@@ -358,11 +361,11 @@ export const jazzablanca: EventDetails = {
         "Yes. Your wristband is scanned on the way out and back in, so you can re-enter any time before last entry at 8 PM.",
     },
   ],
-  officialSponsor: { name: "Saham Bank", logo: "/assets/sponsor-saham.svg" },
-  goldSponsors: [
+  sponsors: [
     { name: "adidas", logo: "/assets/sponsor-adidas.svg" },
     { name: "Spotify", logo: "/assets/sponsor-spotify.svg" },
     { name: "Coca-Cola", logo: "/assets/sponsor-cocacola.svg" },
+    { name: "Saham Bank", logo: "/assets/sponsor-saham.svg" },
   ],
 };
 

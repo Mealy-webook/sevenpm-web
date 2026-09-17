@@ -757,6 +757,17 @@ body {
   transform: translateY(calc(100% + 32px));
   opacity: 0;
   pointer-events: none;
+  /* A fixed element with a backdrop filter is re-filtered on every scrolled
+     frame, whether or not anyone can see it — and this one is hidden on most
+     of the site. Dropping the filter while hidden takes that off the
+     compositor's bill entirely. */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Nor should a hidden player keep its record turning. */
+.mini-player[data-visible="false"] .cover {
+  animation-play-state: paused;
 }
 
 .mini-player .cover {

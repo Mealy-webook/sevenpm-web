@@ -56,7 +56,10 @@ function BeatsChip() {
     <Link
       href="/account/loyalty"
       aria-label={`${balance.toLocaleString("en-US")} ${loyaltyCopy.unit}`}
-      className="btn-secondary flex h-[52px] shrink-0 items-center gap-1.5 px-4 font-daltown text-[20px] uppercase leading-none"
+      /* Daltown runs small for its point size — it is a condensed display
+         face — so this sits well above the 17px the buttons beside it use in
+         order to read at the same weight. */
+      className="btn-secondary flex h-[52px] shrink-0 items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
     >
       <span className="tabular-nums text-white">
         {balance.toLocaleString("en-US")}
