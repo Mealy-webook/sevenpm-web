@@ -33,6 +33,12 @@ export type Deck = {
    * past it, or on another route entirely.
    */
   deckOnScreen: boolean;
+  /**
+   * A screen has taken the music over and is showing its own player — the
+   * booking journey does this. The floating player stands down: two players
+   * on one screen is one too many, whichever of them is making the sound.
+   */
+  handedOver: boolean;
 };
 
 const empty: Deck = {
@@ -43,6 +49,7 @@ const empty: Deck = {
   eventHref: "",
   advanceRequest: 0,
   deckOnScreen: false,
+  handedOver: false,
 };
 
 let state: Deck = empty;
@@ -103,6 +110,11 @@ export function requestAdvance() {
 export function setDeckOnScreen(on: boolean) {
   if (state.deckOnScreen === on) return;
   set({ deckOnScreen: on });
+}
+
+export function setHandedOver(on: boolean) {
+  if (state.handedOver === on) return;
+  set({ handedOver: on });
 }
 
 export function requestStep(dir: -1 | 1) {

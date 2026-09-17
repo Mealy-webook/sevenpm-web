@@ -12,7 +12,10 @@ import {
 } from "react";
 
 import { BookingConfirmation } from "./BookingConfirmation";
-import { setPlaying as setDeckPlaying } from "@/components/event/deckStore";
+import {
+  setHandedOver,
+  setPlaying as setDeckPlaying,
+} from "@/components/event/deckStore";
 import { MusicPlayer, type Track } from "@/components/ui/music-player-widget";
 import { CardDialog, type SavedCard } from "@/components/ui/CardDialog";
 import { CheckoutStep, PriceDetails } from "./CheckoutStep";
@@ -99,23 +102,14 @@ export function BookingJourney({
     [event.playlist, event.poster],
   );
 
-  /* One player at a time. The deck that follows you in from the event page
-     stands down while this screen owns the music, so the two are never
-     singing over each other. It costs the continuity of the track — this
-     starts from the top — which is the trade Ahmed picked. */
+  /* One player on this screen, and it is the one in the column. The deck that
+     follows you in from the event page stops, and the floating player it would
+     otherwise put up stands down with it. Playback starts from the top of the
+     track rather than carrying on, which is the cost of the hand-over. */
   useEffect(() => {
     setDeckPlaying(false);
-  }, []);
-
-  /* The floating player is mounted above the router and knows nothing about
-     this screen. Tell it how much room the summary bar needs, so it stops
-     landing on the only action here. */
-  useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty("--mini-player-lift", "96px");
-    return () => {
-      root.style.removeProperty("--mini-player-lift");
-    };
+    setHandedOver(true);
+    return () => setHandedOver(false);
   }, []);
 
   const [step, setStep] = useState<StepId>("tickets");

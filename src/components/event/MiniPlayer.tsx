@@ -39,10 +39,7 @@ export function MiniPlayer({
 
   return (
     <div
-      /* `--mini-player-lift` gets out of the way of anything docked to the
-         bottom of the viewport — the booking journey's summary bar is the one
-         that matters, and it carries the only action on the screen. */
-      className="mini-player fixed inset-x-4 bottom-[calc(1rem+var(--mini-player-lift,0px))] z-40 mx-auto flex w-auto max-w-[420px] items-center gap-3 border border-white/10 bg-[rgba(24,24,27,0.72)] p-2 pr-3 shadow-[0_24px_64px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:inset-x-auto sm:right-6 sm:bottom-[calc(1.5rem+var(--mini-player-lift,0px))] sm:w-[400px]"
+      className="mini-player fixed inset-x-4 bottom-4 z-40 mx-auto flex w-auto max-w-[420px] items-center gap-3 border border-white/10 bg-[rgba(24,24,27,0.72)] p-2 pr-3 shadow-[0_24px_64px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-[400px]"
       data-visible={visible}
       data-playing={playing}
       role="region"

@@ -98,8 +98,10 @@ export function DeckHost() {
   }, []);
 
   /* The floating player stands in for the deck, so it shows exactly when the
-     deck cannot be reached — scrolled past it, or on another route. */
+     deck cannot be reached — scrolled past it, or on another route — and not
+     at all where a screen has put up a player of its own. */
   const reachable = pathname === deck.eventHref && deck.deckOnScreen;
+  const wanted = Boolean(track) && !reachable && !deck.handedOver;
 
   return (
     <>
@@ -118,7 +120,7 @@ export function DeckHost() {
       <MiniPlayer
         track={track}
         playing={deck.playing}
-        visible={Boolean(track) && !reachable}
+        visible={wanted}
         onToggle={togglePlaying}
         onPrev={() => requestStep(-1)}
         onNext={() => requestStep(1)}
