@@ -550,3 +550,11 @@ after this pass. What mattered, in order:
 - **Audio licensing** — see "Where the audio comes from" above.
 - **Smooth scroll** is in (Lenis). Worth a deliberate pass on a trackpad and a
   mouse wheel for the horizontal tile row and the poster stage.
+
+## Mobile
+
+The design system is reused by the Expo app in `../sevenpm-app`. Its
+`DESIGN-SYSTEM.md` is the portable spec — tokens, type scale, component
+anatomy, motion rules, and which of this repo's workarounds are web-only —
+and `src/theme/tokens.ts` there is the machine-readable half. Keep the two
+token sets in step rather than letting them drift.
