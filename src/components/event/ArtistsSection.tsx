@@ -203,7 +203,7 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
   }, [day.id]);
 
   return (
-    <section id="artists" className="relative overflow-hidden py-16 xl:py-24">
+    <section id="artists" className="section-screen relative overflow-hidden py-16 xl:py-24">
       <div className="shell flex flex-col items-center justify-center gap-12">
         <DisplayHeading reveal="clip">Line-up</DisplayHeading>
 

@@ -127,8 +127,30 @@ export function SiteHeader({
 
   const firstName = account?.name.split(" ")[0] ?? "";
 
+  /* Publish the bar's height so a section can be exactly the screen minus the
+     header. Updates are ignored while it is in its scrolled, shrunken state:
+     the number is what a section has to give up at the top of the page, and
+     letting it change mid-scroll would resize every section under the reader. */
+  const bar = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = bar.current;
+    if (!el) return;
+    const publish = () => {
+      if (el.dataset.scrolled === "true") return;
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${Math.round(el.offsetHeight)}px`,
+      );
+    };
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <header
+      ref={bar}
       className="site-header sticky top-0 z-30"
       data-hidden={hidden}
       data-scrolled={scrolled}

@@ -20,7 +20,7 @@ export function LocationSection({ event }: { event: EventDetails }) {
   const { infoTiles } = event;
 
   return (
-    <section id="location" className="relative py-16 xl:py-24">
+    <section id="location" className="section-screen relative py-16 xl:py-24">
       <div className="shell flex flex-col items-center justify-center gap-12">
         <DisplayHeading as="h2" align="left" reveal="clip">
           You need to know

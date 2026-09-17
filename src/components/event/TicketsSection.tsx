@@ -7,7 +7,7 @@ import { StickerPeel } from "@/components/ui/StickerPeel";
 
 export function TicketsSection({ event }: { event: EventDetails }) {
   return (
-    <section id="tickets" className="relative py-16 xl:py-24">
+    <section id="tickets" className="section-screen relative py-16 xl:py-24">
       {/* Guitar sticker over the heading, pinned to the 1512 frame */}
       <div
         className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1512px] xl:block z-20"

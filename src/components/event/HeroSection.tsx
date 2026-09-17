@@ -75,7 +75,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
       {/* Clipped on one axis only: the deck bleeds past the viewport edges and
           must be cut there, but the lighting rig reaches up over the header to
           the top of the page and must not be. */}
-      <section className="relative z-0 [overflow-x:clip] xl:min-h-[1052px]">
+      <section className="section-screen relative z-0 [overflow-x:clip]">
         <ConcertLights scrim="even" />
 
         <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-24">

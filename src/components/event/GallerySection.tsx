@@ -19,7 +19,7 @@ export function GallerySection({ event }: { event: EventDetails }) {
   return (
     <section
       id="gallery"
-      className="relative overflow-hidden bg-ink-900 py-16 xl:py-24"
+      className="section-screen relative overflow-hidden bg-ink-900 py-16 xl:py-24"
     >
       <div className="shell flex flex-col items-start gap-12">
         <DisplayHeading reveal="clip">Gallery</DisplayHeading>

@@ -20,7 +20,7 @@ export function FaqSection({ event }: { event: EventDetails }) {
   const baseId = useId();
 
   return (
-    <section id="faq" className="relative bg-ink-900 py-16 xl:py-24">
+    <section id="faq" className="section-screen relative bg-ink-900 py-16 xl:py-24">
       <div className="shell flex flex-col items-start gap-12 lg:flex-row">
         <div className="flex min-w-0 flex-1 flex-col justify-center">
           <DisplayHeading size="faq" align="left" reveal="clip">
