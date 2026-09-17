@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { onStageFrame } from "./stageAudio";
+import { onStageFrame, wakeStage } from "./stageAudio";
 
 /**
  * Stage lighting behind a hero — a truss of beams hung at the very top of the
@@ -15,6 +15,17 @@ import { onStageFrame } from "./stageAudio";
  * standstill and holds its last position, still lit: `motion` takes the sway
  * and the drift down with it, and `level` takes the flare. Nothing loops in
  * silence.
+ *
+ * The heads track the pointer, the way moving heads on a real truss follow a
+ * performer. Each one turns at its own rate, so they arrive raggedly rather
+ * than snapping to the cursor as one — and none of them points all the way at
+ * it. A head aimed exactly at the pointer puts its hottest, narrowest part
+ * under the cursor, which is where the copy is; `reach` holds each one back so
+ * the rig leans without ever spotlighting the text.
+ *
+ * Following answers to the visitor rather than to the music, so it keeps
+ * working when nothing is playing — which means waking the clock, since it
+ * parks itself in silence.
  *
  * The layer is taller than the hero — it reaches up past the header to the
  * document top, which is where the lamps hang. Its box is what bounds the
@@ -70,18 +81,25 @@ type Beam = {
   /** Brightness between punches, and how much a punch adds. */
   idle: number;
   punch: number;
+  /**
+   * How far toward the pointer this head is willing to turn, 0–1. Never 1:
+   * see the note above about not spotlighting the copy.
+   */
+  reach: number;
+  /** How fast its motor is, in units of "fraction closed per second". */
+  motor: number;
 };
 
 /* Six heads across the truss: yellow carries the brand, two whites keep the
    yellows from flattening into one wash. Each takes the punch on its own slow
    cycle, so the bar has a shape instead of six beams throbbing as one. */
 const BEAMS: Beam[] = [
-  { x: 0.08, base: 0.34, sway: 0.1, speed: 0.55, phase: 0, spread: 0.42, colour: YELLOW, idle: 0.3, punch: 0.5 },
-  { x: 0.26, base: 0.16, sway: 0.14, speed: 0.4, phase: 1.9, spread: 0.3, colour: WHITE, idle: 0.16, punch: 0.42 },
-  { x: 0.42, base: -0.08, sway: 0.11, speed: 0.63, phase: 3.4, spread: 0.36, colour: YELLOW, idle: 0.26, punch: 0.46 },
-  { x: 0.58, base: 0.1, sway: 0.13, speed: 0.47, phase: 0.8, spread: 0.34, colour: YELLOW, idle: 0.28, punch: 0.52 },
-  { x: 0.76, base: -0.2, sway: 0.09, speed: 0.58, phase: 2.6, spread: 0.29, colour: WHITE, idle: 0.15, punch: 0.4 },
-  { x: 0.93, base: -0.36, sway: 0.12, speed: 0.44, phase: 4.7, spread: 0.44, colour: YELLOW, idle: 0.3, punch: 0.48 },
+  { x: 0.08, base: 0.34, sway: 0.1, speed: 0.55, phase: 0, spread: 0.42, colour: YELLOW, idle: 0.3, punch: 0.5, reach: 0.5, motor: 2.6 },
+  { x: 0.26, base: 0.16, sway: 0.14, speed: 0.4, phase: 1.9, spread: 0.3, colour: WHITE, idle: 0.16, punch: 0.42, reach: 0.64, motor: 3.6 },
+  { x: 0.42, base: -0.08, sway: 0.11, speed: 0.63, phase: 3.4, spread: 0.36, colour: YELLOW, idle: 0.26, punch: 0.46, reach: 0.7, motor: 4.3 },
+  { x: 0.58, base: 0.1, sway: 0.13, speed: 0.47, phase: 0.8, spread: 0.34, colour: YELLOW, idle: 0.28, punch: 0.52, reach: 0.7, motor: 3.0 },
+  { x: 0.76, base: -0.2, sway: 0.09, speed: 0.58, phase: 2.6, spread: 0.29, colour: WHITE, idle: 0.15, punch: 0.4, reach: 0.6, motor: 4.7 },
+  { x: 0.93, base: -0.36, sway: 0.12, speed: 0.44, phase: 4.7, spread: 0.44, colour: YELLOW, idle: 0.3, punch: 0.48, reach: 0.46, motor: 2.3 },
 ];
 
 /** How many specks of haze drift through the light. */
@@ -111,6 +129,15 @@ export function ConcertLights({
     let width = 0;
     let height = 0;
     let motes: Mote[] = [];
+
+    /* Where the pointer is, as a fraction of the lit box, and how much of the
+       rig is currently answering to it. `following` eases so the heads lift
+       their eyes rather than jumping the moment the cursor arrives. */
+    let pointer = { x: 0.5, y: 0.6 };
+    let wanted = 0;
+    let following = 0;
+    /* Each head's own eased angle, so their motors can differ. */
+    const aims = BEAMS.map((b) => b.base);
 
     const seed = () => {
       motes = Array.from({ length: MOTES }, () => ({
@@ -175,10 +202,11 @@ export function ConcertLights({
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = "lighter";
 
-      for (const b of BEAMS) {
+      for (let i = 0; i < BEAMS.length; i += 1) {
+        const b = BEAMS[i];
         const angle = still
           ? b.base
-          : b.base + Math.sin(t * b.speed + b.phase) * b.sway * life;
+          : aims[i] + Math.sin(t * b.speed + b.phase) * b.sway * life;
         /* Whose turn it is to take the punch, rotating slowly between heads. */
         const turn = 0.58 + 0.42 * Math.sin(t * 0.5 + b.phase);
         beam(b, angle, b.idle + b.punch * env * turn);
@@ -196,6 +224,22 @@ export function ConcertLights({
     };
 
     const step = (dt: number, life: number) => {
+      following += (wanted - following) * Math.min(1, dt * 3.5);
+
+      for (let i = 0; i < BEAMS.length; i += 1) {
+        const b = BEAMS[i];
+        /* The angle this head would need to point at the pointer. Angles here
+           are measured from straight down, which is what `beam` expects. */
+        const px = b.x * width;
+        const py = -height * 0.02;
+        const toPointer = Math.atan2(
+          pointer.x * width - px,
+          Math.max(1, pointer.y * height - py),
+        );
+        const target = b.base + (toPointer - b.base) * b.reach * following;
+        aims[i] += (target - aims[i]) * Math.min(1, dt * b.motor);
+      }
+
       for (const m of motes) {
         m.x += m.vx * dt * life;
         m.y += m.vy * dt * life;
@@ -261,17 +305,42 @@ export function ConcertLights({
     );
     io.observe(host);
 
+    /* The canvas cannot take pointer events itself — the whole layer is
+       `pointer-events-none` so the hero underneath stays usable — so the move
+       is read off the window and mapped into the lit box. */
+    const onPointer = (event: PointerEvent) => {
+      if (still) return;
+      const rect = box.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      /* Off the lit box, the heads return to their rest angles rather than
+         chasing a cursor that is somewhere else on the page. */
+      const inside = x >= 0 && x <= 1 && y >= 0 && y <= 1;
+      wanted = inside ? 1 : 0;
+      if (inside) pointer = { x, y };
+      wakeStage();
+    };
+
+    const onLeave = () => {
+      wanted = 0;
+      wakeStage();
+    };
+
     const onVisibility = () => {
       if (document.hidden) halt();
       else run();
     };
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pointermove", onPointer, { passive: true });
+    document.addEventListener("pointerleave", onLeave);
 
     return () => {
       halt();
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pointermove", onPointer);
+      document.removeEventListener("pointerleave", onLeave);
     };
   }, []);
 

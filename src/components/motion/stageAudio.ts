@@ -51,6 +51,14 @@ let now = 0;
 let frame = 0;
 let last = 0;
 
+/**
+ * Real-time deadline, in the `performance.now()` timebase, that holds the
+ * clock open when something other than the music needs frames — the beams
+ * tracking the pointer, say. It cannot be measured in `now`, which only
+ * advances while the rig is alive and so would never reach its own deadline.
+ */
+let wakeUntil = 0;
+
 type Listener = (
   t: number,
   level: number,
@@ -119,8 +127,9 @@ function tick(ts: number) {
   sample(dt);
   for (const fn of listeners) fn(now, level, dt, motion);
 
-  if (!analyser && motion < 0.002 && level === 0) {
-    /* Everything has come to rest. Park until a track hands us its signal. */
+  if (!analyser && motion < 0.002 && level === 0 && ts >= wakeUntil) {
+    /* Everything has come to rest. Park until a track hands us its signal,
+       or until something calls `wakeStage`. */
     frame = 0;
     return;
   }
@@ -159,6 +168,17 @@ export function onStageFrame(fn: Listener) {
  */
 export function stageBands() {
   return bands;
+}
+
+/**
+ * Keep the clock running for a moment even with no music — for motion that
+ * answers to the visitor rather than to a track, such as the beams following
+ * the pointer. Cheap to call on every pointer move: it only pushes the
+ * deadline out, and the clock parks itself again once it passes.
+ */
+export function wakeStage(ms = 1200) {
+  wakeUntil = Math.max(wakeUntil, performance.now() + ms);
+  if (listeners.size) start();
 }
 
 /** True while a real track is driving the level. */
