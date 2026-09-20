@@ -91,3 +91,16 @@ export function formatDue(date: Date) {
 export function formatDueShort(date: Date) {
   return date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 }
+
+/** "1st", "2nd", "3rd", "4th" — the plan never runs past four. */
+export function ordinal(n: number) {
+  const suffix = n === 1 ? "st" : n === 2 ? "nd" : n === 3 ? "rd" : "th";
+  return `${n}${suffix}`;
+}
+
+/** Whole days from `from` to `due`, floored at zero. */
+export function daysUntil(from: Date, due: Date) {
+  const a = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+  const b = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+  return Math.max(0, Math.round((b.getTime() - a.getTime()) / 86400000));
+}

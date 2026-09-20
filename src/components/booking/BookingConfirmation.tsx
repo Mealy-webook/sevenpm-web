@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,9 +10,9 @@ import type { Totals } from "./cart";
 import { Confetti } from "@/components/ui/Confetti";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { earnBeats } from "@/components/account/loyaltyStore";
-import { ProgressPie } from "./PayLater";
-import { formatDue, type Instalment } from "./payLaterRules";
-import { bookingCopy, formatMoney } from "@/data/booking";
+import { PaymentsSheet } from "./PaymentsSheet";
+import { daysUntil, type Instalment } from "./payLaterRules";
+import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
 import { whoosh } from "./whoosh";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -623,10 +623,39 @@ export function BookingConfirmation({
         {/* The payment plan, when the order is on one. It sits under the
             price card because that is where the total is, and the point of
             it is that the total is not what was taken today. */}
-        {payLater && payLater.length > 1 && (
-          <PaymentPlan instalments={payLater} />
+        {/* Delivery */}
+        {deliverySummary && (
+          <section className="shell pt-12">
+            <div className="mx-auto flex max-w-[622px] flex-col gap-4">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+                {copy.delivery.title}
+              </h2>
+              <div className="flex items-center gap-3 border border-white/5 px-4 py-3">
+                <Image
+                  src="/assets/ic-delivery-24.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="size-6 shrink-0"
+                />
+                <span className="flex min-w-0 flex-1 flex-col">
+                  <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                    {copy.delivery.method}
+                  </span>
+                  <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                    {deliverySummary}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </section>
         )}
 
+        <section className="shell pt-12">
+          <p className="mx-auto m-0 max-w-[622px] text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            {copy.note}
+          </p>
+        </section>
         {/* Order details */}
         <section className="shell pt-16">
           <div className="mx-auto flex max-w-[622px] flex-col gap-4">
@@ -684,162 +713,131 @@ export function BookingConfirmation({
           </div>
         </section>
 
-        {/* Delivery */}
-        {deliverySummary && (
-          <section className="shell pt-12">
-            <div className="mx-auto flex max-w-[622px] flex-col gap-4">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
-                {copy.delivery.title}
-              </h2>
-              <div className="flex items-center gap-3 border border-white/5 px-4 py-3">
-                <Image
-                  src="/assets/ic-delivery-24.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="size-6 shrink-0"
-                />
-                <span className="flex min-w-0 flex-1 flex-col">
-                  <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
-                    {copy.delivery.method}
-                  </span>
-                  <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-                    {deliverySummary}
-                  </span>
-                </span>
-              </div>
-            </div>
-          </section>
+        {payLater && payLater.length > 1 && (
+          <PaymentPlan
+            instalments={payLater}
+            totals={totals}
+            event={{ ...event, time: bookingConfig.sessionTime }}
+            today={payLater[0].due}
+          />
         )}
 
-        <section className="shell pt-12">
-          <p className="mx-auto m-0 max-w-[622px] text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-            {copy.note}
-          </p>
-        </section>
       </main>
     </>
   );
 }
 
 /**
- * The plan, after the booking is made — Ahmed's ask: what has been paid,
- * what is left and when, and a way to clear the next one early.
+ * The plan, after the booking is made — Figma 2417:22170. What is still
+ * owed, when the next payments fall, and the way into the sheet that
+ * settles them.
  *
- * Paying ahead is local to this page. Nothing is charged anywhere in this
- * journey, and the note says so rather than letting a button that settles a
- * real debt look as though it did something.
- *
- * The instalments already cleared are counted from the front — a plan is
- * paid in order, so one number says which are behind you.
+ * "Total to pay" is what is left, not what the order came to: the first
+ * instalment was taken at checkout, and a figure here that included it
+ * would be asking for money twice.
  */
-function PaymentPlan({ instalments }: { instalments: Instalment[] }) {
-  const later = bookingCopy.checkout.payLater;
+function PaymentPlan({
+  instalments,
+  totals,
+  event,
+  today,
+}: {
+  instalments: Instalment[];
+  totals: Totals;
+  event: ConfirmationEvent & { time: string };
+  today: Date;
+}) {
+  const copy = bookingCopy.checkout.payLater;
   /* The first was taken at checkout. */
   const [cleared, setCleared] = useState(1);
+  const [open, setOpen] = useState(false);
   const done = Math.min(cleared, instalments.length);
-
-  const paid = instalments
-    .slice(0, done)
-    .reduce((sum, part) => sum + part.amount, 0);
-  const left = instalments
-    .slice(done)
-    .reduce((sum, part) => sum + part.amount, 0);
-  const settled = done >= instalments.length;
+  const upcoming = instalments.slice(done);
+  const outstanding = upcoming.reduce((sum, part) => sum + part.amount, 0);
 
   return (
     <section className="shell pt-16">
       <div className="mx-auto flex max-w-[622px] flex-col gap-4">
-        <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
-          {later.confirmedTitle}
+        <h2 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+          {copy.paymentsTitle}
         </h2>
 
-        <div className="flex flex-col gap-4 border border-white/5 p-6">
-          {/* What it comes to, before the detail of when. */}
-          <div className="flex flex-wrap gap-x-10 gap-y-3">
-            <p className="m-0 flex flex-col gap-1">
-              <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.2px] text-content-secondary">
-                {later.paidLabel}
-              </span>
-              <span className="font-[family-name:var(--font-display)] text-[20px] font-semibold leading-7 tabular-nums text-content-primary">
-                {formatMoney(paid)}
-              </span>
-            </p>
-            <p className="m-0 flex flex-col gap-1">
-              <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.2px] text-content-secondary">
-                {later.remainingLabel}
-              </span>
-              <span
-                className={`font-[family-name:var(--font-display)] text-[20px] font-semibold leading-7 tabular-nums ${
-                  settled ? "text-[#4ade80]" : "text-brand"
-                }`}
-              >
-                {formatMoney(left)}
-              </span>
-            </p>
+        <div className="flex flex-col gap-6 border border-white/5 p-6">
+          <div className="flex flex-wrap items-start gap-6">
+            <Figure label={copy.totalToPay} amount={formatMoney(outstanding)} />
+            {/* Every payment still ahead, each with how long you have.
+                The comp shows two because its plan has two left. */}
+            {upcoming.length > 0 && (
+              <div className="flex flex-1 flex-wrap items-start gap-6">
+                {upcoming.map((instalment, index) => (
+                  <Fragment key={instalment.due.toISOString()}>
+                    {index > 0 && (
+                      <span aria-hidden className="h-10 w-px bg-white/10" />
+                    )}
+                    <Figure
+                      label={dueLabel(today, instalment.due)}
+                      amount={formatMoney(instalment.amount)}
+                    />
+                  </Fragment>
+                ))}
+              </div>
+            )}
           </div>
 
-          <ul className="m-0 flex list-none flex-col p-0">
-            {instalments.map((instalment, index) => {
-              const isPaid = index < done;
-              /* Only the next one can be brought forward — a plan is paid in
-                 order, and offering the last before the second would leave a
-                 gap nobody could explain. */
-              const isNext = index === done;
-              return (
-                <li
-                  key={instalment.due.toISOString()}
-                  className="flex items-center gap-3 border-b-[0.5px] border-white/10 py-3 last:border-b-0"
-                >
-                  <span
-                    className={
-                      isPaid ? "text-[#4ade80]" : "text-content-secondary"
-                    }
-                  >
-                    <ProgressPie fraction={isPaid ? 1 : 0} />
-                  </span>
-
-                  <span className="flex min-w-0 flex-1 flex-col">
-                    <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
-                      {index === 0
-                        ? later.paidToday
-                        : formatDue(instalment.due)}
-                    </span>
-                    <span
-                      className={`font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
-                        isPaid ? "text-[#4ade80]" : "text-content-secondary"
-                      }`}
-                    >
-                      {isPaid ? later.statusPaid : later.statusDue}
-                    </span>
-                  </span>
-
-                  <span className="shrink-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tabular-nums text-content-primary">
-                    {formatMoney(instalment.amount)}
-                  </span>
-
-                  {isNext && (
-                    <button
-                      type="button"
-                      onClick={() => setCleared((n) => n + 1)}
-                      aria-label={later.payNowFor(formatDue(instalment.due))}
-                      className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center px-3 py-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
-                    >
-                      {later.payNow}
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-
-          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-            {settled
-              ? later.allPaid
-              : `${later.confirmedNote(formatDue(instalments[instalments.length - 1].due))} ${later.payNowNote}`}
-          </p>
+          {upcoming.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+            >
+              {copy.makePayment}
+            </button>
+          ) : (
+            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#4ade80]">
+              {copy.allPaid}
+            </p>
+          )}
         </div>
       </div>
+
+      {open && (
+        <PaymentsSheet
+          instalments={instalments}
+          cleared={done}
+          onPay={setCleared}
+          onClose={() => setOpen(false)}
+          totals={totals}
+          event={{
+            name: event.name,
+            poster: event.poster,
+            time: event.time,
+            venue: event.venue,
+            venueUrl: event.venueUrl,
+          }}
+          today={today}
+        />
+      )}
     </section>
   );
+}
+
+/** One figure in the payments block: a quiet label over the money. */
+function Figure({ label, amount }: { label: string; amount: string }) {
+  return (
+    <p className="m-0 flex flex-1 flex-col gap-1">
+      <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+        {label}
+      </span>
+      <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 tabular-nums text-content-primary">
+        {amount}
+      </span>
+    </p>
+  );
+}
+
+/** "Due today" / "Due in 30 days", as the comp labels the columns. */
+function dueLabel(today: Date, due: Date) {
+  const copy = bookingCopy.checkout.payLater;
+  const days = daysUntil(today, due);
+  return days === 0 ? copy.dueToday : copy.dueInDays(days);
 }

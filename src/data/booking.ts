@@ -326,6 +326,28 @@ export const bookingCopy = {
       confirmedTitle: "Your payment plan",
       confirmedNote: (last: string) =>
         `Your tickets are issued once the final payment clears on ${last}.`,
+      /* The PAYMENTS block on the confirmation (2417:22170) and the sheet
+         behind its button (2417:22873 / 2420:25015). */
+      close: "Close",
+      paymentsTitle: "Payments",
+      totalToPay: "Total to pay",
+      makePayment: "Make payment",
+      sheetTitle: "Make payment",
+      sheetTitleSettled: "Payment",
+      tabPayments: "Payments",
+      tabOrder: "Order details",
+      planCount: (count: number, total: string) =>
+        `${count} payments (${total})`,
+      planTotal: (total: string) => `Total ${total}`,
+      payAll: "Pay all",
+      pay: "Pay",
+      paid: "Paid",
+      nth: (ordinal: string) => `${ordinal} payment`,
+      dueToday: "Due today",
+      dueInDays: (days: number) =>
+        `Due in ${days} ${days === 1 ? "day" : "days"}`,
+      payAllFor: (total: string) => `Pay the remaining ${total} now`,
+      payFor: (ordinal: string) => `Pay the ${ordinal} payment now`,
       paidLabel: "Paid so far",
       remainingLabel: "Left to pay",
       statusPaid: "Paid",

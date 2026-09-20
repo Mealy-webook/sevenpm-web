@@ -23,6 +23,7 @@ import {
 import { MusicPlayer, type Track } from "@/components/ui/music-player-widget";
 import { CardDialog, type SavedCard } from "@/components/ui/CardDialog";
 import { CheckoutStep, PriceDetails } from "./CheckoutStep";
+import { HoldExpiredDialog } from "./HoldExpiredDialog";
 import {
   DeliveryDialog,
   describeDelivery,
@@ -431,150 +432,142 @@ export function BookingJourney({
         </div>
       </div>
 
-      {expired ? (
-        <div className="flex max-w-[620px] flex-col gap-4 border border-white/5 p-8">
-          <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white">
-            {bookingCopy.chrome.expired}
-          </h1>
-          <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary">
-            {bookingCopy.chrome.expiredBody}
-          </p>
-          <button
-            type="button"
-            onClick={restart}
-            className="flex cursor-pointer items-center justify-center self-start bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
-          >
-            {bookingCopy.chrome.restart}
-          </button>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-12 lg:min-h-0 lg:flex-1 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
-          {/* 620 + 405 inside the 1272 content column, as the comps set it. */}
-          <div className="flex min-w-0 flex-1 flex-col lg:h-full lg:min-h-0 lg:max-w-[620px]">
-            {step === "tickets" && (
-              <TicketsStep
-                eventName={event.name}
-                time={event.time}
-                venue={event.venue}
-                venueUrl={event.venueUrl}
+      {/* The hold running out is a dialog over the journey, not a page in
+          place of it: the basket they chose stays visible behind while they
+          decide, and there is only ever one thing to do about it. */}
+      {expired && <HoldExpiredDialog onRestart={restart} />}
+
+      <div
+        aria-hidden={expired}
+        className={`flex flex-col gap-12 lg:min-h-0 lg:flex-1 lg:flex-row lg:items-start lg:justify-between lg:gap-8 ${
+          expired ? "pointer-events-none" : ""
+        }`}
+      >
+        {/* 620 + 405 inside the 1272 content column, as the comps set it. */}
+        <div className="flex min-w-0 flex-1 flex-col lg:h-full lg:min-h-0 lg:max-w-[620px]">
+          {step === "tickets" && (
+            <TicketsStep
+              eventName={event.name}
+              time={event.time}
+              venue={event.venue}
+              venueUrl={event.venueUrl}
+              cart={cart}
+              onAdjust={adjustTicket}
+              onInfo={setInfoTicket}
+            />
+          )}
+          {step === "extras" && (
+            <div
+              data-lenis-prevent
+              className="booking-scroll flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-3"
+            >
+              <ExtrasStep
                 cart={cart}
-                onAdjust={adjustTicket}
-                onInfo={setInfoTicket}
-              />
-            )}
-            {step === "extras" && (
-              <div
-                data-lenis-prevent
-                className="booking-scroll flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-3"
-              >
-                <ExtrasStep
-                  cart={cart}
-                  onAdjust={adjustAddon}
-                  onDetails={setDetailsAddon}
-                />
-              </div>
-            )}
-            {step === "checkout" && (
-              <div
-                data-lenis-prevent
-                className="booking-scroll flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-3"
-              >
-                <CheckoutStep
-                  wallet={wallet}
-                  onWallet={setWallet}
-                  method={method}
-                  onMethod={setMethod}
-                  deliverySummary={describeDelivery(delivery)}
-                  onEditDelivery={() => setDialog("delivery")}
-                  needsDelivery={hasMerchandise}
-                  card={card}
-                  onAddCard={() => setDialog("card")}
-                  promo={promo}
-                  onAddPromo={() => setDialog("promo")}
-                  onRemovePromo={() => setPromo(null)}
-                  protection={protection}
-                  onProtection={(next) => {
-                    if (next) setProtection(true);
-                    else setDialog("skip-protection");
-                  }}
-                  onExplainProtection={() => setDialog("protection")}
-                  eventStartsAt={event.startsAt}
-                  payLaterTotal={totals.total}
-                  plan={plan}
-                  onPlan={setPlan}
-                  today={today}
-                />
-              </div>
-            )}
-          </div>
-
-          <aside className="flex w-full shrink-0 flex-col gap-6 lg:sticky lg:top-8 lg:w-[405px]">
-            {step === "checkout" ? (
-              <PriceDetails
-                totals={totals}
-                payLater={payLaterPlan}
-                agreed={agreed}
-                onAgreed={(on) => {
-                  setAgreed(on);
-                  if (on) setAgreeError("");
-                }}
-                error={agreeError}
-              />
-            ) : (
-              <div className="hidden w-full lg:block">
-                <MusicPlayer
-                  tracks={playerTracks}
-                  crossOrigin="anonymous"
-                  startIndex={handoff.index}
-                  startTime={handoff.time}
-                  /* Only if it was already playing — pressing "Get your
-                     ticket" is not a request to start music that was off. */
-                  autoPlay={handoff.playing}
-                  onPosition={(at) => {
-                    position.current = at;
-                  }}
-                />
-              </div>
-            )}
-
-            <div className="max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-40">
-              <SummaryBar
-                totals={totals}
-                pay={step === "checkout"}
-                action={
-                  step === "tickets"
-                    ? bookingCopy.summaryBar.nextExtras
-                    : step === "extras"
-                      ? bookingCopy.summaryBar.nextCheckout
-                      : bookingCopy.summaryBar.pay
-                }
-                onAction={() => {
-                  if (step === "tickets") setStep("extras");
-                  else if (step === "extras") setStep("checkout");
-                  else confirm();
-                }}
-                onOpenSummary={() => setDialog("summary")}
+                onAdjust={adjustAddon}
+                onDetails={setDetailsAddon}
               />
             </div>
-
-            {step === "checkout" && (
-              <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.12px] text-content-secondary max-lg:hidden">
-                {/* The legal pages don't exist yet, so these stay plain text
-                    rather than 404 links. Wrap them in <Link> the day they do. */}
-                {bookingCopy.checkout.terms}{" "}
-                <span className="text-content-primary">
-                  {bookingCopy.checkout.termsLink}
-                </span>
-                . {bookingCopy.checkout.privacyLead}{" "}
-                <span className="text-content-primary">
-                  {bookingCopy.checkout.privacyLink}
-                </span>{" "}
-                {bookingCopy.checkout.privacyTail}
-              </p>
-            )}
-          </aside>
+          )}
+          {step === "checkout" && (
+            <div
+              data-lenis-prevent
+              className="booking-scroll flex flex-col lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-3"
+            >
+              <CheckoutStep
+                wallet={wallet}
+                onWallet={setWallet}
+                method={method}
+                onMethod={setMethod}
+                deliverySummary={describeDelivery(delivery)}
+                onEditDelivery={() => setDialog("delivery")}
+                needsDelivery={hasMerchandise}
+                card={card}
+                onAddCard={() => setDialog("card")}
+                promo={promo}
+                onAddPromo={() => setDialog("promo")}
+                onRemovePromo={() => setPromo(null)}
+                protection={protection}
+                onProtection={(next) => {
+                  if (next) setProtection(true);
+                  else setDialog("skip-protection");
+                }}
+                onExplainProtection={() => setDialog("protection")}
+                eventStartsAt={event.startsAt}
+                payLaterTotal={totals.total}
+                plan={plan}
+                onPlan={setPlan}
+                today={today}
+              />
+            </div>
+          )}
         </div>
-      )}
+
+        <aside className="flex w-full shrink-0 flex-col gap-6 lg:sticky lg:top-8 lg:w-[405px]">
+          {step === "checkout" ? (
+            <PriceDetails
+              totals={totals}
+              payLater={payLaterPlan}
+              agreed={agreed}
+              onAgreed={(on) => {
+                setAgreed(on);
+                if (on) setAgreeError("");
+              }}
+              error={agreeError}
+            />
+          ) : (
+            <div className="hidden w-full lg:block">
+              <MusicPlayer
+                tracks={playerTracks}
+                crossOrigin="anonymous"
+                startIndex={handoff.index}
+                startTime={handoff.time}
+                /* Only if it was already playing — pressing "Get your
+                     ticket" is not a request to start music that was off. */
+                autoPlay={handoff.playing}
+                onPosition={(at) => {
+                  position.current = at;
+                }}
+              />
+            </div>
+          )}
+
+          <div className="max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-40">
+            <SummaryBar
+              totals={totals}
+              pay={step === "checkout"}
+              action={
+                step === "tickets"
+                  ? bookingCopy.summaryBar.nextExtras
+                  : step === "extras"
+                    ? bookingCopy.summaryBar.nextCheckout
+                    : bookingCopy.summaryBar.pay
+              }
+              onAction={() => {
+                if (step === "tickets") setStep("extras");
+                else if (step === "extras") setStep("checkout");
+                else confirm();
+              }}
+              onOpenSummary={() => setDialog("summary")}
+            />
+          </div>
+
+          {step === "checkout" && (
+            <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.12px] text-content-secondary max-lg:hidden">
+              {/* The legal pages don't exist yet, so these stay plain text
+                    rather than 404 links. Wrap them in <Link> the day they do. */}
+              {bookingCopy.checkout.terms}{" "}
+              <span className="text-content-primary">
+                {bookingCopy.checkout.termsLink}
+              </span>
+              . {bookingCopy.checkout.privacyLead}{" "}
+              <span className="text-content-primary">
+                {bookingCopy.checkout.privacyLink}
+              </span>{" "}
+              {bookingCopy.checkout.privacyTail}
+            </p>
+          )}
+        </aside>
+      </div>
 
       {dialog === "protection" && (
         <ProtectionInfoDialog onClose={() => setDialog(null)} />
