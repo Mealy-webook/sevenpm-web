@@ -20,6 +20,8 @@ export function Sheet({
   subtitle,
   titleId,
   labelledBy,
+  onBack,
+  backLabel,
   closeLabel,
   children,
   footer,
@@ -38,6 +40,14 @@ export function Sheet({
   titleId: string;
   /** Overrides what names the dialog. Defaults to the header's own title. */
   labelledBy?: string;
+  /**
+   * A step inside the sheet that can be backed out of. Given one, the header
+   * grows a back arrow to the left of the title; the close button stays,
+   * because leaving the sheet and stepping back through it are different
+   * intentions and a flow should not make you undo to escape.
+   */
+  onBack?: () => void;
+  backLabel?: string;
   closeLabel: string;
   children: React.ReactNode;
   /** Sticky dock under the scrollable body. */
@@ -81,6 +91,22 @@ export function Sheet({
         className="my-auto flex h-fit w-full max-w-[378px] flex-col bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
       >
         <div className="flex items-start gap-2 px-5 pt-5">
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              aria-label={backLabel}
+              className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center p-[10px]"
+            >
+              <Image
+                src="/assets/ic-arrow-left-20.svg"
+                alt=""
+                width={20}
+                height={20}
+                className="size-5"
+              />
+            </button>
+          )}
           <div className="flex min-w-0 flex-1 flex-col gap-1">
             {title && (
               <h2

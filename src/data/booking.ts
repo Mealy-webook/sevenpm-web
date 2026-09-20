@@ -329,7 +329,29 @@ export const bookingCopy = {
       /* The PAYMENTS block on the confirmation (2417:22170) and the sheet
          behind its button (2417:22873 / 2420:25015). */
       close: "Close",
+      back: "Back",
       paymentsTitle: "Payments",
+      /* Paying an instalment: choose a method, confirm, done. There is no
+         comp for this flow — it follows the checkout's own method list so
+         paying later looks like paying at the time. */
+      chooseMethod: "How would you like to pay?",
+      payingFor: (what: string) => `Paying ${what}`,
+      oneInstalment: (ordinal: string) => `the ${ordinal} payment`,
+      remainingInstalments: (count: number) =>
+        `the remaining ${count} ${count === 1 ? "payment" : "payments"}`,
+      confirmTitle: "Confirm payment",
+      amountLabel: "Amount",
+      methodLabel: "Paying with",
+      leavesLabel: "Left after this",
+      settlesLabel: "This settles the plan",
+      payAmount: (amount: string) => `Pay ${amount}`,
+      doneTitle: "Payment received",
+      doneBody: (amount: string) => `${amount} has been taken.`,
+      doneNext: (date: string) => `Your next payment falls on ${date}.`,
+      doneSettled:
+        "That was the last one. Your tickets are being issued and will appear in your account.",
+      doneAction: "Done",
+      addCard: "Add new card",
       totalToPay: "Total to pay",
       makePayment: "Make payment",
       sheetTitle: "Make payment",
