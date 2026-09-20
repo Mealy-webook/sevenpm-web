@@ -1324,6 +1324,31 @@ html.has-cursor .cursor {
   }
 }
 
+/* The chip filling with brand as the count climbs — the "chip fills up"
+   option. A sweep behind the text, so the numerals stay legible over it. */
+.beats-chip > span {
+  z-index: 1;
+}
+
+.beats-chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  scale: 0 1;
+  background: rgba(251, 235, 28, 0.22);
+  pointer-events: none;
+  transition:
+    scale 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+  opacity: 0;
+}
+
+.beats-chip[data-filling="true"]::before {
+  scale: 1 1;
+  opacity: 1;
+}
+
 /* The Beats on their way from the banner into the chip: Daltown in brand,
    fixed to the viewport and centred on the point GSAP moves it from.
    Created and removed by `BeatsChip`. */
@@ -1400,11 +1425,27 @@ html.has-cursor .cursor {
 
 /* The Beats banner under the header chip (Figma 2213:16229): the comp's
    little tail, pointing back up at the chip it came from. */
+/* Always mounted; `data-open` is what shows it. Closed it keeps its box so
+   the marks flying into the chip have somewhere to take off from, but takes
+   no clicks and draws nothing. */
 .beats-banner {
-  animation: beats-banner-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.beats-banner::before {
+.beats-banner[data-open="true"] {
+  visibility: visible;
+  pointer-events: auto;
+  animation: beats-banner-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* One of the marks in the "coin burst" option: a beat, not a figure. */
+.beats-token--coin {
+  font-size: 22px;
+}
+
+.beats-banner[data-open="true"]::before {
   content: "";
   position: absolute;
   right: 22px;
@@ -1427,7 +1468,8 @@ html.has-cursor .cursor {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .beats-banner {
+  .beats-banner[data-open="true"] {
     animation: none;
+    opacity: 1;
   }
 }

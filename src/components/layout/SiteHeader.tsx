@@ -7,6 +7,11 @@ import { gsap } from "gsap";
 
 import { AccountMenu, type AccountUser } from "./AccountMenu";
 import { useLoyalty } from "@/components/account/loyaltyStore";
+import {
+  readBeatsMotion,
+  useBeatsMotion,
+} from "@/components/account/beatsMotion";
+import { Odometer } from "@/components/ui/Odometer";
 import { AuthDialog } from "@/components/auth/AuthDialog";
 import { useSignedIn } from "@/components/auth/session";
 import { authCopy } from "@/data/auth";
@@ -52,14 +57,18 @@ type Popover = "account" | "locale" | null;
 
 function BeatsChip() {
   const { balance } = useLoyalty();
+  const motion = useBeatsMotion();
   const chip = useRef<HTMLAnchorElement>(null);
   const banner = useRef<HTMLDivElement>(null);
 
   /* The number shown lags the balance on purpose. When Beats arrive — the
-     booking confirmation pays out — the whole thing plays here: the banner
-     from the comp (2213:16229) drops in under the chip, a "+100" lifts off
-     it and flies into the chip, the number rolls up and the chip lights for
-     a moment. Beats spent roll down with none of the fanfare.
+     booking confirmation pays out — the announcement plays here: the banner
+     from the comp (2213:16229) under the chip, and the count climbing into
+     it. Beats spent roll down with none of the fanfare.
+
+     Four ways of doing it are built while Ahmed picks one; `beatsMotion`
+     says which, and `/preview/beats` switches between them. Once one is
+     chosen the rest go.
 
      `shown` is what the roll starts from; `display` is what React draws. */
   const shown = useRef(balance);
@@ -74,80 +83,126 @@ function BeatsChip() {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const how = readBeatsMotion();
 
     const state = { n: from };
     /* Every setState below happens inside a timeline callback rather than in
        the effect body, which this project's lint forbids — and which would
-       be a render-during-render anyway. */
+       be a render during render anyway. */
     const tl = gsap.timeline();
 
-    if (earning) {
+    const roll = (at: number, seconds: number) =>
+      tl.to(
+        state,
+        {
+          n: balance,
+          duration: reduced ? 0 : seconds,
+          ease: "power2.out",
+          onUpdate: () => {
+            shown.current = Math.round(state.n);
+            setDisplay(shown.current);
+          },
+        },
+        at,
+      );
+
+    if (!earning) {
+      roll(0, 0);
+    } else if (reduced) {
+      tl.call(() => setEarned(balance - from));
+      roll(0, 0);
+    } else {
       tl.call(() => {
         setEarned(balance - from);
         el?.setAttribute("data-earning", "true");
       });
-      if (!reduced) tl.call(fly, [], 0.45);
-    }
 
-    tl.to(
-      state,
-      {
-        n: balance,
-        duration: earning && !reduced ? 0.9 : 0,
-        ease: "power2.out",
-        onUpdate: () => {
-          shown.current = Math.round(state.n);
-          setDisplay(shown.current);
-        },
-      },
-      earning && !reduced ? 1.2 : 0,
-    );
+      if (how === "continuous") {
+        /* One move: the token leaves the banner while it is still settling
+           and the count starts mid-flight, so it lands on the new number as
+           the token arrives. No gap anywhere. */
+        tl.call(() => fly(1, 0.5), [], 0.25);
+        roll(0.4, 0.42);
+      } else if (how === "burst") {
+        /* Six marks on a quick stagger; the count steps with each landing
+           rather than rolling smoothly. */
+        const coins = 6;
+        for (let i = 0; i < coins; i += 1) {
+          tl.call(() => fly(coins, 0.45, i), [], 0.25 + i * 0.07);
+          tl.call(
+            () => {
+              shown.current = Math.round(from + ((balance - from) * (i + 1)) / coins);
+              setDisplay(shown.current);
+            },
+            [],
+            0.78 + i * 0.07,
+          );
+        }
+      } else if (how === "fill") {
+        /* The chip fills with brand from the left as the count climbs. */
+        tl.call(() => el?.setAttribute("data-filling", "true"), [], 0.2);
+        roll(0.2, 0.8);
+        tl.call(() => el?.removeAttribute("data-filling"), [], 1.2);
+      } else {
+        /* Odometer: nothing flies, the wheels do the work. */
+        roll(0.2, 0.7);
+      }
 
-    if (earning) {
       tl.call(() => el?.removeAttribute("data-earning"), [], "+=0.7");
-      tl.call(() => setEarned(null), [], "+=3");
     }
 
-    /* The "+n" leaving the banner for the chip. Fixed to the viewport and
-       outside both, so neither one's overflow can clip it. */
-    function fly() {
+    /**
+     * A mark leaving the banner for the chip. Fixed to the viewport and
+     * outside both, so neither one's overflow can clip it. `of` > 1 spreads
+     * the marks out and scatters them on the way.
+     */
+    function fly(of: number, seconds: number, index = 0) {
       const source = banner.current?.getBoundingClientRect();
       const target = el?.getBoundingClientRect();
       if (!source || !target) return;
+      const single = of === 1;
+      const spread = single ? 0 : (index / (of - 1) - 0.5) * source.width * 0.6;
+
       const token = document.createElement("span");
-      token.className = "beats-token";
-      token.textContent = `+${(balance - from).toLocaleString("en-US")}`;
+      token.className = single ? "beats-token" : "beats-token beats-token--coin";
+      token.textContent = single
+        ? `+${(balance - from).toLocaleString("en-US")}`
+        : "♪";
       token.setAttribute("aria-hidden", "true");
-      token.style.left = `${source.left + source.width / 2}px`;
+      token.style.left = `${source.left + source.width / 2 + spread}px`;
       token.style.top = `${source.top + source.height / 2}px`;
       document.body.appendChild(token);
+
       gsap
         .timeline({ onComplete: () => token.remove() })
         .fromTo(
           token,
           { opacity: 0, scale: 0.6 },
-          { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" },
+          { opacity: 1, scale: 1, duration: 0.15, ease: "power2.out" },
         )
         .to(
           token,
           {
-            x: target.left + target.width / 2 - (source.left + source.width / 2),
+            x: target.left + target.width / 2 - (source.left + source.width / 2 + spread),
             y: target.top + target.height / 2 - (source.top + source.height / 2),
-            duration: 0.55,
+            duration: seconds,
             ease: "power2.inOut",
           },
-          0.15,
+          0.05,
         )
+        /* Up before across: an arc, not a slide. */
+        .to(token, { rotate: single ? 0 : 140, duration: seconds }, 0.05)
         .to(
           token,
-          { scale: 0.35, opacity: 0, duration: 0.18, ease: "power2.in" },
-          0.6,
+          { scale: 0.35, opacity: 0, duration: 0.16, ease: "power2.in" },
+          0.05 + seconds - 0.1,
         );
     }
 
     return () => {
       tl.kill();
       el?.removeAttribute("data-earning");
+      el?.removeAttribute("data-filling");
       document.querySelectorAll(".beats-token").forEach((n) => n.remove());
     };
   }, [balance]);
@@ -164,24 +219,55 @@ function BeatsChip() {
            in order to read at the same weight. */
         className="beats-chip btn-secondary flex h-[52px] items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
       >
-        <span className="tabular-nums text-white">
-          {display.toLocaleString("en-US")}
+        <span className="relative text-white">
+          {motion === "odometer" || motion === "continuous" ? (
+            <Odometer value={display} duration={0.6} />
+          ) : (
+            <span className="tabular-nums">
+              {display.toLocaleString("en-US")}
+            </span>
+          )}
+          <span className="sr-only">{balance.toLocaleString("en-US")}</span>
         </span>
-        <span className="text-brand">{loyaltyCopy.unit}</span>
+        <span className="relative text-brand">{loyaltyCopy.unit}</span>
       </Link>
 
       {/* Right-aligned to the chip so it never runs off the edge, with the
-          comp's little tail pointing back up at it. `role="status"` rather
-          than an alert: it is good news, not an interruption. */}
-      {earned !== null && (
-        <div
-          ref={banner}
-          role="status"
-          className="beats-banner absolute right-0 top-[calc(100%+10px)] z-10 whitespace-nowrap bg-[#0f3e21] px-3 py-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
-        >
-          {loyaltyCopy.earnedBanner(earned)}
-        </div>
-      )}
+          comp's little tail pointing back up at it. It stays until it is
+          dismissed — `role="status"` rather than an alert, because it is
+          good news and not an interruption.
+
+          Mounted whether or not there is anything to say. A live region has
+          to exist before its text arrives or the announcement is missed, and
+          the marks that fly into the chip take off from this box, which has
+          to be measurable the moment they leave — mounting it with the news
+          made it a frame too late and they never flew at all. */}
+      <div
+        ref={banner}
+        role="status"
+        data-open={earned !== null}
+        className="beats-banner absolute right-0 top-[calc(100%+10px)] z-10 flex items-center gap-2 whitespace-nowrap bg-[#0f3e21] py-2 pl-3 pr-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+      >
+        {earned !== null && (
+          <>
+            {loyaltyCopy.earnedBanner(earned)}
+            <button
+              type="button"
+              onClick={() => setEarned(null)}
+              aria-label={loyaltyCopy.earnedDismiss}
+              className="flex size-5 cursor-pointer items-center justify-center text-content-secondary transition-colors hover:text-white"
+            >
+              <svg viewBox="0 0 16 16" className="size-3" fill="none">
+                <path
+                  d="M3 3 13 13M13 3 3 13"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

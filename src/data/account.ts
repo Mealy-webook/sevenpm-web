@@ -405,6 +405,7 @@ export const loyaltyCopy = {
   /** The banner under the header chip when Beats land — Figma 2213:16229. */
   earnedBanner: (beats: number) =>
     `Congrats! 🎉 you've earned ${beats.toLocaleString("en-US")} beats`,
+  earnedDismiss: "Dismiss",
   toNextLead: "Earn",
   toNext: (beats: number) => `${beats.toLocaleString("en-US")} more to unlock`,
   toNextTail: "membership",
