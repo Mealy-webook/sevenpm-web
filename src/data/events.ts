@@ -448,5 +448,6 @@ export const vipBoxCopy = {
   ],
   sentNote:
     "Nothing is charged until you have seen a price and accepted it.",
+  track: "Track this request",
   done: "Done",
 };

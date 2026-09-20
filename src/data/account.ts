@@ -221,6 +221,12 @@ export const accountNav: AccountNavItem[] = [
     trailing: `${walletBalance} ${walletCurrency}`,
   },
   {
+    id: "requests",
+    label: "VIP box requests",
+    icon: "/assets/ic-acct-bookings.svg",
+    href: "/account/requests",
+  },
+  {
     id: "profile",
     label: "Profile",
     icon: "/assets/ic-acct-profile.svg",
@@ -639,3 +645,36 @@ export const receipts: Receipt[] = [
     amount: "150 MAD",
   },
 ];
+
+/** The VIP box requests panel — see `requestsStore`. */
+export const requestsCopy = {
+  title: "VIP box requests",
+  intro:
+    "Boxes are quoted rather than priced. Here is where each enquiry stands.",
+  empty: "You have not asked about a box yet.",
+  emptyAction: "See the events",
+  reference: "Reference",
+  guests: (count: number) => `${count} guests`,
+  statuses: {
+    review: "Under review",
+    quoted: "Quote ready",
+    accepted: "Awaiting payment",
+    paid: "Paid",
+    declined: "Declined",
+  },
+  /** What the visitor should understand is happening, per state. */
+  says: {
+    review:
+      "The team is pricing this. A quote reaches you by email, usually within two working days.",
+    quoted: "Accept the quote and we will send a payment link.",
+    accepted:
+      "Your payment link is on its way by email. Your tickets are issued once it clears.",
+    paid: "Paid in full. Your box tickets are in your bookings.",
+    declined: "You turned this quote down. Ask again any time.",
+  },
+  quoteLabel: "Quote",
+  accept: "Accept quote",
+  decline: "Decline",
+  pay: "Pay now",
+  viewEvent: "View event",
+};

@@ -2,7 +2,10 @@
 
 import { useId, useState } from "react";
 
+import Link from "next/link";
+
 import { Sheet } from "@/components/ui/Sheet";
+import { addRequest } from "@/components/account/requestsStore";
 import type { EventDetails } from "@/data/events";
 import { vipBoxCopy } from "@/data/events";
 
@@ -21,8 +24,10 @@ import { vipBoxCopy } from "@/data/events";
  * enquiry form stops being filled in.
  *
  * Nothing is sent anywhere. There is no endpoint behind this; submitting
- * shows what would happen next and the note says no money moves until a
- * price has been agreed.
+ * files the enquiry with `requestsStore` so it shows up under the account,
+ * which is the one place it can be followed while the team prices it — an
+ * enquiry that vanished on send left the visitor holding a reference number
+ * and nothing to point it at.
  */
 
 type Fields = {
@@ -96,7 +101,20 @@ export function VipBoxDialog({
       setErrors(found);
       return;
     }
-    setSent(reference(fields));
+    const ref = reference(fields);
+    addRequest({
+      reference: ref,
+      eventName: event.name,
+      eventSlug: event.slug,
+      nights: event.artistDays
+        .filter((day) => fields.days.includes(day.id))
+        .map((day) => day.label)
+        .join(", "),
+      guests: Number(fields.guests),
+      email: fields.email.trim(),
+      status: "review",
+    });
+    setSent(ref);
   };
 
   return (
@@ -139,6 +157,14 @@ export function VipBoxDialog({
           <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
             {vipBoxCopy.sentNote}
           </p>
+          {/* Somewhere to go and watch it, rather than only an email to
+              wait for. */}
+          <Link
+            href="/account/requests"
+            className="btn-secondary flex items-center justify-center self-start px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary"
+          >
+            {vipBoxCopy.track}
+          </Link>
         </div>
       ) : (
         <div
