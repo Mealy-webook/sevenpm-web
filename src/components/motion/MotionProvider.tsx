@@ -83,6 +83,17 @@ export function MotionProvider() {
       /* Paragraphs: line by line through a mask                           */
       /* ---------------------------------------------------------------- */
       gsap.utils.toArray<HTMLElement>('[data-split="lines"]').forEach((el) => {
+        /* Give the paragraph its container's width before measuring it.
+         *
+         * These sit in `flex flex-col items-start` columns, where a block
+         * shrinks to fit its content. Splitting wraps every line in its own
+         * div, which collapses the paragraph's max-content to the widest
+         * line — and a narrower paragraph then produces narrower lines. The
+         * hero's intro had wound itself down to one word per line and 185px
+         * inside a 1024px column. Any `max-width` on the element still caps
+         * it, and `gsap.set` means the context revert puts it back. */
+        gsap.set(el, { width: "100%" });
+
         const split = SplitText.create(el, {
           type: "lines",
           mask: "lines",
