@@ -512,6 +512,7 @@ export function BookingJourney({
             {step === "checkout" ? (
               <PriceDetails
                 totals={totals}
+                payLater={payLaterPlan}
                 agreed={agreed}
                 onAgreed={(on) => {
                   setAgreed(on);

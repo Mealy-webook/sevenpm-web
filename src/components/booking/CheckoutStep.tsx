@@ -5,7 +5,7 @@ import Image from "next/image";
 import type { SavedCard } from "@/components/ui/CardDialog";
 import type { Totals } from "./cart";
 import { PayLaterHint, PayLaterPlan } from "./PayLater";
-import { maxInstalments } from "./payLaterRules";
+import { maxInstalments, type Instalment } from "./payLaterRules";
 import { TicketProtectionRow } from "./TicketProtection";
 import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
 
@@ -377,67 +377,84 @@ export function PriceDetails({
   agreed,
   onAgreed,
   error,
+  payLater,
 }: {
   totals: Totals;
   agreed: boolean;
   onAgreed: (on: boolean) => void;
   error?: string;
+  /** The instalments, when the order is going out on a plan. */
+  payLater?: Instalment[] | null;
 }) {
   const copy = bookingCopy.checkout;
   const summary = bookingCopy.orderSummary;
   const price = bookingCopy.confirmation.price;
+  /**
+   * On a plan the card states what is actually being charged now, which is
+   * the comp's reading: a "Today payment" row, and the total beneath it is
+   * today's payment rather than the order's. The order's own total is still
+   * on the summary bar under this card, where the button is.
+   */
+  const dueToday = payLater?.length ? payLater[0].amount : totals.total;
+  /* VAT follows the figure above it. Quoting the whole order's VAT under
+     today's payment would be two different orders' numbers in one row. */
+  const dueVat = payLater?.length
+    ? dueToday * bookingConfig.vatRate
+    : totals.vat;
 
   return (
-    <div className="flex flex-col gap-3 border border-white/5 p-4">
-      <h2 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
-        {copy.priceDetails}
-      </h2>
+    <div className="flex flex-col bg-bg-secondary">
+      <div className="flex flex-col gap-4 p-4">
+        <h2 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
+          {copy.priceDetails}
+        </h2>
 
-      <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px]">
-        <span className="text-content-secondary">{summary.subtotal}</span>
-        <span className="font-semibold text-content-primary">
-          {formatMoney(totals.subtotal)}
-        </span>
-      </div>
+        <div className="flex flex-col gap-2">
+          <PriceLine label={summary.subtotal} amount={formatMoney(totals.subtotal)} />
+          {totals.fee > 0 && (
+            <PriceLine label={price.fee} amount={formatMoney(totals.fee)} />
+          )}
+          {totals.promo > 0 && (
+            <PriceLine
+              label={price.promo}
+              amount={`−${formatMoney(totals.promo)}`}
+              positive
+            />
+          )}
+          {totals.wallet > 0 && (
+            <PriceLine
+              label={summary.wallet}
+              amount={`−${formatMoney(totals.wallet)}`}
+              positive
+            />
+          )}
+          {payLater?.length ? (
+            <PriceLine
+              label={copy.todayPayment}
+              amount={formatMoney(dueToday)}
+            />
+          ) : null}
 
-      {totals.fee > 0 && (
-        <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px]">
-          <span className="text-content-secondary">{price.fee}</span>
-          <span className="font-semibold text-content-primary">
-            {formatMoney(totals.fee)}
-          </span>
+          <span aria-hidden className="h-px w-full bg-white/10" />
+
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+              {summary.total}
+            </span>
+            <span className="flex flex-col items-end gap-[3px]">
+              <span className="font-[family-name:var(--font-sans)] text-[17px] font-bold leading-6 tracking-[0.085px] text-content-primary">
+                {formatMoney(dueToday)}
+              </span>
+              <span className="font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
+                {summary.vat(formatMoney(dueVat))}
+              </span>
+            </span>
+          </div>
+
+          <span aria-hidden className="h-px w-full bg-white/10" />
         </div>
-      )}
 
-      {totals.promo > 0 && (
-        <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#4ade80]">
-          <span>{price.promo}</span>
-          <span className="font-semibold">−{formatMoney(totals.promo)}</span>
-        </div>
-      )}
-
-      {totals.wallet > 0 && (
-        <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#4ade80]">
-          <span>{summary.wallet}</span>
-          <span className="font-semibold">−{formatMoney(totals.wallet)}</span>
-        </div>
-      )}
-
-      <div className="flex items-start justify-between gap-4 border-t-[0.5px] border-white/10 pt-3">
-        <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
-          {summary.total}
-        </span>
-        <span className="flex flex-col items-end">
-          <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
-            {formatMoney(totals.total)}
-          </span>
-          <span className="font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
-            {summary.vat(formatMoney(totals.vat))}
-          </span>
-        </span>
-      </div>
-
-      <div className="flex flex-col gap-1 border-t-[0.5px] border-white/10 pt-3">
+        <div className="flex flex-col gap-1">
         <label className="flex cursor-pointer items-start gap-3">
           <input
             type="checkbox"
@@ -466,15 +483,49 @@ export function PriceDetails({
             {copy.agreement}
           </span>
         </label>
-        {error && (
-          <p
-            role="alert"
-            className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#ff6c6c]"
-          >
-            {error}
-          </p>
-        )}
+          {error && (
+            <p
+              role="alert"
+              className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#ff6c6c]"
+            >
+              {error}
+            </p>
+          )}
+        </div>
       </div>
+
+      {/* What the booking earns, on the card's own foot. The same figure the
+          confirmation pays out. */}
+      <p className="m-0 flex items-center justify-center bg-[#0f3e21] p-2 text-center font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+        {copy.earnBanner(bookingCopy.confirmation.earnedBeats)}
+      </p>
+    </div>
+  );
+}
+
+/** One line of the breakdown, at the comp's 15/22. */
+function PriceLine({
+  label,
+  amount,
+  positive,
+}: {
+  label: string;
+  amount: string;
+  /** Money coming off — a promo or the wallet. */
+  positive?: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2 font-[family-name:var(--font-display)] text-[15px] leading-[22px]">
+      <span
+        className={`tracking-[0.15px] ${positive ? "text-[#4ade80]" : "text-content-primary"}`}
+      >
+        {label}
+      </span>
+      <span
+        className={`font-semibold tracking-[0.19px] ${positive ? "text-[#4ade80]" : "text-content-primary"}`}
+      >
+        {amount}
+      </span>
     </div>
   );
 }

@@ -26,12 +26,15 @@ gsap.registerPlugin(ScrollTrigger);
  *
  * Confetti fires once on arrival and the hero lands a piece at a time: this
  * is the one screen in the journey where nothing is left to do, so it is the
- * one place a flourish is not in the way. The booking's Beats arrive in the
- * middle of it — the card pops in on a whoosh and the number rolls up from
- * nothing, while the same credit lands in the loyalty store so the chip in
- * the header climbs with it. All of it sits out under prefers-reduced-motion;
- * the Beats are still credited and the card still says so, without the roll
- * or the sound.
+ * one place a flourish is not in the way.
+ *
+ * The booking's Beats are paid into the loyalty store partway through the
+ * hero, and everything the visitor sees of that happens up in the header —
+ * the banner under the Beats chip, the "+100" flying into it and the number
+ * rolling up (2213:16229, and `BeatsChip`). This screen only decides when to
+ * pay, so the announcement lands while they are still watching the hero
+ * arrive. All of it sits out under prefers-reduced-motion; the Beats are
+ * credited either way.
  */
 
 type ConfirmationEvent = {
@@ -180,13 +183,10 @@ export function BookingConfirmation({
   const [shared, setShared] = useState(false);
   const cardsRoot = useRef<HTMLDivElement>(null);
   const hero = useRef<HTMLElement>(null);
-  const beatsCount = useRef<HTMLSpanElement>(null);
   const earned = copy.earnedBeats;
 
   /* The booking pays out — once per order; the store keeps the ledger, so a
-     second mount of this page does not pay twice. With motion, the credit is
-     made the moment the flying token lands in the header (below); without it,
-     here and now. */
+     second mount of this page does not pay twice. */
   const credit = useCallback(
     () => earnBeats(orderNumber, earned, event.name),
     [orderNumber, earned, event.name],
@@ -201,68 +201,7 @@ export function BookingConfirmation({
       return;
     }
 
-    /* The Beats leave the card and arrive in the header. A "+100" lifts off
-       the number, arcs up to the chip in the top bar and disappears into it
-       as the chip rolls to the new balance and lights up — so the figure on
-       this page and the one you carry around the site are seen to be the
-       same Beats. The token is fixed-position on <body>, outside the hero's
-       transforms, and is removed as soon as it lands. */
-    const fly = () => {
-      const from = beatsCount.current?.getBoundingClientRect();
-      const chip = document
-        .querySelector<HTMLElement>("[data-beats-chip]")
-        ?.getBoundingClientRect();
-      if (!from || !chip) {
-        credit();
-        return;
-      }
-      const token = document.createElement("span");
-      token.className = "beats-token";
-      token.textContent = `+${earned.toLocaleString("en-US")}`;
-      token.setAttribute("aria-hidden", "true");
-      token.style.left = `${from.left + from.width / 2}px`;
-      token.style.top = `${from.top + from.height / 2}px`;
-      document.body.appendChild(token);
-
-      const dx = chip.left + chip.width / 2 - (from.left + from.width / 2);
-      const dy = chip.top + chip.height / 2 - (from.top + from.height / 2);
-      gsap
-        .timeline({ onComplete: () => token.remove() })
-        .fromTo(
-          token,
-          { opacity: 0, scale: 0.6 },
-          { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" },
-          0,
-        )
-        /* Across on one ease, up-then-down on two: an arc, not a slide. */
-        .to(token, { x: dx, duration: 1, ease: "power2.inOut" }, 0.15)
-        .to(token, { y: -90, duration: 0.45, ease: "power2.out" }, 0.15)
-        .to(token, { y: dy, duration: 0.55, ease: "power2.in" }, 0.6)
-        .to(
-          token,
-          { scale: 0.35, opacity: 0, duration: 0.18, ease: "power2.in" },
-          1.02,
-        )
-        .call(credit, [], 1.08);
-    };
-
     const ctx = gsap.context(() => {
-      /* The number rolls up from nothing as the card lands. It is written
-         straight to the node: a hundred re-renders for a counter is the
-         wrong tool, and GSAP already has the clock. */
-      const counter = { value: 0 };
-      const write = () => {
-        const node = beatsCount.current;
-        if (node) node.textContent = Math.round(counter.value).toLocaleString("en-US");
-      };
-
-      /* Hidden and zeroed now, not when its turn comes a second and a half
-         in: the card renders with the real figure so it is right without
-         JavaScript, and left alone it would sit there reading 100 until the
-         timeline reached it and rolled it up from nothing. */
-      gsap.set("[data-hero-beats]", { autoAlpha: 0, scale: 0.82, y: 14 });
-      write();
-
       gsap
         .timeline({ defaults: { ease: "power3.out" } })
         .from("[data-hero-sticker]", {
@@ -282,39 +221,18 @@ export function BookingConfirmation({
           { y: 16, opacity: 0, duration: 0.7 },
           "-=0.55",
         )
-        /* The Beats card: a whoosh, a pop, and the count climbing. */
-        .call(whoosh, [], "-=0.3")
-        .to(
-          "[data-hero-beats]",
-          {
-            autoAlpha: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.75,
-            ease: "back.out(1.6)",
-          },
-          "<",
-        )
-        .to(
-          counter,
-          { value: earned, duration: 1.1, ease: "power2.out", onUpdate: write },
-          "<0.15",
-        )
-        .addLabel("counted")
         .from(
           "[data-hero-action]",
           { y: 16, opacity: 0, duration: 0.6, stagger: 0.08 },
-          "<0.25",
+          "-=0.45",
         )
-        /* Once the count has settled, the Beats go where they live. */
-        .call(fly, [], "counted+=0.15");
+        /* A whoosh, and the Beats land in the header over the top of it. */
+        .call(whoosh, [], "-=0.25")
+        .call(credit, [], "<0.2");
     }, el);
 
-    return () => {
-      ctx.revert();
-      document.querySelectorAll(".beats-token").forEach((n) => n.remove());
-    };
-  }, [earned, credit]);
+    return () => ctx.revert();
+  }, [credit]);
 
   /**
    * Deal the cards out on scroll. Each one starts a column back from where it
@@ -503,28 +421,6 @@ export function BookingConfirmation({
             >
               {copy.body(event.name)}
             </p>
-          </div>
-
-          {/* What the booking earned. Reads the same as the chip in the header
-              — Daltown, the number in white, the unit in brand — so it is
-              plainly the same currency arriving. */}
-          <div
-            data-hero-beats
-            className="beats-earned relative flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border border-white/5 bg-bg-secondary px-6 py-4"
-            role="status"
-          >
-            <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary">
-              {copy.earnedLead}
-            </span>
-            <span className="flex items-baseline gap-1.5 font-daltown uppercase leading-none">
-              <span
-                ref={beatsCount}
-                className="text-[40px] tabular-nums text-white"
-              >
-                {earned.toLocaleString("en-US")}
-              </span>
-              <span className="text-[40px] text-brand">{copy.earnedUnit}</span>
-            </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">

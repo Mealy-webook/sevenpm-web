@@ -402,6 +402,9 @@ export const loyaltyCopy = {
   expiresAt: "20 Sep 2026",
   expiry: (beats: number, date: string) =>
     `${beats.toLocaleString("en-US")} beats will expire at ${date}`,
+  /** The banner under the header chip when Beats land — Figma 2213:16229. */
+  earnedBanner: (beats: number) =>
+    `Congrats! 🎉 you've earned ${beats.toLocaleString("en-US")} beats`,
   toNextLead: "Earn",
   toNext: (beats: number) => `${beats.toLocaleString("en-US")} more to unlock`,
   toNextTail: "membership",

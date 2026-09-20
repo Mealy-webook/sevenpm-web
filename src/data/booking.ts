@@ -284,12 +284,11 @@ export const bookingCopy = {
     edit: "Edit",
     payWith: "Pay with",
     wallet: "Use webook credit",
+    /* "Pay in installment" used to head this list. The checkout comp
+       (2410:20033) drops it — buy-now-pay-later is the same idea, built
+       properly, and two options for one thing only asked the visitor to
+       tell them apart. */
     payMethods: [
-      {
-        id: "installment",
-        label: "Pay in installment",
-        icon: "/assets/ic-installment-24.svg",
-      },
       {
         id: "apple-pay",
         label: "Apple Pay",
@@ -303,28 +302,24 @@ export const bookingCopy = {
      */
     payLater: {
       id: "pay-later",
-      label: "Buy now, pay later",
-      icon: "/assets/ic-calendar-20.svg",
+      label: "Buy now pay later",
+      icon: "/assets/ic-paylater-24.svg",
       /** Under the label when the event is far enough away to split. */
       hint: (most: number) =>
         `Split into up to ${most} monthly payments — no extra fees`,
       /** Under the label when it is not. */
       tooSoon: "Your event is too soon to split the payment",
-      choose: "Payment plan",
-      planLabel: (count: number) => `${count} payments`,
+      choose: "Number of payments",
       /** When the total divides evenly and every payment really is the same. */
-      planEach: (count: number, each: string) => `${count} × ${each}`,
+      planEach: (count: number, each: string) => `${count} payments (${each})`,
       /**
-       * When it does not. "3 × 16.66" would be a sum that does not add up to
-       * the total, so an uneven plan quotes today's payment instead and the
-       * schedule below carries the rest.
+       * When it does not, "(16.66 MAD)" would be a figure that does not
+       * multiply back to the total, so the chip says "from" and the schedule
+       * below carries the exact amounts.
        */
-      planUneven: (count: number, first: string) =>
-        `${count} payments · ${first} today`,
-      scheduleTitle: "Payment schedule",
+      planUneven: (count: number, each: string) =>
+        `${count} payments (from ${each})`,
       today: "Today",
-      dueToday: (amount: string) => `${amount} due today`,
-      noFees: "No extra fees. The plan splits the total, it never adds to it.",
       heldTickets:
         "Your tickets are issued once the final payment clears — you will not receive them before then.",
       /** On the confirmation, when the order was put on a plan. */
@@ -393,13 +388,17 @@ export const bookingCopy = {
       keep: "Keep ticket protection",
       proceed: "Proceed without protection",
     },
-    discounts: "Discounts",
-    promo: "Promo code",
+    discounts: "Vouchers & promocodes",
+    promo: "Vouchers",
     promoSaved: (amount: string) => `You saved ${amount}`,
     promoRemove: "Remove the promo code",
     priceDetails: "Price details",
+    /** The row the plan adds, and the banner under the card. */
+    todayPayment: "Today payment",
+    earnBanner: (beats: number) =>
+      `By completing this booking you'll earn ${beats} beats!`,
     agreement:
-      "I agree that reselling a ticket on any platform other than webook.com is illegal and will result in account ban, ticket cancellation, and no eligibility for ticket or value refund.",
+      "I agree that reselling a ticket on any platform is illegal and will result in account ban, ticket cancellation, and no eligibility for ticket or value refund.",
     agreementError: "We need this before you can pay",
     terms: "By purchasing you'll agree to our",
     termsLink: "Terms and Conditions",

@@ -82,3 +82,12 @@ export function formatDue(date: Date) {
     year: "numeric",
   });
 }
+
+/**
+ * "24 Oct" — what the timeline under the plan uses. No year: a plan is four
+ * months at most, so the month alone places it, and the confirmation writes
+ * the full date where it matters.
+ */
+export function formatDueShort(date: Date) {
+  return date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}

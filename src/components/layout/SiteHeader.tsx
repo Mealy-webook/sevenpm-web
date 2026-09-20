@@ -53,57 +53,136 @@ type Popover = "account" | "locale" | null;
 function BeatsChip() {
   const { balance } = useLoyalty();
   const chip = useRef<HTMLAnchorElement>(null);
+  const banner = useRef<HTMLDivElement>(null);
 
-  /* The number shown lags the balance on purpose: when Beats arrive — the
-     booking confirmation pays out — the chip rolls from the old figure to the
-     new one and lights up for a moment, so the change is seen to happen here
-     rather than the number simply being different the next time you look.
-     `shown` is what the tween starts from; `display` is what React draws. */
+  /* The number shown lags the balance on purpose. When Beats arrive — the
+     booking confirmation pays out — the whole thing plays here: the banner
+     from the comp (2213:16229) drops in under the chip, a "+100" lifts off
+     it and flies into the chip, the number rolls up and the chip lights for
+     a moment. Beats spent roll down with none of the fanfare.
+
+     `shown` is what the roll starts from; `display` is what React draws. */
   const shown = useRef(balance);
   const [display, setDisplay] = useState(balance);
+  const [earned, setEarned] = useState<number | null>(null);
 
   useEffect(() => {
-    if (shown.current === balance) return;
+    const from = shown.current;
+    if (from === balance) return;
+    const earning = balance > from;
     const el = chip.current;
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const state = { n: shown.current };
-    el?.setAttribute("data-earning", "true");
-    const tween = gsap.to(state, {
-      n: balance,
-      duration: reduced ? 0 : 1,
-      ease: "power2.out",
-      onUpdate: () => {
-        shown.current = Math.round(state.n);
-        setDisplay(shown.current);
+
+    const state = { n: from };
+    /* Every setState below happens inside a timeline callback rather than in
+       the effect body, which this project's lint forbids — and which would
+       be a render-during-render anyway. */
+    const tl = gsap.timeline();
+
+    if (earning) {
+      tl.call(() => {
+        setEarned(balance - from);
+        el?.setAttribute("data-earning", "true");
+      });
+      if (!reduced) tl.call(fly, [], 0.45);
+    }
+
+    tl.to(
+      state,
+      {
+        n: balance,
+        duration: earning && !reduced ? 0.9 : 0,
+        ease: "power2.out",
+        onUpdate: () => {
+          shown.current = Math.round(state.n);
+          setDisplay(shown.current);
+        },
       },
-      onComplete: () => {
-        window.setTimeout(() => el?.removeAttribute("data-earning"), 700);
-      },
-    });
+      earning && !reduced ? 1.2 : 0,
+    );
+
+    if (earning) {
+      tl.call(() => el?.removeAttribute("data-earning"), [], "+=0.7");
+      tl.call(() => setEarned(null), [], "+=3");
+    }
+
+    /* The "+n" leaving the banner for the chip. Fixed to the viewport and
+       outside both, so neither one's overflow can clip it. */
+    function fly() {
+      const source = banner.current?.getBoundingClientRect();
+      const target = el?.getBoundingClientRect();
+      if (!source || !target) return;
+      const token = document.createElement("span");
+      token.className = "beats-token";
+      token.textContent = `+${(balance - from).toLocaleString("en-US")}`;
+      token.setAttribute("aria-hidden", "true");
+      token.style.left = `${source.left + source.width / 2}px`;
+      token.style.top = `${source.top + source.height / 2}px`;
+      document.body.appendChild(token);
+      gsap
+        .timeline({ onComplete: () => token.remove() })
+        .fromTo(
+          token,
+          { opacity: 0, scale: 0.6 },
+          { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" },
+        )
+        .to(
+          token,
+          {
+            x: target.left + target.width / 2 - (source.left + source.width / 2),
+            y: target.top + target.height / 2 - (source.top + source.height / 2),
+            duration: 0.55,
+            ease: "power2.inOut",
+          },
+          0.15,
+        )
+        .to(
+          token,
+          { scale: 0.35, opacity: 0, duration: 0.18, ease: "power2.in" },
+          0.6,
+        );
+    }
+
     return () => {
-      tween.kill();
+      tl.kill();
       el?.removeAttribute("data-earning");
+      document.querySelectorAll(".beats-token").forEach((n) => n.remove());
     };
   }, [balance]);
 
   return (
-    <Link
-      ref={chip}
-      href="/account/loyalty"
-      data-beats-chip
-      aria-label={`${balance.toLocaleString("en-US")} ${loyaltyCopy.unit}`}
-      /* Daltown runs small for its point size — it is a condensed display
-         face — so this sits well above the 17px the buttons beside it use in
-         order to read at the same weight. */
-      className="beats-chip btn-secondary flex h-[52px] shrink-0 items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
-    >
-      <span className="tabular-nums text-white">
-        {display.toLocaleString("en-US")}
-      </span>
-      <span className="text-brand">{loyaltyCopy.unit}</span>
-    </Link>
+    <div className="relative shrink-0">
+      <Link
+        ref={chip}
+        href="/account/loyalty"
+        data-beats-chip
+        aria-label={`${balance.toLocaleString("en-US")} ${loyaltyCopy.unit}`}
+        /* Daltown runs small for its point size — it is a condensed display
+           face — so this sits well above the 17px the buttons beside it use
+           in order to read at the same weight. */
+        className="beats-chip btn-secondary flex h-[52px] items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
+      >
+        <span className="tabular-nums text-white">
+          {display.toLocaleString("en-US")}
+        </span>
+        <span className="text-brand">{loyaltyCopy.unit}</span>
+      </Link>
+
+      {/* Right-aligned to the chip so it never runs off the edge, with the
+          comp's little tail pointing back up at it. `role="status"` rather
+          than an alert: it is good news, not an interruption. */}
+      {earned !== null && (
+        <div
+          ref={banner}
+          role="status"
+          className="beats-banner absolute right-0 top-[calc(100%+10px)] z-10 whitespace-nowrap bg-[#0f3e21] px-3 py-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+        >
+          {loyaltyCopy.earnedBanner(earned)}
+        </div>
+      )}
+    </div>
   );
 }
 
