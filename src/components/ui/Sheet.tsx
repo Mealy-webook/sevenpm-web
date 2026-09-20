@@ -19,16 +19,25 @@ export function Sheet({
   title,
   subtitle,
   titleId,
+  labelledBy,
   closeLabel,
   children,
   footer,
 }: {
   open: boolean;
   onClose: () => void;
+  /**
+   * The heading in the sheet's own header. An empty string leaves the header
+   * as just the close button, which is what a dialog whose heading sits in
+   * its body wants (the skip-protection confirm, 2407:11381) — pass
+   * `labelledBy` there so the sheet still has an accessible name.
+   */
   title: string;
   /** Second line under the title, as the delivery and card dialogs carry. */
   subtitle?: string;
   titleId: string;
+  /** Overrides what names the dialog. Defaults to the header's own title. */
+  labelledBy?: string;
   closeLabel: string;
   children: React.ReactNode;
   /** Sticky dock under the scrollable body. */
@@ -68,17 +77,19 @@ export function Sheet({
         ref={sheet}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
+        aria-labelledby={labelledBy ?? titleId}
         className="my-auto flex h-fit w-full max-w-[378px] flex-col bg-bg-secondary shadow-[0px_4px_12px_rgba(0,0,0,0.25)]"
       >
         <div className="flex items-start gap-2 px-5 pt-5">
           <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <h2
-              id={titleId}
-              className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
-            >
-              {title}
-            </h2>
+            {title && (
+              <h2
+                id={titleId}
+                className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+              >
+                {title}
+              </h2>
+            )}
             {subtitle && (
               <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
                 {subtitle}

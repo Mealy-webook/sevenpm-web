@@ -34,6 +34,10 @@ import { OrderSummaryDialog } from "./OrderSummaryDialog";
 import { PromoDialog } from "./PromoDialog";
 import { SummaryBar } from "./SummaryBar";
 import { TicketInfoDialog } from "./TicketInfoDialog";
+import {
+  ProtectionInfoDialog,
+  SkipProtectionDialog,
+} from "./TicketProtection";
 import { TicketsStep } from "./TicketsStep";
 import { adjust, quantityOf, totals as priceCart, type Cart } from "./cart";
 import {
@@ -62,7 +66,14 @@ import {
  */
 
 type StepId = "tickets" | "extras" | "checkout";
-type Dialog = "delivery" | "card" | "promo" | "summary" | null;
+type Dialog =
+  | "delivery"
+  | "card"
+  | "promo"
+  | "summary"
+  | "protection"
+  | "skip-protection"
+  | null;
 
 export type BookingEvent = {
   slug: string;
@@ -159,6 +170,9 @@ export function BookingJourney({
   const [delivery, setDelivery] = useState<DeliveryChoice | null>(null);
   const [card, setCard] = useState<SavedCard | null>(null);
   const [promo, setPromo] = useState<{ code: string; off: number } | null>(null);
+  /* Ticket protection is on by default, as the comp has it. Switching it
+     off asks first; switching it back on does not. */
+  const [protection, setProtection] = useState(true);
   const [agreed, setAgreed] = useState(false);
   const [agreeError, setAgreeError] = useState("");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
@@ -454,6 +468,12 @@ export function BookingJourney({
                   promo={promo}
                   onAddPromo={() => setDialog("promo")}
                   onRemovePromo={() => setPromo(null)}
+                  protection={protection}
+                  onProtection={(next) => {
+                    if (next) setProtection(true);
+                    else setDialog("skip-protection");
+                  }}
+                  onExplainProtection={() => setDialog("protection")}
                 />
               </div>
             )}
@@ -524,6 +544,20 @@ export function BookingJourney({
             )}
           </aside>
         </div>
+      )}
+
+      {dialog === "protection" && (
+        <ProtectionInfoDialog onClose={() => setDialog(null)} />
+      )}
+
+      {dialog === "skip-protection" && (
+        <SkipProtectionDialog
+          onKeep={() => setDialog(null)}
+          onProceed={() => {
+            setProtection(false);
+            setDialog(null);
+          }}
+        />
       )}
 
       {infoTicket && (

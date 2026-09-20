@@ -305,6 +305,59 @@ export const bookingCopy = {
     ],
     cardEmpty: "No card saved yet",
     addCard: "Add new card",
+    /**
+     * Ticket protection — Figma 2389:11607 (the row), 2410:18780 (what it
+     * covers) and 2407:11381 (the confirm on switching it off).
+     *
+     * The comps carry no price for it, so nothing here charges for it and it
+     * adds no line to the price details. A real protection product is a paid
+     * add-on; when there is a price, it belongs in `bookingConfig` and in
+     * `totals()` beside the innovation fee.
+     */
+    protection: {
+      label: "Ticket protection",
+      description:
+        "Get a refund of the ticket price if you're unable to attend.",
+      /** Names the ⓘ button, which opens what it covers. */
+      what: "What ticket protection covers",
+      title: "Ticket protection",
+      intro:
+        "Ticket protection lets you request a refund of the original ticket price if a qualifying emergency prevents you from attending.",
+      coveredTitle: "What's covered",
+      /**
+       * The comp lists four reasons, of which the first two are the same row
+       * twice over — a duplicated placeholder rather than two real reasons,
+       * so it is here once. The second medical reason is still to come from
+       * the designer.
+       */
+      covered: [
+        {
+          icon: "/assets/ic-covered-medical.svg",
+          title: "Medical emergency requiring hospitalization",
+          detail: ["Occurred no more than 1 day before the event"],
+        },
+        {
+          icon: "/assets/ic-covered-traffic.svg",
+          title: "Traffic accident",
+          detail: ["Occurred no more than 2 hours before the event time"],
+        },
+        {
+          icon: "/assets/ic-covered-family.svg",
+          title: "Death of a first-degree relative",
+          detail: [
+            "Father, mother, children, or siblings",
+            "Occurred no more than 1 day before the event",
+          ],
+        },
+      ],
+      gotIt: "Got it",
+      close: "Close",
+      skipTitle: "Skip ticket protection?",
+      skipBody:
+        "Without protection, you may not be eligible for a refund if you can't attend for a covered reason.",
+      keep: "Keep ticket protection",
+      proceed: "Proceed without protection",
+    },
     discounts: "Discounts",
     promo: "Promo code",
     promoSaved: (amount: string) => `You saved ${amount}`,

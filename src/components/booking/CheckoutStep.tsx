@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import type { SavedCard } from "@/components/ui/CardDialog";
 import type { Totals } from "./cart";
+import { TicketProtectionRow } from "./TicketProtection";
 import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
 
 /**
@@ -71,6 +72,9 @@ export function CheckoutStep({
   promo,
   onAddPromo,
   onRemovePromo,
+  protection,
+  onProtection,
+  onExplainProtection,
 }: {
   wallet: boolean;
   onWallet: (on: boolean) => void;
@@ -86,6 +90,10 @@ export function CheckoutStep({
   promo: { code: string; off: number } | null;
   onAddPromo: () => void;
   onRemovePromo: () => void;
+  protection: boolean;
+  /** Called with what was asked for; the journey owns the confirm. */
+  onProtection: (next: boolean) => void;
+  onExplainProtection: () => void;
 }) {
   const copy = bookingCopy.checkout;
 
@@ -124,6 +132,12 @@ export function CheckoutStep({
           </p>
         )}
       </section>
+
+      <TicketProtectionRow
+        on={protection}
+        onToggle={onProtection}
+        onExplain={onExplainProtection}
+      />
 
       <section className="flex flex-col gap-4">
         <h2 className={SECTION}>{copy.payWith}</h2>
