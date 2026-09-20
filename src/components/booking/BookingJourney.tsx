@@ -41,6 +41,11 @@ import {
 import { TicketsStep } from "./TicketsStep";
 import { adjust, quantityOf, totals as priceCart, type Cart } from "./cart";
 import {
+  MAX_INSTALMENTS,
+  maxInstalments,
+  schedule,
+} from "./payLaterRules";
+import {
   LocaleMenu,
   type CurrencyCode,
   type LanguageCode,
@@ -173,6 +178,12 @@ export function BookingJourney({
   /* Ticket protection is on by default, as the comp has it. Switching it
      off asks first; switching it back on does not. */
   const [protection, setProtection] = useState(true);
+  /* How many payments a buy-now-pay-later plan is split into. Clamped to
+     what the event date allows wherever it is used. */
+  const [plan, setPlan] = useState(MAX_INSTALMENTS);
+  /* Today, fixed once: a schedule that recomputed on every render would
+     move its own dates if the session crossed midnight. */
+  const [today] = useState(() => new Date());
   const [agreed, setAgreed] = useState(false);
   const [agreeError, setAgreeError] = useState("");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
@@ -268,6 +279,18 @@ export function BookingJourney({
     setStep(steps[stepIndex - 1].id as StepId);
   };
 
+  /* The plan the order actually goes out on: only when pay-later is the
+     chosen method and the event is far enough away to allow it. */
+  const mostInstalments = maxInstalments(today, new Date(event.startsAt));
+  const payLaterPlan =
+    method === bookingCopy.checkout.payLater.id && mostInstalments >= 2
+      ? schedule(
+          totals.total,
+          Math.min(Math.max(2, plan), mostInstalments),
+          today,
+        )
+      : null;
+
   if (orderNumber) {
     return (
       <BookingConfirmation
@@ -276,6 +299,7 @@ export function BookingJourney({
         orderNumber={orderNumber}
         email={event.email}
         deliverySummary={hasMerchandise ? describeDelivery(delivery) : null}
+        payLater={payLaterPlan}
       />
     );
   }
@@ -474,6 +498,11 @@ export function BookingJourney({
                     else setDialog("skip-protection");
                   }}
                   onExplainProtection={() => setDialog("protection")}
+                  eventStartsAt={event.startsAt}
+                  payLaterTotal={totals.total}
+                  plan={plan}
+                  onPlan={setPlan}
+                  today={today}
                 />
               </div>
             )}

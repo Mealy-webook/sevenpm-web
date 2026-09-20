@@ -136,7 +136,11 @@ export const jazzablanca: EventDetails = {
   name: "Jazzablanca",
   intro:
     "A true urban boutique festival deeply embedded in the city of Casablanca, the festival embraces the urban landscape and brings the city to life. Beyond the concerts, it is a place for sharing, discovery, and culture, designed to awaken minds and transmit a passion for music.",
-  startsAt: "2026-09-18T19:00:00+01:00",
+  /* The next edition. It was 2026-09-18, which has now gone by — a festival
+     in the past was still being sold, and the payment plan (which measures
+     its runway to this date) had nothing to measure. Replace with the real
+     date when there is one. */
+  startsAt: "2027-09-17T19:00:00+01:00",
   sessionTime: "07:00 PM - 12:00 AM",
   playlist: [
     {

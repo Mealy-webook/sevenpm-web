@@ -10,6 +10,7 @@ import type { Totals } from "./cart";
 import { Confetti } from "@/components/ui/Confetti";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { earnBeats } from "@/components/account/loyaltyStore";
+import { formatDue, type Instalment } from "./payLaterRules";
 import { bookingCopy, formatMoney } from "@/data/booking";
 import { whoosh } from "./whoosh";
 
@@ -163,14 +164,18 @@ export function BookingConfirmation({
   orderNumber,
   email,
   deliverySummary,
+  payLater,
 }: {
   event: ConfirmationEvent;
   totals: Totals;
   orderNumber: string;
   email: string;
   deliverySummary: string | null;
+  /** The instalments this order goes out on, when it is on a plan. */
+  payLater?: Instalment[] | null;
 }) {
   const copy = bookingCopy.confirmation;
+  const later = bookingCopy.checkout.payLater;
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
   const cardsRoot = useRef<HTMLDivElement>(null);
@@ -718,6 +723,51 @@ export function BookingConfirmation({
             </CardShell>
           </div>
         </section>
+
+        {/* The payment plan, when the order is on one. It sits under the
+            price card because that is where the total is, and the point of
+            it is that the total is not what was taken today. */}
+        {payLater && payLater.length > 1 && (
+          <section className="shell pt-16">
+            <div className="mx-auto flex max-w-[622px] flex-col gap-4">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+                {later.confirmedTitle}
+              </h2>
+              <div className="flex flex-col gap-3 border border-white/5 p-6">
+                <ul className="m-0 flex list-none flex-col p-0">
+                  {payLater.map((instalment, index) => (
+                    <li
+                      key={instalment.due.toISOString()}
+                      className="flex items-baseline justify-between gap-4 border-b-[0.5px] border-white/10 py-2 last:border-b-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px]"
+                    >
+                      <span
+                        className={
+                          index === 0
+                            ? "text-content-primary"
+                            : "text-content-secondary"
+                        }
+                      >
+                        {index === 0 ? later.today : formatDue(instalment.due)}
+                      </span>
+                      <span
+                        className={`font-semibold tabular-nums ${
+                          index === 0 ? "text-brand" : "text-content-primary"
+                        }`}
+                      >
+                        {formatMoney(instalment.amount)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                  {later.confirmedNote(
+                    formatDue(payLater[payLater.length - 1].due),
+                  )}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Order details */}
         <section className="shell pt-16">

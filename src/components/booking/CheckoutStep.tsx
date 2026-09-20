@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import type { SavedCard } from "@/components/ui/CardDialog";
 import type { Totals } from "./cart";
+import { PayLaterHint, PayLaterPlan } from "./PayLater";
+import { maxInstalments } from "./payLaterRules";
 import { TicketProtectionRow } from "./TicketProtection";
 import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
 
@@ -75,6 +77,11 @@ export function CheckoutStep({
   protection,
   onProtection,
   onExplainProtection,
+  eventStartsAt,
+  payLaterTotal,
+  plan,
+  onPlan,
+  today,
 }: {
   wallet: boolean;
   onWallet: (on: boolean) => void;
@@ -94,8 +101,20 @@ export function CheckoutStep({
   /** Called with what was asked for; the journey owns the confirm. */
   onProtection: (next: boolean) => void;
   onExplainProtection: () => void;
+  /** ISO start of the event — it is what limits the payment plan. */
+  eventStartsAt: string;
+  /** What a plan would divide. */
+  payLaterTotal: number;
+  plan: number;
+  onPlan: (count: number) => void;
+  /** Fixed once by the journey so the schedule cannot drift mid-session. */
+  today: Date;
 }) {
   const copy = bookingCopy.checkout;
+  const later = copy.payLater;
+  /* How far the event lets the balance be spread — 1 means not at all. */
+  const mostInstalments = maxInstalments(today, new Date(eventStartsAt));
+  const canSplit = mostInstalments >= 2;
 
   return (
     <div className="flex flex-col gap-8">
@@ -238,6 +257,51 @@ export function CheckoutStep({
               </button>
             );
           })}
+
+          {/* Buy now, pay later. Shown even when the event is too close to
+              split, greyed and saying why: an option that quietly disappears
+              reads as a bug. */}
+          <div className="flex flex-col">
+            <button
+              type="button"
+              role="radio"
+              aria-checked={method === later.id}
+              disabled={!canSplit}
+              onClick={() => onMethod(later.id)}
+              className={`${ROW} py-3 text-left transition-colors ${
+                method === later.id
+                  ? "border-content-primary bg-white/5"
+                  : canSplit
+                    ? "cursor-pointer hover:bg-white/5"
+                    : "cursor-not-allowed opacity-50"
+              } ${canSplit ? "cursor-pointer" : ""}`}
+            >
+              <Image
+                src={later.icon}
+                alt=""
+                width={24}
+                height={24}
+                className="size-6 shrink-0"
+              />
+              <span className="flex min-w-0 flex-1 flex-col gap-1">
+                <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                  {later.label}
+                </span>
+                <PayLaterHint most={mostInstalments} />
+              </span>
+              <Radio selected={method === later.id} />
+            </button>
+
+            {method === later.id && (
+              <PayLaterPlan
+                total={payLaterTotal}
+                eventStartsAt={eventStartsAt}
+                count={plan}
+                onCount={onPlan}
+                today={today}
+              />
+            )}
+          </div>
 
           <button
             type="button"

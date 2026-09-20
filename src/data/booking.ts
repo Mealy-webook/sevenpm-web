@@ -297,6 +297,41 @@ export const bookingCopy = {
       },
       { id: "card", label: "Card", icon: "/assets/ic-card-24.svg" },
     ],
+    /**
+     * Buy now, pay later. The plan is worked out from the event date — see
+     * `payLater.ts` — and adds nothing to the total.
+     */
+    payLater: {
+      id: "pay-later",
+      label: "Buy now, pay later",
+      icon: "/assets/ic-calendar-20.svg",
+      /** Under the label when the event is far enough away to split. */
+      hint: (most: number) =>
+        `Split into up to ${most} monthly payments — no extra fees`,
+      /** Under the label when it is not. */
+      tooSoon: "Your event is too soon to split the payment",
+      choose: "Payment plan",
+      planLabel: (count: number) => `${count} payments`,
+      /** When the total divides evenly and every payment really is the same. */
+      planEach: (count: number, each: string) => `${count} × ${each}`,
+      /**
+       * When it does not. "3 × 16.66" would be a sum that does not add up to
+       * the total, so an uneven plan quotes today's payment instead and the
+       * schedule below carries the rest.
+       */
+      planUneven: (count: number, first: string) =>
+        `${count} payments · ${first} today`,
+      scheduleTitle: "Payment schedule",
+      today: "Today",
+      dueToday: (amount: string) => `${amount} due today`,
+      noFees: "No extra fees. The plan splits the total, it never adds to it.",
+      heldTickets:
+        "Your tickets are issued once the final payment clears — you will not receive them before then.",
+      /** On the confirmation, when the order was put on a plan. */
+      confirmedTitle: "Your payment plan",
+      confirmedNote: (last: string) =>
+        `Your tickets are issued once the final payment clears on ${last}.`,
+    },
     cardMarks: [
       "/assets/pay-cmi.svg",
       "/assets/pay-amex.svg",
