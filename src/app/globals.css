@@ -1141,6 +1141,25 @@ html.has-cursor .cursor {
   clip-path: inset(0 0 0 0);
 }
 
+/* The preloader's stage is 800 × 680 of fixed geometry — the deck's record
+   and arm at their own sizes — scaled as one to fit between the two rows of
+   labels. `tan(atan2())` turns a ratio of lengths into a plain number, the
+   same trick the festival stage uses. The wrapper's own box is the scaled
+   size so the flex column lays out around it correctly. */
+.pre-stage {
+  --pre-scale: min(
+    tan(atan2(calc(100vw - 48px), 800px)),
+    tan(atan2(calc(100svh - 260px), 680px)),
+    1
+  );
+  width: calc(800px * var(--pre-scale));
+  height: calc(680px * var(--pre-scale));
+}
+
+.pre-stage > div {
+  transform: scale(var(--pre-scale));
+}
+
 /* Header: frosted once scrolled, slides away on the way down. */
 .site-header {
   transition:
@@ -1305,4 +1324,78 @@ html.has-cursor .cursor {
   .beats-earned::before {
     animation: none;
   }
+}
+
+/* The Beats on their way from the confirmation card to the header chip:
+   Daltown in brand, fixed to the viewport and centred on the point GSAP
+   moves it from. Created and removed by BookingConfirmation. */
+.beats-token {
+  position: fixed;
+  z-index: 60;
+  translate: -50% -50%;
+  pointer-events: none;
+  font-family: var(--font-headline);
+  font-size: 40px;
+  line-height: 1;
+  color: var(--color-brand);
+  text-shadow: 0 0 24px rgba(251, 235, 28, 0.55);
+  will-change: transform, opacity;
+}
+
+/* The chip catching them: brand border, a ring of light let go, and the
+   number in brand for the moment it is rolling. */
+.beats-chip {
+  position: relative;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.beats-chip[data-earning="true"] {
+  border-color: var(--color-brand);
+  background-color: rgba(251, 235, 28, 0.08);
+}
+
+.beats-chip[data-earning="true"] > span:first-child {
+  color: var(--color-brand);
+}
+
+.beats-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-brand);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.beats-chip[data-earning="true"]::after {
+  animation: beats-ring 1s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+}
+
+/* ------------------------------------------------------------------ *
+ * Homepage redesign previews (/preview/home-stage, /preview/home-editorial)
+ * ------------------------------------------------------------------- */
+
+/* Words in the marquee: the display face, opted out of the character split,
+   at the section-title size or a smaller running size. */
+.wm-word {
+  line-height: 1;
+}
+
+.wm-word--md {
+  --display-size: 96px;
+  --display-line: 96px;
+}
+
+.wm-word--sm {
+  --display-size: 48px;
+  --display-line: 48px;
+}
+
+/* A chapter's photograph is fixed to the section by `fill`; the parallax
+   drifts it a little, so it is oversized to keep the edges covered. */
+.chapter-photo {
+  inset: -8% 0 !important;
+  height: 116% !important;
 }

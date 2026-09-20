@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { gsap } from "gsap";
 
 import { AccountMenu, type AccountUser } from "./AccountMenu";
 import { useLoyalty } from "@/components/account/loyaltyStore";
@@ -51,18 +52,55 @@ type Popover = "account" | "locale" | null;
 
 function BeatsChip() {
   const { balance } = useLoyalty();
+  const chip = useRef<HTMLAnchorElement>(null);
+
+  /* The number shown lags the balance on purpose: when Beats arrive — the
+     booking confirmation pays out — the chip rolls from the old figure to the
+     new one and lights up for a moment, so the change is seen to happen here
+     rather than the number simply being different the next time you look.
+     `shown` is what the tween starts from; `display` is what React draws. */
+  const shown = useRef(balance);
+  const [display, setDisplay] = useState(balance);
+
+  useEffect(() => {
+    if (shown.current === balance) return;
+    const el = chip.current;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const state = { n: shown.current };
+    el?.setAttribute("data-earning", "true");
+    const tween = gsap.to(state, {
+      n: balance,
+      duration: reduced ? 0 : 1,
+      ease: "power2.out",
+      onUpdate: () => {
+        shown.current = Math.round(state.n);
+        setDisplay(shown.current);
+      },
+      onComplete: () => {
+        window.setTimeout(() => el?.removeAttribute("data-earning"), 700);
+      },
+    });
+    return () => {
+      tween.kill();
+      el?.removeAttribute("data-earning");
+    };
+  }, [balance]);
 
   return (
     <Link
+      ref={chip}
       href="/account/loyalty"
+      data-beats-chip
       aria-label={`${balance.toLocaleString("en-US")} ${loyaltyCopy.unit}`}
       /* Daltown runs small for its point size — it is a condensed display
          face — so this sits well above the 17px the buttons beside it use in
          order to read at the same weight. */
-      className="btn-secondary flex h-[52px] shrink-0 items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
+      className="beats-chip btn-secondary flex h-[52px] shrink-0 items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
     >
       <span className="tabular-nums text-white">
-        {balance.toLocaleString("en-US")}
+        {display.toLocaleString("en-US")}
       </span>
       <span className="text-brand">{loyaltyCopy.unit}</span>
     </Link>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -178,17 +178,68 @@ export function BookingConfirmation({
   const beatsCount = useRef<HTMLSpanElement>(null);
   const earned = copy.earnedBeats;
 
-  /* The booking pays out. Once per order — the store keeps the ledger, so a
-     second mount of this page does not pay twice. */
-  useEffect(() => {
-    earnBeats(orderNumber, earned, event.name);
-  }, [orderNumber, earned, event.name]);
+  /* The booking pays out — once per order; the store keeps the ledger, so a
+     second mount of this page does not pay twice. With motion, the credit is
+     made the moment the flying token lands in the header (below); without it,
+     here and now. */
+  const credit = useCallback(
+    () => earnBeats(orderNumber, earned, event.name),
+    [orderNumber, earned, event.name],
+  );
 
   /** The hero lands a piece at a time, top to bottom. */
   useEffect(() => {
     const el = hero.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      credit();
+      return;
+    }
+
+    /* The Beats leave the card and arrive in the header. A "+100" lifts off
+       the number, arcs up to the chip in the top bar and disappears into it
+       as the chip rolls to the new balance and lights up — so the figure on
+       this page and the one you carry around the site are seen to be the
+       same Beats. The token is fixed-position on <body>, outside the hero's
+       transforms, and is removed as soon as it lands. */
+    const fly = () => {
+      const from = beatsCount.current?.getBoundingClientRect();
+      const chip = document
+        .querySelector<HTMLElement>("[data-beats-chip]")
+        ?.getBoundingClientRect();
+      if (!from || !chip) {
+        credit();
+        return;
+      }
+      const token = document.createElement("span");
+      token.className = "beats-token";
+      token.textContent = `+${earned.toLocaleString("en-US")}`;
+      token.setAttribute("aria-hidden", "true");
+      token.style.left = `${from.left + from.width / 2}px`;
+      token.style.top = `${from.top + from.height / 2}px`;
+      document.body.appendChild(token);
+
+      const dx = chip.left + chip.width / 2 - (from.left + from.width / 2);
+      const dy = chip.top + chip.height / 2 - (from.top + from.height / 2);
+      gsap
+        .timeline({ onComplete: () => token.remove() })
+        .fromTo(
+          token,
+          { opacity: 0, scale: 0.6 },
+          { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" },
+          0,
+        )
+        /* Across on one ease, up-then-down on two: an arc, not a slide. */
+        .to(token, { x: dx, duration: 1, ease: "power2.inOut" }, 0.15)
+        .to(token, { y: -90, duration: 0.45, ease: "power2.out" }, 0.15)
+        .to(token, { y: dy, duration: 0.55, ease: "power2.in" }, 0.6)
+        .to(
+          token,
+          { scale: 0.35, opacity: 0, duration: 0.18, ease: "power2.in" },
+          1.02,
+        )
+        .call(credit, [], 1.08);
+    };
 
     const ctx = gsap.context(() => {
       /* The number rolls up from nothing as the card lands. It is written
@@ -199,6 +250,13 @@ export function BookingConfirmation({
         const node = beatsCount.current;
         if (node) node.textContent = Math.round(counter.value).toLocaleString("en-US");
       };
+
+      /* Hidden and zeroed now, not when its turn comes a second and a half
+         in: the card renders with the real figure so it is right without
+         JavaScript, and left alone it would sit there reading 100 until the
+         timeline reached it and rolled it up from nothing. */
+      gsap.set("[data-hero-beats]", { autoAlpha: 0, scale: 0.82, y: 14 });
+      write();
 
       gsap
         .timeline({ defaults: { ease: "power3.out" } })
@@ -221,32 +279,37 @@ export function BookingConfirmation({
         )
         /* The Beats card: a whoosh, a pop, and the count climbing. */
         .call(whoosh, [], "-=0.3")
-        .from(
+        .to(
           "[data-hero-beats]",
           {
-            scale: 0.82,
-            y: 14,
-            opacity: 0,
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
             duration: 0.75,
             ease: "back.out(1.6)",
           },
           "<",
         )
-        .set(counter, { value: 0, onUpdate: write }, "<")
         .to(
           counter,
           { value: earned, duration: 1.1, ease: "power2.out", onUpdate: write },
           "<0.15",
         )
+        .addLabel("counted")
         .from(
           "[data-hero-action]",
           { y: 16, opacity: 0, duration: 0.6, stagger: 0.08 },
           "<0.25",
-        );
+        )
+        /* Once the count has settled, the Beats go where they live. */
+        .call(fly, [], "counted+=0.15");
     }, el);
 
-    return () => ctx.revert();
-  }, [earned]);
+    return () => {
+      ctx.revert();
+      document.querySelectorAll(".beats-token").forEach((n) => n.remove());
+    };
+  }, [earned, credit]);
 
   /**
    * Deal the cards out on scroll. Each one starts a column back from where it
