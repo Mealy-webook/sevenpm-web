@@ -11,12 +11,16 @@ import { bookingCopy, formatMoney } from "@/data/booking";
  * basket on the left, the step's one action on the right. It sits under the
  * poster on desktop and sticks to the bottom of the viewport on phones.
  *
- * The basket line never wraps. The comp splits the bar evenly because its
- * basket reads "1 Tickets, 1 add-on"; at "2 Tickets, 2 add-ons" half of a
- * 405 bar is not enough and it broke across two lines. The label now takes
- * the width it needs and the button takes what is left, so the two keep the
- * comp's proportions in the common case and give way in order of importance
- * when they cannot.
+ * The basket line never wraps, and the two halves are laid out differently
+ * by width. The comp splits the bar evenly because its basket reads "1
+ * Tickets, 1 add-on"; at "2 Tickets, 2 add-ons" half of a 405 bar is not
+ * enough and it broke across two lines.
+ *
+ * From `lg` the basket takes the room and the button shrinks to its label,
+ * which is the comp's arrangement with the give in the right place. Below
+ * that the bar is the full width of a phone and the two stack: the basket on
+ * its own line, the button under it on the left, still only as wide as it
+ * needs to be.
  *
  * The total travels to its new figure as the basket changes. It is the number
  * people are watching while they add things; seeing it move is the feedback
@@ -46,8 +50,8 @@ export function SummaryBar({
 
   return (
     <div className="flex w-full flex-col items-center gap-4 bg-[#27272a] p-4">
-      <div className="flex w-full items-center gap-4">
-        <div className="flex min-w-0 flex-col">
+      <div className="flex w-full flex-col items-start gap-4 lg:flex-row lg:items-center">
+        <div className="flex w-full min-w-0 flex-col lg:flex-1">
           {empty ? (
             <p className="m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-secondary">
               {bookingCopy.summaryBar.empty}
@@ -89,7 +93,7 @@ export function SummaryBar({
           type="button"
           onClick={onAction}
           disabled={empty || busy}
-          className={`flex flex-1 cursor-pointer items-center justify-center gap-2 whitespace-nowrap px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 transition-colors disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30 ${
+          className={`flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 transition-colors disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30 ${
             pay
               ? "bg-brand text-[#18181b] hover:bg-[#fff35a]"
               : "bg-white text-[#18181b] hover:bg-white/90"
