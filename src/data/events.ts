@@ -49,6 +49,14 @@ export type TicketTier = {
   href?: string;
   /** Dark ticket paper with the yellow CTA instead of the grey paper. */
   featured?: boolean;
+  /**
+   * A tier that is not sold over the counter. Its CTA opens the interest
+   * form instead of the booking journey, and it quotes `priceNote` rather
+   * than a figure — there is no price until the team has written one.
+   */
+  enquiry?: boolean;
+  /** Stands in for the "From X MAD / Person" line. */
+  priceNote?: string;
 };
 
 export type InfoTile = {
@@ -233,6 +241,17 @@ export const jazzablanca: EventDetails = {
       discount: "20% off",
       cta: "Get your ticket",
     },
+    {
+      /* Not sold here: a box is quoted, not priced. See `vipBoxCopy`. */
+      id: "vip-box",
+      kicker: "VIP",
+      title: "VIP Box",
+      priceFrom: "",
+      priceNote: "Price on request",
+      currency: "MAD",
+      cta: "Register interest",
+      enquiry: true,
+    },
   ],
   venue: {
     name: "Palais des Institutions Italiennes",
@@ -388,3 +407,46 @@ export const socialLinks: SocialLink[] = [
   { label: "Soundcloud", href: "https://soundcloud.com" },
   { label: "Apple music", href: "https://music.apple.com" },
 ];
+
+/**
+ * VIP boxes are arranged rather than bought: the visitor tells us what they
+ * need, the team prices it, and a payment link follows if they accept. The
+ * form below is the first of those four steps and the only one that happens
+ * on this site — everything after it reaches them by email, which is why
+ * the confirmation spells the sequence out rather than leaving them waiting
+ * on a page that will never change.
+ */
+export const vipBoxCopy = {
+  open: "Register interest",
+  title: "VIP box enquiry",
+  intro:
+    "Tell us what you need and the team will come back with a quote. Boxes are priced per event — on the night, guest count and what you want laid on.",
+  name: "Full name",
+  email: "Email",
+  phone: "Phone",
+  company: "Company",
+  companyOptional: "Optional",
+  guests: "How many guests?",
+  days: "Which nights?",
+  notes: "Anything else we should know?",
+  notesHint: "Catering, accessibility, a birthday — anything that shapes the quote.",
+  submit: "Send enquiry",
+  close: "Close",
+  required: "We need this to come back to you",
+  badEmail: "That email address does not look right",
+  badGuests: "Tell us roughly how many are coming",
+  noDay: "Pick at least one night",
+  /** What happens after they press send. */
+  sentTitle: "Enquiry sent",
+  sentBody: (reference: string) =>
+    `Your reference is ${reference}. Keep it for any follow-up.`,
+  steps: [
+    "The team reviews what you have asked for.",
+    "You get a quote by email, usually within two working days.",
+    "Accept it and a payment link follows.",
+    "Pay and your box tickets are issued to your account.",
+  ],
+  sentNote:
+    "Nothing is charged until you have seen a price and accepted it.",
+  done: "Done",
+};

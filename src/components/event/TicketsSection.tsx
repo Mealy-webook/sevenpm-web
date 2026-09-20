@@ -1,11 +1,18 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 import type { EventDetails } from "@/data/events";
+import { VipBoxDialog } from "./VipBoxDialog";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { TicketStub, stubWidth } from "./TicketStub";
 import { StickerPeel } from "@/components/ui/StickerPeel";
 
 export function TicketsSection({ event }: { event: EventDetails }) {
+  /* VIP boxes are not sold here — their stub opens an enquiry instead. */
+  const [enquiring, setEnquiring] = useState(false);
+
   return (
     <section id="tickets" className="section-screen relative py-16 xl:py-24">
       {/* Guitar sticker over the heading, pinned to the 1512 frame */}
@@ -84,12 +91,17 @@ export function TicketsSection({ event }: { event: EventDetails }) {
                 <TicketStub
                   tier={tier}
                   href={`/events/${event.slug}/book?tier=${tier.id}`}
+                  onEnquire={() => setEnquiring(true)}
                 />
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {enquiring && (
+        <VipBoxDialog event={event} onClose={() => setEnquiring(false)} />
+      )}
     </section>
   );
 }

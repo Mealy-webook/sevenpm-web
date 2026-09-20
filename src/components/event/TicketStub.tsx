@@ -65,10 +65,13 @@ export function stubWidth(tier: TicketTier) {
 export function TicketStub({
   tier,
   href,
+  onEnquire,
 }: {
   tier: TicketTier;
   /** Where the CTA goes; the tickets section points it at the booking flow. */
   href?: string;
+  /** An enquiry tier has nowhere to go — its CTA opens the form instead. */
+  onEnquire?: () => void;
 }) {
   const dark = Boolean(tier.featured);
   const paper = dark ? DARK : GREY;
@@ -106,7 +109,11 @@ export function TicketStub({
     <article
       className="lift relative"
       style={{ width, height: STUB_HEIGHT }}
-      aria-label={`${tier.title}, ${tier.kicker.toLowerCase()}, from ${tier.priceFrom} ${tier.currency} per person`}
+      aria-label={
+        tier.enquiry
+          ? `${tier.title}, ${tier.kicker.toLowerCase()}, ${tier.priceNote ?? ""}`
+          : `${tier.title}, ${tier.kicker.toLowerCase()}, from ${tier.priceFrom} ${tier.currency} per person`
+      }
     >
       {strip("left")}
       {strip("right")}
@@ -212,23 +219,36 @@ export function TicketStub({
           className="absolute left-0 flex w-full flex-col items-center gap-2"
           style={{ top: ROW_PRICE - 19, height: 38 }}
         >
-          <div className="flex items-baseline gap-1 whitespace-nowrap">
-            <span
-              className={`font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] ${
-                dark ? "text-white" : "text-[#18181b]"
-              }`}
-            >
-              From
-            </span>
-            <span
-              className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
-            >
-              <CountUp value={tier.priceFrom} /> {tier.currency}
-            </span>
-            <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
-              {" / Person"}
-            </span>
-          </div>
+          {/* A box has no price until it has been quoted, so the tier says
+              so where the figure would be rather than showing a number
+              nobody has agreed to. */}
+          {tier.priceNote ? (
+            <div className="flex items-baseline whitespace-nowrap">
+              <span
+                className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
+              >
+                {tier.priceNote}
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-baseline gap-1 whitespace-nowrap">
+              <span
+                className={`font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] ${
+                  dark ? "text-white" : "text-[#18181b]"
+                }`}
+              >
+                From
+              </span>
+              <span
+                className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
+              >
+                <CountUp value={tier.priceFrom} /> {tier.currency}
+              </span>
+              <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+                {" / Person"}
+              </span>
+            </div>
+          )}
           {(tier.wasPrice || tier.discount) && (
             <div className="flex h-2 items-center gap-1 whitespace-nowrap">
               {tier.wasPrice &&
@@ -265,24 +285,41 @@ export function TicketStub({
           )}
         </div>
 
-        {/* CTA */}
-        <a
-          href={href ?? tier.href ?? "#tickets"}
-          data-magnetic="0.15"
-          className={`ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${
+        {/* CTA. A link where there is somewhere to go, a button where the
+            press opens something on this page. */}
+        {(() => {
+          const look = `ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${
             dark
               ? "bg-brand text-[#0b0b0e]"
               : "border-[0.5px] border-white/10 bg-black/70 text-content-primary"
-          }`}
-          style={{
+          }`;
+          const box = {
             left: (paper.cardLength - CTA_WIDTH) / 2,
             top: ROW_CTA - CTA_HEIGHT / 2,
             width: CTA_WIDTH,
             height: CTA_HEIGHT,
-          }}
-        >
-          <span className="relative z-10">{tier.cta}</span>
-        </a>
+          };
+          return tier.enquiry ? (
+            <button
+              type="button"
+              onClick={onEnquire}
+              data-magnetic="0.15"
+              className={`${look} cursor-pointer`}
+              style={box}
+            >
+              <span className="relative z-10">{tier.cta}</span>
+            </button>
+          ) : (
+            <a
+              href={href ?? tier.href ?? "#tickets"}
+              data-magnetic="0.15"
+              className={look}
+              style={box}
+            >
+              <span className="relative z-10">{tier.cta}</span>
+            </a>
+          );
+        })()}
       </div>
     </article>
   );
