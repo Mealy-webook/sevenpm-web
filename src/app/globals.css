@@ -238,7 +238,28 @@ body {
  * a *length*, which makes both `scale()` and the matching height invalid.
  * ------------------------------------------------------------------ */
 :root {
-  --hero-stage-scale: 1;
+  /* The width ladder below sets this. It is not the scale the deck uses —
+     see `--hero-stage-scale`. */
+  --hero-stage-w: 1;
+
+  /**
+   * The deck is fitted to the height as well as the width.
+   *
+   * The ladder alone answers only to width, so a wide but short window — a
+   * laptop at 1512 x 700, a half-height browser — left the record at full
+   * size and taller than the screen: you could never see a whole record,
+   * only the middle of one. This caps it at just over half the viewport
+   * height, which is what leaves room for the name above it and the share
+   * button below.
+   *
+   * `tan(atan2())` divides two lengths into a unitless ratio, which plain
+   * calc() cannot, and a scale factor must be unitless.
+   */
+  --hero-stage-scale: min(
+    var(--hero-stage-w),
+    tan(atan2(calc(100svh * 0.55), 612px))
+  );
+
   /* The polaroid fan is 1294.42px wide in a 1272px column. Fit it to the
      column and centre it. tan(atan2()) divides two lengths into a unitless
      ratio, which plain calc() cannot. */
@@ -270,37 +291,37 @@ body {
 }
 @media (max-width: 1500px) {
   :root {
-    --hero-stage-scale: 0.95;
+    --hero-stage-w: 0.95;
   }
 }
 @media (max-width: 1420px) {
   :root {
-    --hero-stage-scale: 0.9;
+    --hero-stage-w: 0.9;
   }
 }
 @media (max-width: 1340px) {
   :root {
-    --hero-stage-scale: 0.84;
+    --hero-stage-w: 0.84;
   }
 }
 @media (max-width: 1280px) {
   :root {
-    --hero-stage-scale: 0.8;
+    --hero-stage-w: 0.8;
   }
 }
 @media (max-width: 1024px) {
   :root {
-    --hero-stage-scale: 0.66;
+    --hero-stage-w: 0.66;
   }
 }
 @media (max-width: 768px) {
   :root {
-    --hero-stage-scale: 0.55;
+    --hero-stage-w: 0.55;
   }
 }
 @media (max-width: 600px) {
   :root {
-    --hero-stage-scale: 0.48;
+    --hero-stage-w: 0.48;
   }
 }
 @media (max-width: 520px) {
@@ -310,12 +331,12 @@ body {
 }
 @media (max-width: 480px) {
   :root {
-    --hero-stage-scale: 0.42;
+    --hero-stage-w: 0.42;
   }
 }
 @media (max-width: 400px) {
   :root {
-    --hero-stage-scale: 0.38;
+    --hero-stage-w: 0.38;
   
   }
 }
