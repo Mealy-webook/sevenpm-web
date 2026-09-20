@@ -4,7 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { onStageFrame, setStageAnalyser } from "@/components/motion/stageAudio";
+import { paletteFrom } from "@/components/motion/artworkPalette";
+import {
+  onStageFrame,
+  setStageAnalyser,
+  setStagePalette,
+} from "@/components/motion/stageAudio";
 import { useAudioAnalyser } from "@/components/event/useAudioAnalyser";
 import type { Festival } from "@/data/home";
 import { homeCopy } from "@/data/home";
@@ -54,6 +59,24 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
     setStageAnalyser(listening ? analyserRef.current : null);
     return () => setStageAnalyser(null);
   }, [listening, analyserRef]);
+
+  /* And the colour with it: while the preview plays, the hero is lit in the
+     festival's own poster. It goes back to the house yellow on release —
+     unlike the deck, nothing is left "on" here once the key is up. */
+  const poster = featured?.poster.src;
+  useEffect(() => {
+    if (!listening || !poster) {
+      setStagePalette(null);
+      return;
+    }
+    let live = true;
+    paletteFrom(poster).then((palette) => {
+      if (live) setStagePalette(palette);
+    });
+    return () => {
+      live = false;
+    };
+  }, [listening, poster]);
 
   /* The wash swells on the beat. Only `scale` is written here — the CSS owns
      opacity and the transform that widens it while listening, and two writers

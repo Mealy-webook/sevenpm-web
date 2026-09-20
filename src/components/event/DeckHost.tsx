@@ -14,7 +14,8 @@ import {
 } from "./deckStore";
 import { useAudioAnalyser } from "./useAudioAnalyser";
 import { needleDrop } from "./vinylNoise";
-import { setStageAnalyser } from "@/components/motion/stageAudio";
+import { paletteFrom } from "@/components/motion/artworkPalette";
+import { setStageAnalyser, setStagePalette } from "@/components/motion/stageAudio";
 
 /**
  * The one <audio> element on the site, mounted in the root layout.
@@ -25,8 +26,8 @@ import { setStageAnalyser } from "@/components/motion/stageAudio";
  * route change is never to have been inside the route.
  *
  * Everything that has to follow the element follows it here: the analyser the
- * lighting rig reads, the needle drop, and the floating player that takes over
- * once the deck itself is off screen.
+ * lighting rig reads, the colour it is lit in, the needle drop, and the
+ * floating player that takes over once the deck itself is off screen.
  */
 
 /** Shared so the deck on the event page can drive its own visualiser. */
@@ -63,6 +64,29 @@ export function DeckHost() {
     setStageAnalyser(deck.playing ? analyser.current : null);
     return () => setStageAnalyser(null);
   }, [deck.playing, analyser]);
+
+  /* Light the room in the record's own colours, read off its sleeve. The
+     rig cross-fades to them, so putting a track on is a lighting cue.
+
+     The palette is not given up when the music pauses — a paused record is
+     still the record on the deck. It goes back to the house yellow only when
+     the deck has nothing on it at all. */
+  const artwork = track?.artworkUrl;
+  useEffect(() => {
+    if (!artwork) {
+      setStagePalette(null);
+      return;
+    }
+    let live = true;
+    paletteFrom(artwork).then((palette) => {
+      /* A slow read that lands after the next track is already on would
+         light the room in the wrong record. */
+      if (live) setStagePalette(palette);
+    });
+    return () => {
+      live = false;
+    };
+  }, [artwork]);
 
   /* Drop the needle, then bring the track in behind it. The wait is whatever
      the drop said it needed and nothing more — zero when the browser would

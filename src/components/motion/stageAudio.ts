@@ -18,6 +18,12 @@
  * It is a single shared requestAnimationFrame rather than one per consumer:
  * the analyser must be read once a frame, and two readers smoothing the same
  * signal independently would drift apart and pulse out of step.
+ *
+ * It also carries the colour the stage is lit in. Whoever is playing hands
+ * over the current record's palette (read off its sleeve — see
+ * `artworkPalette`), and the rigs read it from here, so a track change is a
+ * lighting cue: the beams cross-fade from one record's colours to the next
+ * over about a second rather than cutting.
  */
 
 let analyser: AnalyserNode | null = null;
@@ -125,9 +131,15 @@ function tick(ts: number) {
      where the music left it instead of jumping when the next track starts. */
   now += dt * motion;
   sample(dt);
+  /* Colour rides real time, not stage time: a cue should land while the rig
+     is coasting to a stop as readily as mid-song. */
+  blend(dt);
   for (const fn of listeners) fn(now, level, dt, motion);
 
-  if (!analyser && motion < 0.002 && level === 0 && ts >= wakeUntil) {
+  const settled = shown.every((colour, i) =>
+    colour.every((c, k) => Math.abs(c - target[i][k]) < 0.6),
+  );
+  if (!analyser && motion < 0.002 && level === 0 && settled && ts >= wakeUntil) {
     /* Everything has come to rest. Park until a track hands us its signal,
        or until something calls `wakeStage`. */
     frame = 0;
@@ -179,6 +191,63 @@ export function stageBands() {
 export function wakeStage(ms = 1200) {
   wakeUntil = Math.max(wakeUntil, performance.now() + ms);
   if (listeners.size) start();
+}
+
+/* ------------------------------------------------------------------ *
+ * Colour
+ * ------------------------------------------------------------------ */
+
+export type Rgb = [number, number, number];
+
+/** How many colours a rig can ask for. Three is what a sleeve reliably has. */
+const SLOTS = 3;
+
+/** The house look, and where the rig returns when nothing is playing. */
+const HOUSE: Rgb = [251, 235, 28];
+
+const target: Rgb[] = Array.from({ length: SLOTS }, () => [...HOUSE] as Rgb);
+const shown: Rgb[] = Array.from({ length: SLOTS }, () => [...HOUSE] as Rgb);
+
+/**
+ * Hand over the colours of the record now playing, or null to go back to the
+ * house yellow. Fewer than three colours are cycled round the slots, so a
+ * two-colour sleeve still lights every head.
+ */
+export function setStagePalette(colours: Rgb[] | null) {
+  const next = colours?.length ? colours : [HOUSE];
+  for (let i = 0; i < SLOTS; i += 1) {
+    target[i] = [...next[i % next.length]] as Rgb;
+  }
+  /* The clock parks in silence, and a cue that arrives just before the first
+     note would otherwise sit in the queue until the music started. */
+  wakeStage(1800);
+}
+
+/** Cross-fade the shown colours toward the cue. ~1 second, ease-out. */
+function blend(dt: number) {
+  const k = Math.min(1, dt * 2.6);
+  for (let i = 0; i < SLOTS; i += 1) {
+    for (let c = 0; c < 3; c += 1) {
+      shown[i][c] += (target[i][c] - shown[i][c]) * k;
+    }
+  }
+}
+
+/** A key light's colour, as the `r,g,b` body of an `rgba()`. */
+export function stageKey(slot: number) {
+  const [r, g, b] = shown[slot % SLOTS];
+  return `${Math.round(r)},${Math.round(g)},${Math.round(b)}`;
+}
+
+/**
+ * A fill light's colour: the same hue lifted most of the way to white. The
+ * fills are what keep the keys from flattening into one wash, so they stay
+ * near-white and only carry a cast of the record's colour.
+ */
+export function stageFill(slot: number, mix = 0.76) {
+  const [r, g, b] = shown[slot % SLOTS];
+  const lift = (v: number) => Math.round(v + (255 - v) * mix);
+  return `${lift(r)},${lift(g)},${lift(b)}`;
 }
 
 /** True while a real track is driving the level. */

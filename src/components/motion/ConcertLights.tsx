@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { onStageFrame, wakeStage } from "./stageAudio";
+import { onStageFrame, stageFill, stageKey, wakeStage } from "./stageAudio";
 
 /**
  * Stage lighting behind a hero — a truss of beams hung at the very top of the
@@ -45,6 +45,12 @@ import { onStageFrame, wakeStage } from "./stageAudio";
  * renders into a backing store at a third of CSS resolution and is upscaled,
  * which costs a ninth of the fill and hands back the softness for free.
  *
+ * The colour is the record's, not the brand's: `stageAudio` carries the
+ * palette read off the sleeve of whatever is playing, and the key lights take
+ * it while the fills stay near-white so the beams keep their separation. With
+ * nothing playing the rig sits in the house yellow, and a track change is a
+ * cross-fade rather than a cut.
+ *
  * Two deliberate limits:
  *
  * - The beams brighten and dim; they never cut to black and back. A
@@ -62,9 +68,6 @@ import { onStageFrame, wakeStage } from "./stageAudio";
 /** Backing store scale. Upscaling this is where the haze comes from. */
 const RES = 0.3;
 
-const YELLOW = "251,235,28";
-const WHITE = "255,255,255";
-
 type Beam = {
   /** Pivot along the truss, as a fraction of width. */
   x: number;
@@ -77,7 +80,12 @@ type Beam = {
   phase: number;
   /** Half-width where the beam lands, as a fraction of height. */
   spread: number;
-  colour: string;
+  /**
+   * `key` takes the record's colour; `fill` takes the same hue lifted to
+   * near-white. Which of the palette's colours, by slot.
+   */
+  kind: "key" | "fill";
+  slot: number;
   /** Brightness between punches, and how much a punch adds. */
   idle: number;
   punch: number;
@@ -90,16 +98,18 @@ type Beam = {
   motor: number;
 };
 
-/* Six heads across the truss: yellow carries the brand, two whites keep the
-   yellows from flattening into one wash. Each takes the punch on its own slow
-   cycle, so the bar has a shape instead of six beams throbbing as one. */
+/* Six heads across the truss: four keys carrying the record's colours, two
+   fills keeping them from flattening into one wash. The keys are spread
+   across the palette's three slots so neighbours are rarely the same hue.
+   Each takes the punch on its own slow cycle, so the bar has a shape instead
+   of six beams throbbing as one. */
 const BEAMS: Beam[] = [
-  { x: 0.08, base: 0.34, sway: 0.1, speed: 0.55, phase: 0, spread: 0.42, colour: YELLOW, idle: 0.3, punch: 0.5, reach: 0.5, motor: 2.6 },
-  { x: 0.26, base: 0.16, sway: 0.14, speed: 0.4, phase: 1.9, spread: 0.3, colour: WHITE, idle: 0.16, punch: 0.42, reach: 0.64, motor: 3.6 },
-  { x: 0.42, base: -0.08, sway: 0.11, speed: 0.63, phase: 3.4, spread: 0.36, colour: YELLOW, idle: 0.26, punch: 0.46, reach: 0.7, motor: 4.3 },
-  { x: 0.58, base: 0.1, sway: 0.13, speed: 0.47, phase: 0.8, spread: 0.34, colour: YELLOW, idle: 0.28, punch: 0.52, reach: 0.7, motor: 3.0 },
-  { x: 0.76, base: -0.2, sway: 0.09, speed: 0.58, phase: 2.6, spread: 0.29, colour: WHITE, idle: 0.15, punch: 0.4, reach: 0.6, motor: 4.7 },
-  { x: 0.93, base: -0.36, sway: 0.12, speed: 0.44, phase: 4.7, spread: 0.44, colour: YELLOW, idle: 0.3, punch: 0.48, reach: 0.46, motor: 2.3 },
+  { x: 0.08, base: 0.34, sway: 0.1, speed: 0.55, phase: 0, spread: 0.42, kind: "key", slot: 0, idle: 0.3, punch: 0.5, reach: 0.5, motor: 2.6 },
+  { x: 0.26, base: 0.16, sway: 0.14, speed: 0.4, phase: 1.9, spread: 0.3, kind: "fill", slot: 0, idle: 0.16, punch: 0.42, reach: 0.64, motor: 3.6 },
+  { x: 0.42, base: -0.08, sway: 0.11, speed: 0.63, phase: 3.4, spread: 0.36, kind: "key", slot: 1, idle: 0.26, punch: 0.46, reach: 0.7, motor: 4.3 },
+  { x: 0.58, base: 0.1, sway: 0.13, speed: 0.47, phase: 0.8, spread: 0.34, kind: "key", slot: 2, idle: 0.28, punch: 0.52, reach: 0.7, motor: 3.0 },
+  { x: 0.76, base: -0.2, sway: 0.09, speed: 0.58, phase: 2.6, spread: 0.29, kind: "fill", slot: 1, idle: 0.15, punch: 0.4, reach: 0.6, motor: 4.7 },
+  { x: 0.93, base: -0.36, sway: 0.12, speed: 0.44, phase: 4.7, spread: 0.44, kind: "key", slot: 0, idle: 0.3, punch: 0.48, reach: 0.46, motor: 2.3 },
 ];
 
 /** How many specks of haze drift through the light. */
@@ -166,6 +176,10 @@ export function ConcertLights({
       const ex = px + dx * len;
       const ey = py + dy * len;
       const src = width * 0.006;
+      /* The record's colour, read once a beam rather than once a gradient
+         stop: `stageAudio` is mid-cross-fade on a track change and all four
+         stops of one beam must agree. */
+      const colour = b.kind === "key" ? stageKey(b.slot) : stageFill(b.slot);
 
       for (const [w, a] of [
         [1, 0.3],
@@ -175,9 +189,9 @@ export function ConcertLights({
         const half = b.spread * height * w;
         const alpha = level * a;
         const grad = ctx.createLinearGradient(px, py, ex, ey);
-        grad.addColorStop(0, `rgba(${b.colour},${alpha})`);
-        grad.addColorStop(0.5, `rgba(${b.colour},${alpha * 0.38})`);
-        grad.addColorStop(1, `rgba(${b.colour},0)`);
+        grad.addColorStop(0, `rgba(${colour},${alpha})`);
+        grad.addColorStop(0.5, `rgba(${colour},${alpha * 0.38})`);
+        grad.addColorStop(1, `rgba(${colour},0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.moveTo(px - nx * src, py - ny * src);
@@ -190,8 +204,8 @@ export function ConcertLights({
 
       /* The lamp itself, blooming where the beam leaves the truss. */
       const bloom = ctx.createRadialGradient(px, py, 0, px, py, height * 0.5);
-      bloom.addColorStop(0, `rgba(${b.colour},${level * 0.5})`);
-      bloom.addColorStop(1, `rgba(${b.colour},0)`);
+      bloom.addColorStop(0, `rgba(${colour},${level * 0.5})`);
+      bloom.addColorStop(1, `rgba(${colour},0)`);
       ctx.fillStyle = bloom;
       ctx.beginPath();
       ctx.arc(px, py, height * 0.5, 0, Math.PI * 2);
@@ -212,8 +226,10 @@ export function ConcertLights({
         beam(b, angle, b.idle + b.punch * env * turn);
       }
 
+      /* Haze takes the room's dominant colour, so the air between the beams
+         belongs to the same record they do. */
       const pulse = 0.1 + env * 0.32;
-      ctx.fillStyle = `rgba(${YELLOW},${pulse})`;
+      ctx.fillStyle = `rgba(${stageKey(0)},${pulse})`;
       for (const m of motes) {
         ctx.beginPath();
         ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
