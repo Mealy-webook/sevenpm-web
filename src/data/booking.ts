@@ -334,23 +334,22 @@ export const bookingCopy = {
       /* Paying an instalment: choose a method, confirm, done. There is no
          comp for this flow — it follows the checkout's own method list so
          paying later looks like paying at the time. */
-      chooseMethod: "How would you like to pay?",
-      payingFor: (what: string) => `Paying ${what}`,
-      oneInstalment: (ordinal: string) => `the ${ordinal} payment`,
+      detailsTitle: "Payment details",
+      payWith: "Pay with",
+      oneInstalment: (ordinal: string) => `${ordinal} payment`,
       remainingInstalments: (count: number) =>
-        `the remaining ${count} ${count === 1 ? "payment" : "payments"}`,
-      confirmTitle: "Confirm payment",
-      amountLabel: "Amount",
-      methodLabel: "Paying with",
-      leavesLabel: "Left after this",
-      settlesLabel: "This settles the plan",
-      payAmount: (amount: string) => `Pay ${amount}`,
+        `Remaining ${count} ${count === 1 ? "payment" : "payments"}`,
+      walletLabel: "Use wallet credit",
+      /** Once the booking has spent it, there is none left to offer. */
+      walletSpent: "Your wallet credit went on the booking",
+      confirmAndPay: (amount: string) => `Confirm & Pay (${amount})`,
       doneTitle: "Payment received",
-      doneBody: (amount: string) => `${amount} has been taken.`,
-      doneNext: (date: string) => `Your next payment falls on ${date}.`,
+      doneBody: (amount: string) => `${amount} has been paid.`,
+      doneNext: (date: string) => ` Your next payment falls on ${date}.`,
       doneSettled:
-        "That was the last one. Your tickets are being issued and will appear in your account.",
-      doneAction: "Done",
+        " That was the last one — your tickets are being issued and will appear in your account.",
+      viewBooking: "View booking",
+      payAnother: "Make an other payment",
       addCard: "Add new card",
       totalToPay: "Total to pay",
       makePayment: "Make payment",
