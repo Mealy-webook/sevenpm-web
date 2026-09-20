@@ -77,7 +77,9 @@ export function TicketInfoDialog({
               key={`${slot.name}-${index}`}
               className="flex items-center gap-3 py-2"
             >
-              <span className="relative block size-8 shrink-0 overflow-hidden rounded-full">
+              {/* Square, like the source. These are 1:1 artist shots and a
+                  circle only cut the corners off them. */}
+              <span className="relative block size-8 shrink-0 overflow-hidden">
                 <Image
                   src={slot.image}
                   alt=""

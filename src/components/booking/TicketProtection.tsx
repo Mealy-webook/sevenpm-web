@@ -104,7 +104,7 @@ export function TicketProtectionRow({
         <span className="flex size-7 items-center justify-center rounded-full bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
           {on && (
             <Image
-              src="/assets/ic-check-on.svg"
+              src="/assets/ic-checkmark-16.svg"
               alt=""
               width={16}
               height={16}

@@ -44,19 +44,20 @@ function SmallButton({
   );
 }
 
+/** 24 square, as the design system's Radio draws it. */
 function Radio({ selected }: { selected: boolean }) {
   return selected ? (
     <Image
       src="/assets/ic-check-on.svg"
       alt=""
-      width={20}
-      height={20}
-      className="size-5 shrink-0"
+      width={24}
+      height={24}
+      className="size-6 shrink-0"
     />
   ) : (
     <span
       aria-hidden
-      className="size-5 shrink-0 rounded-full border border-white/30"
+      className="size-6 shrink-0 rounded-full border border-white/30"
     />
   );
 }
@@ -463,21 +464,26 @@ export function PriceDetails({
             aria-invalid={Boolean(error)}
             className="peer sr-only"
           />
+          {/* The design system's Checkbox: 24 square, a 5% black ground
+              behind a 30% white border when off, a solid white ground with
+              the inverse checkmark when on. Not the brand yellow — that is
+              the switch's colour, and using it here made the two controls
+              on this screen look like the same kind of thing. */}
           <span
             aria-hidden
-            className="mt-[2px] flex size-5 shrink-0 items-center justify-center border border-white/30 transition-colors peer-checked:border-brand peer-checked:bg-brand peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand"
+            className={`mt-[2px] flex size-6 shrink-0 items-center justify-center p-1 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${
+              agreed ? "bg-white" : "border border-white/30 bg-black/5"
+            }`}
           >
-            <svg
-              viewBox="0 0 16 16"
-              className={`size-3 ${agreed ? "opacity-100" : "opacity-0"}`}
-              fill="none"
-            >
-              <path
-                d="M2 8.5 6 12.5 14 3.5"
-                stroke="#18181b"
-                strokeWidth="2.5"
+            {agreed && (
+              <Image
+                src="/assets/ic-checkmark-16.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="size-4"
               />
-            </svg>
+            )}
           </span>
           <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
             {copy.agreement}

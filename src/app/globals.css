@@ -1324,31 +1324,6 @@ html.has-cursor .cursor {
   }
 }
 
-/* The chip filling with brand as the count climbs — the "chip fills up"
-   option. A sweep behind the text, so the numerals stay legible over it. */
-.beats-chip > span {
-  z-index: 1;
-}
-
-.beats-chip::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  scale: 0 1;
-  background: rgba(251, 235, 28, 0.22);
-  pointer-events: none;
-  transition:
-    scale 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.4s ease;
-  opacity: 0;
-}
-
-.beats-chip[data-filling="true"]::before {
-  scale: 1 1;
-  opacity: 1;
-}
-
 /* The Beats on their way from the banner into the chip: Daltown in brand,
    fixed to the viewport and centred on the point GSAP moves it from.
    Created and removed by `BeatsChip`. */
@@ -1440,8 +1415,8 @@ html.has-cursor .cursor {
   animation: beats-banner-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* One of the marks in the "coin burst" option: a beat, not a figure. */
-.beats-token--coin {
+/* The beats themselves: a note, not a figure. */
+.beats-token {
   font-size: 22px;
 }
 
@@ -1471,5 +1446,39 @@ html.has-cursor .cursor {
   .beats-banner[data-open="true"] {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* Sponsor wall: each cell turns on its horizontal axis to bring the next
+   mark up. The face is re-keyed on the sponsor, so React mounts a new one
+   and the animation runs from the start every turn. */
+.sponsor-cell {
+  perspective: 600px;
+}
+
+.sponsor-face {
+  display: block;
+  animation: sponsor-flip 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--flip-delay, 0ms);
+  transform-style: preserve-3d;
+}
+
+@keyframes sponsor-flip {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-face {
+    animation: none;
   }
 }

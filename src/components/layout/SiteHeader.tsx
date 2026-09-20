@@ -7,10 +7,6 @@ import { gsap } from "gsap";
 
 import { AccountMenu, type AccountUser } from "./AccountMenu";
 import { useLoyalty } from "@/components/account/loyaltyStore";
-import {
-  readBeatsMotion,
-  useBeatsMotion,
-} from "@/components/account/beatsMotion";
 import { Odometer } from "@/components/ui/Odometer";
 import { AuthDialog } from "@/components/auth/AuthDialog";
 import { useSignedIn } from "@/components/auth/session";
@@ -57,20 +53,22 @@ type Popover = "account" | "locale" | null;
 
 function BeatsChip() {
   const { balance } = useLoyalty();
-  const motion = useBeatsMotion();
   const chip = useRef<HTMLAnchorElement>(null);
   const banner = useRef<HTMLDivElement>(null);
 
-  /* The number shown lags the balance on purpose. When Beats arrive — the
-     booking confirmation pays out — the announcement plays here: the banner
-     from the comp (2213:16229) under the chip, and the count climbing into
-     it. Beats spent roll down with none of the fanfare.
-
-     Four ways of doing it are built while Ahmed picks one; `beatsMotion`
-     says which, and `/preview/beats` switches between them. Once one is
-     chosen the rest go.
-
-     `shown` is what the roll starts from; `display` is what React draws. */
+  /**
+   * Beats arriving in the chip: the banner from the comp (2213:16229) drops
+   * in under it, a handful of beats scatter out of the banner and arc into
+   * the chip, and the counter's wheels roll up to the new figure as they
+   * land. Beats spent roll down with none of the fanfare.
+   *
+   * The number is set **once**, when the first beat lands, and the wheels
+   * take it from there. Tweening it instead would restart each wheel's
+   * transition sixty times a second, every frame fighting the last — an
+   * odometer counts by being left alone.
+   *
+   * `shown` is what the wheels are showing; `display` is what React draws.
+   */
   const shown = useRef(balance);
   const [display, setDisplay] = useState(balance);
   const [earned, setEarned] = useState<number | null>(null);
@@ -78,96 +76,48 @@ function BeatsChip() {
   useEffect(() => {
     const from = shown.current;
     if (from === balance) return;
-    const earning = balance > from;
+    shown.current = balance;
     const el = chip.current;
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const how = readBeatsMotion();
 
-    const state = { n: from };
-    /* Every setState below happens inside a timeline callback rather than in
-       the effect body, which this project's lint forbids — and which would
-       be a render during render anyway. */
-    const tl = gsap.timeline();
-
-    const roll = (at: number, seconds: number) =>
-      tl.to(
-        state,
-        {
-          n: balance,
-          duration: reduced ? 0 : seconds,
-          ease: "power2.out",
-          onUpdate: () => {
-            shown.current = Math.round(state.n);
-            setDisplay(shown.current);
-          },
-        },
-        at,
-      );
-
-    if (!earning) {
-      roll(0, 0);
-    } else if (reduced) {
-      tl.call(() => setEarned(balance - from));
-      roll(0, 0);
-    } else {
-      tl.call(() => {
-        setEarned(balance - from);
-        el?.setAttribute("data-earning", "true");
-      });
-
-      if (how === "continuous") {
-        /* One move: the token leaves the banner while it is still settling
-           and the count starts mid-flight, so it lands on the new number as
-           the token arrives. No gap anywhere. */
-        tl.call(() => fly(1, 0.5), [], 0.25);
-        roll(0.4, 0.42);
-      } else if (how === "burst") {
-        /* Six marks on a quick stagger; the count steps with each landing
-           rather than rolling smoothly. */
-        const coins = 6;
-        for (let i = 0; i < coins; i += 1) {
-          tl.call(() => fly(coins, 0.45, i), [], 0.25 + i * 0.07);
-          tl.call(
-            () => {
-              shown.current = Math.round(from + ((balance - from) * (i + 1)) / coins);
-              setDisplay(shown.current);
-            },
-            [],
-            0.78 + i * 0.07,
-          );
-        }
-      } else if (how === "fill") {
-        /* The chip fills with brand from the left as the count climbs. */
-        tl.call(() => el?.setAttribute("data-filling", "true"), [], 0.2);
-        roll(0.2, 0.8);
-        tl.call(() => el?.removeAttribute("data-filling"), [], 1.2);
-      } else {
-        /* Odometer: nothing flies, the wheels do the work. */
-        roll(0.2, 0.7);
-      }
-
-      tl.call(() => el?.removeAttribute("data-earning"), [], "+=0.7");
+    /* Spending, or motion turned down: the wheels just go there. */
+    if (balance < from || reduced) {
+      setDisplay(balance);
+      if (balance > from) setEarned(balance - from);
+      return;
     }
 
+    const coins = 6;
+    const tl = gsap.timeline();
+    /* setState only ever inside a callback — never in the effect body, which
+       this project's lint forbids and which would be a render on a render. */
+    tl.call(() => {
+      setEarned(balance - from);
+      el?.setAttribute("data-earning", "true");
+    });
+    for (let i = 0; i < coins; i += 1) {
+      tl.call(() => fly(i, coins), [], 0.2 + i * 0.07);
+    }
+    /* As the first one lands. */
+    tl.call(() => setDisplay(balance), [], 0.72);
+    tl.call(() => el?.removeAttribute("data-earning"), [], 1.6);
+
     /**
-     * A mark leaving the banner for the chip. Fixed to the viewport and
-     * outside both, so neither one's overflow can clip it. `of` > 1 spreads
-     * the marks out and scatters them on the way.
+     * One beat on its way from the banner into the chip. Fixed to the
+     * viewport and outside both, so neither one's overflow can clip it, and
+     * spread across the banner's width so they do not leave as a column.
      */
-    function fly(of: number, seconds: number, index = 0) {
+    function fly(index: number, of: number) {
       const source = banner.current?.getBoundingClientRect();
       const target = el?.getBoundingClientRect();
       if (!source || !target) return;
-      const single = of === 1;
-      const spread = single ? 0 : (index / (of - 1) - 0.5) * source.width * 0.6;
+      const spread = (index / (of - 1) - 0.5) * source.width * 0.62;
 
       const token = document.createElement("span");
-      token.className = single ? "beats-token" : "beats-token beats-token--coin";
-      token.textContent = single
-        ? `+${(balance - from).toLocaleString("en-US")}`
-        : "♪";
+      token.className = "beats-token";
+      token.textContent = "♪";
       token.setAttribute("aria-hidden", "true");
       token.style.left = `${source.left + source.width / 2 + spread}px`;
       token.style.top = `${source.top + source.height / 2}px`;
@@ -177,32 +127,33 @@ function BeatsChip() {
         .timeline({ onComplete: () => token.remove() })
         .fromTo(
           token,
-          { opacity: 0, scale: 0.6 },
-          { opacity: 1, scale: 1, duration: 0.15, ease: "power2.out" },
+          { opacity: 0, scale: 0.5 },
+          { opacity: 1, scale: 1, duration: 0.14, ease: "power2.out" },
         )
         .to(
           token,
           {
-            x: target.left + target.width / 2 - (source.left + source.width / 2 + spread),
+            x:
+              target.left +
+              target.width / 2 -
+              (source.left + source.width / 2 + spread),
             y: target.top + target.height / 2 - (source.top + source.height / 2),
-            duration: seconds,
+            rotate: 140,
+            duration: 0.45,
             ease: "power2.inOut",
           },
-          0.05,
+          0.04,
         )
-        /* Up before across: an arc, not a slide. */
-        .to(token, { rotate: single ? 0 : 140, duration: seconds }, 0.05)
         .to(
           token,
-          { scale: 0.35, opacity: 0, duration: 0.16, ease: "power2.in" },
-          0.05 + seconds - 0.1,
+          { scale: 0.3, opacity: 0, duration: 0.16, ease: "power2.in" },
+          0.36,
         );
     }
 
     return () => {
       tl.kill();
       el?.removeAttribute("data-earning");
-      el?.removeAttribute("data-filling");
       document.querySelectorAll(".beats-token").forEach((n) => n.remove());
     };
   }, [balance]);
@@ -220,13 +171,7 @@ function BeatsChip() {
         className="beats-chip btn-secondary flex h-[52px] items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
       >
         <span className="relative text-white">
-          {motion === "odometer" || motion === "continuous" ? (
-            <Odometer value={display} duration={0.6} />
-          ) : (
-            <span className="tabular-nums">
-              {display.toLocaleString("en-US")}
-            </span>
-          )}
+          <Odometer value={display} duration={0.62} />
           <span className="sr-only">{balance.toLocaleString("en-US")}</span>
         </span>
         <span className="relative text-brand">{loyaltyCopy.unit}</span>
@@ -239,7 +184,7 @@ function BeatsChip() {
 
           Mounted whether or not there is anything to say. A live region has
           to exist before its text arrives or the announcement is missed, and
-          the marks that fly into the chip take off from this box, which has
+          the beats that fly into the chip take off from this box, which has
           to be measurable the moment they leave — mounting it with the news
           made it a frame too late and they never flew at all. */}
       <div
