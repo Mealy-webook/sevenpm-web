@@ -29,7 +29,7 @@ import { formatDueShort, maxInstalments, schedule } from "./payLaterRules";
  * set of 25/50/75/100 files can give; the geometry is the comp's (r9 ring,
  * 2px stroke, r7 wedge from twelve o'clock, clockwise).
  */
-function ProgressPie({ fraction }: { fraction: number }) {
+export function ProgressPie({ fraction }: { fraction: number }) {
   const turn = Math.min(1, Math.max(0, fraction));
   const angle = (turn * 360 - 90) * (Math.PI / 180);
   const x = 12 + 7 * Math.cos(angle);

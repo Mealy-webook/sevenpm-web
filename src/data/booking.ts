@@ -326,6 +326,20 @@ export const bookingCopy = {
       confirmedTitle: "Your payment plan",
       confirmedNote: (last: string) =>
         `Your tickets are issued once the final payment clears on ${last}.`,
+      paidLabel: "Paid so far",
+      remainingLabel: "Left to pay",
+      statusPaid: "Paid",
+      statusDue: "Due",
+      /** The row for the payment that was taken at checkout. */
+      paidToday: "Paid today",
+      /** Clearing an instalment before its date. */
+      payNow: "Pay now",
+      payNowFor: (date: string) => `Pay the ${date} instalment now`,
+      /** Nothing is charged — the journey mints an order and stops there. */
+      payNowNote:
+        "Paying ahead is free and brings your tickets forward. Nothing is charged here — no payment provider is connected yet.",
+      allPaid:
+        "Every payment has cleared. Your tickets are on their way to your account.",
     },
     cardMarks: [
       "/assets/pay-cmi.svg",

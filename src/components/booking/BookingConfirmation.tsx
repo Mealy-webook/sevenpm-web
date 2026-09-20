@@ -10,6 +10,7 @@ import type { Totals } from "./cart";
 import { Confetti } from "@/components/ui/Confetti";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { earnBeats } from "@/components/account/loyaltyStore";
+import { ProgressPie } from "./PayLater";
 import { formatDue, type Instalment } from "./payLaterRules";
 import { bookingCopy, formatMoney } from "@/data/booking";
 import { whoosh } from "./whoosh";
@@ -178,7 +179,6 @@ export function BookingConfirmation({
   payLater?: Instalment[] | null;
 }) {
   const copy = bookingCopy.confirmation;
-  const later = bookingCopy.checkout.payLater;
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
   const cardsRoot = useRef<HTMLDivElement>(null);
@@ -624,45 +624,7 @@ export function BookingConfirmation({
             price card because that is where the total is, and the point of
             it is that the total is not what was taken today. */}
         {payLater && payLater.length > 1 && (
-          <section className="shell pt-16">
-            <div className="mx-auto flex max-w-[622px] flex-col gap-4">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
-                {later.confirmedTitle}
-              </h2>
-              <div className="flex flex-col gap-3 border border-white/5 p-6">
-                <ul className="m-0 flex list-none flex-col p-0">
-                  {payLater.map((instalment, index) => (
-                    <li
-                      key={instalment.due.toISOString()}
-                      className="flex items-baseline justify-between gap-4 border-b-[0.5px] border-white/10 py-2 last:border-b-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px]"
-                    >
-                      <span
-                        className={
-                          index === 0
-                            ? "text-content-primary"
-                            : "text-content-secondary"
-                        }
-                      >
-                        {index === 0 ? later.today : formatDue(instalment.due)}
-                      </span>
-                      <span
-                        className={`font-semibold tabular-nums ${
-                          index === 0 ? "text-brand" : "text-content-primary"
-                        }`}
-                      >
-                        {formatMoney(instalment.amount)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-                  {later.confirmedNote(
-                    formatDue(payLater[payLater.length - 1].due),
-                  )}
-                </p>
-              </div>
-            </div>
-          </section>
+          <PaymentPlan instalments={payLater} />
         )}
 
         {/* Order details */}
@@ -757,5 +719,127 @@ export function BookingConfirmation({
         </section>
       </main>
     </>
+  );
+}
+
+/**
+ * The plan, after the booking is made — Ahmed's ask: what has been paid,
+ * what is left and when, and a way to clear the next one early.
+ *
+ * Paying ahead is local to this page. Nothing is charged anywhere in this
+ * journey, and the note says so rather than letting a button that settles a
+ * real debt look as though it did something.
+ *
+ * The instalments already cleared are counted from the front — a plan is
+ * paid in order, so one number says which are behind you.
+ */
+function PaymentPlan({ instalments }: { instalments: Instalment[] }) {
+  const later = bookingCopy.checkout.payLater;
+  /* The first was taken at checkout. */
+  const [cleared, setCleared] = useState(1);
+  const done = Math.min(cleared, instalments.length);
+
+  const paid = instalments
+    .slice(0, done)
+    .reduce((sum, part) => sum + part.amount, 0);
+  const left = instalments
+    .slice(done)
+    .reduce((sum, part) => sum + part.amount, 0);
+  const settled = done >= instalments.length;
+
+  return (
+    <section className="shell pt-16">
+      <div className="mx-auto flex max-w-[622px] flex-col gap-4">
+        <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+          {later.confirmedTitle}
+        </h2>
+
+        <div className="flex flex-col gap-4 border border-white/5 p-6">
+          {/* What it comes to, before the detail of when. */}
+          <div className="flex flex-wrap gap-x-10 gap-y-3">
+            <p className="m-0 flex flex-col gap-1">
+              <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.2px] text-content-secondary">
+                {later.paidLabel}
+              </span>
+              <span className="font-[family-name:var(--font-display)] text-[20px] font-semibold leading-7 tabular-nums text-content-primary">
+                {formatMoney(paid)}
+              </span>
+            </p>
+            <p className="m-0 flex flex-col gap-1">
+              <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.2px] text-content-secondary">
+                {later.remainingLabel}
+              </span>
+              <span
+                className={`font-[family-name:var(--font-display)] text-[20px] font-semibold leading-7 tabular-nums ${
+                  settled ? "text-[#4ade80]" : "text-brand"
+                }`}
+              >
+                {formatMoney(left)}
+              </span>
+            </p>
+          </div>
+
+          <ul className="m-0 flex list-none flex-col p-0">
+            {instalments.map((instalment, index) => {
+              const isPaid = index < done;
+              /* Only the next one can be brought forward — a plan is paid in
+                 order, and offering the last before the second would leave a
+                 gap nobody could explain. */
+              const isNext = index === done;
+              return (
+                <li
+                  key={instalment.due.toISOString()}
+                  className="flex items-center gap-3 border-b-[0.5px] border-white/10 py-3 last:border-b-0"
+                >
+                  <span
+                    className={
+                      isPaid ? "text-[#4ade80]" : "text-content-secondary"
+                    }
+                  >
+                    <ProgressPie fraction={isPaid ? 1 : 0} />
+                  </span>
+
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                      {index === 0
+                        ? later.paidToday
+                        : formatDue(instalment.due)}
+                    </span>
+                    <span
+                      className={`font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
+                        isPaid ? "text-[#4ade80]" : "text-content-secondary"
+                      }`}
+                    >
+                      {isPaid ? later.statusPaid : later.statusDue}
+                    </span>
+                  </span>
+
+                  <span className="shrink-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tabular-nums text-content-primary">
+                    {formatMoney(instalment.amount)}
+                  </span>
+
+                  {isNext && (
+                    <button
+                      type="button"
+                      onClick={() => setCleared((n) => n + 1)}
+                      aria-label={later.payNowFor(formatDue(instalment.due))}
+                      className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center px-3 py-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+                    >
+                      {later.payNow}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+
+          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            {settled
+              ? later.allPaid
+              : `${later.confirmedNote(formatDue(instalments[instalments.length - 1].due))} ${later.payNowNote}`}
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
