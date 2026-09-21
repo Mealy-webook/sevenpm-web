@@ -1,0 +1,97 @@
+/*
+ * Broadcast — the page as a night's programme. The paint here is the studio
+ * kit: scanlines on the monitors, the pulse on the on-air lamp, the vertical
+ * timecode rail. Layout is Tailwind.
+ */
+
+/* The rail down the left of every slot: a hairline with a tick at the top. */
+.rail {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(251, 235, 28, 0.55),
+    rgba(255, 255, 255, 0.08) 120px
+  );
+}
+
+/* The lamp. Slow, because a studio lamp does not blink at you. */
+.onair {
+  animation: broadcast-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes broadcast-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 60, 60, 0.45);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 7px rgba(255, 60, 60, 0);
+  }
+}
+
+/* A monitor: the image behind horizontal scanlines and a slight vignette. */
+.monitor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.32) 0 1px,
+      transparent 1px 3px
+    ),
+    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.6));
+}
+
+/* The strip that runs between slots. Two copies side by side, translated
+   across their own width, so the loop has no seam. */
+.ticker {
+  animation: broadcast-ticker 38s linear infinite;
+}
+
+@keyframes broadcast-ticker {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -50% 0;
+  }
+}
+
+/* The level meter beside NOW PLAYING. Each bar runs at its own rate. */
+.level > span {
+  animation: broadcast-level 900ms ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+.level > span:nth-child(2) {
+  animation-duration: 1250ms;
+}
+.level > span:nth-child(3) {
+  animation-duration: 700ms;
+}
+.level > span:nth-child(4) {
+  animation-duration: 1500ms;
+}
+.level > span:nth-child(5) {
+  animation-duration: 1050ms;
+}
+
+@keyframes broadcast-level {
+  from {
+    scale: 1 0.25;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onair,
+  .ticker,
+  .level > span {
+    animation: none;
+  }
+}
