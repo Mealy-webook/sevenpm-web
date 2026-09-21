@@ -14,9 +14,13 @@ import {
 } from "@/data/account";
 
 /**
- * The band at the top of SevenPM Rewards, from Figma 2250:10099. It replaces
- * the account shell's usual name band: the greeting and the membership chip
- * on the left, the Beats card on the right.
+ * The band at the top of every account tab, from Figma 2449:37125: the name
+ * and the membership chip on the left, the Beats card on the right.
+ *
+ * It is the same band everywhere, Rewards included. It used to greet you by
+ * name there and carry the Beats expiry, which made one tab's header differ
+ * from the other five for no reason anybody reading the screen could see; the
+ * expiry now sits under the Rewards title, where the Beats themselves are.
  *
  * The balance comes from the shared store so redeeming in the panel below
  * moves the number up here too — and it counts down to the new figure rather
@@ -37,15 +41,7 @@ import {
 const beats = (value: number) =>
   Math.round(value).toLocaleString("en-US");
 
-export function LoyaltyBanner({
-  /** Rewards greets you by name; Payments (2205:7060) just states it. */
-  greet = true,
-  /** Only the Rewards comp carries the expiry line. */
-  showExpiry = true,
-}: {
-  greet?: boolean;
-  showExpiry?: boolean;
-} = {}) {
+export function LoyaltyBanner() {
   const { balance } = useLoyalty();
   const [howToOpen, setHowToOpen] = useState(false);
 
@@ -62,7 +58,7 @@ export function LoyaltyBanner({
         {/* Greeting */}
         <div className="flex min-w-0 flex-col justify-center gap-4 lg:flex-1">
           <h1 className="account-name display-text m-0 text-left" data-no-split>
-            {greet ? loyaltyCopy.greeting(accountUser.name) : accountUser.name}
+            {accountUser.name}
           </h1>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -133,12 +129,6 @@ export function LoyaltyBanner({
               )}
             </p>
           </div>
-
-          {showExpiry && (
-            <p className="m-0 font-[family-name:var(--font-sans)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-              {loyaltyCopy.expiry(loyaltyCopy.expiring, loyaltyCopy.expiresAt)}
-            </p>
-          )}
 
           {/* Membership track */}
           <ol className="m-0 flex list-none items-start gap-1 p-0">

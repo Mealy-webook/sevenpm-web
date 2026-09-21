@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { AccountShell } from "@/components/account/AccountShell";
-import { LoyaltyBanner } from "@/components/account/LoyaltyBanner";
 import { LoyaltyPanel } from "@/components/account/LoyaltyPanel";
 import { bookings } from "@/data/account";
 
@@ -17,11 +16,7 @@ export default function LoyaltyPage() {
   ).length;
 
   return (
-    <AccountShell
-      activeId="loyalty"
-      counts={{ bookings: upcoming }}
-      banner={<LoyaltyBanner />}
-    >
+    <AccountShell activeId="loyalty" counts={{ bookings: upcoming }}>
       <LoyaltyPanel />
     </AccountShell>
   );

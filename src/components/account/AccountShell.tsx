@@ -13,8 +13,7 @@ import { accountNav } from "@/data/account";
  *
  * The band is the same on every tab (2449:37125): the name in Daltown beside
  * the membership chip on the left, the Beats card with the membership track on
- * the right. Only SevenPM Rewards passes its own — the greeting and the expiry
- * line belong to that screen.
+ * the right. Rewards included — it has no header of its own.
  *
  * Nothing in here animates. Switching account tabs changes only the panel on
  * the right, so the route wipe is skipped (see `PageTransition`) and the
@@ -24,13 +23,10 @@ import { accountNav } from "@/data/account";
 export function AccountShell({
   activeId,
   counts,
-  banner,
   children,
 }: {
   activeId: string;
   counts?: Record<string, number>;
-  /** Replaces the member band. SevenPM Rewards puts its own greeting here. */
-  banner?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -39,7 +35,7 @@ export function AccountShell({
       <SiteHeader hideAccount surface="secondary" />
       <main className="account-main flex flex-col">
         <AccountGuard>
-          {banner ?? <LoyaltyBanner greet={false} showExpiry={false} />}
+          <LoyaltyBanner />
 
           <section className="flex-1">
             <div className="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-start">

@@ -82,9 +82,16 @@ export function LoyaltyPanel() {
     >
       {/* Rewards */}
       <div className="flex flex-col gap-6">
-        <span id="loyalty-title">
-          <SectionTitle>{loyaltyCopy.title}</SectionTitle>
-        </span>
+        <div className="flex flex-col gap-2">
+          <span id="loyalty-title">
+            <SectionTitle>{loyaltyCopy.title}</SectionTitle>
+          </span>
+          {/* The band is shared with every other account tab now, so the
+              expiry sits with the Beats it is about. */}
+          <p className="m-0 font-[family-name:var(--font-sans)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            {loyaltyCopy.expiry(loyaltyCopy.expiring, loyaltyCopy.expiresAt)}
+          </p>
+        </div>
 
         <div
           role="tablist"
