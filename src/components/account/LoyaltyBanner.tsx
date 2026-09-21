@@ -54,7 +54,7 @@ export function LoyaltyBanner() {
 
   return (
     <section className="bg-bg-secondary">
-      <div className="shell flex flex-col gap-8 pb-8 pt-4 lg:flex-row lg:items-stretch lg:gap-8">
+      <div className="shell flex flex-col gap-8 pb-8 lg:flex-row lg:items-stretch lg:gap-8">
         {/* Greeting */}
         <div className="flex min-w-0 flex-col justify-center gap-4 lg:flex-1">
           <h1 className="account-name display-text m-0 text-left" data-no-split>
