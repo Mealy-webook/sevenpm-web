@@ -443,7 +443,7 @@ export const loyaltyCopy = {
   title: "SevenPM Rewards",
   unit: "Beats",
   greeting: (name: string) => `Hi, ${name}`,
-  memberLabel: (tier: string) => `${tier} Member`,
+  memberLabel: (tier: string) => `${tier} member`,
   memberSince: "Since 2026",
   howTo: "How it works",
   /** Beats expire, so the card says when and how many. */

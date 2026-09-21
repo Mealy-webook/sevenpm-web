@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { AccountShell } from "@/components/account/AccountShell";
-import { LoyaltyBanner } from "@/components/account/LoyaltyBanner";
 import { WalletPanel } from "@/components/account/WalletPanel";
 import {
   bookings,
@@ -15,19 +14,15 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-/** Account — wallet, from Figma 2449:37101. The band is the Rewards one
- *  without the greeting, as Payments has it. */
+/** Account — wallet, from Figma 2449:37101. The member band comes from the
+ *  shell (2449:37125), same as every other account tab. */
 export default function WalletPage() {
   const upcoming = bookings.filter(
     (b) => new Date(b.endsAt) >= new Date(),
   ).length;
 
   return (
-    <AccountShell
-      activeId="wallet"
-      counts={{ bookings: upcoming }}
-      banner={<LoyaltyBanner greet={false} showExpiry={false} />}
-    >
+    <AccountShell activeId="wallet" counts={{ bookings: upcoming }}>
       <WalletPanel
         balance={walletBalance}
         currency={walletCurrency}

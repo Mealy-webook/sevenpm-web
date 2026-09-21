@@ -2,14 +2,19 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AccountGuard } from "@/components/account/AccountGuard";
 import { AccountNav } from "@/components/account/AccountNav";
-import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { accountNav, accountUser } from "@/data/account";
+import { LoyaltyBanner } from "@/components/account/LoyaltyBanner";
+import { accountNav } from "@/data/account";
 
 /**
- * The frame every account screen shares, from Figma 2173:25780: header
- * without the account button, the name band in Daltown 160/108 on the
- * secondary background, then the 293px sidebar beside the panel. No footer —
- * the comp is a single 853px screen, so the section fills the viewport.
+ * The frame every account screen shares, from Figma 2173:25780 and 2449:37125:
+ * header without the account button, the member band on the secondary
+ * background, then the 293px sidebar beside the panel. No footer — the comp is
+ * a single 853px screen, so the section fills the viewport.
+ *
+ * The band is the same on every tab (2449:37125): the name in Daltown beside
+ * the membership chip on the left, the Beats card with the membership track on
+ * the right. Only SevenPM Rewards passes its own — the greeting and the expiry
+ * line belong to that screen.
  *
  * Nothing in here animates. Switching account tabs changes only the panel on
  * the right, so the route wipe is skipped (see `PageTransition`) and the
@@ -24,7 +29,7 @@ export function AccountShell({
 }: {
   activeId: string;
   counts?: Record<string, number>;
-  /** Replaces the name band. SevenPM Rewards puts its own greeting here. */
+  /** Replaces the member band. SevenPM Rewards puts its own greeting here. */
   banner?: React.ReactNode;
   children: React.ReactNode;
 }) {
@@ -34,26 +39,7 @@ export function AccountShell({
       <SiteHeader hideAccount surface="secondary" />
       <main className="account-main flex flex-col">
         <AccountGuard>
-          {banner ?? (
-            <section className="bg-bg-secondary">
-              <div className="shell flex flex-col gap-2 pb-8 pt-6">
-                {/* No reveal: the name band is part of the shell and does not
-                    change between tabs, so replaying it on every switch reads
-                    as a stutter. */}
-                <DisplayHeading
-                  as="h1"
-                  align="left"
-                  className="account-name"
-                  animate={false}
-                >
-                  {accountUser.name}
-                </DisplayHeading>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-5 tracking-[-0.08px] text-content-secondary">
-                  {accountUser.email}
-                </p>
-              </div>
-            </section>
-          )}
+          {banner ?? <LoyaltyBanner greet={false} showExpiry={false} />}
 
           <section className="flex-1">
             <div className="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-start">

@@ -58,9 +58,9 @@ export function LoyaltyBanner({
 
   return (
     <section className="bg-bg-secondary">
-      <div className="shell flex flex-col gap-10 py-12 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+      <div className="shell flex flex-col gap-8 py-12 lg:flex-row lg:items-stretch lg:gap-8">
         {/* Greeting */}
-        <div className="flex min-w-0 flex-col gap-6">
+        <div className="flex min-w-0 flex-col justify-center gap-4 lg:flex-1">
           <h1 className="account-name display-text m-0 text-left" data-no-split>
             {greet ? loyaltyCopy.greeting(accountUser.name) : accountUser.name}
           </h1>
@@ -88,7 +88,7 @@ export function LoyaltyBanner({
         {/* The card hugs the track. It used to carry 44px of bottom padding
             on top of the list's own 24, which left a band of empty card
             below the membership labels. */}
-        <div className="flex w-full shrink-0 flex-col gap-3 border border-white/5 bg-bg-secondary p-6 lg:w-[610px]">
+        <div className="flex w-full min-w-0 shrink-0 flex-col gap-3 border border-white/5 bg-bg-tertiary p-6 lg:flex-1 lg:shrink">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="m-0 flex items-end gap-2 font-daltown text-[48px] uppercase leading-[44px] xl:text-[64px]">

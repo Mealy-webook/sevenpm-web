@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { AccountShell } from "@/components/account/AccountShell";
-import { LoyaltyBanner } from "@/components/account/LoyaltyBanner";
 import { PaymentsPanel } from "@/components/account/PaymentsPanel";
 import {
   billingDetails,
@@ -26,11 +25,7 @@ export default function PaymentsPage() {
   ).length;
 
   return (
-    <AccountShell
-      activeId="payments"
-      counts={{ bookings: upcoming }}
-      banner={<LoyaltyBanner greet={false} showExpiry={false} />}
-    >
+    <AccountShell activeId="payments" counts={{ bookings: upcoming }}>
       <PaymentsPanel
         cards={paymentCards}
         billing={billingDetails}
