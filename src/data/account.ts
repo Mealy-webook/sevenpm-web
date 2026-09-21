@@ -143,35 +143,36 @@ export function formatAmount(amount: number, currency = walletCurrency) {
  * every one of those rows ambiguous about which pot it came out of.
  */
 export const sevenpmCard = {
-  /** Shown in four-digit groups on the face. Not a real PAN. */
-  number: "7099 4412 0863",
-  since: "09/26",
-  scheme: "Cashless",
+  /** Masked on the face, as the comp has it. Not a real PAN. */
+  masked: "xxxx xxxx xxxx 5168",
+  last4: "5168",
+  expiry: "03/27",
 };
 
 export const sevenpmCardCopy = {
-  title: "SEVENPM card",
-  strap: "Cashless payments in venue",
+  title: "SEVENPM cashless card",
   blurb:
-    "Food, drinks, merch — tap or show your code at any SEVENPM bar or stand. It spends your wallet balance, so there is nothing separate to keep topped up.",
-  holder: "Card holder",
-  member: "Member since",
-  balanceLabel: "Wallet balance",
-  pay: "Pay in venue",
+    "Get food, drinks, and merch at any SEVENPM bar or stand. Just tap or show your code — your wallet balance takes care of the rest.",
+  /** The comp writes this "Avaiable balance"; the typo is not carried over. */
+  balanceLabel: "Available balance",
+  expiry: (date: string) => `Exp. date ${date}`,
   topUp: "Top up",
-  /** The pay sheet. */
-  payTitle: "Pay in venue",
+  details: "View card details",
+  /** The sheet behind "View card details". */
+  detailsTitle: "Card details",
+  holder: "Card holder",
+  number: "Card number",
+  expiryLabel: "Expires",
   payIntro: "Show this at the till. It refreshes every few minutes.",
   codeLabel: "Payment code",
   available: (amount: string) => `${amount} available`,
-  lowTitle: "Not enough to pay with",
-  lowBody:
-    "Top up your wallet and the card works again straight away.",
+  lowTitle: "Nothing to pay with",
+  lowBody: "Top up your wallet and the card works again straight away.",
   close: "Close",
   done: "Done",
   /** Nothing is issued and nothing can be charged. */
   demoNote:
-    "This is a demo code — no card has been issued and nothing can be charged against it.",
+    "This is a demo card — none has been issued and nothing can be charged against it.",
 };
 
 /** Logout confirmation, from Figma 2231:12668. */
@@ -189,6 +190,8 @@ export const walletCopy = {
   topUpCta: "Top up",
   transactionsTitle: "Transactions",
   empty: "No transactions yet",
+  /** The comp's empty state art — a receipt and a clock. */
+  emptyArt: "/assets/empty-transactions.png",
   /** Top up, from Figma 2196:10582, 2196:11179 and 2196:12115. */
   topUp: {
     title: "Top up",

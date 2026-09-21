@@ -85,7 +85,10 @@ export function LoyaltyBanner({
         </div>
 
         {/* Beats card */}
-        <div className="flex w-full shrink-0 flex-col gap-3 border border-white/5 bg-bg-secondary px-6 pb-11 pt-6 lg:w-[610px]">
+        {/* The card hugs the track. It used to carry 44px of bottom padding
+            on top of the list's own 24, which left a band of empty card
+            below the membership labels. */}
+        <div className="flex w-full shrink-0 flex-col gap-3 border border-white/5 bg-bg-secondary p-6 lg:w-[610px]">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="m-0 flex items-end gap-2 font-daltown text-[48px] uppercase leading-[44px] xl:text-[64px]">
@@ -138,7 +141,7 @@ export function LoyaltyBanner({
           )}
 
           {/* Membership track */}
-          <ol className="m-0 flex list-none items-start gap-1 p-0 pb-6">
+          <ol className="m-0 flex list-none items-start gap-1 p-0">
             {loyaltyTiers.map((item, index) => {
               const reached = loyaltyLifetime >= item.threshold;
               const current = item.id === tier.id;

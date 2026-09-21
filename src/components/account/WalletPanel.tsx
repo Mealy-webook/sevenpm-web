@@ -64,45 +64,12 @@ export function WalletPanel({
         {walletCopy.title}
       </h2>
 
-      {/* Balance */}
-      <div
-        className="flex flex-col gap-6 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center sm:justify-between"
-      >
-        <div className="flex flex-col gap-2">
-          <span className="font-[family-name:var(--font-display)] text-[13px] font-medium uppercase leading-5 tracking-[0.13px] text-content-secondary">
-            {walletCopy.balanceLabel}
-          </span>
-          <p className="m-0 flex items-end gap-2 font-daltown text-[56px] leading-[39px]">
-            <span className="text-white">
-              {currentBalance.toLocaleString("en-US")}
-            </span>
-            <span className="text-brand">{currency}</span>
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setTopUpOpen(true)}
-          data-magnetic="0.15"
-          className="flex shrink-0 cursor-pointer items-center justify-center gap-2 self-start bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand sm:self-auto"
-        >
-          <Image
-            src="/assets/ic-plus-20.svg"
-            alt=""
-            width={20}
-            height={20}
-            className="size-5"
-          />
-          {walletCopy.topUpCta}
-        </button>
-      </div>
-
-      {/* The card that spends it. Between the balance and the history,
-          because it is what turns one into the other. */}
+      {/* The card, carrying the balance — 2449:37101 folds the two into one
+          block, so the wallet no longer has a balance panel of its own. */}
       <SevenpmCard
         balance={currentBalance}
         currency={currency}
-        onPay={() => setPayOpen(true)}
+        onDetails={() => setPayOpen(true)}
         onTopUp={() => setTopUpOpen(true)}
       />
 
@@ -127,13 +94,15 @@ export function WalletPanel({
         </h3>
 
         {allTransactions.length === 0 ? (
-          <div className="flex min-h-[200px] flex-col items-center justify-center gap-4">
+          /* 2449:37101's empty state — a receipt and a clock, not the
+             cassette the other account panels use. */
+          <div className="flex min-h-[254px] flex-col items-center justify-center gap-2">
             <Image
-              src="/assets/sticker-cassette.png"
+              src={walletCopy.emptyArt}
               alt=""
-              width={256}
-              height={233}
-              className="h-auto w-[156px]"
+              width={1536}
+              height={1024}
+              className="h-[138px] w-[207px] object-contain"
             />
             <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
               {walletCopy.empty}

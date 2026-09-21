@@ -64,14 +64,14 @@ export function VenuePayDialog({
 }) {
   const titleId = useId();
   const copy = sevenpmCardCopy;
-  const cells = matrix(sevenpmCard.number);
+  const cells = matrix(sevenpmCard.masked);
   const empty = balance <= 0;
 
   return (
     <Sheet
       open
       onClose={onClose}
-      title={empty ? copy.lowTitle : copy.payTitle}
+      title={empty ? copy.lowTitle : copy.detailsTitle}
       titleId={titleId}
       closeLabel={copy.close}
       footer={
@@ -107,7 +107,7 @@ export function VenuePayDialog({
                 className="block size-[192px]"
                 shapeRendering="crispEdges"
                 role="img"
-                aria-label={`${copy.codeLabel} ${sevenpmCard.number}`}
+                aria-label={`${copy.codeLabel} ${sevenpmCard.masked}`}
               >
                 {cells.map((on, index) => {
                   const x = index % GRID;
@@ -133,7 +133,7 @@ export function VenuePayDialog({
                 {copy.codeLabel}
               </span>
               <span className="font-daltown text-[28px] uppercase leading-none tabular-nums text-white">
-                {sevenpmCard.number}
+                {sevenpmCard.masked}
               </span>
             </div>
 
