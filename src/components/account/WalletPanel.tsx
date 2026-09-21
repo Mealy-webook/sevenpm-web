@@ -6,6 +6,8 @@ import { useState } from "react";
 import type { WalletTransaction } from "@/data/account";
 import { formatAmount, walletCopy } from "@/data/account";
 import { TopUpDialog } from "./TopUpDialog";
+import { SevenpmCard } from "./SevenpmCard";
+import { VenuePayDialog } from "./VenuePayDialog";
 
 /**
  * Wallet, from Figma 2196:12516. The panel title, then a balance card
@@ -33,6 +35,7 @@ export function WalletPanel({
 }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [topUpOpen, setTopUpOpen] = useState(false);
+  const [payOpen, setPayOpen] = useState(false);
   /* Top-ups made on this page. They live in state rather than in the data
      file because nothing is persisted — a reload starts over. */
   const [topUps, setTopUps] = useState<WalletTransaction[]>([]);
@@ -93,6 +96,27 @@ export function WalletPanel({
           {walletCopy.topUpCta}
         </button>
       </div>
+
+      {/* The card that spends it. Between the balance and the history,
+          because it is what turns one into the other. */}
+      <SevenpmCard
+        balance={currentBalance}
+        currency={currency}
+        onPay={() => setPayOpen(true)}
+        onTopUp={() => setTopUpOpen(true)}
+      />
+
+      {payOpen && (
+        <VenuePayDialog
+          balance={currentBalance}
+          currency={currency}
+          onClose={() => setPayOpen(false)}
+          onTopUp={() => {
+            setPayOpen(false);
+            setTopUpOpen(true);
+          }}
+        />
+      )}
 
       {/* Transactions */}
       <div

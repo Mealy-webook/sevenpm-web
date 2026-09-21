@@ -134,6 +134,46 @@ export function formatAmount(amount: number, currency = walletCurrency) {
   return amount > 0 ? `+${value}` : value;
 }
 
+/**
+ * The SEVENPM card — the cashless instrument you tap at the bar.
+ *
+ * It spends the wallet rather than holding money of its own. One balance is
+ * the whole point: the wallet's own history is already full of venue spends
+ * ("Bar — Anfa Park · 3 drinks"), and a card with a second float would make
+ * every one of those rows ambiguous about which pot it came out of.
+ */
+export const sevenpmCard = {
+  /** Shown in four-digit groups on the face. Not a real PAN. */
+  number: "7099 4412 0863",
+  since: "09/26",
+  scheme: "Cashless",
+};
+
+export const sevenpmCardCopy = {
+  title: "SEVENPM card",
+  strap: "Cashless payments in venue",
+  blurb:
+    "Food, drinks, merch — tap or show your code at any SEVENPM bar or stand. It spends your wallet balance, so there is nothing separate to keep topped up.",
+  holder: "Card holder",
+  member: "Member since",
+  balanceLabel: "Wallet balance",
+  pay: "Pay in venue",
+  topUp: "Top up",
+  /** The pay sheet. */
+  payTitle: "Pay in venue",
+  payIntro: "Show this at the till. It refreshes every few minutes.",
+  codeLabel: "Payment code",
+  available: (amount: string) => `${amount} available`,
+  lowTitle: "Not enough to pay with",
+  lowBody:
+    "Top up your wallet and the card works again straight away.",
+  close: "Close",
+  done: "Done",
+  /** Nothing is issued and nothing can be charged. */
+  demoNote:
+    "This is a demo code — no card has been issued and nothing can be charged against it.",
+};
+
 /** Logout confirmation, from Figma 2231:12668. */
 export const logoutCopy = {
   label: "Logout",
