@@ -1,0 +1,133 @@
+/*
+ * Artefacts — the things you leave a festival holding. The paint here is the
+ * physics the utilities cannot express: the perforation down a ticket, the
+ * weave of a wristband, the card stock, and the tilt an object takes when you
+ * pick it up.
+ */
+
+/* Card stock. Warm off-white with a fibre tooth and a printed edge. */
+.stock {
+  background-color: #f2efe6;
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.05) 0.5px, transparent 0.6px),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.6), transparent 45%);
+  background-size:
+    3px 3px,
+    100% 100%;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.6),
+    0 2px 0 rgba(0, 0, 0, 0.12) inset;
+}
+
+/* The brand's own stock. */
+.stockInk {
+  background-color: var(--color-brand);
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.08) 0.5px, transparent 0.6px),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.35), transparent 45%);
+  background-size:
+    3px 3px,
+    100% 100%;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* A perforation: the dotted line a stub tears along, with the two bites the
+   punch takes out of the edges. */
+.perf {
+  position: relative;
+  /* Stacked, the ticket tears across rather than down. */
+  border-top: 2px dashed rgba(11, 11, 14, 0.4);
+}
+
+/* The bites the punch takes out of the edges. Round because a punch is
+   round — the only curve in the option. */
+.perf::before,
+.perf::after {
+  content: "";
+  position: absolute;
+  top: -13px;
+  width: 24px;
+  height: 24px;
+  background: var(--color-bg-primary);
+  border-radius: 50%;
+}
+
+.perf::before {
+  left: -13px;
+}
+
+.perf::after {
+  right: -13px;
+}
+
+@media (min-width: 1024px) {
+  .perf {
+    border-top: 0;
+    border-left: 2px dashed rgba(11, 11, 14, 0.4);
+  }
+
+  .perf::before,
+  .perf::after {
+    left: -13px;
+    right: auto;
+  }
+
+  .perf::before {
+    top: -13px;
+  }
+
+  .perf::after {
+    top: auto;
+    bottom: -13px;
+  }
+}
+
+/* The wristband: woven tape with the print repeating along it. */
+.band {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.16) 0 1px,
+      transparent 1px 4px
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 60%);
+}
+
+/* A barcode, drawn from repeating gradients at three weights. */
+.barcode {
+  background-image:
+    repeating-linear-gradient(90deg, #0b0b0e 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(90deg, #0b0b0e 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(90deg, #0b0b0e 0 4px, transparent 4px 13px);
+}
+
+/* Picking an object up. The tilt is a rotate, which Tailwind v4 writes as its
+   own property — so the transition names it rather than `transform`. */
+.lift {
+  transition:
+    rotate 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
+}
+
+.lift:hover,
+.lift:focus-within {
+  translate: 0 -10px;
+  rotate: 0deg !important;
+}
+
+/* A cassette label: two windows and the spool holes between them. */
+.spools {
+  background-image:
+    radial-gradient(circle at 26% 50%, #0b0b0e 0 13px, transparent 13.5px),
+    radial-gradient(circle at 74% 50%, #0b0b0e 0 13px, transparent 13.5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lift,
+  .lift:hover,
+  .lift:focus-within {
+    transition: none;
+    translate: none;
+  }
+}
