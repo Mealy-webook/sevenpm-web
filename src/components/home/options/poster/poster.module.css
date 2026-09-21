@@ -1,0 +1,126 @@
+/*
+ * Poster wall — the paint the utilities cannot express: the halftone the
+ * artwork is printed with, the grain of the paper it is pasted on, and the
+ * tape that holds it there. Everything else is Tailwind.
+ *
+ * A CSS module rather than globals.css: this is one option being reviewed,
+ * and none of it should outlive the choice.
+ */
+
+/* The wall. A dark ground with a halftone dot screen over it, coarse enough
+   to read as print rather than as noise. */
+.wall {
+  background-color: var(--color-bg-primary);
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.055) 1px,
+    transparent 1.1px
+  );
+  background-size: 7px 7px;
+}
+
+/* Paper. Warm white with a fibre grain and the slight unevenness of a sheet
+   that has been rolled out and pasted. */
+.paper {
+  background-color: #f4f1e8;
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.055) 0.5px, transparent 0.6px),
+    linear-gradient(115deg, rgba(0, 0, 0, 0.05), transparent 38%);
+  background-size:
+    3px 3px,
+    100% 100%;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+/* The brand sheet: the same paper, inked yellow. */
+.inked {
+  background-color: var(--color-brand);
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.09) 0.5px, transparent 0.6px),
+    linear-gradient(115deg, rgba(0, 0, 0, 0.06), transparent 40%);
+  background-size:
+    3px 3px,
+    100% 100%;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* A strip of tape across a corner. Two of them, opposite corners, angled
+   against the sheet's own tilt so the sheet looks held rather than drawn. */
+.taped::before,
+.taped::after {
+  content: "";
+  position: absolute;
+  width: 104px;
+  height: 26px;
+  background: rgba(244, 241, 232, 0.28);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.taped::before {
+  top: -13px;
+  left: -26px;
+  rotate: -38deg;
+}
+
+.taped::after {
+  bottom: -13px;
+  right: -26px;
+  rotate: -38deg;
+}
+
+/* Registration marks, printed in the margin of a real sheet. */
+.crop {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+}
+
+/* A pinned poster lifts and straightens under the cursor. Tailwind v4 writes
+   `rotate` and `translate` as their own properties, so they are named here
+   rather than transitioned as `transform`. */
+.pinned {
+  transition:
+    rotate 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+  filter: brightness(0.82) saturate(0.9);
+}
+
+.pinned:hover,
+.pinned:focus-visible {
+  rotate: 0deg !important;
+  translate: 0 -14px;
+  filter: brightness(1) saturate(1);
+  z-index: 5;
+}
+
+/* Sprocket holes down both edges of the contact strip. */
+.sprockets {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 14px,
+      rgba(244, 241, 232, 0.5) 14px 22px,
+      transparent 22px 36px
+    );
+  background-repeat: repeat-x;
+  background-size: 36px 10px;
+}
+
+/* The cut line of a mail-in coupon. */
+.cut {
+  border: 2px dashed rgba(11, 11, 14, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pinned,
+  .pinned:hover,
+  .pinned:focus-visible {
+    transition: none;
+    translate: none;
+  }
+}
