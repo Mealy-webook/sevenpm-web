@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { RequestsPanel } from "./RequestsPanel";
-import { useRequests } from "./requestsStore";
 import type { Booking } from "@/data/account";
 import { bookingsCopy, requestsCopy } from "@/data/account";
 
@@ -51,7 +51,17 @@ export function BookingsPanel({
   initialTab?: Filter;
 }) {
   const [filter, setFilter] = useState<Filter>(initialTab);
-  const requests = useRequests();
+  const router = useRouter();
+
+  /* The sidebar's "VIP Box requests" row points at ?tab=requests and lights
+     up from the URL, so picking a chip writes the URL as well as the state —
+     otherwise the row and the chip disagree about which screen you are on. */
+  const select = (next: Filter) => {
+    setFilter(next);
+    router.replace(next === "Requests" ? "/account?tab=requests" : "/account", {
+      scroll: false,
+    });
+  };
   const shown = bookings.filter((b) =>
     filter === "Upcoming"
       ? new Date(b.endsAt) >= now
@@ -70,11 +80,9 @@ export function BookingsPanel({
         >
           {bookingsCopy.title}
         </h2>
-        {filter !== "Requests" && (
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-            {bookingsCopy.description}
-          </p>
-        )}
+        <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          {bookingsCopy.description}
+        </p>
       </div>
 
       <div
@@ -86,13 +94,8 @@ export function BookingsPanel({
           ...bookingsCopy.filters.map((label) => ({
             id: label as Filter,
             label: label as string,
-            count: 0,
           })),
-          {
-            id: "Requests" as Filter,
-            label: requestsCopy.title,
-            count: requests.length,
-          },
+          { id: "Requests" as Filter, label: requestsCopy.title },
         ].map((tab) => {
           const selected = filter === tab.id;
           return (
@@ -101,7 +104,7 @@ export function BookingsPanel({
               type="button"
               role="tab"
               aria-selected={selected}
-              onClick={() => setFilter(tab.id)}
+              onClick={() => select(tab.id)}
               className={`flex h-10 cursor-pointer items-center justify-center gap-2 border p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
                 selected
                   ? "border-content-primary bg-white/10"
@@ -109,11 +112,6 @@ export function BookingsPanel({
               }`}
             >
               <span className="px-1">{tab.label}</span>
-              {tab.count > 0 && (
-                <span className="flex h-5 min-w-5 items-center justify-center bg-brand px-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-4 text-[#18181b]">
-                  {tab.count}
-                </span>
-              )}
             </button>
           );
         })}

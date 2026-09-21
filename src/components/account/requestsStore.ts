@@ -35,6 +35,11 @@ export type BoxRequest = {
   guests: number;
   /** How the team will reach them. */
   email: string;
+  /** The event's poster, the venue and its map link — the row is a booking
+   *  row (Figma 2452:38817) and draws the same things a ticket does. */
+  image?: string;
+  venue?: string;
+  venueUrl?: string;
   status: RequestStatus;
   /** Set once the team has priced it. */
   quote?: number;
@@ -55,6 +60,10 @@ const seed: BoxRequest[] = [
     nights: "18 Sep, 19 Sep",
     guests: 10,
     email: "ahmed@gmail.com",
+    image: "/assets/festival-poster-3.png",
+    venue: "Palais des Institutions Italiennes",
+    venueUrl:
+      "https://www.google.com/maps/search/?api=1&query=Palais+des+Institutions+Italiennes+Casablanca",
     status: "quoted",
     quote: 12000,
     quoteNote: "Box for 10, both nights, catering and parking included.",

@@ -243,6 +243,12 @@ export type AccountNavItem = {
   trailing?: string;
 };
 
+/**
+ * Sidebar order from Figma 2452:38804: bookings, the box requests, the
+ * wallet, then rewards and the two settings screens. VIP Box requests is a
+ * shortcut into the Bookings screen's third chip rather than a page of its
+ * own — the comp shows the row highlighted with that chip selected.
+ */
 export const accountNav: AccountNavItem[] = [
   {
     id: "bookings",
@@ -251,10 +257,10 @@ export const accountNav: AccountNavItem[] = [
     href: "/account",
   },
   {
-    id: "loyalty",
-    label: "SevenPM Rewards",
-    icon: "/assets/ic-acct-loyalty.svg",
-    href: "/account/loyalty",
+    id: "requests",
+    label: "VIP Box requests",
+    icon: "/assets/ic-acct-bookings.svg",
+    href: "/account?tab=requests",
   },
   {
     id: "wallet",
@@ -262,6 +268,12 @@ export const accountNav: AccountNavItem[] = [
     icon: "/assets/ic-acct-wallet.svg",
     href: "/account/wallet",
     trailing: `${walletBalance} ${walletCurrency}`,
+  },
+  {
+    id: "loyalty",
+    label: "SevenPM Rewards",
+    icon: "/assets/ic-acct-loyalty.svg",
+    href: "/account/loyalty",
   },
   {
     id: "profile",
@@ -685,7 +697,7 @@ export const receipts: Receipt[] = [
 
 /** The VIP box requests panel — see `requestsStore`. */
 export const requestsCopy = {
-  title: "VIP box requests",
+  title: "VIP Box requests",
   intro:
     "Boxes are quoted rather than priced. Here is where each enquiry stands.",
   empty: "You have not asked about a box yet.",
@@ -694,7 +706,8 @@ export const requestsCopy = {
   guests: (count: number) => `${count} guests`,
   statuses: {
     review: "Under review",
-    quoted: "Quote ready",
+    /** The comp's word for it (2452:38820): the quote is waiting on you. */
+    quoted: "Pending for approval",
     accepted: "Awaiting payment",
     paid: "Paid",
     declined: "Declined",

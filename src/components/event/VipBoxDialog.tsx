@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { Sheet } from "@/components/ui/Sheet";
 import { addRequest } from "@/components/account/requestsStore";
+import { festivals } from "@/data/home";
 import type { EventDetails } from "@/data/events";
 import { vipBoxCopy } from "@/data/events";
 
@@ -112,6 +113,9 @@ export function VipBoxDialog({
         .join(", "),
       guests: Number(fields.guests),
       email: fields.email.trim(),
+      image: festivals.find((item) => item.id === event.slug)?.poster.src,
+      venue: event.venue.name,
+      venueUrl: event.venue.directionsUrl,
       status: "review",
     });
     setSent(ref);

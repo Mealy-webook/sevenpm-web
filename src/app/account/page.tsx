@@ -28,7 +28,10 @@ export default async function AccountPage({
   ).length;
 
   return (
-    <AccountShell activeId="bookings" counts={{ bookings: upcoming }}>
+    <AccountShell
+      activeId={tab === "requests" ? "requests" : "bookings"}
+      counts={{ bookings: upcoming }}
+    >
       <BookingsPanel
         bookings={bookings}
         initialTab={tab === "requests" ? "Requests" : "Upcoming"}
