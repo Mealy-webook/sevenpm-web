@@ -80,8 +80,10 @@ export function CardTile({
         </div>
       </div>
 
-      {/* Action bar, its top 24px hidden behind the card. */}
-      <div className="relative z-[1] flex w-full flex-wrap items-center justify-between gap-3 bg-white/5 py-3 pl-4 pr-3 pt-6">
+      {/* Action bar. Its top 24px sit behind the card, so the padding above
+          the controls has to carry that 24 plus the 12 that shows — otherwise
+          the row reads as flush to the top edge and loose at the bottom. */}
+      <div className="relative z-[1] flex w-full flex-wrap items-center justify-between gap-3 bg-white/5 py-3 pl-4 pr-3 pt-9">
         <span className="flex items-center gap-2">
           <span className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
             {paymentsCopy.cards.setDefault}

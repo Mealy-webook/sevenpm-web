@@ -2,12 +2,7 @@ import type { Metadata } from "next";
 
 import { AccountShell } from "@/components/account/AccountShell";
 import { PaymentsPanel } from "@/components/account/PaymentsPanel";
-import {
-  billingDetails,
-  bookings,
-  paymentCards,
-  receipts,
-} from "@/data/account";
+import { bookings, paymentCards } from "@/data/account";
 
 export const metadata: Metadata = {
   title: "Payments — SEVENPM",
@@ -26,11 +21,7 @@ export default function PaymentsPage() {
 
   return (
     <AccountShell activeId="payments" counts={{ bookings: upcoming }}>
-      <PaymentsPanel
-        cards={paymentCards}
-        billing={billingDetails}
-        receipts={receipts}
-      />
+      <PaymentsPanel cards={paymentCards} />
     </AccountShell>
   );
 }

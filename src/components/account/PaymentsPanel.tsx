@@ -4,23 +4,17 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { CardTile } from "./CardTile";
-import {
-  AccountCard,
-  AccountRow,
-  ActionButton,
-} from "@/components/account/AccountCard";
 import { CardDialog } from "@/components/ui/CardDialog";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
-import type { PaymentCard, Receipt } from "@/data/account";
+import type { PaymentCard } from "@/data/account";
 import { paymentsCopy } from "@/data/account";
 
 /**
  * Payments, from Figma 2205:7060: "Manage your cards" over a wrapping grid of
  * card tiles, each with its default toggle and Remove.
  *
- * Billing details and receipts are not in that comp but are kept below it —
- * they work, nothing replaces them, and the comp simply stops at the cards
- * rather than saying to drop them.
+ * The comp stops at the cards, and so does this panel. Billing details and a
+ * receipts list used to sit under it; they were dropped on request.
  *
  * Adding reuses the booking journey's `CardDialog`, so raw card data is
  * handled in exactly one place on the site: the number, expiry and CVC live
@@ -36,12 +30,8 @@ import { paymentsCopy } from "@/data/account";
  */
 export function PaymentsPanel({
   cards: initialCards,
-  billing,
-  receipts,
 }: {
   cards: PaymentCard[];
-  billing: { label: string; value?: string; action: string }[];
-  receipts: Receipt[];
 }) {
   const [cards, setCards] = useState(initialCards);
   const [defaultId, setDefaultId] = useState(
@@ -109,41 +99,6 @@ export function PaymentsPanel({
       <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
         {copy.note}
       </p>
-
-      <AccountCard id="billing" title={paymentsCopy.billing.title}>
-        {billing.map((field, index) => (
-          <AccountRow
-            key={field.label}
-            label={field.label}
-            value={field.value ?? paymentsCopy.billing.emptyValue}
-            divider={index < billing.length - 1}
-          >
-            <ActionButton
-              label={`${field.action} ${field.label.toLowerCase()}`}
-            >
-              {field.action}
-            </ActionButton>
-          </AccountRow>
-        ))}
-      </AccountCard>
-
-      <AccountCard id="receipts" title={paymentsCopy.receipts.title}>
-        {receipts.map((receipt, index) => (
-          <AccountRow
-            key={receipt.id}
-            label={receipt.label}
-            value={`${receipt.date} · ${receipt.method}`}
-            divider={index < receipts.length - 1}
-          >
-            <span className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
-              {receipt.amount}
-            </span>
-            <ActionButton label={`Download the receipt for ${receipt.label}`}>
-              {paymentsCopy.receipts.download}
-            </ActionButton>
-          </AccountRow>
-        ))}
-      </AccountCard>
 
       {adding && (
         <CardDialog
