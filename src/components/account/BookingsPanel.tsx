@@ -4,16 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { RequestsPanel } from "./RequestsPanel";
+import { useRequests } from "./requestsStore";
 import type { Booking } from "@/data/account";
-import { bookingsCopy } from "@/data/account";
+import { bookingsCopy, requestsCopy } from "@/data/account";
 
 /**
  * Bookings, from Figma 2173:26014 / 2173:25819. Section title with a
  * description, Upcoming / Past chips, then either the booking cards or the
  * empty state with the cassette sticker.
+ *
+ * VIP box requests are the third chip rather than a sidebar entry of their
+ * own. An enquiry is a booking that has not been priced yet, and someone
+ * looking for "the box I asked about" looks under their bookings first.
  */
 
-type Filter = (typeof bookingsCopy.filters)[number];
+type Filter = (typeof bookingsCopy.filters)[number] | "Requests";
 
 const dateFormat = new Intl.DateTimeFormat("en-GB", {
   weekday: "short",
@@ -36,12 +42,16 @@ function formatWhen(booking: Booking) {
 export function BookingsPanel({
   bookings,
   now = new Date(),
+  initialTab = "Upcoming",
 }: {
   bookings: Booking[];
   /** Injected so the split is deterministic in tests and on the server. */
   now?: Date;
+  /** `/account?tab=requests` opens on the requests chip. */
+  initialTab?: Filter;
 }) {
-  const [filter, setFilter] = useState<Filter>("Upcoming");
+  const [filter, setFilter] = useState<Filter>(initialTab);
+  const requests = useRequests();
   const shown = bookings.filter((b) =>
     filter === "Upcoming"
       ? new Date(b.endsAt) >= now
@@ -60,128 +70,153 @@ export function BookingsPanel({
         >
           {bookingsCopy.title}
         </h2>
-        <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-          {bookingsCopy.description}
-        </p>
+        {filter !== "Requests" && (
+          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            {bookingsCopy.description}
+          </p>
+        )}
       </div>
 
-      <div role="tablist" aria-label="Booking period" className="flex gap-4">
-        {bookingsCopy.filters.map((label) => {
-          const selected = filter === label;
+      <div
+        role="tablist"
+        aria-label={bookingsCopy.title}
+        className="flex flex-wrap gap-4"
+      >
+        {[
+          ...bookingsCopy.filters.map((label) => ({
+            id: label as Filter,
+            label: label as string,
+            count: 0,
+          })),
+          {
+            id: "Requests" as Filter,
+            label: requestsCopy.title,
+            count: requests.length,
+          },
+        ].map((tab) => {
+          const selected = filter === tab.id;
           return (
             <button
-              key={label}
+              key={tab.id}
               type="button"
               role="tab"
               aria-selected={selected}
-              onClick={() => setFilter(label)}
-              className={`flex h-10 cursor-pointer items-center justify-center border p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
+              onClick={() => setFilter(tab.id)}
+              className={`flex h-10 cursor-pointer items-center justify-center gap-2 border p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
                 selected
                   ? "border-content-primary bg-white/10"
                   : "border-white/10 bg-white/5 hover:bg-white/10"
               }`}
             >
-              <span className="px-1">{label}</span>
+              <span className="px-1">{tab.label}</span>
+              {tab.count > 0 && (
+                <span className="flex h-5 min-w-5 items-center justify-center bg-brand px-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-4 text-[#18181b]">
+                  {tab.count}
+                </span>
+              )}
             </button>
           );
         })}
       </div>
 
-      {shown.length === 0 ? (
-        <div
-          className="flex min-h-[253px] flex-1 flex-col items-center justify-center gap-4"
-        >
-          <Image
-            src="/assets/sticker-cassette.png"
-            alt=""
-            width={256}
-            height={233}
-            className="h-auto w-[156px]"
-          />
-          <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
-            {bookingsCopy.empty}
-          </p>
-        </div>
+      {filter === "Requests" ? (
+        <RequestsPanel heading={false} />
       ) : (
-        <ul
-          className="m-0 flex list-none flex-col gap-4 p-0"
-        >
-          {shown.map((booking) => (
-            <li
-              key={booking.id}
-              className="flex w-full flex-col gap-4 border border-white/5 p-6 sm:flex-row sm:items-center"
-            >
-              <div className="relative size-[88px] shrink-0 overflow-hidden bg-ink-700">
-                <Image
-                  src={booking.image}
-                  alt=""
-                  fill
-                  sizes="88px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex min-w-0 flex-1 flex-col gap-3">
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
-                  <Link
-                    href={`/events/${booking.eventSlug}`}
-                    className="hover:text-brand transition-colors"
-                  >
-                    {booking.eventName}
-                  </Link>
-                </h3>
-                <div className="flex flex-col gap-1 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-                  <span className="flex items-center gap-1">
+        <>
+          {shown.length === 0 ? (
+            <div className="flex min-h-[253px] flex-1 flex-col items-center justify-center gap-4">
+              <Image
+                src="/assets/sticker-cassette.png"
+                alt=""
+                width={256}
+                height={233}
+                className="h-auto w-[156px]"
+              />
+              <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+                {bookingsCopy.empty}
+              </p>
+            </div>
+          ) : (
+            <ul className="m-0 flex list-none flex-col gap-4 p-0">
+              {shown.map((booking) => (
+                <li
+                  key={booking.id}
+                  className="flex w-full flex-col gap-4 border border-white/5 p-6 sm:flex-row sm:items-center"
+                >
+                  <div className="relative size-[88px] shrink-0 overflow-hidden bg-ink-700">
                     <Image
-                      src="/assets/ic-clock-16.svg"
+                      src={booking.image}
                       alt=""
-                      width={16}
-                      height={16}
-                      className="size-4"
+                      fill
+                      sizes="88px"
+                      className="object-cover"
                     />
-                    <time dateTime={booking.startsAt}>
-                      {formatWhen(booking)}
-                    </time>
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Image
-                      src="/assets/ic-pin-16.svg"
-                      alt=""
-                      width={16}
-                      height={16}
-                      className="size-4"
-                    />
-                    {booking.venueUrl ? (
-                      <a
-                        href={booking.venueUrl}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="underline decoration-solid underline-offset-2 transition-colors hover:text-white"
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-3">
+                    <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
+                      <Link
+                        href={`/events/${booking.eventSlug}`}
+                        className="hover:text-brand transition-colors"
                       >
-                        {booking.venue}
-                      </a>
-                    ) : (
-                      booking.venue
-                    )}
-                  </span>
-                </div>
-              </div>
-              <Link
-                href={`/events/${booking.eventSlug}#tickets`}
-                className="btn-secondary flex shrink-0 items-center justify-center gap-2 self-start px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary sm:self-center"
-                data-cursor="Open"
-              >
-                {booking.tickets} {booking.tickets === 1 ? "Ticket" : "Tickets"}
-                <Image
-                  src="/assets/ic-chevron-right-20.svg"
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="size-5"
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+                        {booking.eventName}
+                      </Link>
+                    </h3>
+                    <div className="flex flex-col gap-1 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                      <span className="flex items-center gap-1">
+                        <Image
+                          src="/assets/ic-clock-16.svg"
+                          alt=""
+                          width={16}
+                          height={16}
+                          className="size-4"
+                        />
+                        <time dateTime={booking.startsAt}>
+                          {formatWhen(booking)}
+                        </time>
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Image
+                          src="/assets/ic-pin-16.svg"
+                          alt=""
+                          width={16}
+                          height={16}
+                          className="size-4"
+                        />
+                        {booking.venueUrl ? (
+                          <a
+                            href={booking.venueUrl}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="underline decoration-solid underline-offset-2 transition-colors hover:text-white"
+                          >
+                            {booking.venue}
+                          </a>
+                        ) : (
+                          booking.venue
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/events/${booking.eventSlug}#tickets`}
+                    className="btn-secondary flex shrink-0 items-center justify-center gap-2 self-start px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary sm:self-center"
+                    data-cursor="Open"
+                  >
+                    {booking.tickets}{" "}
+                    {booking.tickets === 1 ? "Ticket" : "Tickets"}
+                    <Image
+                      src="/assets/ic-chevron-right-20.svg"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="size-5"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </section>
   );

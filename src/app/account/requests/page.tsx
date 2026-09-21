@@ -1,18 +1,9 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { AccountShell } from "@/components/account/AccountShell";
-import { RequestsPanel } from "@/components/account/RequestsPanel";
-
-export const metadata: Metadata = {
-  title: "VIP box requests — SEVENPM",
-  robots: { index: false },
-};
-
-/** Where a VIP box enquiry lives once the form has closed. */
+/**
+ * VIP box requests moved into Bookings as its third chip. The URL was handed
+ * out by the enquiry form's confirmation, so it redirects rather than 404s.
+ */
 export default function RequestsPage() {
-  return (
-    <AccountShell activeId="requests">
-      <RequestsPanel />
-    </AccountShell>
-  );
+  redirect("/account?tab=requests");
 }

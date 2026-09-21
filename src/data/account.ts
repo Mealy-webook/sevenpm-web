@@ -264,12 +264,6 @@ export const accountNav: AccountNavItem[] = [
     trailing: `${walletBalance} ${walletCurrency}`,
   },
   {
-    id: "requests",
-    label: "VIP box requests",
-    icon: "/assets/ic-acct-bookings.svg",
-    href: "/account/requests",
-  },
-  {
     id: "profile",
     label: "Profile",
     icon: "/assets/ic-acct-profile.svg",

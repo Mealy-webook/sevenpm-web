@@ -160,7 +160,7 @@ export function VipBoxDialog({
           {/* Somewhere to go and watch it, rather than only an email to
               wait for. */}
           <Link
-            href="/account/requests"
+            href="/account?tab=requests"
             className="btn-secondary flex items-center justify-center self-start px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary"
           >
             {vipBoxCopy.track}

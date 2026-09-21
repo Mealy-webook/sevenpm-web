@@ -11,7 +11,9 @@ import {
 } from "./requestsStore";
 
 /**
- * Where a VIP box enquiry lives after the form closes.
+ * Where a VIP box enquiry lives after the form closes: the third tab of the
+ * Bookings screen. A box enquiry is a booking that has not been priced yet,
+ * so it belongs beside the tickets rather than on a screen of its own.
  *
  * Each request says which of the four stages it is at and, plainly, who it
  * is waiting on — the team or you. That is the whole point of the screen:
@@ -31,15 +33,22 @@ const TONE: Record<BoxRequest["status"], string> = {
   declined: "bg-white/5 text-content-secondary",
 };
 
-export function RequestsPanel() {
+export function RequestsPanel({
+  /** The Bookings screen already has a title, so the tab body drops it. */
+  heading = true,
+}: {
+  heading?: boolean;
+} = {}) {
   const requests = useRequests();
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <h1 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
-          {requestsCopy.title}
-        </h1>
+        {heading && (
+          <h1 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+            {requestsCopy.title}
+          </h1>
+        )}
         <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
           {requestsCopy.intro}
         </p>
