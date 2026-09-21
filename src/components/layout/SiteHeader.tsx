@@ -137,7 +137,8 @@ function BeatsChip() {
               target.left +
               target.width / 2 -
               (source.left + source.width / 2 + spread),
-            y: target.top + target.height / 2 - (source.top + source.height / 2),
+            y:
+              target.top + target.height / 2 - (source.top + source.height / 2),
             rotate: 140,
             duration: 0.45,
             ease: "power2.inOut",
@@ -299,144 +300,168 @@ export function SiteHeader({
     return () => ro.disconnect();
   }, []);
 
-  return (
-    <header
-      ref={bar}
-      className="site-header sticky top-0 z-30"
-      data-hidden={hidden}
-      data-scrolled={scrolled}
-      data-surface={surface}
-    >
-      <div className="shell flex items-start gap-[52px] pb-8 pt-6 xl:pb-12 xl:pt-8">
-        <Link href="/" aria-label="SEVENPM home" className="shrink-0">
-          <Image
-            src="/assets/logo-mark.svg"
-            alt="SEVENPM"
-            width={100}
-            height={100}
-            priority
-            className={
-              logoSize === 100
-                ? "size-[64px] xl:size-[100px]"
-                : "size-[56px] xl:size-[72px]"
-            }
-          />
-        </Link>
+  /* The bar is fixed, not sticky, and a spacer holds its place in the flow.
+     Sticky keeps the element in normal flow, so the shrink at 24px of scroll
+     took ~16px out of the page height mid-scroll; Chrome's scroll anchoring
+     then pulled the scroll position down by the same amount, which dropped it
+     back under the threshold, which grew the bar again. On a short page —
+     any account tab — that never settled: the page jittered for as long as
+     you sat near the top, and `--header-h` wobbled with it, resizing every
+     section sized off it. Out of flow, the shrink costs the page nothing. */
+  const logoClass =
+    logoSize === 100
+      ? "size-[64px] xl:size-[100px]"
+      : "size-[56px] xl:size-[72px]";
 
-        <div
-          ref={cluster}
-          className="relative flex min-w-0 flex-1 items-center justify-end gap-1"
-        >
-          {/* Beats balance, from Figma 2091:56422. Signed-in only — it is a
+  return (
+    <>
+      <header
+        ref={bar}
+        className="site-header fixed inset-x-0 top-0 z-30"
+        data-hidden={hidden}
+        data-scrolled={scrolled}
+        data-surface={surface}
+      >
+        <div className="shell flex items-start gap-[52px] pb-8 pt-6 xl:pb-12 xl:pt-8">
+          <Link href="/" aria-label="SEVENPM home" className="shrink-0">
+            <Image
+              src="/assets/logo-mark.svg"
+              alt="SEVENPM"
+              width={100}
+              height={100}
+              priority
+              className={logoClass}
+            />
+          </Link>
+
+          <div
+            ref={cluster}
+            className="relative flex min-w-0 flex-1 items-center justify-end gap-1"
+          >
+            {/* Beats balance, from Figma 2091:56422. Signed-in only — it is a
               balance, and there is nothing to state without an account. It
               reads the shared store, so redeeming on the rewards page moves
               the number up here in the same frame. */}
-          {account && !hideAccount && <BeatsChip />}
+            {account && !hideAccount && <BeatsChip />}
 
-          {account ? (
-            hideAccount ? null : (
+            {account ? (
+              hideAccount ? null : (
+                <button
+                  id={`${accountId}-button`}
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={popover === "account"}
+                  aria-controls={accountId}
+                  onClick={() => toggle("account")}
+                  className={`btn-secondary flex h-[52px] cursor-pointer items-center gap-2 px-5 py-4 ${
+                    popover === "account" ? "is-active" : ""
+                  }`}
+                >
+                  <Image
+                    src="/assets/ic-user.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="size-5"
+                  />
+                  <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold uppercase leading-6 text-content-primary">
+                    {firstName}
+                  </span>
+                </button>
+              )
+            ) : (
+              <button
+                type="button"
+                onClick={() => setAuthOpen(true)}
+                className="flex h-[52px] cursor-pointer items-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
+              >
+                {authCopy.open}
+              </button>
+            )}
+
             <button
-              id={`${accountId}-button`}
+              id={`${localeId}-button`}
               type="button"
-              aria-haspopup="menu"
-              aria-expanded={popover === "account"}
-              aria-controls={accountId}
-              onClick={() => toggle("account")}
-              className={`btn-secondary flex h-[52px] cursor-pointer items-center gap-2 px-5 py-4 ${
-                popover === "account" ? "is-active" : ""
+              aria-label="Language and currency"
+              aria-haspopup="dialog"
+              aria-expanded={popover === "locale"}
+              aria-controls={localeId}
+              onClick={() => toggle("locale")}
+              className={`btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4 ${
+                popover === "locale" ? "is-active" : ""
               }`}
             >
               <Image
-                src="/assets/ic-user.svg"
+                src="/assets/ic-globe.svg"
                 alt=""
                 width={20}
                 height={20}
                 className="size-5"
               />
-              <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold uppercase leading-6 text-content-primary">
-                {firstName}
-              </span>
             </button>
-            )
-          ) : (
+
             <button
               type="button"
-              onClick={() => setAuthOpen(true)}
-              className="flex h-[52px] cursor-pointer items-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
+              aria-label="Open menu"
+              aria-haspopup="dialog"
+              aria-expanded={menuOpen}
+              onClick={() => {
+                setPopover(null);
+                setMenuOpen(true);
+              }}
+              className="btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4"
             >
-              {authCopy.open}
+              <Image
+                src="/assets/ic-menu.svg"
+                alt=""
+                width={20}
+                height={20}
+                className="size-5"
+              />
             </button>
-          )}
 
-          <button
-            id={`${localeId}-button`}
-            type="button"
-            aria-label="Language and currency"
-            aria-haspopup="dialog"
-            aria-expanded={popover === "locale"}
-            aria-controls={localeId}
-            onClick={() => toggle("locale")}
-            className={`btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4 ${
-              popover === "locale" ? "is-active" : ""
-            }`}
-          >
-            <Image
-              src="/assets/ic-globe.svg"
-              alt=""
-              width={20}
-              height={20}
-              className="size-5"
-            />
-          </button>
-
-          <button
-            type="button"
-            aria-label="Open menu"
-            aria-haspopup="dialog"
-            aria-expanded={menuOpen}
-            onClick={() => {
-              setPopover(null);
-              setMenuOpen(true);
-            }}
-            className="btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4"
-          >
-            <Image
-              src="/assets/ic-menu.svg"
-              alt=""
-              width={20}
-              height={20}
-              className="size-5"
-            />
-          </button>
-
-          {/* Popovers hang off the right edge of the button cluster */}
-          {popover === "account" && account && (
-            <div className="absolute right-0 top-[calc(100%+8px)]">
-              <AccountMenu
-                user={account}
-                onLogout={() => setPopover(null)}
-                id={accountId}
-                labelledBy={`${accountId}-button`}
-              />
-            </div>
-          )}
-          {popover === "locale" && (
-            <div className="absolute right-0 top-[calc(100%+8px)]">
-              <LocaleMenu
-                id={localeId}
-                labelledBy={`${localeId}-button`}
-                language={language}
-                currency={currency}
-                onLanguage={setLanguage}
-                onCurrency={setCurrency}
-              />
-            </div>
-          )}
+            {/* Popovers hang off the right edge of the button cluster */}
+            {popover === "account" && account && (
+              <div className="absolute right-0 top-[calc(100%+8px)]">
+                <AccountMenu
+                  user={account}
+                  onLogout={() => setPopover(null)}
+                  id={accountId}
+                  labelledBy={`${accountId}-button`}
+                />
+              </div>
+            )}
+            {popover === "locale" && (
+              <div className="absolute right-0 top-[calc(100%+8px)]">
+                <LocaleMenu
+                  id={localeId}
+                  labelledBy={`${localeId}-button`}
+                  language={language}
+                  currency={currency}
+                  onLanguage={setLanguage}
+                  onCurrency={setCurrency}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      <SiteMenu open={menuOpen} onClose={closeMenu} />
-      {authOpen && <AuthDialog onClose={() => setAuthOpen(false)} />}
-    </header>
+        <SiteMenu open={menuOpen} onClose={closeMenu} />
+        {authOpen && <AuthDialog onClose={() => setAuthOpen(false)} />}
+      </header>
+
+      {/* Holds the bar's place. Its height is the bar's own unscrolled
+          geometry — the same padding and the logo, which is the tallest thing
+          in the row — so it is right on the first paint, before the measured
+          `--header-h` lands. `min-height` takes over if the row ever grows
+          past the logo. */}
+      <div
+        aria-hidden
+        className="border-b border-transparent pb-8 pt-6 xl:pb-12 xl:pt-8"
+        style={{ minHeight: "var(--header-h, 0px)" }}
+      >
+        <div className={logoClass} />
+      </div>
+    </>
   );
 }
