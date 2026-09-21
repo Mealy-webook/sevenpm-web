@@ -97,11 +97,11 @@ export function TicketProtectionRow({
         aria-checked={on}
         aria-labelledby={labelId}
         onClick={() => onToggle(!on)}
-        className={`flex h-8 w-[59px] shrink-0 cursor-pointer items-center rounded-full p-[2px] transition-colors ${
+        className={`flex h-8 w-[59px] shrink-0 cursor-pointer items-center p-[2px] transition-colors ${
           on ? "justify-end bg-brand" : "justify-start bg-white/15"
         }`}
       >
-        <span className="flex size-7 items-center justify-center rounded-full bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
+        <span className="flex size-7 items-center justify-center bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.12)]">
           {on && (
             <Image
               src="/assets/ic-checkmark-16.svg"

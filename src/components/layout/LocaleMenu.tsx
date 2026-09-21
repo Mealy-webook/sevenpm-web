@@ -62,13 +62,13 @@ function SelectRow({
         </span>
         <span
           aria-hidden
-          className={`flex shrink-0 items-center rounded-full p-1 transition-colors ${
+          className={`flex shrink-0 items-center p-1 transition-colors ${
             selected ? "bg-white" : "border border-white/30 bg-black/5"
           }`}
         >
           <Image
             src={
-              selected ? "/assets/ic-check-on.svg" : "/assets/ic-check-off.svg"
+              selected ? "/assets/ic-check-square.svg" : "/assets/ic-check-off.svg"
             }
             alt=""
             width={16}

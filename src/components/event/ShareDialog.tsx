@@ -129,7 +129,7 @@ export function ShareDialog({
                 <>
                   {/* The one round thing in the sheet: these read as app
                       badges, and a square badge reads as a tile. */}
-                  <span className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-full border border-white/10 transition-colors group-hover:border-white/30">
+                  <span className="flex aspect-square w-full items-center justify-center overflow-hidden border border-white/10 transition-colors group-hover:border-white/30">
                     <Image
                       src={target.icon}
                       alt=""

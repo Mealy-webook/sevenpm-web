@@ -22,7 +22,7 @@ export function NewsletterSection() {
         <a
           href="#newsletter"
           data-magnetic="0.25"
-          className="lift inline-flex items-center rounded-full bg-brand px-7 py-4 font-[family-name:var(--font-ui)] text-[16px] font-semibold leading-none text-text-inverse transition-colors hover:bg-white"
+          className="lift inline-flex items-center bg-brand px-7 py-4 font-[family-name:var(--font-ui)] text-[16px] font-semibold leading-none text-text-inverse transition-colors hover:bg-white"
         >
           {cta}
         </a>

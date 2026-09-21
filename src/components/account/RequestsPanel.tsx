@@ -74,7 +74,7 @@ export function RequestsPanel() {
                   </span>
                 </div>
                 <span
-                  className={`flex shrink-0 items-center rounded-full px-2 py-1 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-4 tracking-[0.12px] ${TONE[request.status]}`}
+                  className={`flex shrink-0 items-center px-2 py-1 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-4 tracking-[0.12px] ${TONE[request.status]}`}
                 >
                   {requestsCopy.statuses[request.status]}
                 </span>

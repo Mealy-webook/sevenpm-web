@@ -48,7 +48,7 @@ function SmallButton({
 function Radio({ selected }: { selected: boolean }) {
   return selected ? (
     <Image
-      src="/assets/ic-check-on.svg"
+      src="/assets/ic-check-square.svg"
       alt=""
       width={24}
       height={24}
@@ -57,7 +57,7 @@ function Radio({ selected }: { selected: boolean }) {
   ) : (
     <span
       aria-hidden
-      className="size-6 shrink-0 rounded-full border border-white/30"
+      className="size-6 shrink-0 border border-white/30"
     />
   );
 }
@@ -184,14 +184,14 @@ export function CheckoutStep({
             aria-checked={wallet}
             aria-label={copy.wallet}
             onClick={() => onWallet(!wallet)}
-            className={`flex h-8 w-[52px] shrink-0 cursor-pointer items-center rounded-full p-1 transition-colors ${
+            className={`flex h-8 w-[52px] shrink-0 cursor-pointer items-center p-1 transition-colors ${
               wallet ? "justify-end bg-brand" : "justify-start bg-white/15"
             }`}
           >
-            <span className="flex size-6 items-center justify-center rounded-full bg-white">
+            <span className="flex size-6 items-center justify-center bg-white">
               {wallet && (
                 <Image
-                  src="/assets/ic-check-on.svg"
+                  src="/assets/ic-check-square.svg"
                   alt=""
                   width={16}
                   height={16}

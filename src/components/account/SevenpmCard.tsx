@@ -41,7 +41,7 @@ export function SevenpmCard({
       aria-labelledby="sevenpm-card-title"
       className="flex flex-col gap-6 border border-white/5 p-6 lg:flex-row lg:items-center"
     >
-      <div className="relative aspect-[335/185] w-full shrink-0 overflow-hidden rounded-[24px] bg-[linear-gradient(180deg,#fbeb1c_0%,#958c11_100%)] lg:w-[461px]">
+      <div className="relative aspect-[335/185] w-full shrink-0 overflow-hidden bg-[linear-gradient(180deg,#fbeb1c_0%,#958c11_100%)] lg:w-[461px]">
         {/* The comp's sweep: 6% black over the gold, curved so the top-right
             stays bright. */}
         <Image

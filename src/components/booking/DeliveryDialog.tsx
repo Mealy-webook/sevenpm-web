@@ -155,7 +155,7 @@ export function DeliveryDialog({
                     </span>
                     {selected ? (
                       <Image
-                        src="/assets/ic-check-on.svg"
+                        src="/assets/ic-check-square.svg"
                         alt=""
                         width={20}
                         height={20}
@@ -164,7 +164,7 @@ export function DeliveryDialog({
                     ) : (
                       <span
                         aria-hidden
-                        className="size-5 shrink-0 rounded-full border border-white/30"
+                        className="size-5 shrink-0 border border-white/30"
                       />
                     )}
                   </button>

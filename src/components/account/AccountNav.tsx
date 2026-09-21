@@ -68,7 +68,7 @@ export function AccountNav({
                     // On the yellow row the comp uses a black pill; off it,
                     // that pill would vanish into the page.
                     <span
-                      className={`flex size-5 items-center justify-center rounded-full font-[family-name:var(--font-display)] text-[12px] font-semibold leading-none ${
+                      className={`flex size-5 items-center justify-center font-[family-name:var(--font-display)] text-[12px] font-semibold leading-none ${
                         active
                           ? "bg-[#0b0b0e] text-white"
                           : "bg-white/10 text-content-primary"

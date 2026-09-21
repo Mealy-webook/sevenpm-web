@@ -145,7 +145,7 @@ export function VipBoxDialog({
           <ol className="m-0 flex list-none flex-col gap-3 p-0">
             {vipBoxCopy.steps.map((line, index) => (
               <li key={line} className="flex items-start gap-3">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white/5 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-4 text-content-primary">
+                <span className="flex size-6 shrink-0 items-center justify-center bg-white/5 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-4 text-content-primary">
                   {index + 1}
                 </span>
                 <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">

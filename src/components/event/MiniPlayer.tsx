@@ -16,7 +16,7 @@ function artworkAt(url: string, px: number) {
 }
 
 const btn =
-  "flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[background-color,transform] duration-300 active:scale-95";
+  "flex size-11 shrink-0 cursor-pointer items-center justify-center transition-[background-color,transform] duration-300 active:scale-95";
 
 export function MiniPlayer({
   track,

@@ -40,17 +40,17 @@ export function CardTile({
     <li className="isolate flex w-full max-w-[461px] list-none flex-col">
       {/* Card face. The negative margin pulls the bar up behind it. */}
       <div className="relative z-[2] -mb-6 aspect-[335/185] w-full">
-        <div className="absolute inset-0 rounded-[24px] bg-[linear-gradient(117.67deg,#282828_1.6%,#0b0b0b_93.5%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(117.67deg,#282828_1.6%,#0b0b0b_93.5%)]" />
         {/* The comp frosts this layer, but it sits on an opaque gradient — the
             blur has nothing behind it to sample, so only the tint is kept. */}
-        <div className="absolute inset-0 rounded-[24px] bg-white/[0.03]" />
+        <div className="absolute inset-0 bg-white/[0.03]" />
         <Image
           src="/assets/card-sheen.svg"
           alt=""
           width={462}
           height={255}
           aria-hidden
-          className="absolute inset-0 size-full rounded-[24px] object-cover"
+          className="absolute inset-0 size-full object-cover"
         />
 
         <p className="absolute left-6 top-7 m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary">
