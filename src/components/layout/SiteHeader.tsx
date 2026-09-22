@@ -170,7 +170,7 @@ function BeatsChip() {
         /* Daltown runs small for its point size — it is a condensed display
            face — so this sits well above the 17px the buttons beside it use
            in order to read at the same weight. */
-        className="beats-chip btn-secondary flex h-[52px] items-center gap-1.5 px-4 font-daltown text-[28px] uppercase leading-none"
+        className="beats-chip btn-secondary flex h-[52px] items-center gap-1 pl-3 pr-3.5 font-daltown text-[34px] uppercase leading-6"
       >
         <span className="relative text-white">
           <Odometer value={display} duration={0.62} />
@@ -277,7 +277,15 @@ export function SiteHeader({
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  const firstName = account?.name.split(" ")[0] ?? "";
+  /* The comp (2467:12221) puts the visitor's initials in a 52 square rather
+     than an icon and a first name. Two letters at most: "Ahmed Mealy" is AM. */
+  const initials =
+    account?.name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("") ?? "";
 
   /* Publish the bar's height so a section can be exactly the screen minus the
      header. Updates are ignored while it is in its scrolled, shrunken state:
@@ -352,21 +360,15 @@ export function SiteHeader({
                   aria-haspopup="menu"
                   aria-expanded={popover === "account"}
                   aria-controls={accountId}
+                  aria-label={`${account.name} — account`}
                   onClick={() => toggle("account")}
-                  className={`btn-secondary flex h-[52px] cursor-pointer items-center gap-2 px-5 py-4 ${
-                    popover === "account" ? "is-active" : ""
+                  className={`flex size-[52px] shrink-0 cursor-pointer items-center justify-center border-[0.5px] border-white/10 font-daltown text-[34px] uppercase leading-6 text-white transition-colors ${
+                    popover === "account"
+                      ? "bg-brand/20"
+                      : "bg-brand/10 hover:bg-brand/20"
                   }`}
                 >
-                  <Image
-                    src="/assets/ic-user.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                    className="size-5"
-                  />
-                  <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold uppercase leading-6 text-content-primary">
-                    {firstName}
-                  </span>
+                  {initials}
                 </button>
               )
             ) : (
@@ -388,14 +390,14 @@ export function SiteHeader({
                 setPopover(null);
                 setMenuOpen(true);
               }}
-              className="btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4"
+              className="btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-[14px]"
             >
               <Image
                 src="/assets/ic-menu.svg"
                 alt=""
-                width={20}
-                height={20}
-                className="size-5"
+                width={24}
+                height={24}
+                className="size-6"
               />
             </button>
 
