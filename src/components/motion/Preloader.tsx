@@ -222,7 +222,7 @@ export function Preloader() {
   return (
     <div
       ref={root}
-      className="preloader fixed inset-0 z-[100] flex flex-col justify-between overflow-hidden bg-bg-primary p-6 xl:p-12"
+      className="preloader fixed inset-0 z-[100] flex flex-col justify-between overflow-hidden bg-bg-primary px-4 py-6 sm:px-6 xl:px-8 xl:py-12"
       aria-hidden
     >
       <div className="flex items-center justify-between">
@@ -240,7 +240,9 @@ export function Preloader() {
         </span>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[980px] flex-col gap-6">
+      {/* Full width. The meter is the progress bar, and a progress bar that
+          stops short of the edges looks like it is missing something. */}
+      <div className="flex w-full flex-col gap-6">
         <div className="flex items-end justify-between gap-6">
           <span className="block overflow-hidden">
             <span
