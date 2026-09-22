@@ -40,6 +40,9 @@ gsap.registerPlugin(CustomEase);
  * Three things the reference is right about and this keeps:
  * - `xPercent: 101`, not 100: at exactly 100 a sub-pixel seam shows at the
  *   right edge on some zoom levels.
+ * - 756 wide with 32 of padding all round, which is the comp's frame; the
+ *   right side takes the shell's gutter instead, so the type keeps its
+ *   distance from the edge of the screen at every width.
  * - The masks are CSS. Drop `overflow: hidden` from `.menu-mask` and the
  *   animations still run, they just look wrong.
  * - `ctx.revert()` is not optional. Without it the links keep the last run's
@@ -308,7 +311,7 @@ export function SiteMenu({
           page. */}
       <div
         data-menu-sheet
-        className="absolute inset-y-0 right-0 flex w-full max-w-[765px] flex-col"
+        className="absolute inset-y-0 right-0 flex w-full max-w-[756px] flex-col"
       >
         {/* The curtain: three layers, wiped in one after another */}
         <div aria-hidden className="absolute inset-0 overflow-hidden">
@@ -320,7 +323,7 @@ export function SiteMenu({
         {/* 32 on the left and the shell's gutter on the right, which is how
             2231:12258 sets the column: the type is right-aligned, so the room
             belongs on that side. */}
-        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain pl-8 pr-[var(--shell-gutter)] py-8 xl:py-14">
+        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain py-8 pl-8 pr-[var(--shell-gutter)]">
           {/* Language and currency on the left, close on the right. */}
           <div className="flex w-full items-center justify-between gap-4">
             <div className="flex items-center gap-4">

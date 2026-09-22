@@ -30,7 +30,8 @@ type SiteHeaderProps = {
   /** Logo size — the homepage comp uses 100, inner pages 72. */
   logoSize?: 72 | 100;
   /**
-   * The account pages drop the signed-in account button (Figma 2173:25780).
+   * The account pages drop the signed-in account button (Figma 2467:17823) —
+   * you are already there. The Beats chip stays.
    * Signed out, "Login / sign up" still shows — the profile slot has to say
    * what the session is, wherever you are.
    */
@@ -371,8 +372,12 @@ export function SiteHeader({
             {/* Beats balance, from Figma 2091:56422. Signed-in only — it is a
               balance, and there is nothing to state without an account. It
               reads the shared store, so redeeming on the rewards page moves
-              the number up here in the same frame. */}
-            {account && !hideAccount && <BeatsChip />}
+              the number up here in the same frame.
+              
+              It shows on the account pages too (2467:17823): `hideAccount`
+              drops the account button, because you are already in the
+              account, not the balance. */}
+            {account && <BeatsChip />}
 
             {account ? (
               hideAccount ? null : (

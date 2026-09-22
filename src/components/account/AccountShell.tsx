@@ -34,7 +34,7 @@ export function AccountShell({
   return (
     <>
       <MotionProvider />
-      <SiteHeader hideAccount surface="secondary" />
+      <SiteHeader hideAccount />
       <main className="account-main flex flex-col">
         <AccountGuard>
           <section className="flex-1">
