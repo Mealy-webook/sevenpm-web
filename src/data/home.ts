@@ -147,6 +147,16 @@ export const galleryRows: string[][] = [
   ],
 ];
 
+/** The six photographs, once each, for the homepage's bento gallery. */
+export const galleryImages: string[] = [
+  "/assets/gallery-1.jpg",
+  "/assets/gallery-2.jpg",
+  "/assets/gallery-3.jpg",
+  "/assets/gallery-4.jpg",
+  "/assets/gallery-5.jpg",
+  "/assets/gallery-6.jpg",
+];
+
 /** Concert photos that trail the cursor across the homepage hero. */
 export const heroTrailImages = [
   { src: "/assets/gallery-1.jpg", alt: "" },
