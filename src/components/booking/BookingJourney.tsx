@@ -235,8 +235,11 @@ export function BookingJourney({
         // earlier steps quote the plain price, as the comps do.
         wallet: step === "checkout" && wallet,
         promo: step === "checkout" ? (promo?.off ?? 0) : 0,
+        // Protection is chosen on the add-ons step, so it is priced from
+        // there on — the basket has to answer the switch immediately.
+        protection,
       }),
-    [cart, promo, step, wallet],
+    [cart, promo, protection, step, wallet],
   );
 
   const adjustTicket = useCallback((id: string, by: number) => {

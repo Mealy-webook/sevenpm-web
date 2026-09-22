@@ -173,6 +173,13 @@ export const bookingConfig = {
    */
   innovationFee: 10,
   /**
+   * Ticket protection, as a share of the ticket subtotal — add-ons are not
+   * covered, so they are not charged for. The comps carry no price, so this
+   * is our number: a tenth is the usual rate for this kind of cover and it
+   * is one constant to change when the real one lands.
+   */
+  protectionRate: 0.1,
+  /**
    * VAT is included in the total rather than added to it, which is how the
    * comp reads it ("Total Incl. VAT" with "VAT 27.75 MAD" beneath).
    */
@@ -396,10 +403,10 @@ export const bookingCopy = {
      * Ticket protection — Figma 2389:11607 (the row), 2410:18780 (what it
      * covers) and 2407:11381 (the confirm on switching it off).
      *
-     * The comps carry no price for it, so nothing here charges for it and it
-     * adds no line to the price details. A real protection product is a paid
-     * add-on; when there is a price, it belongs in `bookingConfig` and in
-     * `totals()` beside the innovation fee.
+     * The comps carry no price for it. It is charged at
+     * `bookingConfig.protectionRate` of the ticket subtotal and shows as its
+     * own line in the price details, because a cover you are opted into by
+     * default has to say what it costs before you pay.
      */
     protection: {
       label: "Ticket protection",

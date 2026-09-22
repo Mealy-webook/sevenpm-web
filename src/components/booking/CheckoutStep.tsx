@@ -412,6 +412,12 @@ export function PriceDetails({
 
         <div className="flex flex-col gap-2">
           <PriceLine label={summary.subtotal} amount={formatMoney(totals.subtotal)} />
+          {totals.protection > 0 && (
+            <PriceLine
+              label={copy.protection.label}
+              amount={formatMoney(totals.protection)}
+            />
+          )}
           {totals.fee > 0 && (
             <PriceLine label={price.fee} amount={formatMoney(totals.fee)} />
           )}

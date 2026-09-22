@@ -113,6 +113,8 @@ export type Totals = {
   subtotal: number;
   /** Flat per-order fee — the comps' "Innovation fees". */
   fee: number;
+  /** Ticket protection, when it is on. A share of the tickets only. */
+  protection: number;
   /** What the promo code takes off, never more than what is owed. */
   promo: number;
   /** What the wallet actually covers — never more than what is left. */
@@ -123,7 +125,13 @@ export type Totals = {
 
 export function totals(
   cart: Cart,
-  options?: { wallet?: boolean; delivery?: number; promo?: number },
+  options?: {
+    wallet?: boolean;
+    delivery?: number;
+    promo?: number;
+    /** Ticket protection is on by default in the journey. */
+    protection?: boolean;
+  },
 ): Totals {
   const priced = cart
     .map(priceLine)
@@ -132,10 +140,18 @@ export function totals(
   const addonLines = priced.filter((line) => line.kind === "addon");
   const itemsTotal = priced.reduce((sum, line) => sum + line.amount, 0);
   const delivery = options?.delivery ?? 0;
+  const ticketsTotal = ticketLines.reduce((sum, line) => sum + line.amount, 0);
+  /* Cover is priced off the tickets, not the whole basket: a T-shirt cannot
+     be refunded because you could not attend. Rounded to the dirham so the
+     line never shows a fraction nobody can pay. */
+  const protection =
+    options?.protection && ticketsTotal > 0
+      ? Math.round(ticketsTotal * bookingConfig.protectionRate)
+      : 0;
   const subtotal = itemsTotal + delivery;
   const fee = subtotal > 0 ? bookingConfig.innovationFee : 0;
-  const promo = Math.min(options?.promo ?? 0, subtotal + fee);
-  const owed = subtotal + fee - promo;
+  const promo = Math.min(options?.promo ?? 0, subtotal + fee + protection);
+  const owed = subtotal + fee + protection - promo;
   const wallet = options?.wallet
     ? Math.min(bookingConfig.walletCredit, owed)
     : 0;
@@ -149,6 +165,7 @@ export function totals(
     delivery,
     subtotal,
     fee,
+    protection,
     promo,
     wallet,
     total,
