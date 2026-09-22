@@ -3,8 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-export const SEEN_KEY = "sevenpm:seen";
 export const READY_EVENT = "sevenpm:ready";
+
+/**
+ * True until the intro has finished, and re-initialised to true by every full
+ * page load. `MotionProvider` reads it to know whether to hold its reveals —
+ * it must not hold on a client-side navigation, where no intro runs and no
+ * ready event will ever come.
+ */
+let pending = true;
+
+export function introPending() {
+  return pending;
+}
 
 /**
  * First-visit intro: the soundcheck.
@@ -22,9 +33,11 @@ export const READY_EVENT = "sevenpm:ready";
  * A page that is already loaded therefore never stalls at 90, and a slow one
  * never shows 100 over an empty screen.
  *
- * Shown once per session — repeat visits within the tab go straight to the
- * page. While it runs the body is scroll-locked (which also pauses Lenis)
- * and `MotionProvider` holds its reveals until `sevenpm:ready`.
+ * It plays on every load, refresh included: it is the site's front door and
+ * a door you only see once is a door you never see. Client-side navigation
+ * does not replay it — the component mounts once per document. While it runs
+ * the body is scroll-locked (which also pauses Lenis) and `MotionProvider`
+ * holds its reveals until `sevenpm:ready`.
  *
  * It makes no sound: a first load has had no gesture yet and the browser
  * would refuse the context, and a loader that only sometimes has audio is
@@ -65,17 +78,12 @@ export function Preloader() {
   const meter = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let show = false;
-    try {
-      show = !sessionStorage.getItem(SEEN_KEY);
-    } catch {
-      show = false;
-    }
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
     const id = requestAnimationFrame(() => {
-      if (!show || reduce) {
+      if (reduce) {
+        pending = false;
         document.dispatchEvent(new Event(READY_EVENT));
         setPhase("done");
       } else {
@@ -131,11 +139,7 @@ export function Preloader() {
     gsap.set(bars, { scaleY: 0.08, transformOrigin: "50% 100%" });
 
     const finish = () => {
-      try {
-        sessionStorage.setItem(SEEN_KEY, "1");
-      } catch {
-        /* private mode */
-      }
+      pending = false;
       document.body.style.overflow = previous;
       document.dispatchEvent(new Event(READY_EVENT));
       setPhase("done");

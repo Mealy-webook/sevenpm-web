@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
-import { READY_EVENT, SEEN_KEY } from "./Preloader";
+import { READY_EVENT, introPending } from "./Preloader";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -42,13 +42,8 @@ export function MotionProvider() {
      * reveals wait for its `sevenpm:ready` so they play once it lifts. The
      * from-states are still applied immediately (inside the context below),
      * so nothing flashes. */
-    let seen = true;
-    try {
-      seen = Boolean(sessionStorage.getItem(SEEN_KEY));
-    } catch {
-      seen = true;
-    }
-    if (!seen) {
+    const holding = introPending();
+    if (holding) {
       ScrollTrigger.getAll().forEach((t) => t.disable(false));
     }
 
@@ -200,7 +195,7 @@ export function MotionProvider() {
     });
 
     let onReady: (() => void) | null = null;
-    if (!seen) {
+    if (holding) {
       const triggers = ScrollTrigger.getAll();
       triggers.forEach((t) => t.disable(false));
       onReady = () => {
@@ -252,7 +247,10 @@ export function MotionProvider() {
       });
     };
 
-    const rescueTimer = window.setTimeout(rescue, seen ? 2500 : 6000);
+    /* Longer while the intro holds the page: the reveals cannot run until it
+       hands off, and the rescue exists for triggers that never fire, not for
+       ones that are waiting their turn. */
+    const rescueTimer = window.setTimeout(rescue, holding ? 8000 : 2500);
     window.addEventListener("load", rescue);
 
     return () => {
