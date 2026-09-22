@@ -9,11 +9,17 @@ import { homeStats } from "@/data/home";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * The band under the hero, from Figma 2227:5202: four figures across the 1272
- * column, each 282 wide — the number in Daltown over a one-line label.
+ * The figures, from Figma 2227:5202 — three across the 1272 column since the
+ * founding year came out.
  *
- * The figures roll up the first time they come into view. A static row of
- * numbers reads as a footnote; counting makes the same four facts land.
+ * Drawn as a press sheet rather than a loose row: a slug line over the top,
+ * hairline rules between the cells, and each figure over a short brand mark
+ * and its label. Three numbers floating in space read as a footnote; ruled
+ * cells read as a statement, and the section finally says what it is.
+ *
+ * The figures roll up the first time they come into view, and the cell they
+ * sit in answers the cursor, because a fact worth this much room should look
+ * like something you can point at.
  */
 export function HomeStats() {
   const root = useRef<HTMLDivElement>(null);
@@ -56,34 +62,53 @@ export function HomeStats() {
   }, []);
 
   return (
-    <section aria-label="SEVENPM in numbers" className="py-16 xl:py-24">
-      <div
-        ref={root}
-        className="shell grid grid-cols-2 gap-x-12 gap-y-10 lg:grid-cols-4"
-      >
-        {homeStats.map((stat) => (
-          <div
-            key={stat.label}
-            className="flex flex-col gap-4"
-            data-reveal="up"
-            data-reveal-stagger
-          >
-            <p className="m-0 flex items-baseline font-daltown text-[56px] leading-[0.8] text-white xl:text-[72px]">
-              {stat.prefix && <span>{stat.prefix}</span>}
+    <section aria-labelledby="numbers-title" className="py-16 xl:py-24">
+      <div className="shell flex flex-col gap-8">
+        <p
+          id="numbers-title"
+          className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+        >
+          <span className="text-brand">SEVENPM</span>
+          in numbers
+          <span aria-hidden className="h-px flex-1 bg-white/15" />
+        </p>
+
+        {/* gap-px over a light ground is how the rules between cells are
+            drawn: no borders to double up at the joins. */}
+        <div
+          ref={root}
+          className="grid grid-cols-1 gap-px border-y border-white/10 bg-white/10 sm:grid-cols-3"
+        >
+          {homeStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="group flex flex-col gap-4 bg-bg-primary px-6 py-10 transition-colors hover:bg-white/[0.03] xl:px-8 xl:py-12"
+              data-reveal="up"
+              data-reveal-stagger
+            >
+              <p className="m-0 flex items-baseline font-daltown text-[clamp(56px,7vw,96px)] leading-[0.8] text-white transition-colors group-hover:text-brand">
+                {stat.prefix && <span>{stat.prefix}</span>}
+                <span
+                  data-count={stat.value}
+                  data-year={stat.year ? "true" : undefined}
+                  className="tabular-nums"
+                >
+                  {stat.value}
+                </span>
+                {stat.suffix && <span>{stat.suffix}</span>}
+              </p>
+
               <span
-                data-count={stat.value}
-                data-year={stat.year ? "true" : undefined}
-                className="tabular-nums"
-              >
-                {stat.value}
-              </span>
-              {stat.suffix && <span>{stat.suffix}</span>}
-            </p>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[29px] tracking-[0.15px] text-content-secondary xl:text-[17px]">
-              {stat.label}
-            </p>
-          </div>
-        ))}
+                aria-hidden
+                className="block h-[3px] w-10 bg-brand transition-[width] duration-500 group-hover:w-16"
+              />
+
+              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary xl:text-[17px] xl:leading-[26px]">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

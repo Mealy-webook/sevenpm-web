@@ -235,6 +235,10 @@ export const bookingCopy = {
   tickets: {
     all: "All",
     perPerson: "/ Person",
+    /** A box is sold whole, not by the head. */
+    perBox: "/ Box",
+    /** The tag that sets a box apart from general admission. */
+    vip: "VIP",
     add: "Add",
     info: (name: string) => `What's in ${name}`,
     remove: "Remove",

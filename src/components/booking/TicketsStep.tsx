@@ -125,13 +125,26 @@ export function TicketsStep({
             <ul className="m-0 flex list-none flex-col gap-3 p-0">
               {group.tickets.map((ticket) => {
                 const quantity = quantityOf(cart, ticket.id);
+                /* A box is not a seat: it is bought whole, it costs what a
+                   table costs, and in a list of general admission rows it
+                   should not look like one more of them. */
+                const vip = group.id === "vip";
                 return (
                   <li
                     key={ticket.id}
-                    className="flex items-center gap-2 border border-white/5 p-4 transition-colors hover:border-white/15"
+                    className={`flex items-center gap-2 border p-4 transition-colors ${
+                      vip
+                        ? "border-brand/40 bg-brand/[0.06] hover:border-brand"
+                        : "border-white/5 hover:border-white/15"
+                    }`}
                   >
                     <div className="flex min-w-0 flex-1 flex-col gap-2">
                       <div className="flex items-center gap-2">
+                        {vip && (
+                          <span className="flex shrink-0 items-center bg-brand/15 px-2 py-0.5 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[1px] text-brand">
+                            {bookingCopy.tickets.vip}
+                          </span>
+                        )}
                         <p className="m-0 truncate font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white">
                           {ticket.name}
                         </p>
@@ -155,7 +168,9 @@ export function TicketsStep({
                           {formatMoney(ticket.price)}
                         </span>
                         <span className="text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
-                          {bookingCopy.tickets.perPerson}
+                          {vip
+                            ? bookingCopy.tickets.perBox
+                            : bookingCopy.tickets.perPerson}
                         </span>
                       </p>
                     </div>
