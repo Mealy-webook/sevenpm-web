@@ -158,6 +158,8 @@ export const sevenpmCardCopy = {
   expiry: (date: string) => `Exp. date ${date}`,
   topUp: "Top up",
   details: "View card details",
+  /** The Apple Wallet badge under the blurb (2479:24992). */
+  appleWallet: "Add to Apple Wallet",
   /** The sheet behind "View card details". */
   detailsTitle: "Card details",
   holder: "Card holder",
