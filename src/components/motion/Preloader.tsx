@@ -42,6 +42,9 @@ export function introPending() {
  * It makes no sound: a first load has had no gesture yet and the browser
  * would refuse the context, and a loader that only sometimes has audio is
  * worse than one that never does.
+ *
+ * The sheet is brand yellow, so everything on it is ink rather than white:
+ * the figure, the corner labels and the bars, lit and unlit alike.
  */
 
 /**
@@ -119,7 +122,7 @@ export function Preloader() {
         if (index < count && !lit.has(index)) {
           lit.add(index);
           gsap.to(bar, {
-            backgroundColor: "#fbeb1c",
+            backgroundColor: "#18181b",
             duration: 0.25,
             ease: "power2.out",
           });
@@ -237,19 +240,19 @@ export function Preloader() {
   return (
     <div
       ref={root}
-      className="preloader fixed inset-0 z-[100] flex flex-col justify-between overflow-hidden bg-bg-primary px-4 py-6 sm:px-6 xl:px-8 xl:py-12"
+      className="preloader fixed inset-0 z-[100] flex flex-col justify-between overflow-hidden bg-brand px-4 py-6 sm:px-6 xl:px-8 xl:py-12"
       aria-hidden
     >
       <div className="flex items-center justify-between">
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary"
+          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-[#18181b]/70"
         >
           More music
         </span>
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary"
+          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-[#18181b]/70"
         >
           More life
         </span>
@@ -263,14 +266,14 @@ export function Preloader() {
             <span
               ref={counter}
               data-pre-num
-              className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-white"
+              className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-[#18181b]"
             >
               00
             </span>
           </span>
           <span
             data-pre-meta
-            className="pb-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+            className="pb-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
           >
             Soundcheck
           </span>
@@ -282,7 +285,7 @@ export function Preloader() {
             <span
               key={index}
               data-pre-bar
-              className="block flex-1 bg-white/15"
+              className="block flex-1 bg-[#18181b]/15"
               style={{ height: `${28 + level * 26}px` }}
             />
           ))}
@@ -292,13 +295,13 @@ export function Preloader() {
       <div className="flex items-center justify-between">
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
         >
           Levels · stage · doors
         </span>
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
         >
           Casablanca
         </span>
