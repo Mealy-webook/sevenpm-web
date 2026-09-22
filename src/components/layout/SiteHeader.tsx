@@ -238,15 +238,37 @@ export function SiteHeader({
   const [scrolled, setScrolled] = useState(false);
   const cluster = useRef<HTMLDivElement>(null);
 
-  // Slide away on the way down, come back on the way up; frost once scrolled.
+  /**
+   * Slide away on the way down, come back on the way up; frost once scrolled.
+   *
+   * Both states have hysteresis, because neither question has a single
+   * threshold. Smooth scrolling delivers a stream of sub-pixel deltas whose
+   * sign flips as the page decelerates, so a plain `y > last` test made the
+   * bar flicker in and out mid-scroll; and a single frost threshold at 24
+   * toggled the whole time anyone hovered around it.
+   *
+   * So: distance travelled in one direction decides the slide — 80 down to
+   * hide, 40 back up to show — and the frost turns on past 64 and off under
+   * 16. Near the top the bar is always shown, whatever the reader was doing.
+   */
   useEffect(() => {
     let last = window.scrollY;
+    let run = 0;
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 24);
-      if (Math.abs(y - last) < 6) return;
-      setHidden(y > last && y > 160 && !popover && !menuOpen);
+      const delta = y - last;
       last = y;
+
+      setScrolled((current) => (current ? y > 16 : y > 64));
+
+      if (Math.abs(delta) < 1) return;
+      /* A change of direction starts the count again. */
+      if (delta > 0 !== run > 0) run = 0;
+      run += delta;
+
+      if (y <= 160) setHidden(false);
+      else if (run > 80 && !popover && !menuOpen) setHidden(true);
+      else if (run < -40) setHidden(false);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
