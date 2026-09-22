@@ -225,7 +225,6 @@ export function Preloader() {
         .add(() => tl.play());
     };
 
-
     return () => {
       tl.kill();
       failsafe.kill();
@@ -261,19 +260,22 @@ export function Preloader() {
       {/* Full width. The meter is the progress bar, and a progress bar that
           stops short of the edges looks like it is missing something. */}
       <div className="flex w-full flex-col gap-6">
-        <div className="flex items-end justify-between gap-6">
+        {/* The figure centred over the meter, with its label under it. The
+            two used to sit at opposite ends of the line, which read as a
+            heading and a caption rather than as one readout. */}
+        <div className="flex flex-col items-center gap-3">
           <span className="block overflow-hidden">
             <span
               ref={counter}
               data-pre-num
-              className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-[#18181b]"
+              className="block text-center font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-[#18181b]"
             >
               00
             </span>
           </span>
           <span
             data-pre-meta
-            className="pb-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
+            className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
           >
             Soundcheck
           </span>
