@@ -127,24 +127,92 @@ export function TicketsStep({
                 const quantity = quantityOf(cart, ticket.id);
                 /* A box is not a seat: it is bought whole, it costs what a
                    table costs, and in a list of general admission rows it
-                   should not look like one more of them. */
+                   should not look like one more of them. It gets a card of
+                   its own — a brand edge along the top, the tint under it,
+                   what the box includes spelled out, and the figure at the
+                   size of the thing it is buying. */
                 const vip = group.id === "vip";
+
+                if (vip) {
+                  return (
+                    <li
+                      key={ticket.id}
+                      className="relative flex flex-col gap-4 overflow-hidden border border-brand/40 bg-[linear-gradient(135deg,rgba(251,235,28,0.12),rgba(251,235,28,0.02))] p-5 transition-colors hover:border-brand"
+                    >
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 top-0 block h-[3px] bg-brand"
+                      />
+
+                      <div className="flex items-start gap-3">
+                        <span className="flex shrink-0 items-center bg-brand px-2 py-1 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[1.5px] text-[#18181b]">
+                          {bookingCopy.tickets.vip}
+                        </span>
+                        <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
+                          {ticket.name}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => onInfo(ticket)}
+                          aria-label={bookingCopy.tickets.info(ticket.name)}
+                          className="flex shrink-0 cursor-pointer items-center justify-center transition-opacity hover:opacity-70"
+                        >
+                          <Image
+                            src="/assets/ic-info-16.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="size-5"
+                          />
+                        </button>
+                      </div>
+
+                      {ticket.perks && (
+                        <ul className="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0">
+                          {ticket.perks.map((perk) => (
+                            <li
+                              key={perk}
+                              className="flex items-center gap-2 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary"
+                            >
+                              <span
+                                aria-hidden
+                                className="block size-[5px] shrink-0 bg-brand"
+                              />
+                              {perk}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      <div className="flex flex-wrap items-end justify-between gap-4">
+                        <p className="m-0 flex items-baseline gap-1 font-[family-name:var(--font-display)]">
+                          <span className="text-[22px] font-bold leading-7 tracking-[-0.11px] text-white">
+                            {formatMoney(ticket.price)}
+                          </span>
+                          <span className="text-[11px] leading-4 tracking-[0.1px] text-content-secondary">
+                            {bookingCopy.tickets.perBox}
+                          </span>
+                        </p>
+
+                        <Stepper
+                          atZero="stepper"
+                          value={quantity}
+                          name={ticket.name}
+                          onAdd={() => onAdjust(ticket.id, 1)}
+                          onChange={(by) => onAdjust(ticket.id, by)}
+                        />
+                      </div>
+                    </li>
+                  );
+                }
+
                 return (
                   <li
                     key={ticket.id}
-                    className={`flex items-center gap-2 border p-4 transition-colors ${
-                      vip
-                        ? "border-brand/40 bg-brand/[0.06] hover:border-brand"
-                        : "border-white/5 hover:border-white/15"
-                    }`}
+                    className="flex items-center gap-2 border border-white/5 p-4 transition-colors hover:border-white/15"
                   >
                     <div className="flex min-w-0 flex-1 flex-col gap-2">
                       <div className="flex items-center gap-2">
-                        {vip && (
-                          <span className="flex shrink-0 items-center bg-brand/15 px-2 py-0.5 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[1px] text-brand">
-                            {bookingCopy.tickets.vip}
-                          </span>
-                        )}
                         <p className="m-0 truncate font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white">
                           {ticket.name}
                         </p>
@@ -168,9 +236,7 @@ export function TicketsStep({
                           {formatMoney(ticket.price)}
                         </span>
                         <span className="text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
-                          {vip
-                            ? bookingCopy.tickets.perBox
-                            : bookingCopy.tickets.perPerson}
+                          {bookingCopy.tickets.perPerson}
                         </span>
                       </p>
                     </div>

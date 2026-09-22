@@ -23,6 +23,9 @@ export type BookingTicket = {
   /** Struck-through price in the info dialog. */
   wasPrice?: number;
   discount?: string;
+  /** What a box includes. Only the boxes carry it; it is what makes the row
+   *  worth the space it takes. */
+  perks?: string[];
   lineup: LineupSlot[];
 };
 
@@ -54,7 +57,9 @@ export type BookingAddon = {
 const lineup: LineupSlot[] = Array.from({ length: 6 }, (_, index) => ({
   name: "Artist name",
   time: "8:00 - 9:00",
-  image: `/assets/artist-${index + 1}.png`,
+  /* Festival photography, not the circle-cropped artist art: that PNG has
+     transparent corners and renders as a disc in any frame. */
+  image: `/assets/gallery-${(index % 6) + 1}.jpg`,
 }));
 
 export const ticketGroups: TicketGroup[] = [
@@ -98,6 +103,9 @@ export const ticketGroups: TicketGroup[] = [
         price: 50,
         wasPrice: 252,
         discount: "20% off",
+        /* The same three things the enquiry flow quotes for a box, so the
+           two places that sell one describe it the same way. */
+        perks: ["Private box for 10", "Catering included", "Parking included"],
         lineup,
       },
     ],
