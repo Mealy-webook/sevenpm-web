@@ -12,6 +12,9 @@ const OPTIONS = [
   { href: "/preview/news-broadsheet", label: "A · Broadsheet" },
   { href: "/preview/news-timeline", label: "B · Timeline" },
   { href: "/preview/news-covers", label: "C · Covers" },
+  { href: "/preview/news-bands", label: "D · Bands" },
+  { href: "/preview/news-filed", label: "E · Filed" },
+  { href: "/preview/news-reader", label: "F · Reader" },
 ];
 
 export function NewsSwitch() {

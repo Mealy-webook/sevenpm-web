@@ -877,13 +877,24 @@ body {
 }
 
 /* News cards: the paper texture from the comp over white. */
+/* The card was white paper and carried the stub's grain. It is dark now, so
+   the texture goes and a brand rule draws across the top edge on hover. */
 .news-card::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: url("/assets/stub-paper.jpg") center / cover;
-  opacity: 0.55;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
+}
+
+.news-card:hover::before,
+.news-card:focus-visible::before {
+  transform: scaleX(1);
 }
 
 .news-card > * {
@@ -1042,6 +1053,34 @@ body {
   .news-arrow-glyph,
   .news-preview-track {
     transition: none;
+  }
+}
+
+/* News option D: the photograph behind a band is masked to a circle that
+   follows the pointer, so the picture is uncovered rather than faded in. The
+   mask is in CSS because it has to track a custom property the row sets on
+   pointermove, and a class cannot carry a moving value. */
+.news-band-photo {
+  --x: 50%;
+  --y: 50%;
+  -webkit-mask-image: radial-gradient(
+    circle 220px at var(--x) var(--y),
+    #000 0%,
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 220px at var(--x) var(--y),
+    #000 0%,
+    #000 55%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-band-photo {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
 
