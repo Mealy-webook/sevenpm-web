@@ -189,6 +189,16 @@ export const homePillars = [
   },
 ];
 
+/**
+ * The frame the hero opens onto as you scroll. `video` wins when it is set —
+ * drop an .mp4 in `public/assets` and name it here; the still is the poster
+ * either way.
+ */
+export const heroReveal = {
+  image: "/assets/gallery-2.jpg",
+  video: null as string | null,
+};
+
 export const homeCopy = {
   /** The accessible name for the hero heading, which is shown a word at a
       time — see `HeroHeadline`. */
