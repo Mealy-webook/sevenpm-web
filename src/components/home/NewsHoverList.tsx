@@ -150,7 +150,10 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
                 {String(index + 1).padStart(2, "0")}
               </span>
 
-              <span className="news-headline min-w-0 font-[family-name:var(--font-display)] text-[clamp(22px,2.6vw,44px)] font-bold uppercase leading-[1.06] tracking-[-0.035em] text-content-primary">
+              {/* 30/34 at the top end, which is the comp's size. The effect's
+                  own brief asked for 44 and it read as a shout next to the
+                  rest of the page. */}
+              <span className="news-headline min-w-0 font-[family-name:var(--font-display)] text-[clamp(17px,2.1vw,30px)] font-bold uppercase leading-[1.15] tracking-[-0.15px] text-content-primary">
                 {item.title}
               </span>
 

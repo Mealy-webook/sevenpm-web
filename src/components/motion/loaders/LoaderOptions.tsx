@@ -5,6 +5,11 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 import { festivals } from "@/data/home";
+import {
+  LoaderDoors,
+  LoaderLineup,
+  LoaderSoundcheck,
+} from "./CounterLoaders";
 
 /**
  * Four alternatives to the needle-drop intro, written to the same contract so
@@ -309,8 +314,26 @@ export function LoaderCurtain({ run, onDone }: LoaderProps) {
 
 export const LOADERS = [
   {
+    id: "soundcheck",
+    label: "A1 · Soundcheck",
+    note: "The counter is the gain. Forty bars light up left to right as the levels come up, breathing the whole time, and peak once at 100.",
+    Component: LoaderSoundcheck,
+  },
+  {
+    id: "lineup",
+    label: "A2 · Line-up roll",
+    note: "The counter with the bill beside it: the festivals flick past one per beat and land on SEVENPM as the figure reaches 100.",
+    Component: LoaderLineup,
+  },
+  {
+    id: "doors",
+    label: "A3 · Doors",
+    note: "The count is the wait outside. A crowd photograph comes up from black behind it, and at 100 the doors part from the middle.",
+    Component: LoaderDoors,
+  },
+  {
     id: "counter",
-    label: "A · Counter",
+    label: "A · Counter (as shown before)",
     note: "The figure does the waiting. 00 to 100 in the display face with a brand rule filling under it, then the sheet leaves upward.",
     Component: LoaderCounter,
   },

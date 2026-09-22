@@ -34,8 +34,9 @@ export default function LoadersPreview() {
             Loading screens
           </h1>
           <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
-            Four alternatives to the needle drop, each about a second and a half
-            to the reveal. They play on load; Replay runs one again.
+            A1 to A3 are the counter you picked, each one about a festival
+            rather than about loading. The four underneath are the first round,
+            kept for reference. They play on load; Replay runs one again.
           </p>
           <button
             type="button"
