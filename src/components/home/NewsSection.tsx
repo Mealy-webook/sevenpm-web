@@ -6,13 +6,17 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { Scribble } from "./Scribble";
 
 /**
- * "Latest news", from Figma 2231:12467. Three rows on the page's own dark
- * ground: a 403 × 227 photograph on the left, then the date, the headline and
- * the standfirst, with a hairline between rows and a "Load more" outline
- * button underneath. A hand-drawn yellow loop circles "NEWS" in the title.
+ * "Latest news", from Figma 2231:12467 as redrawn in the 15:202 homepage.
  *
- * This replaces the white stacking cards the earlier comp used; the updated
- * frame is a flat list.
+ * The photographs are gone. A row is now its number, the headline, the date
+ * and a square arrow button — four of them, hairline-ruled, on the page's own
+ * dark ground, with "Load more" underneath. A hand-drawn yellow loop circles
+ * "NEWS" in the title.
+ *
+ * The headline carries the row: 30/34 bold and uppercase, the same size as
+ * the number, so the list reads as a contents page rather than as cards. The
+ * standfirst went with the photograph — at this size it would have made each
+ * row a paragraph.
  */
 export function NewsSection({ items }: { items: NewsItem[] }) {
   return (
@@ -34,47 +38,41 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
 
         <ul className="m-0 flex w-full list-none flex-col p-0">
           {items.map((item, index) => (
-            <li
-              key={index}
-              className={
-                index > 0 ? "border-t-[0.5px] border-white/10" : undefined
-              }
-            >
+            <li key={item.href} className="border-b border-white/10">
               <a
                 href={item.href}
                 data-cursor="Read"
                 data-reveal="up"
-                className="news-row group relative flex w-full flex-col gap-6 py-6 transition-colors md:flex-row md:items-center md:gap-8"
+                className="news-row group relative flex w-full items-center gap-6 py-6 transition-colors sm:gap-8 sm:p-8"
               >
-                <span className="relative block h-[227px] w-full shrink-0 overflow-hidden bg-[#27272a] md:w-[403px]">
-                  {item.image && (
-                    <Image
-                      src={item.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 768px) 403px, 100vw"
-                      className="news-image object-cover"
-                    />
-                  )}
-                </span>
-
-                <span
-                  aria-hidden
-                  className="news-index hidden shrink-0 self-start pt-1 font-daltown text-[40px] leading-none text-white/20 xl:block"
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <span className="flex min-w-0 flex-1 flex-col justify-center gap-3">
-                  <time className="font-[family-name:var(--font-display)] text-[12px] leading-6 tracking-[0.12px] text-content-secondary">
-                    {item.date}
-                  </time>
-                  <span className="font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors group-hover:text-brand xl:text-[22px]">
+                <span className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+                  <span
+                    aria-hidden
+                    className="news-index shrink-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-[34px] tracking-[-0.15px] text-content-secondary xl:text-[30px]"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.15px] text-content-primary transition-colors group-hover:text-brand xl:text-[30px] xl:leading-[34px]">
                     {item.title}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[15px] leading-6 tracking-[0.15px] text-content-secondary">
-                    {item.excerpt}
-                  </span>
+                  <time className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[15px] leading-6 tracking-[0.085px] text-content-secondary xl:text-[17px]">
+                    {item.date}
+                  </time>
+                </span>
+
+                {/* 56 square: a 24px arrow in 16 of padding, on the comp's
+                    30%-white hairline. */}
+                <span
+                  aria-hidden
+                  className="flex size-14 shrink-0 items-center justify-center border border-white/30 transition-colors group-hover:border-white group-hover:bg-white/5"
+                >
+                  <Image
+                    src="/assets/ic-arrow-right-24.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="size-6"
+                  />
                 </span>
               </a>
             </li>

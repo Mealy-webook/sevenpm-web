@@ -4,17 +4,18 @@ import { StickerPeel } from "@/components/ui/StickerPeel";
 import { homeStory } from "@/data/home";
 
 /**
- * The story block, from Figma 2227:5229: two photographs pinned at opposing
- * angles with a daisy and a guitar sticker over them, the founding paragraph
- * centred underneath, then the social accounts.
+ * The story block, from Figma 2227:5229 and 2465:6936: two photographs pinned
+ * at opposing angles with a daisy and a guitar sticker over them, and the
+ * founding paragraph centred underneath.
+ *
+ * The paragraph ends the section. A row of social buttons used to follow it;
+ * the homepage comp (15:202) does not draw one, and the footer already lists
+ * every account.
  *
  * The two stickers are peelable and draggable, like the ones on the event
  * page: they lift at the corner under the cursor and can be thrown around the
  * block. Nothing depends on where they end up.
- *
- * The comp draws the social buttons as circles. Everything else on this site
- * is square-edged, so they are squares here.
- */
+ * */
 export function HomeStory() {
   return (
     <section
@@ -85,26 +86,6 @@ export function HomeStory() {
           {homeStory.body}
         </p>
 
-        <nav aria-label="SEVENPM social accounts" className="flex flex-wrap justify-center gap-4">
-          {homeStory.socials.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-label={social.label}
-              className="btn-secondary flex size-[58px] items-center justify-center"
-            >
-              <Image
-                src={social.icon}
-                alt=""
-                width={24}
-                height={24}
-                className="size-6"
-              />
-            </a>
-          ))}
-        </nav>
       </div>
     </section>
   );

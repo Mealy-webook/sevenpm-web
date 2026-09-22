@@ -912,14 +912,8 @@ body {
   background-size: 100% 2px;
 }
 
-/* The flat list on the homepage (Figma 2231:12467). The photograph creeps in,
-   and a brand rule draws along the bottom edge so the row answers the
-   cursor. */
-.news-row:hover .news-image,
-.news-row:focus-visible .news-image {
-  transform: scale(1.05);
-}
-
+/* The flat list on the homepage (Figma 2231:12467). No photograph any more —
+   a brand rule draws along the bottom edge so the row answers the cursor. */
 .news-row::after {
   content: "";
   position: absolute;

@@ -7,7 +7,6 @@ import { SponsorsSection } from "@/components/event/SponsorsSection";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { FestivalsStage } from "@/components/home/FestivalsStage";
 import { HomeGallery } from "@/components/home/HomeGallery";
-import { HomeHero } from "@/components/home/HomeHero";
 import { HomeStats } from "@/components/home/HomeStats";
 import { HomeStory } from "@/components/home/HomeStory";
 import { NewsSection } from "@/components/home/NewsSection";
@@ -20,19 +19,28 @@ export const metadata: Metadata = {
   description: homeCopy.intro,
 };
 
-/** Homepage, from Figma node 15:202. */
+/**
+ * Homepage, from Figma node 15:202.
+ *
+ * The page opens on the festivals, not on a headline. The comp carries no
+ * "More music more life" screen: the header sits straight above the poster
+ * stage, and what SEVENPM is gets answered further down by the founding
+ * paragraph. The old hero is still in the tree — options A and B under
+ * /preview use it — it is simply not what the homepage leads with.
+ *
+ * Order is the comp's, which also puts the newsletter before the partners.
+ */
 export default function Home() {
   return (
     <>
       <MotionProvider />
       <SiteHeader logoSize={100} />
       <main>
-        <HomeHero />
-        <HomeStats />
-
+        {/* The stage, as the first thing on the page. 80 from the header to
+            the title, as the comp's frame has it. */}
         <section
           id="festivals"
-          className="relative py-16 xl:py-24 [overflow-x:clip]"
+          className="relative pb-16 pt-12 xl:pb-24 xl:pt-20 [overflow-x:clip]"
         >
           <div className="shell flex flex-col items-center gap-12">
             <DisplayHeading reveal="clip">Festivals</DisplayHeading>
@@ -43,11 +51,12 @@ export default function Home() {
         </section>
 
         <HomeStory />
+        <HomeStats />
         <NewsSection items={newsItems} />
         <HomeGallery rows={galleryRows} />
+        <NewsletterSection />
         {/* Partners are the same block as the event page's sponsors. */}
         <SponsorsSection event={jazzablanca} />
-        <NewsletterSection />
       </main>
       <SiteFooter />
     </>

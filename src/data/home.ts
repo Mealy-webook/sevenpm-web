@@ -72,9 +72,9 @@ export type NewsItem = {
   href: string;
 };
 
-/** The homepage shows the three most recent stories from `data/news.ts`. */
+/** The homepage shows the four most recent stories from `data/news.ts`. */
 export const newsItems: NewsItem[] = newsArticles
-  .slice(0, 3)
+  .slice(0, 4)
   .map((article) => ({
     date: article.dateLabel,
     title: article.title,
