@@ -131,6 +131,16 @@ export const homeStoryHighlights = [
 
 export const homeStoryFounded = "2018";
 
+/**
+ * The founding block as the homepage sets it (Figma 2467:24510): the name is
+ * the heading, so the statement starts at "Founded in 2018" rather than
+ * repeating it.
+ */
+export const homeStoryHeading = "Sevenpm";
+
+export const homeStoryStatement =
+  "Founded in 2018, was born from the desire to propel cultural events in Morocco to new heights.";
+
 /** The story block — Figma 2227:5229. */
 export const homeStory = {
   body: "SEVENPM, founded in 2018, was born from the desire to propel cultural events in Morocco to new heights. Since then, SEVENPM has established itself as an essential player, orchestrating iconic festivals.",
@@ -159,6 +169,25 @@ export const homeStory = {
     },
   ],
 };
+
+/**
+ * Mission / Vision / Values — Figma 2467:24548. The comp repeats the Vision
+ * text under Values; left as drawn rather than invented.
+ */
+export const homePillars = [
+  {
+    title: "Mission",
+    body: "To offer an exceptional experience to our festival-goers and our entire community by guaranteeing access to culture and events.",
+  },
+  {
+    title: "Vision",
+    body: "Create a cultural business model that allows the best artists in the world to be presented in Morocco and showcases young Moroccan talent.",
+  },
+  {
+    title: "Values",
+    body: "Create a cultural business model that allows the best artists in the world to be presented in Morocco and showcases young Moroccan talent.",
+  },
+];
 
 export const homeCopy = {
   /** The accessible name for the hero heading, which is shown a word at a

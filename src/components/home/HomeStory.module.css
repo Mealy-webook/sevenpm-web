@@ -1,51 +1,16 @@
-/* ------------------------------------------------------------------ *
- * The story band's kinetic type. Two tracks, each holding its words
- * twice, translated by half their width — which is what makes the loop
- * seamless without measuring anything in JS.
- * ------------------------------------------------------------------ */
-.band {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  user-select: none;
-}
-
-.track {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 32px;
-  padding-right: 32px;
-  animation: story-marquee 26s linear infinite;
-  will-change: transform;
-}
-
-.band[data-direction="reverse"] .track {
-  animation-direction: reverse;
-}
-
-.word {
-  flex: 0 0 auto;
+/* The founding year, outlined in brand (Figma 2467:24516). Daltown at 370
+   on a box two-thirds its size, which is what the comp's 266px frame is. */
+.year {
   font-family: var(--font-headline);
-  font-size: clamp(56px, 11vw, 148px);
-  line-height: 0.82;
+  font-size: clamp(110px, 24vw, 370px);
+  line-height: 0.72;
   text-transform: uppercase;
-  white-space: nowrap;
-}
-
-/* The outline copies carry the rhythm; the solid ones carry the weight. */
-.ghost {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
+  -webkit-text-stroke: 2px var(--color-brand);
 }
 
-@keyframes story-marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .track {
-    animation: none;
+@media (max-width: 640px) {
+  .year {
+    -webkit-text-stroke-width: 1.5px;
   }
 }

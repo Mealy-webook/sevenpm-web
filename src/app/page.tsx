@@ -7,7 +7,9 @@ import { SponsorsSection } from "@/components/event/SponsorsSection";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { FestivalsStage } from "@/components/home/FestivalsStage";
 import { GalleryBento } from "@/components/home/GalleryBento";
-import { HomeStats } from "@/components/home/HomeStats";
+import { HomeHero } from "@/components/home/HomeHero";
+import { HomeMarquee } from "@/components/home/HomeMarquee";
+import { HomePillars } from "@/components/home/HomePillars";
 import { HomeStory } from "@/components/home/HomeStory";
 import { NewsSection } from "@/components/home/NewsSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
@@ -22,14 +24,13 @@ export const metadata: Metadata = {
 /**
  * Homepage, from Figma node 15:202.
  *
- * The page opens on the festivals, not on a headline. The comp carries no
- * "More music more life" screen: the header sits straight above the poster
- * stage, and what SEVENPM is gets answered further down by the founding
- * paragraph. The old hero is still in the tree — options A and B under
- * /preview use it — it is simply not what the homepage leads with.
+ * The comp's order: the hero, the festival stage, the kinetic band, the
+ * founding block, mission/vision/values, the gallery, the news, the
+ * newsletter and the partners.
  *
- * Order is the comp's: the stage, the house, the figures, the gallery, the
- * news, then the newsletter and the partners.
+ * The figures section the page used to carry is not in the comp and is
+ * gone with it. The gallery is the scrubbed mosaic rather than the comp's
+ * two drifting rows, which is still `HomeGallery` if we go back.
  */
 export default function Home() {
   return (
@@ -37,8 +38,9 @@ export default function Home() {
       <MotionProvider />
       <SiteHeader logoSize={100} />
       <main>
-        {/* The stage, as the first thing on the page. 80 from the header to
-            the title, as the comp's frame has it. */}
+        <HomeHero />
+
+        {/* The stage. 80 from the hero to the title, as the comp has it. */}
         <section
           id="festivals"
           className="relative pb-16 pt-12 xl:pb-24 xl:pt-20 [overflow-x:clip]"
@@ -51,17 +53,16 @@ export default function Home() {
           </div>
         </section>
 
+        <HomeMarquee />
         <HomeStory />
-        <HomeStats />
-        {/* Gallery: the mosaic scrubs open as you scroll through it. */}
+        <HomePillars />
+
+        {/* Gallery: the mosaic scrubs open as you scroll through it. The
+            comp gives this section no title, so it has none. */}
         <section id="gallery" className="relative py-16 xl:py-24">
-          <div className="shell flex flex-col items-center gap-12">
-            <DisplayHeading reveal="clip">Gallery</DisplayHeading>
-          </div>
-          <div className="mt-12">
-            <GalleryBento images={galleryImages} />
-          </div>
+          <GalleryBento images={galleryImages} />
         </section>
+
         <NewsSection items={newsItems} />
         <NewsletterSection />
         {/* Partners are the same block as the event page's sponsors. */}

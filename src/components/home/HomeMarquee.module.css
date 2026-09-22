@@ -1,0 +1,51 @@
+/* ------------------------------------------------------------------ *
+ * The kinetic band (Figma 2465:6936). The track holds its words twice
+ * and travels half its width — which is what makes the loop seamless
+ * without measuring anything in JS.
+ * ------------------------------------------------------------------ */
+.band {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.track {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 32px;
+  padding-right: 32px;
+  animation: story-marquee 26s linear infinite;
+  will-change: transform;
+}
+
+.band[data-direction="reverse"] .track {
+  animation-direction: reverse;
+}
+
+.word {
+  flex: 0 0 auto;
+  font-family: var(--font-headline);
+  font-size: clamp(48px, 9vw, 120px);
+  line-height: 0.75;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The outline copies carry the rhythm; the solid ones carry the weight. */
+.ghost {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
+}
+
+@keyframes story-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

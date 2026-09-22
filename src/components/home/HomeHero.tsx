@@ -5,9 +5,10 @@ import { ImageTrail } from "@/components/ui/image-trail";
 import { heroTrailImages, homeCopy } from "@/data/home";
 
 /**
- * Homepage hero, from Figma 2078:44133. The comp's "MORE MUSIC MORE LIFE" is
- * Daltown 260/208 over two lines; here the second line cycles between the two
- * words instead of printing both (`HeroHeadline`). The
+ * Homepage hero, from Figma 2467:19559 (the 15:202 page). The comp centres "MORE MUSIC" on
+ * one line at Daltown 260/188 with the second word in brand, and sets the
+ * standfirst at 18/1.6 under it; here that second word cycles between MUSIC
+ * and LIFE instead of standing still (`HeroHeadline`). The
  * little yellow equaliser in the bottom-right corner is the comp's four bars,
  * reading the spectrum of whatever is playing. Moving the cursor across the hero leaves a trail of SEVENPM
  * concert photos behind the copy (`ImageTrail`); the native cursor and touch
@@ -34,10 +35,10 @@ export function HomeHero() {
         maxTrailImages={14}
         className="w-full"
       >
-        <div className="shell relative flex min-h-[min(72vh,620px)] flex-col items-start justify-center gap-6 pb-16 pt-6 xl:pb-24 xl:pt-[79px]">
+        <div className="shell relative flex min-h-[min(72vh,620px)] flex-col items-center justify-center gap-7 pb-16 pt-6 xl:pb-24 xl:pt-[79px]">
           <HeroHeadline />
           <p
-            className="max-w-[786px] font-[family-name:var(--font-display)] text-[18px] leading-[1.6] text-content-secondary"
+            className="max-w-[786px] text-center font-[family-name:var(--font-display)] text-[18px] leading-[1.6] text-content-secondary"
             data-split="lines"
             data-reveal-delay="0.12"
           >

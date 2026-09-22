@@ -117,20 +117,20 @@ export function HeroHeadline() {
       data-no-split
       aria-label={homeCopy.heroTitle}
     >
-      <StagePulse className="origin-left">
+      <StagePulse className="origin-center">
         <span
           aria-hidden
-          className="flex flex-col items-start whitespace-nowrap sm:flex-row sm:gap-[0.2em]"
+          className="flex flex-col items-center justify-center whitespace-nowrap sm:flex-row sm:gap-[0.2em]"
         >
           <span data-lead>{letters(homeCopy.heroLead)}</span>
           {/* Every word shares one grid cell, so the line holds the width of
               the longest of them and nothing reflows mid-swap. */}
-          <span className="grid justify-items-start">
+          <span className="grid justify-items-center">
             {homeCopy.heroWords.map((word) => (
               <span
                 key={word}
                 data-word
-                className="col-start-1 row-start-1 block whitespace-nowrap"
+                className="col-start-1 row-start-1 block whitespace-nowrap text-brand"
               >
                 {letters(word)}
               </span>

@@ -141,16 +141,17 @@ body {
   color: #fff;
 }
 
-/* The hero headline is "MORE" plus the word that cycles. On one line it is
-   wider than the comp's two-line block, so from 640px up it is capped against
-   the viewport — applied to the finished size rather than to --display-size,
-   which would compound with --display-scale and leave a phone with a 25px
-   headline. Below 640 it stacks into two lines instead and keeps the comp's
-   size: a hero headline should be big, and there is no width for both. */
+/* The hero headline is "MORE" plus the word that cycles, centred (Figma
+   2467:19561). 260px is the comp's size and 17.2vw is what that is at its
+   1512 frame, so the cap only bites below that width — applied to the
+   finished size rather than to --display-size, which would compound with
+   --display-scale and leave a phone with a 25px headline. Below 640 it
+   stacks into two lines instead and keeps the comp's size: a hero headline
+   should be big, and there is no width for both. */
 @media (min-width: 640px) {
   .hero-headline {
-    font-size: min(calc(260px * var(--display-scale)), 15.6vw);
-    line-height: 0.8em;
+    font-size: min(calc(260px * var(--display-scale)), 17.2vw);
+    line-height: 0.723em;
   }
 }
 

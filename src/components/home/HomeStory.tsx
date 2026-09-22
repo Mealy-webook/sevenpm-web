@@ -1,71 +1,58 @@
-import { Emphasise } from "@/components/home/Emphasise";
-import { homeStoryHighlights, homeStoryLines } from "@/data/home";
+import {
+  homeStoryFounded,
+  homeStoryHeading,
+  homeStoryLines,
+  homeStoryStatement,
+} from "@/data/home";
 
 import styles from "./HomeStory.module.css";
 
 /**
- * The story block.
+ * The founding block — Figma 2467:24510.
  *
- * It used to be two photographs pinned at opposing angles with peelable
- * stickers over them (Figma 2227:5229). A photograph of a crowd says the
- * same thing as every other festival's photograph of a crowd, so the images
- * are gone and the movement does their work instead: two bands of kinetic
- * type running opposite ways, with the founding statement held between them.
+ * Two equal columns: the year at 370 outlined in brand on the left, and on
+ * the right the name at Daltown 152/118, the statement at 30/34 and the
+ * line about what followed at 17/24.
  *
- * The phrases that carry the claim — the year, the country, what the company
- * became and what it makes — are flooded brand. The bands are `aria-hidden`;
- * a reader should not hear the name eight times.
+ * The photographs and the peelable stickers this section used to carry are
+ * gone; the comp draws the block in type alone, and the year does the work
+ * the pictures were doing.
+ *
+ * The figure is `aria-hidden` — the statement beside it already says 2018,
+ * and a screen reader should not hear the year twice.
  */
-function Band({ reverse = false }: { reverse?: boolean }) {
-  const words = ["SEVENPM", "MORE MUSIC", "SEVENPM", "MORE LIFE"];
-  return (
-    <div
-      className={styles.band}
-      data-direction={reverse ? "reverse" : undefined}
-      aria-hidden
-    >
-      <div className={styles.track}>
-        {[0, 1].map((copy) =>
-          words.map((word, index) => (
-            <span
-              key={`${copy}-${word}-${index}`}
-              className={`${styles.word} ${
-                index % 2 ? styles.ghost : "text-white"
-              }`}
-            >
-              {word}
-            </span>
-          )),
-        )}
-      </div>
-    </div>
-  );
-}
-
 export function HomeStory() {
   return (
     <section
       aria-label="About SEVENPM"
-      className="relative flex flex-col gap-10 overflow-hidden py-16 xl:gap-14 xl:py-24"
+      className="relative py-16 [overflow-x:clip] xl:py-20"
     >
-      <Band />
+      <div className="shell grid grid-cols-1 items-center gap-8 lg:grid-cols-2">
+        <span aria-hidden className={`${styles.year} block`}>
+          {homeStoryFounded}
+        </span>
 
-      <div className="shell flex flex-col items-center gap-6">
-        <p
-          className="m-0 max-w-[900px] text-center font-[family-name:var(--font-display)] text-[clamp(20px,2.4vw,32px)] font-bold uppercase leading-[1.2] tracking-[-0.01em] text-white"
-          data-split="lines"
-        >
-          <Emphasise text={homeStoryLines[0]} phrases={homeStoryHighlights} />
-        </p>
-        <p
-          className="m-0 max-w-[720px] text-center font-[family-name:var(--font-display)] text-[17px] leading-7 tracking-[0.085px] text-content-secondary"
-          data-reveal="up"
-        >
-          {homeStoryLines[1]}
-        </p>
+        <div className="flex flex-col gap-4">
+          <h2
+            className="m-0 font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            data-reveal="clip"
+          >
+            {homeStoryHeading}
+          </h2>
+          <p
+            className="m-0 font-[family-name:var(--font-display)] text-[clamp(21px,2.2vw,30px)] font-bold uppercase leading-[1.14] tracking-[-0.15px] text-white"
+            data-split="lines"
+          >
+            {homeStoryStatement}
+          </p>
+          <p
+            className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
+            data-reveal="up"
+          >
+            {homeStoryLines[1]}
+          </p>
+        </div>
       </div>
-
-      <Band reverse />
     </section>
   );
 }
