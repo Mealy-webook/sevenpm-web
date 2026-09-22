@@ -140,6 +140,7 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
               href={item.href}
               data-news-row={index}
               data-cursor="Read"
+              data-cursor-invert="true"
               className="news-row relative flex w-full flex-col gap-3 py-8 lg:grid lg:grid-cols-[80px_1fr_170px_56px] lg:items-center lg:gap-6"
             >
               <span

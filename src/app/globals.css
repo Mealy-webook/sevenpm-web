@@ -934,9 +934,9 @@ body {
   bottom: 0;
   left: calc(-1 * var(--shell-gutter));
   right: calc(-1 * var(--shell-gutter));
-  /* Tertiary, not secondary: on this ground the secondary fill is a two-value
-     step and the flood barely read. */
-  background: var(--color-bg-tertiary);
+  /* Brand. The whole line takes the colour, not just the arrow — a grey
+     flood on this ground was barely a change at all. */
+  background: var(--color-brand);
   transform: scaleY(0);
   transform-origin: 50% 100%;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
@@ -953,13 +953,21 @@ body {
   transition: color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* On brand yellow the type has to go dark. The date keeps a step down from
+   the headline so the row still has a hierarchy. */
 .news-row:hover .news-index,
+.news-row:focus-visible .news-index {
+  color: rgba(11, 11, 14, 0.55);
+}
+
 .news-row:hover .news-headline,
+.news-row:focus-visible .news-headline {
+  color: #0b0b0e;
+}
+
 .news-row:hover .news-date,
-.news-row:focus-visible .news-index,
-.news-row:focus-visible .news-headline,
 .news-row:focus-visible .news-date {
-  color: #ffffff;
+  color: rgba(11, 11, 14, 0.7);
 }
 
 .news-arrow {
@@ -980,12 +988,12 @@ body {
 
 .news-row:hover .news-arrow,
 .news-row:focus-visible .news-arrow {
-  border-color: var(--color-brand);
+  border-color: rgba(11, 11, 14, 0.35);
 }
 
 .news-row:hover .news-arrow-glyph,
 .news-row:focus-visible .news-arrow-glyph {
-  background-color: var(--color-brand);
+  background-color: #0b0b0e;
   -webkit-mask-image: url("/assets/ic-arrow-up-right-24.svg");
   mask-image: url("/assets/ic-arrow-up-right-24.svg");
 }
@@ -1186,6 +1194,17 @@ html.has-cursor .cursor {
 .cursor-ring[data-state="label"] .cursor-label {
   opacity: 1;
   transform: none;
+}
+
+/* Inverted: dark disc, brand label, for the surfaces that go yellow under
+   the cursor themselves. */
+.cursor-ring[data-state="label"][data-invert="true"] {
+  border-color: #0b0b0e;
+  background: #0b0b0e;
+}
+
+.cursor-ring[data-state="label"][data-invert="true"] .cursor-label {
+  color: var(--color-brand);
 }
 
 /* Film grain over everything, gently jittering. */

@@ -56,12 +56,18 @@ export function Cursor() {
       const target = e.target instanceof Element ? e.target : null;
       const labelled = target?.closest<HTMLElement>("[data-cursor]");
       if (labelled) {
+        /* Some surfaces flood brand yellow under the cursor — the news rows
+           do — and a yellow disc on yellow is not a cursor. They say so, and
+           the ring inverts. */
+        r.dataset.invert = labelled.dataset.cursorInvert ?? "";
         setState("label", labelled.dataset.cursor ?? "");
       } else if (
         target?.closest("a, button, [role=button], input, select, textarea")
       ) {
+        r.dataset.invert = "";
         setState("link");
       } else {
+        r.dataset.invert = "";
         setState("");
       }
       r.style.opacity = "1";
