@@ -260,10 +260,8 @@ export function Preloader() {
       {/* Full width. The meter is the progress bar, and a progress bar that
           stops short of the edges looks like it is missing something. */}
       <div className="flex w-full flex-col gap-6">
-        {/* The figure centred over the meter, with its label under it. The
-            two used to sit at opposite ends of the line, which read as a
-            heading and a caption rather than as one readout. */}
-        <div className="flex flex-col items-center gap-3">
+        {/* The figure, centred over the meter. */}
+        <div className="flex flex-col items-center">
           <span className="block overflow-hidden">
             <span
               ref={counter}
@@ -272,12 +270,6 @@ export function Preloader() {
             >
               00
             </span>
-          </span>
-          <span
-            data-pre-meta
-            className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
-          >
-            Soundcheck
           </span>
         </div>
 
