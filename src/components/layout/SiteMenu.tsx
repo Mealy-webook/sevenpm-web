@@ -7,7 +7,10 @@ import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 
 import {
-  LocaleGroups,
+  CURRENCIES,
+  CurrencyGroup,
+  LanguageGroup,
+  LANGUAGES,
   type CurrencyCode,
   type LanguageCode,
 } from "./LocaleMenu";
@@ -25,7 +28,9 @@ gsap.registerPlugin(CustomEase);
  * at rest.
  *
  * Language and currency live here rather than behind a globe in the header —
- * they are settings, and the menu is where the settings are.
+ * they are settings, and the menu is where the settings are. The comp puts
+ * them top left as two compact buttons, EN and MAD, each opening its own
+ * list; the close button keeps the opposite corner.
  *
  * Motion follows the kinetic-navigation reference: three backdrop layers wipe
  * across one after another and the links drop in rotated behind a CSS mask.
@@ -69,6 +74,59 @@ export const MENU_LINKS: MenuEntry[] = [
 const ENTRY_TYPE =
   "block font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]";
 
+/**
+ * One of the two locale buttons: icon, code, chevron, and its list hanging
+ * under it. Secondary button treatment, as the comp draws it.
+ */
+function LocaleButton({
+  icon,
+  label,
+  title,
+  open,
+  onToggle,
+  children,
+}: {
+  icon: string;
+  label: string;
+  title?: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-label={title ? `${title} — change` : label}
+        onClick={onToggle}
+        className={`btn-secondary flex h-[52px] cursor-pointer items-center gap-2 px-4 ${
+          open ? "is-active" : ""
+        }`}
+      >
+        <Image src={icon} alt="" width={20} height={20} className="size-5" />
+        <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+          {label}
+        </span>
+        <Image
+          src="/assets/ic-chevron-down-20.svg"
+          alt=""
+          width={20}
+          height={20}
+          className={`size-5 transition-[rotate] duration-300 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-[calc(100%+8px)] z-10 w-[280px] bg-[rgba(37,37,37,0.95)] p-3 backdrop-blur-2xl">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SiteMenu({
   open,
   onClose,
@@ -89,6 +147,7 @@ export function SiteMenu({
   const submenu = useRef<HTMLDivElement>(null);
   const leaving = useRef(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [picker, setPicker] = useState<"language" | "currency" | null>(null);
   const submenuId = useId();
   const year = new Date().getFullYear();
 
@@ -258,12 +317,57 @@ export function SiteMenu({
           <div data-menu-layer className="absolute inset-0 bg-ink-900" />
         </div>
 
-        {/* 525 column inside a 120 gutter, as the comp sets it */}
-        {/* The gutter is the site's own token, not a matching set of
-            breakpoints — copied values drift apart the first time one of them
-            changes. */}
-        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[var(--shell-gutter)] py-8 xl:py-14">
-          <div className="flex w-full justify-end">
+        {/* 32 on the left and the shell's gutter on the right, which is how
+            2231:12258 sets the column: the type is right-aligned, so the room
+            belongs on that side. */}
+        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain pl-8 pr-[var(--shell-gutter)] py-8 xl:py-14">
+          {/* Language and currency on the left, close on the right. */}
+          <div className="flex w-full items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <LocaleButton
+                icon="/assets/ic-globe.svg"
+                label={language.toUpperCase()}
+                open={picker === "language"}
+                onToggle={() =>
+                  setPicker((current) =>
+                    current === "language" ? null : "language",
+                  )
+                }
+                title={LANGUAGES.find((item) => item.code === language)?.label}
+              >
+                <LanguageGroup
+                  language={language}
+                  onLanguage={(code) => {
+                    onLanguage(code);
+                    setPicker(null);
+                  }}
+                />
+              </LocaleButton>
+
+              <LocaleButton
+                icon={
+                  CURRENCIES.find((item) => item.code === currency)?.flag ??
+                  "/assets/flag-ma.png"
+                }
+                label={currency}
+                open={picker === "currency"}
+                onToggle={() =>
+                  setPicker((current) =>
+                    current === "currency" ? null : "currency",
+                  )
+                }
+                title={CURRENCIES.find((item) => item.code === currency)?.label}
+              >
+                <CurrencyGroup
+                  currency={currency}
+                  onCurrency={(code) => {
+                    onCurrency(code);
+                    setPicker(null);
+                  }}
+                />
+              </LocaleButton>
+            </div>
+
             <button
               ref={closeButton}
               type="button"
@@ -357,21 +461,6 @@ export function SiteMenu({
           </nav>
 
           <div className="mt-auto flex w-full flex-col items-end gap-6 pt-12">
-            {/* Language and currency. The column is right-aligned like the
-                rest of the menu, and capped so the rows do not stretch the
-                full 765 of the drawer. */}
-            <div
-              data-menu-meta
-              className="flex w-full max-w-[420px] flex-col gap-4 border-t border-white/10 pt-6"
-            >
-              <LocaleGroups
-                language={language}
-                currency={currency}
-                onLanguage={onLanguage}
-                onCurrency={onCurrency}
-              />
-            </div>
-
             <nav
               aria-label="Social"
               data-menu-meta

@@ -85,6 +85,60 @@ function SelectRow({
   );
 }
 
+/** The language rows on their own, for the menu's EN button. */
+export function LanguageGroup({
+  language,
+  onLanguage,
+}: {
+  language: LanguageCode;
+  onLanguage: (code: LanguageCode) => void;
+}) {
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Language"
+      className="flex w-full flex-col gap-2"
+    >
+      {LANGUAGES.map((item) => (
+        <SelectRow
+          key={item.code}
+          label={item.label}
+          selected={language === item.code}
+          onSelect={() => onLanguage(item.code)}
+        />
+      ))}
+    </div>
+  );
+}
+
+/** The currency rows on their own, for the menu's MAD button. */
+export function CurrencyGroup({
+  currency,
+  onCurrency,
+}: {
+  currency: CurrencyCode;
+  onCurrency: (code: CurrencyCode) => void;
+}) {
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Currency"
+      className="flex w-full flex-col gap-2"
+    >
+      {CURRENCIES.map((item) => (
+        <SelectRow
+          key={item.code}
+          label={item.label}
+          description={item.code}
+          flag={item.flag}
+          selected={currency === item.code}
+          onSelect={() => onCurrency(item.code)}
+        />
+      ))}
+    </div>
+  );
+}
+
 /** The two groups, with no chrome of their own. */
 export function LocaleGroups({
   language,
