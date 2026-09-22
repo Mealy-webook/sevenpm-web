@@ -27,10 +27,10 @@ export const newsCategories = [
 ] as const;
 
 export const newsCopy = {
-  title: "Latest news",
+  title: "News",
   description:
     "Line-up announcements, festival reports and everything else out of the SEVENPM office in Casablanca.",
-  readMore: "Read the story",
+  readMore: "Read article",
   backToNews: "All news",
   related: "More from the newsroom",
 };

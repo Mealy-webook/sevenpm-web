@@ -1619,3 +1619,65 @@ html.has-cursor .cursor {
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Newsroom tile (Figma 2467:23287) — the index card and the related row.
+ * ------------------------------------------------------------------ */
+.news-tile-image {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.news-tile:hover .news-tile-image,
+.news-tile:focus-visible .news-tile-image {
+  transform: scale(1.04);
+}
+
+/* Recoloured through a mask so the arrow can travel with the label's
+   colour rather than being a second, differently-tinted asset. */
+.news-tile-arrow {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/ic-arrow-right-20.svg") center / contain no-repeat;
+  mask: url("/assets/ic-arrow-right-20.svg") center / contain no-repeat;
+  transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.news-tile:hover .news-tile-arrow,
+.news-tile:focus-visible .news-tile-arrow {
+  translate: 4px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-tile-image,
+  .news-tile-arrow {
+    transition: none;
+  }
+  .news-tile:hover .news-tile-image {
+    transform: none;
+  }
+  .news-tile:hover .news-tile-arrow {
+    translate: none;
+  }
+}
+
+/* Article headline and the section title under it: Figma 2467:24167 sets
+   Daltown at 88 on a 62 line box. Scaled with the rest of the display type. */
+.display-text--article {
+  --display-size: 88px;
+  --display-line: 62px;
+  letter-spacing: 0.88px;
+}
+
+/* The back link reuses the tile's arrow, pointing the other way and
+   travelling left on hover. */
+.news-tile-arrow--back {
+  -webkit-mask-image: url("/assets/ic-arrow-left-20.svg");
+  mask-image: url("/assets/ic-arrow-left-20.svg");
+}
+
+.news-tile:hover .news-tile-arrow--back,
+.news-tile:focus-visible .news-tile-arrow--back {
+  translate: -4px 0;
+}

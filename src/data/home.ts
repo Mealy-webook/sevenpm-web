@@ -103,20 +103,60 @@ export const homeStats: HomeStat[] = [
      founding is in the paragraph above — and three figures sit on the 1272
      column at 392 each. */
   { value: 4, label: "Festivals produced every year" },
-  { value: 20, prefix: "+", suffix: "K", label: "Festival goers at Jazzablanca" },
+  {
+    value: 20,
+    prefix: "+",
+    suffix: "K",
+    label: "Festival goers at Jazzablanca",
+  },
   { value: 22, label: "Editions of Tanjazz and counting" },
 ];
+
+/**
+ * The founding statement, kept as its two sentences so a layout can set them
+ * apart, and the phrases worth flooding with brand. Same words as
+ * `homeStory.body` — nothing here is new copy.
+ */
+export const homeStoryLines = [
+  "SEVENPM, founded in 2018, was born from the desire to propel cultural events in Morocco to new heights.",
+  "Since then, SEVENPM has established itself as an essential player, orchestrating iconic festivals.",
+];
+
+export const homeStoryHighlights = [
+  "2018",
+  "Morocco",
+  "essential player",
+  "iconic festivals",
+];
+
+export const homeStoryFounded = "2018";
 
 /** The story block — Figma 2227:5229. */
 export const homeStory = {
   body: "SEVENPM, founded in 2018, was born from the desire to propel cultural events in Morocco to new heights. Since then, SEVENPM has established itself as an essential player, orchestrating iconic festivals.",
   photos: ["/assets/gallery-2.jpg", "/assets/gallery-5.jpg"],
   socials: [
-    { label: "Facebook", href: "https://facebook.com", icon: "/assets/ic-social-facebook.svg" },
+    {
+      label: "Facebook",
+      href: "https://facebook.com",
+      icon: "/assets/ic-social-facebook.svg",
+    },
     { label: "X", href: "https://x.com", icon: "/assets/ic-social-x.svg" },
-    { label: "TikTok", href: "https://tiktok.com", icon: "/assets/ic-social-tiktok.svg" },
-    { label: "YouTube", href: "https://youtube.com", icon: "/assets/ic-social-youtube.svg" },
-    { label: "Instagram", href: "https://instagram.com", icon: "/assets/ic-social-instagram.svg" },
+    {
+      label: "TikTok",
+      href: "https://tiktok.com",
+      icon: "/assets/ic-social-tiktok.svg",
+    },
+    {
+      label: "YouTube",
+      href: "https://youtube.com",
+      icon: "/assets/ic-social-youtube.svg",
+    },
+    {
+      label: "Instagram",
+      href: "https://instagram.com",
+      icon: "/assets/ic-social-instagram.svg",
+    },
   ],
 };
 
