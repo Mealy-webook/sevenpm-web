@@ -28,7 +28,8 @@ export const metadata: Metadata = {
  * paragraph. The old hero is still in the tree — options A and B under
  * /preview use it — it is simply not what the homepage leads with.
  *
- * Order is the comp's, which also puts the newsletter before the partners.
+ * Order is the comp's: the stage, the house, the figures, the gallery, the
+ * news, then the newsletter and the partners.
  */
 export default function Home() {
   return (
@@ -52,7 +53,6 @@ export default function Home() {
 
         <HomeStory />
         <HomeStats />
-        <NewsSection items={newsItems} />
         {/* Gallery: the mosaic scrubs open as you scroll through it. */}
         <section id="gallery" className="relative py-16 xl:py-24">
           <div className="shell flex flex-col items-center gap-12">
@@ -62,6 +62,7 @@ export default function Home() {
             <GalleryBento images={galleryImages} />
           </div>
         </section>
+        <NewsSection items={newsItems} />
         <NewsletterSection />
         {/* Partners are the same block as the event page's sponsors. */}
         <SponsorsSection event={jazzablanca} />

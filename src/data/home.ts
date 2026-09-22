@@ -87,13 +87,21 @@ export const newsItems: NewsItem[] = newsArticles
  * The band under the hero — Figma 2227:5202. Split into parts so the figure
  * can count up on its own without a parser guessing where the "+" ends.
  */
-export const homeStats = [
-  {
-    value: 2018,
-    label: "Founded in Casablanca",
-    /** Years are not thousands: 2018, never 2,018. */
-    year: true,
-  },
+export type HomeStat = {
+  value: number;
+  label: string;
+  prefix?: string;
+  suffix?: string;
+  /** Years are not thousands: 2018, never 2,018. Nothing on the homepage
+   *  uses it since the founding year came out, but the flag stays for the
+   *  next figure that is a year. */
+  year?: boolean;
+};
+
+export const homeStats: HomeStat[] = [
+  /* The founding year used to lead this row. The comp dropped it — the
+     founding is in the paragraph above — and three figures sit on the 1272
+     column at 392 each. */
   { value: 4, label: "Festivals produced every year" },
   { value: 20, prefix: "+", suffix: "K", label: "Festival goers at Jazzablanca" },
   { value: 22, label: "Editions of Tanjazz and counting" },
