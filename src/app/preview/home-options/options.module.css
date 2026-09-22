@@ -1,0 +1,31 @@
+/*
+ * Thumbnails of live pages. The card is a container; the frame inside it is
+ * rendered at full desktop width and scaled by the ratio between the card's
+ * width and that width.
+ *
+ * `tan(atan2(a, b))` is how you divide one CSS length by another and get a
+ * number back — `calc(100cqw / 1440px)` is not valid, and a scale factor has
+ * to be unitless.
+ */
+
+.card {
+  container-type: inline-size;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  /* The frame's own proportions, so the card is exactly as tall as what it
+     shows and no letterboxing appears. */
+  aspect-ratio: 1440 / 1800;
+}
+
+.frame {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1440px;
+  height: 1800px;
+  border: 0;
+  transform-origin: top left;
+  scale: tan(atan2(100cqw, 1440px));
+  pointer-events: none;
+}
