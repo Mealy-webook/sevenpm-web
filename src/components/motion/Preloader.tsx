@@ -15,8 +15,10 @@ export const READY_EVENT = "sevenpm:ready";
  * own rate, so the meter reads as levels coming up rather than as a progress
  * bar wearing a costume. At 100 every bar peaks once and the sheet wipes up.
  *
- * The bar is honest about what it is waiting for. It runs to 90 on its own
- * clock and holds there until the window has actually loaded, then finishes.
+ * The bar is honest about what it is waiting for. It runs to 90 over about
+ * two and a half seconds and holds there until the window has actually
+ * loaded, with a beat at the hold even when the page was ready early, then
+ * finishes.
  * A page that is already loaded therefore never stalls at 90, and a slow one
  * never shows 100 over an empty screen.
  *
@@ -43,6 +45,15 @@ const LEVELS = [
 
 /** How far the count gets before it waits for the page itself. */
 const HOLD_AT = 0.9;
+
+/* Timings, in seconds. The climb was 1.4 and the whole intro was over in
+   about two: too quick to read the meter, let alone the figure. */
+const CLIMB = 2.6;
+/** A beat at 90 even when the page is already loaded, so the hold shows. */
+const HOLD_BEAT = 0.45;
+const FINISH = 0.7;
+const PEAK = 0.22;
+const WIPE = 0.9;
 
 export function Preloader() {
   // Rendered from the first frame so a first visit never flashes the page;
@@ -168,7 +179,7 @@ export function Preloader() {
       /* Levels up to 90, then the page decides. */
       .to(
         state,
-        { p: HOLD_AT, duration: 1.4, ease: "power2.inOut", onUpdate: paint },
+        { p: HOLD_AT, duration: CLIMB, ease: "power2.inOut", onUpdate: paint },
         0,
       )
       .call(() => {
@@ -179,11 +190,11 @@ export function Preloader() {
 
     /* The last ten per cent belongs to the document. */
     const release = () => {
-      const rest = gsap.timeline();
+      const rest = gsap.timeline({ delay: HOLD_BEAT });
       rest
         .to(state, {
           p: 1,
-          duration: 0.45,
+          duration: FINISH,
           ease: "power2.out",
           onUpdate: paint,
           onComplete: paint,
@@ -191,17 +202,17 @@ export function Preloader() {
         /* The peak: every bar to full, once. */
         .to(
           bars,
-          { scaleY: 1, duration: 0.18, ease: "power2.out", overwrite: true },
+          { scaleY: 1, duration: PEAK, ease: "power2.out", overwrite: true },
           ">-0.05",
         )
         .to(
           "[data-pre-num], [data-pre-meta]",
-          { y: -14, opacity: 0, duration: 0.4, ease: "power3.in" },
-          ">",
+          { y: -14, opacity: 0, duration: 0.45, ease: "power3.in" },
+          ">0.15",
         )
         .to(
           el,
-          { clipPath: "inset(0 0 100% 0)", duration: 0.8, ease: "expo.inOut" },
+          { clipPath: "inset(0 0 100% 0)", duration: WIPE, ease: "expo.inOut" },
           "<0.1",
         )
         .add(() => tl.play());
