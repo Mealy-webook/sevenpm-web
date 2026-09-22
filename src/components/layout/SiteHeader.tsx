@@ -296,7 +296,14 @@ export function SiteHeader({
   useEffect(() => {
     if (!popover) return;
     const onPointer = (e: PointerEvent) => {
-      if (!cluster.current?.contains(e.target as Node)) setPopover(null);
+      const target = e.target as HTMLElement | null;
+      /* A dialog opened from inside the popover is not "outside" it. The
+         account menu's Logout opens a confirm that portals to the body, so
+         this handler used to close the popover on the press — unmounting the
+         menu, the button and the dialog before the click could land on
+         Confirm. Logging out from the header simply did nothing. */
+      if (target?.closest("[role=dialog], [role=alertdialog]")) return;
+      if (!cluster.current?.contains(target)) setPopover(null);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setPopover(null);
