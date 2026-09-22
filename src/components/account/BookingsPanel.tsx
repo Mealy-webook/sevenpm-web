@@ -10,8 +10,9 @@ import type { Booking } from "@/data/account";
 import { bookingsCopy, requestsCopy } from "@/data/account";
 
 /**
- * Bookings, from Figma 2173:26014 / 2173:25819. Section title with a
- * description, Upcoming / Past chips, then either the booking cards or the
+ * Bookings, from Figma 2467:17822. Section title with a description, the
+ * chips, then the bookings as a three-up grid of cards — a square poster, the
+ * event, when and where, and the ticket count as an inline link — or the
  * empty state with the cassette sticker.
  *
  * VIP box requests are the third chip rather than a sidebar entry of their
@@ -135,30 +136,38 @@ export function BookingsPanel({
               </p>
             </div>
           ) : (
-            <ul className="m-0 flex list-none flex-col gap-4 p-0">
+            /* Three across on a wide screen: a square poster, the event, when
+               and where, and the ticket count as an inline link (2467:18170). */
+            <ul className="m-0 grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 xl:grid-cols-3">
               {shown.map((booking) => (
                 <li
                   key={booking.id}
-                  className="flex w-full flex-col gap-4 border border-white/5 p-6 sm:flex-row sm:items-center"
+                  className="flex flex-col items-start gap-4"
                 >
-                  <div className="relative size-[88px] shrink-0 overflow-hidden bg-ink-700">
+                  <Link
+                    href={`/events/${booking.eventSlug}`}
+                    className="group relative block aspect-square w-full overflow-hidden bg-ink-700"
+                    data-cursor="Open"
+                  >
                     <Image
                       src={booking.image}
                       alt=""
                       fill
-                      sizes="88px"
-                      className="object-cover"
+                      sizes="(max-width: 640px) 90vw, (max-width: 1280px) 45vw, 295px"
+                      className="object-cover transition-[scale] duration-700 group-hover:scale-105"
                     />
-                  </div>
-                  <div className="flex min-w-0 flex-1 flex-col gap-3">
-                    <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
+                  </Link>
+
+                  <div className="flex w-full flex-col gap-2">
+                    <h3 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white">
                       <Link
                         href={`/events/${booking.eventSlug}`}
-                        className="hover:text-brand transition-colors"
+                        className="transition-colors hover:text-brand"
                       >
                         {booking.eventName}
                       </Link>
                     </h3>
+
                     <div className="flex flex-col gap-1 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
                       <span className="flex items-center gap-1">
                         <Image
@@ -166,7 +175,7 @@ export function BookingsPanel({
                           alt=""
                           width={16}
                           height={16}
-                          className="size-4"
+                          className="size-4 shrink-0"
                         />
                         <time dateTime={booking.startsAt}>
                           {formatWhen(booking)}
@@ -178,7 +187,7 @@ export function BookingsPanel({
                           alt=""
                           width={16}
                           height={16}
-                          className="size-4"
+                          className="size-4 shrink-0"
                         />
                         {booking.venueUrl ? (
                           <a
@@ -195,10 +204,10 @@ export function BookingsPanel({
                       </span>
                     </div>
                   </div>
+
                   <Link
                     href={`/events/${booking.eventSlug}#tickets`}
-                    className="btn-secondary flex shrink-0 items-center justify-center gap-2 self-start px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary sm:self-center"
-                    data-cursor="Open"
+                    className="group/link flex items-center gap-2 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
                   >
                     {booking.tickets}{" "}
                     {booking.tickets === 1 ? "Ticket" : "Tickets"}
@@ -207,7 +216,7 @@ export function BookingsPanel({
                       alt=""
                       width={20}
                       height={20}
-                      className="size-5"
+                      className="size-5 transition-[translate] duration-300 group-hover/link:translate-x-1"
                     />
                   </Link>
                 </li>

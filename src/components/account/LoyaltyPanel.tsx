@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { BeatsCard } from "./BeatsCard";
 import { redeemReward, useLoyalty } from "./loyaltyStore";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import {
@@ -80,6 +81,10 @@ export function LoyaltyPanel() {
       className="flex min-w-0 flex-1 flex-col gap-14"
       aria-labelledby="loyalty-title"
     >
+      {/* The balance and the membership track, which used to ride in the
+          account band. This is the screen they are about. */}
+      <BeatsCard />
+
       {/* Rewards */}
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">

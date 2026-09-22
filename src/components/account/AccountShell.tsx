@@ -1,8 +1,8 @@
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AccountGuard } from "@/components/account/AccountGuard";
+import { AccountIdentity } from "@/components/account/AccountIdentity";
 import { AccountNav } from "@/components/account/AccountNav";
-import { LoyaltyBanner } from "@/components/account/LoyaltyBanner";
 import { accountNav } from "@/data/account";
 
 /**
@@ -11,9 +11,11 @@ import { accountNav } from "@/data/account";
  * background, then the 293px sidebar beside the panel. No footer — the comp is
  * a single 853px screen, so the section fills the viewport.
  *
- * The band is the same on every tab (2449:37125): the name in Daltown beside
- * the membership chip on the left, the Beats card with the membership track on
- * the right. Rewards included — it has no header of its own.
+ * From 2467:17822 the name moved into the sidebar: the column carries who is
+ * signed in — the name at display size, the membership chip, the joining year
+ * — and the navigation under it, with the panel beside. The full-width band
+ * that used to run under the header is gone, and the Beats card it carried is
+ * on the rewards screen, the one screen it belongs to.
  *
  * Nothing in here animates. Switching account tabs changes only the panel on
  * the right, so the route wipe is skipped (see `PageTransition`) and the
@@ -35,15 +37,17 @@ export function AccountShell({
       <SiteHeader hideAccount surface="secondary" />
       <main className="account-main flex flex-col">
         <AccountGuard>
-          <LoyaltyBanner />
-
           <section className="flex-1">
-            <div className="shell flex flex-col gap-8 py-10 lg:flex-row lg:items-start">
-              <AccountNav
-                items={accountNav}
-                activeId={activeId}
-                counts={counts}
-              />
+            <div className="shell flex flex-col gap-8 py-8 lg:flex-row lg:items-start lg:gap-[52px]">
+              {/* 293 column: who you are, then where you can go. */}
+              <div className="flex w-full flex-col gap-6 lg:w-[293px] lg:shrink-0">
+                <AccountIdentity />
+                <AccountNav
+                  items={accountNav}
+                  activeId={activeId}
+                  counts={counts}
+                />
+              </div>
               {children}
             </div>
           </section>

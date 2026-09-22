@@ -244,10 +244,10 @@ export type AccountNavItem = {
 };
 
 /**
- * Sidebar order from Figma 2452:38804: bookings, the box requests, the
- * wallet, then rewards and the two settings screens. VIP Box requests is a
- * shortcut into the Bookings screen's third chip rather than a page of its
- * own — the comp shows the row highlighted with that chip selected.
+ * Sidebar order from Figma 2467:18240: bookings, wallet, rewards, then the
+ * two settings screens. The box requests had a row of their own in an earlier
+ * comp; they are the Bookings screen's third chip now, and `?tab=requests`
+ * still opens it.
  */
 export const accountNav: AccountNavItem[] = [
   {
@@ -255,12 +255,6 @@ export const accountNav: AccountNavItem[] = [
     label: "Bookings",
     icon: "/assets/ic-acct-bookings.svg",
     href: "/account",
-  },
-  {
-    id: "requests",
-    label: "VIP Box requests",
-    icon: "/assets/ic-acct-bookings.svg",
-    href: "/account?tab=requests",
   },
   {
     id: "wallet",

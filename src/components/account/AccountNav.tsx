@@ -27,7 +27,7 @@ export function AccountNav({
   return (
     <nav
       aria-label="Account"
-      className="flex w-full flex-col gap-4 lg:w-[293px] lg:shrink-0"
+      className="flex w-full flex-col gap-4"
     >
       <ul className="m-0 flex list-none flex-col gap-1 p-0">
         {items.map((item) => {
