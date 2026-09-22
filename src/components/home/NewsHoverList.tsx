@@ -157,18 +157,14 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
                 {item.date}
               </time>
 
-              {/* 56 square, as the comp draws it, turned and filled on hover. */}
+              {/* 56 square, as the comp draws it. On hover the glyph is
+                  swapped for the diagonal one and everything turns brand —
+                  the button itself does not move. */}
               <span
                 aria-hidden
                 className="news-arrow flex size-14 shrink-0 items-center justify-center border border-white/30"
               >
-                <Image
-                  src="/assets/ic-arrow-right-24.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="news-arrow-glyph size-6"
-                />
+                <span className="news-arrow-glyph" />
               </span>
             </a>
           </li>

@@ -963,28 +963,31 @@ body {
 }
 
 .news-arrow {
-  transition:
-    rotate 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* The glyph is a mask, not an image, so its colour is ours to set — and the
+   hover state swaps the mask for the diagonal arrow rather than rotating the
+   one underneath. The button does not move. */
 .news-arrow-glyph {
-  transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-content-primary);
+  -webkit-mask: url("/assets/ic-arrow-right-24.svg") center / contain no-repeat;
+  mask: url("/assets/ic-arrow-right-24.svg") center / contain no-repeat;
+  transition: background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .news-row:hover .news-arrow,
 .news-row:focus-visible .news-arrow {
-  rotate: -45deg;
-  background: var(--color-brand);
   border-color: var(--color-brand);
 }
 
-/* The glyph ships at a fixed light grey; on the yellow fill it has to go
-   dark, and a filter is how the rest of the site does that. */
 .news-row:hover .news-arrow-glyph,
 .news-row:focus-visible .news-arrow-glyph {
-  filter: brightness(0);
+  background-color: var(--color-brand);
+  -webkit-mask-image: url("/assets/ic-arrow-up-right-24.svg");
+  mask-image: url("/assets/ic-arrow-up-right-24.svg");
 }
 
 @media (min-width: 1024px) {
@@ -1028,6 +1031,7 @@ body {
   .news-row,
   .news-row::before,
   .news-arrow,
+  .news-arrow-glyph,
   .news-preview-track {
     transition: none;
   }

@@ -8,13 +8,36 @@ import { useSyncExternalStore } from "react";
  * logout flow can show its real consequence — the header drops to the
  * logged-out state — without pretending an account system exists.
  *
- * Nothing is persisted on purpose. A reload puts the demo account back, which
- * is what you want from a prototype and is impossible to mistake for real
- * sign-out. Swap the three functions below for the real client the day there
- * is one; no component needs to change.
+ * It is held in `sessionStorage` so the logged-out state survives a reload —
+ * without that, logging out and refreshing put the demo account straight back
+ * and the header looked broken. A new tab starts signed in again, which is
+ * what you want from a prototype and is impossible to mistake for real auth.
+ *
+ * Swap the three functions below for the real client the day there is one; no
+ * component needs to change.
  */
 
-let signedIn = true;
+const KEY = "sevenpm.signed-in";
+
+function stored() {
+  if (typeof window === "undefined") return true;
+  try {
+    return window.sessionStorage.getItem(KEY) !== "false";
+  } catch {
+    /* Private windows and blocked site data both throw here. */
+    return true;
+  }
+}
+
+function remember(value: boolean) {
+  try {
+    window.sessionStorage.setItem(KEY, String(value));
+  } catch {
+    /* Nothing to do: the flag still lives for this page. */
+  }
+}
+
+let signedIn = stored();
 const listeners = new Set<() => void>();
 
 function subscribe(listener: () => void) {
@@ -38,11 +61,13 @@ export function useSignedIn() {
 export function signOut() {
   if (!signedIn) return;
   signedIn = false;
+  remember(false);
   listeners.forEach((listener) => listener());
 }
 
 export function signIn() {
   if (signedIn) return;
   signedIn = true;
+  remember(true);
   listeners.forEach((listener) => listener());
 }

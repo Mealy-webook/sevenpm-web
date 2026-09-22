@@ -1,8 +1,12 @@
 import Image from "next/image";
 
 /**
- * Language + currency picker, from Figma 2091:45844. Opens under the globe
- * button in the header. Single-select groups rendered as radio rows.
+ * Language + currency picker, from Figma 2091:45844. Two single-select groups
+ * of radio rows.
+ *
+ * The groups are exported on their own as `LocaleGroups` because they have two
+ * homes: this popover, and the site menu — the header no longer carries a
+ * globe of its own.
  */
 
 export const LANGUAGES = [
@@ -81,28 +85,20 @@ function SelectRow({
   );
 }
 
-export function LocaleMenu({
-  id,
-  labelledBy,
+/** The two groups, with no chrome of their own. */
+export function LocaleGroups({
   language,
   currency,
   onLanguage,
   onCurrency,
 }: {
-  id: string;
-  labelledBy: string;
   language: LanguageCode;
   currency: CurrencyCode;
   onLanguage: (code: LanguageCode) => void;
   onCurrency: (code: CurrencyCode) => void;
 }) {
   return (
-    <div
-      id={id}
-      role="dialog"
-      aria-labelledby={labelledBy}
-      className="popover flex w-[320px] flex-col gap-4 bg-[rgba(37,37,37,0.5)] p-4 backdrop-blur-2xl"
-    >
+    <>
       <div
         role="radiogroup"
         aria-label="Language"
@@ -140,6 +136,38 @@ export function LocaleMenu({
           />
         ))}
       </div>
+    </>
+  );
+}
+
+export function LocaleMenu({
+  id,
+  labelledBy,
+  language,
+  currency,
+  onLanguage,
+  onCurrency,
+}: {
+  id: string;
+  labelledBy: string;
+  language: LanguageCode;
+  currency: CurrencyCode;
+  onLanguage: (code: LanguageCode) => void;
+  onCurrency: (code: CurrencyCode) => void;
+}) {
+  return (
+    <div
+      id={id}
+      role="dialog"
+      aria-labelledby={labelledBy}
+      className="popover flex w-[320px] flex-col gap-4 bg-[rgba(37,37,37,0.5)] p-4 backdrop-blur-2xl"
+    >
+      <LocaleGroups
+        language={language}
+        currency={currency}
+        onLanguage={onLanguage}
+        onCurrency={onCurrency}
+      />
     </div>
   );
 }

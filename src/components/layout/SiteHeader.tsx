@@ -12,14 +12,15 @@ import { AuthDialog } from "@/components/auth/AuthDialog";
 import { useSignedIn } from "@/components/auth/session";
 import { authCopy } from "@/data/auth";
 import { loyaltyCopy } from "@/data/account";
-import { LocaleMenu, type CurrencyCode, type LanguageCode } from "./LocaleMenu";
+import type { CurrencyCode, LanguageCode } from "./LocaleMenu";
 import { SiteMenu } from "./SiteMenu";
 
 /**
  * Site header, from Figma 2091:56421 (event page) / 2078:44133 (homepage).
  * Buttons are the design system's Secondary style: 5% white fill, 0.5px 10%
  * white border. Signed in, the account button opens `AccountMenu`; signed
- * out it reads "Login / sign up". The globe opens `LocaleMenu`, the last
+ * out it reads "Login / sign up". Language and currency live in the site
+ * menu now rather than behind a globe of their own; the last
  * button the full-screen `SiteMenu`.
  */
 
@@ -49,7 +50,7 @@ const DEFAULT_USER: AccountUser = {
   walletBalance: "120 MAD",
 };
 
-type Popover = "account" | "locale" | null;
+type Popover = "account" | null;
 
 function BeatsChip() {
   const { balance } = useLoyalty();
@@ -253,7 +254,6 @@ export function SiteHeader({
   const baseId = useId();
 
   const accountId = `${baseId}-account`;
-  const localeId = `${baseId}-locale`;
 
   // Click outside or Escape closes whichever popover is open.
   useEffect(() => {
@@ -380,27 +380,6 @@ export function SiteHeader({
             )}
 
             <button
-              id={`${localeId}-button`}
-              type="button"
-              aria-label="Language and currency"
-              aria-haspopup="dialog"
-              aria-expanded={popover === "locale"}
-              aria-controls={localeId}
-              onClick={() => toggle("locale")}
-              className={`btn-secondary flex size-[52px] cursor-pointer items-center justify-center p-4 ${
-                popover === "locale" ? "is-active" : ""
-              }`}
-            >
-              <Image
-                src="/assets/ic-globe.svg"
-                alt=""
-                width={20}
-                height={20}
-                className="size-5"
-              />
-            </button>
-
-            <button
               type="button"
               aria-label="Open menu"
               aria-haspopup="dialog"
@@ -431,22 +410,17 @@ export function SiteHeader({
                 />
               </div>
             )}
-            {popover === "locale" && (
-              <div className="absolute right-0 top-[calc(100%+8px)]">
-                <LocaleMenu
-                  id={localeId}
-                  labelledBy={`${localeId}-button`}
-                  language={language}
-                  currency={currency}
-                  onLanguage={setLanguage}
-                  onCurrency={setCurrency}
-                />
-              </div>
-            )}
           </div>
         </div>
 
-        <SiteMenu open={menuOpen} onClose={closeMenu} />
+        <SiteMenu
+          open={menuOpen}
+          onClose={closeMenu}
+          language={language}
+          currency={currency}
+          onLanguage={setLanguage}
+          onCurrency={setCurrency}
+        />
         {authOpen && <AuthDialog onClose={() => setAuthOpen(false)} />}
       </header>
 

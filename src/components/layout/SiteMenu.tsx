@@ -6,6 +6,11 @@ import { useEffect, useId, useRef, useState } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 
+import {
+  LocaleGroups,
+  type CurrencyCode,
+  type LanguageCode,
+} from "./LocaleMenu";
 import { socialLinks } from "@/data/events";
 
 gsap.registerPlugin(CustomEase);
@@ -15,8 +20,12 @@ gsap.registerPlugin(CustomEase);
  *
  * A right-hand drawer 765 wide over the dimmed page: a 525 column inside a
  * 120 gutter, entries in Roboto Black 72 right-aligned with a hairline under
- * each, then the socials and the copyright. Festivals carries the four
- * festivals and opens them on click rather than listing them at rest.
+ * each, then language and currency, the socials and the copyright. Festivals
+ * carries the four festivals and opens them on click rather than listing them
+ * at rest.
+ *
+ * Language and currency live here rather than behind a globe in the header —
+ * they are settings, and the menu is where the settings are.
  *
  * Motion follows the kinetic-navigation reference: three backdrop layers wipe
  * across one after another and the links drop in rotated behind a CSS mask.
@@ -63,9 +72,17 @@ const ENTRY_TYPE =
 export function SiteMenu({
   open,
   onClose,
+  language,
+  currency,
+  onLanguage,
+  onCurrency,
 }: {
   open: boolean;
   onClose: () => void;
+  language: LanguageCode;
+  currency: CurrencyCode;
+  onLanguage: (code: LanguageCode) => void;
+  onCurrency: (code: CurrencyCode) => void;
 }) {
   const root = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
@@ -224,9 +241,15 @@ export function SiteMenu({
         className="absolute inset-0 cursor-default bg-black/70 backdrop-blur-sm"
       />
 
+      {/* The sheet does not scroll; the column inside it does. It used to be
+          the scroller, and the curtain behind it is `inset-0`, which an
+          absolutely positioned child resolves against the visible box rather
+          than the scrollable content — so on a short screen the background
+          stopped at the fold and the rest of the menu scrolled over the dimmed
+          page. */}
       <div
         data-menu-sheet
-        className="absolute inset-y-0 right-0 flex w-full max-w-[765px] flex-col overflow-y-auto overscroll-contain"
+        className="absolute inset-y-0 right-0 flex w-full max-w-[765px] flex-col"
       >
         {/* The curtain: three layers, wiped in one after another */}
         <div aria-hidden className="absolute inset-0 overflow-hidden">
@@ -239,7 +262,7 @@ export function SiteMenu({
         {/* The gutter is the site's own token, not a matching set of
             breakpoints — copied values drift apart the first time one of them
             changes. */}
-        <div className="relative flex min-h-full flex-col px-[var(--shell-gutter)] py-8 xl:py-14">
+        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[var(--shell-gutter)] py-8 xl:py-14">
           <div className="flex w-full justify-end">
             <button
               ref={closeButton}
@@ -334,6 +357,21 @@ export function SiteMenu({
           </nav>
 
           <div className="mt-auto flex w-full flex-col items-end gap-6 pt-12">
+            {/* Language and currency. The column is right-aligned like the
+                rest of the menu, and capped so the rows do not stretch the
+                full 765 of the drawer. */}
+            <div
+              data-menu-meta
+              className="flex w-full max-w-[420px] flex-col gap-4 border-t border-white/10 pt-6"
+            >
+              <LocaleGroups
+                language={language}
+                currency={currency}
+                onLanguage={onLanguage}
+                onCurrency={onCurrency}
+              />
+            </div>
+
             <nav
               aria-label="Social"
               data-menu-meta
