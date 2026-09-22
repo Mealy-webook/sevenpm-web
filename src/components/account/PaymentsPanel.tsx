@@ -83,7 +83,11 @@ export function PaymentsPanel({
           {copy.empty}
         </p>
       ) : (
-        <ul className="m-0 flex list-none flex-wrap items-start gap-6 p-0">
+        /* Two across from lg. The tiles used to be a wrapping flex row of
+           461s, and once the sidebar took its 293 the panel was a few pixels
+           short of fitting two — so they stacked one per line on a wide
+           screen. A two-column grid lets them share what there is. */
+        <ul className="m-0 grid list-none grid-cols-1 items-start gap-6 p-0 lg:grid-cols-2">
           {cards.map((card) => (
             <CardTile
               key={card.id}

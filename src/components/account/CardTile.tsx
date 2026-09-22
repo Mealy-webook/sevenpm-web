@@ -37,7 +37,7 @@ export function CardTile({
   const name = `${card.brand} ending ${card.last4}`;
 
   return (
-    <li className="isolate flex w-full max-w-[461px] list-none flex-col">
+    <li className="isolate flex w-full list-none flex-col">
       {/* Card face. The negative margin pulls the bar up behind it. */}
       <div className="relative z-[2] -mb-6 aspect-[335/185] w-full">
         <div className="absolute inset-0 bg-[linear-gradient(117.67deg,#282828_1.6%,#0b0b0b_93.5%)]" />
