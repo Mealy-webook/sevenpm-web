@@ -86,10 +86,13 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
           label={`${day.label} line-up`}
           /* A definite height, not a percentage: everything inside the
              gallery is percentage-based and `100%` collapses it to nothing
-             unless every ancestor up to <html> has a real height too. The
-             402 is what the heading, the chips and the padding take, so the
-             row gets the rest of the screen and the section fits one. */
-          height="clamp(300px, calc(100svh - var(--header-h, 0px) - 402px), 560px)"
+             unless every ancestor up to <html> has a real height too.
+             
+             It used to reserve 402 for the heading, the chips and the
+             padding, which left the row about 290 on a laptop — a band of
+             photograph in a tall empty section. It takes the screen less the
+             header and 300 now, floors at 420 and runs to 720. */
+          height="clamp(420px, calc(100svh - var(--header-h, 0px) - 300px), 720px)"
           /* Nine acts: eight rails at 64 plus a 520 panel is 1032, inside the
              1272 column with room to spare. */
           railWidth={64}
