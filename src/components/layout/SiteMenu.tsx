@@ -79,7 +79,11 @@ const ENTRY_TYPE =
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
- * under it. Secondary button treatment, as the comp draws it.
+ * under it.
+ *
+ * Tertiary, as the comp now draws them (2383:11352): no fill and no border,
+ * 16 of padding, the pair sitting flush against each other. Only the open one
+ * takes a fill, so the sheet underneath has something to belong to.
  */
 function LocaleButton({
   icon,
@@ -104,8 +108,8 @@ function LocaleButton({
         aria-expanded={open}
         aria-label={title ? `${title} — change` : label}
         onClick={onToggle}
-        className={`btn-secondary flex h-[52px] cursor-pointer items-center gap-2 px-4 ${
-          open ? "is-active" : ""
+        className={`flex h-[52px] cursor-pointer items-center gap-2 p-4 transition-colors ${
+          open ? "bg-white/10" : "hover:bg-white/5"
         }`}
       >
         <Image src={icon} alt="" width={20} height={20} className="size-5" />
@@ -326,7 +330,8 @@ export function SiteMenu({
         <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain py-8 pl-8 pr-[var(--shell-gutter)]">
           {/* Language and currency on the left, close on the right. */}
           <div className="flex w-full items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+            {/* Flush, with no gap: the comp sets the two side by side. */}
+            <div className="flex items-center">
               <LocaleButton
                 icon="/assets/ic-globe.svg"
                 label={language.toUpperCase()}

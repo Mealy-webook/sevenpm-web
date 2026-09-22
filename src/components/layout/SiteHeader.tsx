@@ -42,6 +42,18 @@ type SiteHeaderProps = {
    * the header, and a transparent bar there shows a seam.
    */
   surface?: "default" | "secondary";
+  /**
+   * Never slide away. The account screens keep the bar in place: the sidebar
+   * beside it is sticky, and a bar that leaves while the menu it sits over
+   * stays reads as the page losing its chrome. It still frosts and shrinks.
+   */
+  pinned?: boolean;
+  /**
+   * The account header is 136 tall (2467:17823): 32 above and below a 72
+   * logo. Every other page gives the bar 48 underneath (15:202). Sixteen
+   * pixels, and on the account screens they are sixteen the sidebar needs.
+   */
+  compact?: boolean;
 };
 
 const DEFAULT_USER: AccountUser = {
@@ -225,6 +237,8 @@ export function SiteHeader({
   logoSize = 72,
   hideAccount = false,
   surface = "default",
+  pinned = false,
+  compact = false,
 }: SiteHeaderProps) {
   const signedIn = useSignedIn();
   /* Signing out is client-side only, so the prop stays the source of who the
@@ -267,13 +281,13 @@ export function SiteHeader({
       if (delta > 0 !== run > 0) run = 0;
       run += delta;
 
-      if (y <= 160) setHidden(false);
+      if (pinned || y <= 160) setHidden(false);
       else if (run > 80 && !popover && !menuOpen) setHidden(true);
       else if (run < -40) setHidden(false);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [popover, menuOpen]);
+  }, [popover, menuOpen, pinned]);
   const baseId = useId();
 
   const accountId = `${baseId}-account`;
@@ -353,7 +367,11 @@ export function SiteHeader({
         data-scrolled={scrolled}
         data-surface={surface}
       >
-        <div className="shell flex items-start gap-[52px] pb-8 pt-6 xl:pb-12 xl:pt-8">
+        <div
+        className={`shell flex items-start gap-[52px] pb-8 pt-6 xl:pt-8 ${
+          compact ? "xl:pb-8" : "xl:pb-12"
+        }`}
+      >
           <Link href="/" aria-label="SEVENPM home" className="shrink-0">
             <Image
               src="/assets/logo-mark.svg"

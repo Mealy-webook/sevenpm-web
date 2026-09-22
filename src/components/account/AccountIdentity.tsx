@@ -42,11 +42,13 @@ export function AccountIdentity() {
            two lines and fill it — Daltown is condensed enough that a smaller
            size fits "Ahmed Mealy" on one line and looks like a caption.
            
-           Capped against the viewport's height as well, because the whole
-           sidebar has to stand above the fold: two lines at 160 is 234 of the
-           ~650 the column needs, and on a short laptop that was what pushed
-           Logout under the edge. */
-        className="m-0 font-daltown text-[clamp(56px,14vw,120px)] uppercase leading-[0.73] text-white [overflow-wrap:anywhere] lg:text-[min(160px,16vh)]"
+           Sized against the height the column actually has, because the whole
+           sidebar has to stand above the fold. Everything under the name —
+           chip, year, five rows, divider, logout — is a fixed 417, the column
+           starts 168 below the top of the screen, and two lines of this face
+           come to 1.5 times the size. So the name gets what is left, up to
+           the comp's 160: at 900 that is the full 160, at 768 it is 85. */
+        className="m-0 font-daltown text-[clamp(56px,14vw,120px)] uppercase leading-[0.73] text-white [overflow-wrap:anywhere] lg:text-[clamp(56px,calc((100svh-640px)/1.5),160px)]"
         data-no-split
       >
         {accountUser.name}
