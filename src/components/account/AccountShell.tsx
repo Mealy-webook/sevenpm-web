@@ -39,8 +39,13 @@ export function AccountShell({
         <AccountGuard>
           <section className="flex-1">
             <div className="shell flex flex-col gap-8 py-8 lg:flex-row lg:items-start lg:gap-[52px]">
-              {/* 293 column: who you are, then where you can go. */}
-              <div className="flex w-full flex-col gap-6 lg:w-[293px] lg:shrink-0">
+              {/* 293 column: who you are, then where you can go.
+                  
+                  It stands above the fold and stays there: sticky under the
+                  header, and no taller than the screen minus the header and
+                  the section's own padding. The name scales with the viewport
+                  height to hold that budget (see `AccountIdentity`). */}
+              <div className="flex w-full flex-col gap-6 lg:sticky lg:top-[calc(var(--header-h,0px)+32px)] lg:max-h-[calc(100svh-var(--header-h,0px)-64px)] lg:w-[293px] lg:shrink-0">
                 <AccountIdentity />
                 <AccountNav
                   items={accountNav}

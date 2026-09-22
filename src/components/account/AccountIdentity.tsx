@@ -40,8 +40,13 @@ export function AccountIdentity() {
       <h1
         /* 160 in the 293 column, which is what makes the name break across
            two lines and fill it — Daltown is condensed enough that a smaller
-           size fits "Ahmed Mealy" on one line and looks like a caption. */
-        className="m-0 font-daltown text-[clamp(56px,14vw,120px)] uppercase leading-[0.73] text-white [overflow-wrap:anywhere] lg:text-[160px]"
+           size fits "Ahmed Mealy" on one line and looks like a caption.
+           
+           Capped against the viewport's height as well, because the whole
+           sidebar has to stand above the fold: two lines at 160 is 234 of the
+           ~650 the column needs, and on a short laptop that was what pushed
+           Logout under the edge. */
+        className="m-0 font-daltown text-[clamp(56px,14vw,120px)] uppercase leading-[0.73] text-white [overflow-wrap:anywhere] lg:text-[min(160px,16vh)]"
         data-no-split
       >
         {accountUser.name}
