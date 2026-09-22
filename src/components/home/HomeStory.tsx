@@ -1,92 +1,71 @@
-import Image from "next/image";
+import { Emphasise } from "@/components/home/Emphasise";
+import { homeStoryHighlights, homeStoryLines } from "@/data/home";
 
-import { StickerPeel } from "@/components/ui/StickerPeel";
-import { homeStory } from "@/data/home";
+import styles from "./HomeStory.module.css";
 
 /**
- * The story block, from Figma 2227:5229 and 2465:6936: two photographs pinned
- * at opposing angles with a daisy and a guitar sticker over them, and the
- * founding paragraph centred underneath.
+ * The story block.
  *
- * The paragraph ends the section. A row of social buttons used to follow it;
- * the homepage comp (15:202) does not draw one, and the footer already lists
- * every account.
+ * It used to be two photographs pinned at opposing angles with peelable
+ * stickers over them (Figma 2227:5229). A photograph of a crowd says the
+ * same thing as every other festival's photograph of a crowd, so the images
+ * are gone and the movement does their work instead: two bands of kinetic
+ * type running opposite ways, with the founding statement held between them.
  *
- * The two stickers are peelable and draggable, like the ones on the event
- * page: they lift at the corner under the cursor and can be thrown around the
- * block. Nothing depends on where they end up.
- * */
+ * The phrases that carry the claim — the year, the country, what the company
+ * became and what it makes — are flooded brand. The bands are `aria-hidden`;
+ * a reader should not hear the name eight times.
+ */
+function Band({ reverse = false }: { reverse?: boolean }) {
+  const words = ["SEVENPM", "MORE MUSIC", "SEVENPM", "MORE LIFE"];
+  return (
+    <div
+      className={styles.band}
+      data-direction={reverse ? "reverse" : undefined}
+      aria-hidden
+    >
+      <div className={styles.track}>
+        {[0, 1].map((copy) =>
+          words.map((word, index) => (
+            <span
+              key={`${copy}-${word}-${index}`}
+              className={`${styles.word} ${
+                index % 2 ? styles.ghost : "text-white"
+              }`}
+            >
+              {word}
+            </span>
+          )),
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function HomeStory() {
   return (
     <section
       aria-label="About SEVENPM"
-      className="relative py-16 [overflow-x:clip] xl:py-24"
+      className="relative flex flex-col gap-10 overflow-hidden py-16 xl:gap-14 xl:py-24"
     >
-      <div className="shell flex flex-col items-center gap-12">
-        {/* Photographs and stickers */}
-        <div
-          className="relative flex w-full max-w-[880px] justify-center"
-          data-reveal="up"
-        >
-          <span className="relative block aspect-[424/478] w-[46%] max-w-[424px] -rotate-[4deg] overflow-hidden">
-            <Image
-              src={homeStory.photos[0]}
-              alt=""
-              fill
-              sizes="(min-width: 1280px) 424px, 45vw"
-              className="object-cover"
-            />
-          </span>
-          <span className="relative -ml-[6%] block aspect-[441/491] w-[48%] max-w-[441px] translate-y-[6%] rotate-[5deg] overflow-hidden">
-            <Image
-              src={homeStory.photos[1]}
-              alt=""
-              fill
-              sizes="(min-width: 1280px) 441px, 47vw"
-              className="object-cover"
-            />
-          </span>
+      <Band />
 
-          {/* Peelable, and only from xl — below that the photographs already
-              fill the width and a dragged sticker has nowhere to go. */}
-          <div
-            className="pointer-events-none absolute inset-0 hidden xl:block z-20"
-            aria-hidden
-          >
-            <StickerPeel
-              className="pointer-events-auto"
-              imageSrc="/assets/sticker-daisy.png"
-              width={150}
-              height={150}
-              rotate={-8}
-              initialPosition={{ x: -30, y: -40 }}
-              peelBackHoverPct={22}
-              peelBackActivePct={34}
-              shadowIntensity={0.6}
-              lightingIntensity={0.12}
-            />
-            <StickerPeel
-              className="pointer-events-auto"
-              imageSrc="/assets/sticker-guitar.png"
-              width={280}
-              height={259}
-              initialPosition={{ x: 640, y: 380 }}
-              peelBackHoverPct={22}
-              peelBackActivePct={34}
-              shadowIntensity={0.6}
-              lightingIntensity={0.12}
-            />
-          </div>
-        </div>
-
+      <div className="shell flex flex-col items-center gap-6">
         <p
-          className="m-0 max-w-[838px] text-center font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-7 tracking-[0.085px] text-white xl:text-[20px] xl:leading-[28px]"
+          className="m-0 max-w-[900px] text-center font-[family-name:var(--font-display)] text-[clamp(20px,2.4vw,32px)] font-bold uppercase leading-[1.2] tracking-[-0.01em] text-white"
           data-split="lines"
         >
-          {homeStory.body}
+          <Emphasise text={homeStoryLines[0]} phrases={homeStoryHighlights} />
         </p>
-
+        <p
+          className="m-0 max-w-[720px] text-center font-[family-name:var(--font-display)] text-[17px] leading-7 tracking-[0.085px] text-content-secondary"
+          data-reveal="up"
+        >
+          {homeStoryLines[1]}
+        </p>
       </div>
+
+      <Band reverse />
     </section>
   );
 }
