@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
@@ -8,15 +7,18 @@ export const SEEN_KEY = "sevenpm:seen";
 export const READY_EVENT = "sevenpm:ready";
 
 /**
- * First-visit intro: the needle drop.
+ * First-visit intro: the soundcheck.
  *
- * The deck's record sits on a black stage. It spins up to 33⅓, the tonearm
- * swings in and lands, and a ring of brand light draws itself round the disc
- * as the count runs to 100 — the load is one revolution's worth of waiting.
- * When the ring closes the sheet lifts and the site is, in effect, playing.
- * It is the same record, label and arm the event page's deck uses, at the
- * deck's own geometry, so the hero it lifts onto reads as a continuation and
- * not a second idea.
+ * The figure is the gain and the meter under it is the progress bar — forty
+ * bars that light left to right, one bar per two and a half per cent, while
+ * the count climbs with them. The bars that are lit keep moving, each at its
+ * own rate, so the meter reads as levels coming up rather than as a progress
+ * bar wearing a costume. At 100 every bar peaks once and the sheet wipes up.
+ *
+ * The bar is honest about what it is waiting for. It runs to 90 on its own
+ * clock and holds there until the window has actually loaded, then finishes.
+ * A page that is already loaded therefore never stalls at 90, and a slow one
+ * never shows 100 over an empty screen.
  *
  * Shown once per session — repeat visits within the tab go straight to the
  * page. While it runs the body is scroll-locked (which also pauses Lenis)
@@ -27,20 +29,20 @@ export const READY_EVENT = "sevenpm:ready";
  * worse than one that never does.
  */
 
-/* The deck's own numbers (VinylCarousel): a 612 disc, a 345 label, and the
-   arm box placed off the disc's top-left corner. The stage is 800 × 680 with
-   the disc dropped 68 so the arm's pivot clears the top. */
-const DISC = 612;
-const LABEL = 345;
-const LABEL_INSET = (DISC - LABEL) / 2;
-const DISC_TOP = 68;
-const ARM = { left: 391, top: 3, width: 396.053, height: 450.136 };
-const ARM_REST = 15;
-const ARM_PLAY = 9;
-const SPIN_SECONDS = 60 / (100 / 3);
-/* The ring sits just outside the disc. */
-const RING_R = DISC / 2 + 22;
-const RING_C = 2 * Math.PI * RING_R;
+/**
+ * Resting heights for the meter, as a share of the tallest bar. A fixed table
+ * rather than random numbers: a loader that looks different on every visit
+ * cannot be art-directed, and `Math.random` in a component body is impure.
+ */
+const LEVELS = [
+  0.32, 0.55, 0.41, 0.78, 0.6, 0.94, 0.48, 0.71, 0.36, 0.83, 0.52, 0.66, 0.29,
+  0.88, 0.45, 0.74, 0.58, 0.97, 0.39, 0.63, 0.5, 0.81, 0.34, 0.69, 0.57, 0.91,
+  0.43, 0.76, 0.3, 0.85, 0.54, 0.68, 0.37, 0.79, 0.61, 0.46, 0.72, 0.33, 0.86,
+  0.49,
+];
+
+/** How far the count gets before it waits for the page itself. */
+const HOLD_AT = 0.9;
 
 export function Preloader() {
   // Rendered from the first frame so a first visit never flashes the page;
@@ -49,10 +51,7 @@ export function Preloader() {
   const active = phase === "run";
   const root = useRef<HTMLDivElement>(null);
   const counter = useRef<HTMLSpanElement>(null);
-  const record = useRef<HTMLDivElement>(null);
-  const platter = useRef<HTMLDivElement>(null);
-  const arm = useRef<HTMLDivElement>(null);
-  const ring = useRef<SVGCircleElement>(null);
+  const meter = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let show = false;
@@ -79,96 +78,141 @@ export function Preloader() {
     if (!active) return;
     const el = root.current;
     const num = counter.current;
-    if (!el || !num || !platter.current || !arm.current || !ring.current) {
-      return;
-    }
+    const meterEl = meter.current;
+    if (!el || !num || !meterEl) return;
 
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    const state = { n: 0 };
-    const tl = gsap.timeline({
-      onComplete: () => {
-        try {
-          sessionStorage.setItem(SEEN_KEY, "1");
-        } catch {
-          /* private mode */
-        }
-        document.body.style.overflow = previous;
-        document.dispatchEvent(new Event(READY_EVENT));
-        setPhase("done");
-      },
-    });
+    const bars = Array.from(
+      meterEl.querySelectorAll<HTMLElement>("[data-pre-bar]"),
+    );
 
-    /* The platter turns for the whole intro. It starts stopped and is eased
-       up to speed the way the deck does it — a record does not snap to
-       33⅓ — and the timeline runs its own clock alongside. */
-    const spin = gsap.to(platter.current, {
-      rotation: "+=360",
-      duration: SPIN_SECONDS,
-      ease: "none",
-      repeat: -1,
-    });
-    spin.timeScale(0);
+    /* One value drives both readouts, which is what makes the meter a
+       progress bar rather than a decoration that happens to run alongside
+       one. A bar is lit once the progress passes its own share. */
+    const state = { p: 0 };
+    const lit = new Set<number>();
+    const paint = () => {
+      num.textContent = String(Math.round(state.p * 100)).padStart(2, "0");
+      const count = Math.round(state.p * bars.length);
+      bars.forEach((bar, index) => {
+        if (index < count && !lit.has(index)) {
+          lit.add(index);
+          gsap.to(bar, {
+            backgroundColor: "#fbeb1c",
+            duration: 0.25,
+            ease: "power2.out",
+          });
+          /* Lit bars move. Each gets its own rate so the meter never
+             marches in step. */
+          gsap.to(bar, {
+            scaleY: LEVELS[index % LEVELS.length],
+            duration: 0.34 + (index % 5) * 0.08,
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+          });
+        }
+      });
+    };
+
+    gsap.set(bars, { scaleY: 0.08, transformOrigin: "50% 100%" });
+
+    const finish = () => {
+      try {
+        sessionStorage.setItem(SEEN_KEY, "1");
+      } catch {
+        /* private mode */
+      }
+      document.body.style.overflow = previous;
+      document.dispatchEvent(new Event(READY_EVENT));
+      setPhase("done");
+    };
+
+    /* The release needs both: the meter at the hold, and the document
+       loaded. Whichever lands second starts the last ten per cent, so a page
+       that was ready before the loader finished climbing never snaps, and a
+       slow one never shows 100 early. */
+    let atHold = false;
+    let loaded = document.readyState === "complete";
+    let released = false;
+    const maybeRelease = () => {
+      if (!atHold || !loaded || released) return;
+      released = true;
+      release();
+    };
+    const onLoaded = () => {
+      loaded = true;
+      maybeRelease();
+    };
+
+    if (!loaded) window.addEventListener("load", onLoaded, { once: true });
+    /* Nothing waits forever. */
+    const failsafe = gsap.delayedCall(6, onLoaded);
+
+    const tl = gsap.timeline({ onComplete: finish });
 
     tl.fromTo(
-      record.current,
-      { scale: 0.92, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.8, ease: "expo.out" },
+      "[data-pre-num]",
+      { yPercent: 120, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 0.5, ease: "expo.out" },
       0,
     )
       .fromTo(
         "[data-pre-meta]",
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", stagger: 0.06 },
+        { y: 10, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.06 },
         0.1,
       )
-      /* Spin up. */
-      .to(spin, { timeScale: 1, duration: 1, ease: "power2.in" }, 0.3)
-      /* The arm comes across from its rest and lands: a small lift while it
-         travels, then down onto the groove. */
-      .fromTo(
-        arm.current,
-        { rotation: ARM_REST, y: -10, scale: 1.02 },
-        { rotation: ARM_PLAY, duration: 0.7, ease: "power2.inOut" },
-        0.55,
-      )
-      .to(arm.current, { y: 0, scale: 1, duration: 0.35, ease: "power2.in" }, 1.1)
-      /* One revolution of waiting: the ring closes and the count runs. */
-      .fromTo(
-        ring.current,
-        { strokeDashoffset: RING_C },
-        { strokeDashoffset: 0, duration: 1.9, ease: "power2.inOut" },
-        0.4,
-      )
+      /* Levels up to 90, then the page decides. */
       .to(
         state,
-        {
-          n: 100,
-          duration: 1.9,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            num.textContent = String(Math.round(state.n)).padStart(3, "0");
-          },
-        },
-        0.4,
+        { p: HOLD_AT, duration: 1.4, ease: "power2.inOut", onUpdate: paint },
+        0,
       )
-      /* Everything but the record leaves, then the sheet lifts off it. */
-      .to(
-        "[data-pre-meta]",
-        { y: -14, opacity: 0, duration: 0.45, ease: "power3.in" },
-        2.35,
-      )
-      .to(ring.current, { opacity: 0, duration: 0.3 }, 2.35)
-      .to(
-        el,
-        { clipPath: "inset(0 0 100% 0)", duration: 0.9, ease: "expo.inOut" },
-        2.5,
-      );
+      .call(() => {
+        atHold = true;
+        maybeRelease();
+      })
+      .addPause();
+
+    /* The last ten per cent belongs to the document. */
+    const release = () => {
+      const rest = gsap.timeline();
+      rest
+        .to(state, {
+          p: 1,
+          duration: 0.45,
+          ease: "power2.out",
+          onUpdate: paint,
+          onComplete: paint,
+        })
+        /* The peak: every bar to full, once. */
+        .to(
+          bars,
+          { scaleY: 1, duration: 0.18, ease: "power2.out", overwrite: true },
+          ">-0.05",
+        )
+        .to(
+          "[data-pre-num], [data-pre-meta]",
+          { y: -14, opacity: 0, duration: 0.4, ease: "power3.in" },
+          ">",
+        )
+        .to(
+          el,
+          { clipPath: "inset(0 0 100% 0)", duration: 0.8, ease: "expo.inOut" },
+          "<0.1",
+        )
+        .add(() => tl.play());
+    };
+
 
     return () => {
       tl.kill();
-      spin.kill();
+      failsafe.kill();
+      gsap.killTweensOf(bars);
+      window.removeEventListener("load", onLoaded);
       document.body.style.overflow = previous;
     };
   }, [active]);
@@ -181,135 +225,66 @@ export function Preloader() {
       className="preloader fixed inset-0 z-[100] flex flex-col justify-between overflow-hidden bg-bg-primary p-6 xl:p-12"
       aria-hidden
     >
-      <div className="flex items-center justify-between" data-pre-meta>
-        <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary">
+      <div className="flex items-center justify-between">
+        <span
+          data-pre-meta
+          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary"
+        >
           More music
         </span>
-        <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary">
+        <span
+          data-pre-meta
+          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary"
+        >
           More life
         </span>
       </div>
 
-      {/* The stage: fixed geometry, scaled to fit whatever is left between
-          the two rows. */}
-      <div className="pre-stage relative mx-auto" ref={record}>
-        <div
-          className="absolute left-0 top-0"
-          style={{ width: 800, height: 680, transformOrigin: "top left" }}
-        >
-          {/* Ring of light, just outside the disc. */}
-          <svg
-            className="absolute"
-            style={{
-              left: DISC / 2 - RING_R,
-              top: DISC_TOP + DISC / 2 - RING_R,
-              width: RING_R * 2,
-              height: RING_R * 2,
-            }}
-            viewBox={`0 0 ${RING_R * 2} ${RING_R * 2}`}
+      <div className="mx-auto flex w-full max-w-[980px] flex-col gap-6">
+        <div className="flex items-end justify-between gap-6">
+          <span className="block overflow-hidden">
+            <span
+              ref={counter}
+              data-pre-num
+              className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-white"
+            >
+              00
+            </span>
+          </span>
+          <span
+            data-pre-meta
+            className="pb-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
           >
-            <circle
-              cx={RING_R}
-              cy={RING_R}
-              r={RING_R - 1}
-              fill="none"
-              stroke="rgba(255,255,255,0.06)"
-              strokeWidth="1"
-            />
-            <circle
-              ref={ring}
-              cx={RING_R}
-              cy={RING_R}
-              r={RING_R - 1}
-              fill="none"
-              stroke="var(--color-brand)"
-              strokeWidth="2"
-              strokeLinecap="butt"
-              strokeDasharray={RING_C}
-              strokeDashoffset={RING_C}
-              transform={`rotate(-90 ${RING_R} ${RING_R})`}
-            />
-          </svg>
+            Soundcheck
+          </span>
+        </div>
 
-          {/* The record. The platter is what turns. */}
-          <div
-            className="absolute left-0"
-            style={{ top: DISC_TOP, width: DISC, height: DISC }}
-          >
-            <div ref={platter} className="relative size-full">
-              <Image
-                src="/assets/hero-vinyl.png"
-                alt=""
-                width={DISC}
-                height={DISC}
-                priority
-                className="object-cover"
-                style={{ width: DISC, height: DISC }}
-              />
-              <Image
-                src="/assets/hero-vinyl-label.png"
-                alt=""
-                width={LABEL}
-                height={LABEL}
-                priority
-                className="absolute rounded-full object-cover"
-                style={{
-                  left: LABEL_INSET,
-                  top: LABEL_INSET,
-                  width: LABEL,
-                  height: LABEL,
-                }}
-              />
-            </div>
-          </div>
-
-          {/* The tonearm, at the deck's own offset from the disc. */}
-          <div
-            className="pointer-events-none absolute flex items-center justify-center"
-            style={{
-              left: ARM.left,
-              top: ARM.top,
-              width: ARM.width,
-              height: ARM.height,
-            }}
-          >
-            <div ref={arm}>
-              <Image
-                src="/assets/hero-tonearm.png"
-                alt=""
-                width={307}
-                height={384}
-                priority
-                className="object-cover"
-                style={{ width: 307.213, height: 383.698 }}
-              />
-            </div>
-          </div>
+        {/* The meter: forty bars, one per two and a half per cent. */}
+        <div ref={meter} className="flex h-[54px] w-full items-end gap-[3px]">
+          {LEVELS.map((level, index) => (
+            <span
+              key={index}
+              data-pre-bar
+              className="block flex-1 bg-white/15"
+              style={{ height: `${28 + level * 26}px` }}
+            />
+          ))}
         </div>
       </div>
 
-      <div className="flex w-full items-end justify-between gap-8">
-        <div className="w-[34%] max-w-[420px]" data-pre-meta>
-          <Image
-            src="/assets/wordmark.svg"
-            alt=""
-            width={1272}
-            height={238}
-            priority
-            className="h-auto w-full"
-          />
-        </div>
-        <div className="flex flex-col items-end gap-2" data-pre-meta>
-          <span
-            ref={counter}
-            className="font-daltown text-[72px] leading-none text-brand xl:text-[120px]"
-          >
-            000
-          </span>
-          <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary">
-            33⅓ rpm
-          </span>
-        </div>
+      <div className="flex items-center justify-between">
+        <span
+          data-pre-meta
+          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+        >
+          Levels · stage · doors
+        </span>
+        <span
+          data-pre-meta
+          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+        >
+          Casablanca
+        </span>
       </div>
     </div>
   );
