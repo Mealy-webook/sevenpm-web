@@ -89,19 +89,31 @@ export function MotionProvider() {
          * it, and `gsap.set` means the context revert puts it back. */
         gsap.set(el, { width: "100%" });
 
-        const split = SplitText.create(el, {
+        /* `autoSplit` re-splits when the webfont lands and on resize. The
+           width guard above is not enough on its own: the first measurement
+           can happen in the fallback face, and a paragraph measured in the
+           wrong metrics keeps whatever lines it got — the hero's intro had
+           wound down to one word per line and 21 of them. Returning the
+           tween from `onSplit` lets GSAP kill it before each re-split
+           instead of stacking one per measurement. */
+        SplitText.create(el, {
           type: "lines",
           mask: "lines",
           linesClass: "split-line",
-        });
-        gsap.set(split.lines, { yPercent: 110 });
-        gsap.to(split.lines, {
-          yPercent: 0,
-          duration: 1,
-          ease: "expo.out",
-          stagger: 0.08,
-          delay: Number(el.dataset.revealDelay ?? 0),
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+          autoSplit: true,
+          onSplit: (self) =>
+            gsap.fromTo(
+              self.lines,
+              { yPercent: 110 },
+              {
+                yPercent: 0,
+                duration: 1,
+                ease: "expo.out",
+                stagger: 0.08,
+                delay: Number(el.dataset.revealDelay ?? 0),
+                scrollTrigger: { trigger: el, start: "top 90%", once: true },
+              },
+            ),
         });
       });
 
