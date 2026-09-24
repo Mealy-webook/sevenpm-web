@@ -33,29 +33,33 @@ const LABEL_INSET = (DISC - LABEL) / 2;
 const GLOW = DISC / 3;
 
 /**
- * Slot geometry. The comp receded the neighbours to 245 and 191 and packed
- * five whole records onto the stage with no air between them.
+ * Slot geometry.
  *
- * Three records now, and they do not touch: the centre spans 450.5 to
- * 1062.5, and each neighbour at 330 sits 48px clear of it, leaving 71px to
- * the stage edge on either side. Nothing is cut, which is the point — the
- * outer pair the stage used to halve is parked off-stage instead, because
- * a half record only reads as a half record if something clips it.
+ * A 612 centre on a 1512 stage leaves exactly 450px a side, and that has to
+ * hold a whole record, two gaps and half of the next one — which fixes the
+ * neighbours at 250: 37 + 250 + 38 + 125 = 450. Bigger neighbours and the
+ * half record has nowhere to go.
+ *
+ * ±2 is centred on the stage's own edge, so the edge cuts it exactly in
+ * half. Only the ring is clipped, not the stage — the spectrum canvas runs
+ * from −442 to 1053 and clipping the stage chopped it.
  *
  * The centre stays at 612 because that is the stage's height; it cannot
  * grow without the hero's frame growing with it.
  */
 const SLOTS: Record<number, { cx: number; size: number; visible: boolean }> = {
-  [-1]: { cx: 236.5, size: 330, visible: true },
+  [-2]: { cx: 0, size: 250, visible: true },
+  [-1]: { cx: 287.5, size: 250, visible: true },
   [0]: { cx: 756.5, size: DISC, visible: true },
-  [1]: { cx: 1275.5, size: 330, visible: true },
+  [1]: { cx: 1224.5, size: 250, visible: true },
+  [2]: { cx: STAGE_WIDTH, size: 250, visible: true },
 };
 
 /** Parked off-stage, so a disc wrapping round the ring never crosses the view. */
 function slotFor(offset: number) {
   const known = SLOTS[offset];
   if (known) return known;
-  const away = Math.abs(offset) - 1;
+  const away = Math.abs(offset) - 2;
   return {
     cx: offset < 0 ? -320 - away * 240 : 1840 + away * 240,
     size: 150,
@@ -330,88 +334,94 @@ export function VinylCarousel({
         <HeroSpectrum playing={playing} analyser={analyser} />
       </div>
 
-      {/* The ring of records */}
-      {offsets.map((off, k) => {
-        const track = tracks[k % tracks.length];
-        const slot = slotFor(off);
-        const isCentre = off === 0;
-        const label = isCentre
-          ? playing
-            ? `Pause ${track.title}`
-            : `Play ${track.title} by ${track.artist}`
-          : `Play ${track.title} by ${track.artist}`;
+      {/* The ring of records. Clipped on x only so the outer pair is halved
+          by the stage edges — on the ring alone, because the stage also
+          holds the spectrum canvas, which runs well past both edges and was
+          being chopped when the clip sat on the stage. `clip` rather than
+          `hidden` keeps the y axis visible for the tonearm. */}
+      <div className="absolute inset-0 [overflow-x:clip]">
+        {offsets.map((off, k) => {
+          const track = tracks[k % tracks.length];
+          const slot = slotFor(off);
+          const isCentre = off === 0;
+          const label = isCentre
+            ? playing
+              ? `Pause ${track.title}`
+              : `Play ${track.title} by ${track.artist}`
+            : `Play ${track.title} by ${track.artist}`;
 
-        return (
-          <button
-            key={k}
-            type="button"
-            onClick={() => select(k)}
-            aria-label={label}
-            aria-hidden={!slot.visible}
-            tabIndex={slot.visible && Math.abs(off) <= 1 ? 0 : -1}
-            data-side={isCentre ? "false" : "true"}
-            data-cursor={isCentre ? (playing ? "Pause" : "Play") : "Play"}
-            className="vinyl-slot absolute left-0 top-0 block appearance-none border-0 bg-transparent p-0"
-            style={{
-              width: DISC,
-              height: DISC,
-              transform: `translate(${slot.cx - DISC / 2}px, ${AXIS_Y - DISC / 2}px) scale(${slot.size / DISC})`,
-              opacity: slot.visible ? 1 : 0,
-              zIndex: 10 - Math.abs(off),
-              pointerEvents: slot.visible ? "auto" : "none",
-              transition: jumped[k] ? "none" : undefined,
-            }}
-          >
-            <div
-              ref={(el) => {
-                rotators.current[k] = el;
+          return (
+            <button
+              key={k}
+              type="button"
+              onClick={() => select(k)}
+              aria-label={label}
+              aria-hidden={!slot.visible}
+              tabIndex={slot.visible && Math.abs(off) <= 1 ? 0 : -1}
+              data-side={isCentre ? "false" : "true"}
+              data-cursor={isCentre ? (playing ? "Pause" : "Play") : "Play"}
+              className="vinyl-slot absolute left-0 top-0 block appearance-none border-0 bg-transparent p-0"
+              style={{
+                width: DISC,
+                height: DISC,
+                transform: `translate(${slot.cx - DISC / 2}px, ${AXIS_Y - DISC / 2}px) scale(${slot.size / DISC})`,
+                opacity: slot.visible ? 1 : 0,
+                zIndex: 10 - Math.abs(off),
+                pointerEvents: slot.visible ? "auto" : "none",
+                transition: jumped[k] ? "none" : undefined,
               }}
-              className="relative size-full"
             >
-              <Image
-                src="/assets/hero-vinyl.png"
-                alt=""
-                width={DISC}
-                height={DISC}
-                priority={isCentre}
-                className="object-cover"
-                style={{ width: DISC, height: DISC }}
-              />
-              {track.artworkUrl ? (
+              <div
+                ref={(el) => {
+                  rotators.current[k] = el;
+                }}
+                className="relative size-full"
+              >
                 <Image
-                  src={artworkAt(track.artworkUrl, 600)}
+                  src="/assets/hero-vinyl.png"
                   alt=""
-                  width={LABEL}
-                  height={LABEL}
-                  sizes={`${LABEL}px`}
+                  width={DISC}
+                  height={DISC}
                   priority={isCentre}
-                  className="absolute rounded-full object-cover"
-                  style={{
-                    left: LABEL_INSET,
-                    top: LABEL_INSET,
-                    width: LABEL,
-                    height: LABEL,
-                  }}
+                  className="object-cover"
+                  style={{ width: DISC, height: DISC }}
                 />
-              ) : (
-                <Image
-                  src="/assets/hero-vinyl-label.png"
-                  alt=""
-                  width={LABEL}
-                  height={LABEL}
-                  className="absolute rounded-full object-cover"
-                  style={{
-                    left: LABEL_INSET,
-                    top: LABEL_INSET,
-                    width: LABEL,
-                    height: LABEL,
-                  }}
-                />
-              )}
-            </div>
-          </button>
-        );
-      })}
+                {track.artworkUrl ? (
+                  <Image
+                    src={artworkAt(track.artworkUrl, 600)}
+                    alt=""
+                    width={LABEL}
+                    height={LABEL}
+                    sizes={`${LABEL}px`}
+                    priority={isCentre}
+                    className="absolute rounded-full object-cover"
+                    style={{
+                      left: LABEL_INSET,
+                      top: LABEL_INSET,
+                      width: LABEL,
+                      height: LABEL,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    src="/assets/hero-vinyl-label.png"
+                    alt=""
+                    width={LABEL}
+                    height={LABEL}
+                    className="absolute rounded-full object-cover"
+                    style={{
+                      left: LABEL_INSET,
+                      top: LABEL_INSET,
+                      width: LABEL,
+                      height: LABEL,
+                    }}
+                  />
+                )}
+              </div>
+            </button>
+          );
+        })}
+      </div>
 
       {/* Tonearm */}
       <div
