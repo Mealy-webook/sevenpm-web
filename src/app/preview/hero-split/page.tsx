@@ -4,22 +4,21 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
-import { HeroDeck } from "@/components/home/heroes/HeroDeck";
+import { HeroSplit } from "@/components/home/heroes/HeroSplit";
 
 export const metadata: Metadata = {
-  title: "Hero — Deck — SEVENPM",
+  title: "Hero — Editorial split — SEVENPM",
   robots: { index: false },
 };
 
-/** Hero option: Deck. Review chrome; the live homepage is untouched. */
-export default function HeroDeckPreview() {
+/** Hero option: Editorial split. Review chrome; the live homepage is untouched. */
+export default function HeroSplitPreview() {
   return (
     <>
       <MotionProvider />
       <SiteHeader logoSize={100} />
       <main>
-        <HeroDeck />
-        {/* What it releases into, so the join can be judged. */}
+        <HeroSplit />
         <NewsletterSection />
       </main>
       <SiteFooter />

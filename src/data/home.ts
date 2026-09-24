@@ -27,6 +27,13 @@ export type Festival = {
    * have none until content provides it.
    */
   when?: string;
+  /**
+   * Where it happens. Read off the artwork and the newsroom, not invented:
+   * Jazzablanca's poster says "Anfa Park, Casablanca", Tanjazz's says
+   * "Festival des Jazz de Tanger" and the news headline has it returning to
+   * Tangier, and both Casa Anfa festivals are Anfa Park.
+   */
+  city?: string;
   /** Preview played while the visitor holds the spacebar. */
   audioSrc?: string;
 };
@@ -34,6 +41,7 @@ export type Festival = {
 export const festivals: Festival[] = [
   {
     id: "village-casa-anfa",
+    city: "Casablanca",
     name: "Village Casa Anfa",
     href: "#",
     poster: { src: "/assets/festival-poster-1.png", width: 374, height: 526 },
@@ -41,6 +49,7 @@ export const festivals: Festival[] = [
   },
   {
     id: "tanjazz",
+    city: "Tangier",
     name: "Tanjazz",
     href: "#",
     poster: {
@@ -53,6 +62,7 @@ export const festivals: Festival[] = [
   },
   {
     id: "jazzablanca",
+    city: "Casablanca",
     name: "Jazzablanca",
     href: `/events/${jazzablanca.slug}`,
     poster: {
@@ -66,6 +76,7 @@ export const festivals: Festival[] = [
   },
   {
     id: "casa-anfa-latina",
+    city: "Casablanca",
     name: "Casa Anfa Latina",
     href: "#",
     poster: {
@@ -77,6 +88,7 @@ export const festivals: Festival[] = [
   },
   {
     id: "arma-taghazout",
+    city: "Taghazout",
     name: "Arma Taghazout",
     href: "#",
     poster: { src: "/assets/festival-poster-5.png", width: 375, height: 526 },

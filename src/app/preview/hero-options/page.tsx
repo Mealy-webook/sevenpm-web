@@ -17,37 +17,27 @@ const OPTIONS = [
   {
     href: "/",
     label: "Current · Terminal",
-    note: "React Bits' FaultyTerminal tinted brand, the name over it, and the frame reveal below.",
+    note: "FaultyTerminal tinted brand, the name over it. Here for comparison.",
   },
   {
-    href: "/preview/hero-wall",
-    label: "A · Poster wall",
-    note: "The four festival posters full height, drifting at different rates, name knocked over them. Hovering a column brings that festival to colour.",
+    href: "/preview/hero-split",
+    label: "A · Editorial split",
+    note: "Name ranged hard left, the programme as a ruled list under it, one poster running the full height of the right edge. Type and picture never overlap, so it needs no scrim and the poster keeps its colour.",
   },
   {
-    href: "/preview/hero-spotlight",
-    label: "B · Spotlight",
-    note: "A dark stage and a lamp you carry: the crowd exists only inside a circle that follows the cursor, and the name fills solid where the light crosses it.",
+    href: "/preview/hero-lineup",
+    label: "B · Line-up",
+    note: "No picture and no centred name: the four festivals as four rows at display size, ruled like a bill. Hovering floods a row brand and brings its poster up. The hero is also the navigation.",
   },
   {
-    href: "/preview/hero-stub",
-    label: "C · Stub",
-    note: "The hero as one enormous ticket — brand stock, perforated edge, drawn barcode. The only option that is not dark.",
+    href: "/preview/hero-cover",
+    label: "C · Cover",
+    note: "The hierarchy inverted — one photograph is the hero and the name is a mark in the corner, with cover lines down the edge. The only option where the brand is small.",
   },
   {
-    href: "/preview/hero-rays",
-    label: "E · Rays",
-    note: "React Bits' LightRays (ogl) tinted brand — beams from above the frame, following the cursor. The lighting truss the hero used to have, as a shader instead of a dozen blurred elements.",
-  },
-  {
-    href: "/preview/hero-grid",
-    label: "F · Grid",
-    note: "React Bits' GridMotion (GSAP) — four rails of posters and gallery frames sliding opposite ways behind the name, easing toward the pointer. The work rather than a texture.",
-  },
-  {
-    href: "/preview/hero-deck",
-    label: "D · Deck",
-    note: "The record turning under a tonearm with the featured festival named as what is playing. Name beside it, so nothing needs a scrim.",
+    href: "/preview/hero-board",
+    label: "D · Board",
+    note: "The hero as a schedule: festival, city, dates, status, ruled at display scale, each cell flicking over like a split-flap board. Information rather than an image.",
   },
 ];
 

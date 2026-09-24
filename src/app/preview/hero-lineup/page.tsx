@@ -4,21 +4,21 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
-import { HeroRays } from "@/components/home/heroes/HeroRays";
+import { HeroLineup } from "@/components/home/heroes/HeroLineup";
 
 export const metadata: Metadata = {
-  title: "Hero — Rays — SEVENPM",
+  title: "Hero — Line-up — SEVENPM",
   robots: { index: false },
 };
 
-/** Hero option: Rays. Review chrome; the live homepage is untouched. */
-export default function HeroRaysPreview() {
+/** Hero option: Line-up. Review chrome; the live homepage is untouched. */
+export default function HeroLineupPreview() {
   return (
     <>
       <MotionProvider />
       <SiteHeader logoSize={100} />
       <main>
-        <HeroRays />
+        <HeroLineup />
         <NewsletterSection />
       </main>
       <SiteFooter />
