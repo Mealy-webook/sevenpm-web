@@ -20,13 +20,9 @@ import { heroReveal } from "@/data/home";
  * spectrum of whatever is playing.
  *
  * The screen holds while you scroll and a frame opens from a rounded pill
- * to the full bleed
- * (`animated-video-on-scroll`). The frame is flush to the bottom of the
- * screen, so the open state reads as the page itself arriving rather than as
- * a band floating in the middle of it. `mt-auto` keeps it there now that
- * there is no copy above it taking the slack, and it gives back height on
- * small screens, where a sticky screen taller than the viewport does not
- * stick.
+ * to
+ * a 16:9 frame, as wide as the screen allows and capped so it stays inside
+ * the fold.
  *
  * The travel is 320vh. The component opens its frame over the first 80% of
  * that, so the remaining fifth is how long the full frame holds before the
@@ -55,7 +51,12 @@ export function HomeHero() {
 
         {/* The frame. It starts as a pill in the middle of the screen and
             ends as the full bleed. */}
-        <ContainerInset className="relative z-10 mt-auto h-[30svh] w-full shrink-0 sm:h-[38svh] xl:h-[46svh]">
+        {/* 16:9 when open, as wide as the screen allows, capped so the
+            open state still leaves the frame inside the fold. Centred
+            rather than bottom-flush: a 16:9 box is shorter than the screen
+            on every desktop ratio, and pinned to the bottom it left a dead
+            band above it. */}
+        <ContainerInset className="relative z-10 mx-auto my-auto aspect-video w-full max-w-[calc(68svh*16/9)] shrink-0">
           {heroReveal.video ? (
             <HeroVideo
               src={heroReveal.video}

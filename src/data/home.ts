@@ -221,13 +221,18 @@ export const homePillars = [
 ];
 
 /**
- * The frame the hero opens onto as you scroll. `video` wins when it is set —
- * drop an .mp4 in `public/assets` and name it here; the still is the poster
- * either way.
+ * The frame the hero opens onto as you scroll. `video` wins when it is set;
+ * the still is its poster.
  */
 export const heroReveal = {
   image: "/assets/gallery-2.jpg",
-  video: null as string | null,
+  /**
+   * A 13s silent loop cut from the site's own photographs — four slow pushes
+   * with crossfades, 1920 x 1080 so the frame has pixels at its 16:9 open
+   * state. Replace with real festival footage when there is some; the still
+   * above stays as its poster either way.
+   */
+  video: "/assets/hero-reel.mp4" as string | null,
 };
 
 /**
