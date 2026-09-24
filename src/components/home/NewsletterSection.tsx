@@ -12,9 +12,9 @@ import { homeCopy } from "@/data/home";
  * 120 over a hairline rule, the body underneath, then the field and a dark
  * Subscribe button side by side.
  *
- * The tape is two grey strips at −33.63°, which is what the comp draws; the
- * rotation lives on the sheet rather than on the section so nothing around it
- * has to account for the tilt.
+ * The tape is two grey strips at −33.63°, which is what the comp draws. Both
+ * the tilt and the strips live on the sheet, so the tape is stuck to it
+ * rather than parked near it.
  *
  * Nothing is sent. There is no list behind this build, so the button
  * acknowledges in place rather than pretending to subscribe anyone.
@@ -27,20 +27,29 @@ export function NewsletterSection() {
   return (
     <section id="newsletter" className="relative py-16 xl:py-20">
       <div className="shell relative flex flex-col items-center">
-        {/* Tape, top left and bottom right of the sheet. */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute left-[4%] top-2 z-[2] block h-[25px] w-[118px] -rotate-[33.63deg] bg-[rgba(217,217,217,0.3)] xl:left-[6%]"
-        />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute bottom-6 right-[4%] z-[2] block h-[25px] w-[118px] -rotate-[33.63deg] bg-[rgba(217,217,217,0.3)] xl:right-[6%]"
-        />
-
         <div
           data-reveal="up"
           className="relative w-full max-w-[1054px] rotate-1 bg-brand px-6 py-10 text-[#18181b] sm:px-10 sm:py-12"
         >
+          {/* Tape. Inside the sheet rather than beside it, so it tilts with
+              the sheet and stays stuck to it at any width — it used to be
+              positioned against the shell, which is wider than the sheet and
+              is not rotated, so the strips drifted off the corners.
+
+              The comp's strips are 118 × 25 at −33.63° (a 112 × 86 bounding
+              box, which is what 2466:7869 and :7870 measure). Their centres
+              land at 1.86% / 21.96% and 96.99% / 102.6% of the sheet: one
+              straddling the left edge near the top, one over the
+              bottom-right corner. */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute left-[1.86%] top-[21.96%] z-[2] block h-[25px] w-[118px] -translate-x-1/2 -translate-y-1/2 -rotate-[33.63deg] bg-[rgba(217,217,217,0.3)]"
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute left-[96.99%] top-[102.6%] z-[2] block h-[25px] w-[118px] -translate-x-1/2 -translate-y-1/2 -rotate-[33.63deg] bg-[rgba(217,217,217,0.3)]"
+          />
+
           <div className="flex flex-col items-center gap-4">
             <h2 className="m-0 text-center font-daltown text-[clamp(38px,8vw,120px)] uppercase leading-[0.98]">
               {title}
