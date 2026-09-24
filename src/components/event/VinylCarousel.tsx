@@ -137,38 +137,35 @@ export function VinylCarousel({
   const [edgeX, setEdgeX] = useState(STAGE_WIDTH / 2);
 
   useEffect(() => {
-    const el = stageRef.current;
-    if (!el) return;
-
     /* How far the screen's edge is from the stage's centre, in stage units.
     
-       The stage is a fixed 1512 frame scaled to fit, and the scale is only
-       knowable by measuring what it renders at — but the wrapper above also
-       carries `data-reveal="scale"`, so for the first second it is
-       travelling from 0.88 and every early reading is of a scale that no
-       longer applies. Three earlier attempts all read it too soon: a
-       ResizeObserver on this element (whose layout box never changes, so it
-       fires once, early), a settle-detector (a slow tween holds still to
-       half a pixel, so it settled mid-travel), and `.stage-hero`'s height
-       (inside the same reveal).
+       The scale is read straight off `--hero-stage-scale`, which is
+       registered with `@property` so it computes to a number rather than to
+       the raw `min(tan(...))` expression. That makes this exact and
+       immediate.
     
-       So it is read on a schedule that outlasts the reveal, and again
-       whenever the viewport changes. */
+       Measuring the rendered stage instead does not work, and three
+       attempts proved it: a ResizeObserver on the stage (whose layout box
+       never changes, so it fires once, early), a settle-detector (a slow
+       tween holds still to half a pixel, so it settled mid-travel), and a
+       schedule of timers (right in the end, but only from 2s in — the first
+       seconds a visitor sees had the records at the stage's edge, which is
+       the bug this is fixing). The wrapper above carries
+       `data-reveal="scale"` and travels from 0.88, so anything that reads
+       the rendered box is reading that animation, not the layout. */
     const measure = () => {
-      const scale = el.getBoundingClientRect().width / STAGE_WIDTH;
+      const scale = Number(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--hero-stage-scale",
+        ),
+      );
       if (scale > 0) setEdgeX(window.innerWidth / scale / 2);
     };
 
-    const timers = [0, 400, 1200, 2000].map((delay) =>
-      window.setTimeout(measure, delay),
-    );
+    measure();
     const observer = new ResizeObserver(measure);
     observer.observe(document.documentElement);
-
-    return () => {
-      timers.forEach(window.clearTimeout);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
   const ringActive = ring.active;
   const moveRing = (k: number) =>

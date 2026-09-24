@@ -233,6 +233,15 @@ body {
  * on purpose: a viewport-derived ratio such as `calc(100vw / 900)` resolves to
  * a *length*, which makes both `scale()` and the matching height invalid.
  * ------------------------------------------------------------------ */
+/* Registered so it computes to a number. Unregistered, reading this back
+   in JS returns the raw `min(tan(...))` expression, which is unusable — the
+   deck needs the scale to place its outer records on the screen's edge. */
+@property --hero-stage-scale {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
 :root {
   /* The width ladder below sets this. The deck no longer reads it — see
      `--hero-stage-scale`, which derives its width term from the viewport
