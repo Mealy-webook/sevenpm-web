@@ -64,7 +64,12 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
       if (shown) return;
       shown = true;
       /* No `overwrite`, per note 2. */
-      gsap.to(cardEl, { scale: 1, rotation: 0, duration: 0.6, ease: "expo.out" });
+      gsap.to(cardEl, {
+        scale: 1,
+        rotation: 0,
+        duration: 0.6,
+        ease: "expo.out",
+      });
     };
 
     const hide = () => {
@@ -107,7 +112,10 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
     /* Per note 4: the page can move under a still cursor. */
     const onScroll = () => {
       if (!lastX && !lastY) return;
-      const under = document.elementFromPoint(lastX, lastY) as HTMLElement | null;
+      const under = document.elementFromPoint(
+        lastX,
+        lastY,
+      ) as HTMLElement | null;
       const row = under?.closest<HTMLElement>("[data-news-row]") ?? null;
       if (!row) {
         hide();
@@ -141,11 +149,14 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
               data-news-row={index}
               data-cursor="Read"
               data-cursor-invert="true"
-              className="news-row relative flex w-full flex-col gap-3 py-8 lg:grid lg:grid-cols-[80px_1fr_170px_56px] lg:items-center lg:gap-6"
+              /* One line at every width. The columns give back what they
+                 can on a phone — the number and the arrow shrink, the date
+                 sizes to its own text — and the headline takes the rest. */
+              className="news-row relative grid w-full grid-cols-[32px_1fr_auto_40px] items-center gap-3 py-6 sm:grid-cols-[48px_1fr_auto_48px] sm:gap-4 lg:grid-cols-[80px_1fr_170px_56px] lg:gap-6 lg:py-8"
             >
               <span
                 aria-hidden
-                className="news-index font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-none tracking-[-0.15px] text-content-secondary lg:text-[24px]"
+                className="news-index font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-none tracking-[-0.15px] text-content-secondary sm:text-[20px] lg:text-[24px]"
               >
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -153,11 +164,11 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
               {/* 30/34 at the top end, which is the comp's size. The effect's
                   own brief asked for 44 and it read as a shout next to the
                   rest of the page. */}
-              <span className="news-headline min-w-0 font-[family-name:var(--font-display)] text-[clamp(17px,2.1vw,30px)] font-bold uppercase leading-[1.15] tracking-[-0.15px] text-content-primary">
+              <span className="news-headline min-w-0 font-[family-name:var(--font-display)] text-[clamp(14px,2.1vw,30px)] font-bold uppercase leading-[1.15] tracking-[-0.15px] text-content-primary">
                 {item.title}
               </span>
 
-              <time className="news-date whitespace-nowrap font-[family-name:var(--font-display)] text-[15px] leading-6 tracking-[0.085px] text-content-secondary lg:text-[17px]">
+              <time className="news-date whitespace-nowrap font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.085px] text-content-secondary sm:text-[15px] sm:leading-6 lg:text-[17px]">
                 {item.date}
               </time>
 
@@ -166,7 +177,7 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
                   the button itself does not move. */}
               <span
                 aria-hidden
-                className="news-arrow flex size-14 shrink-0 items-center justify-center border border-white/30"
+                className="news-arrow flex size-10 shrink-0 items-center justify-center border border-white/30 sm:size-12 lg:size-14"
               >
                 <span className="news-arrow-glyph" />
               </span>

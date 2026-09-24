@@ -36,14 +36,19 @@ export function NewsletterSection() {
               positioned against the shell, which is wider than the sheet and
               is not rotated, so the strips drifted off the corners.
 
-              The comp's strips are 118 × 25 at −33.63° (a 112 × 86 bounding
-              box, which is what 2466:7869 and :7870 measure). Their centres
-              land at 1.86% / 21.96% and 96.99% / 102.6% of the sheet: one
-              straddling the left edge near the top, one over the
-              bottom-right corner. */}
+              The strips are 118 × 25 at −33.63°, a 112 × 86 bounding box,
+              which is what 2466:7869 and :7870 measure. They sit on opposite
+              corners — 3.01% / −2.6% and 96.99% / 102.6% — so the two are
+              point-symmetric about the middle of the sheet and each one
+              holds a corner down.
+
+              Note that the Figma frame does not place them symmetrically:
+              measured off the rotated bill, :7869 lands about 23% down the
+              left edge rather than on the top-left corner. The attached
+              design is the one being followed here. */}
           <span
             aria-hidden
-            className="pointer-events-none absolute left-[1.86%] top-[21.96%] z-[2] block h-[25px] w-[118px] -translate-x-1/2 -translate-y-1/2 -rotate-[33.63deg] bg-[rgba(217,217,217,0.3)]"
+            className="pointer-events-none absolute left-[3.01%] top-[-2.6%] z-[2] block h-[25px] w-[118px] -translate-x-1/2 -translate-y-1/2 -rotate-[33.63deg] bg-[rgba(217,217,217,0.3)]"
           />
           <span
             aria-hidden

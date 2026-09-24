@@ -990,12 +990,27 @@ body {
    hover state swaps the mask for the diagonal arrow rather than rotating the
    one underneath. The button does not move. */
 .news-arrow-glyph {
-  width: 24px;
-  height: 24px;
+  /* The arrow's box shrinks with its button on small screens. */
+  width: 16px;
+  height: 16px;
   background-color: var(--color-content-primary);
   -webkit-mask: url("/assets/ic-arrow-right-24.svg") center / contain no-repeat;
   mask: url("/assets/ic-arrow-right-24.svg") center / contain no-repeat;
   transition: background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .news-arrow-glyph {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .news-arrow-glyph {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .news-row:hover .news-arrow,
