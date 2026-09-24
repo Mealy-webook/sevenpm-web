@@ -24,53 +24,63 @@ import { gsap } from "gsap";
  */
 
 /**
- * The core: a chain of lumps along a slightly tilted axis, not one disc.
- * Under the goo filter they fuse into a single molten band with pinched
- * waists between them, which is the shape the reference has.
- * Offsets and radii in vmin.
+ * Geometry measured off the reference frame rather than guessed. The shot's
+ * browser panel is 470 x 220 video pixels, and within it:
+ *
+ *   core      103 x 100, dead centre  -> 22% of the viewport's width, round
+ *   dot pitch ~22px on both axes      -> 4.7% of the viewport's width
+ *   field     dots out to r = 156px   -> 33% of the viewport's width
+ *
+ * The dots sit on a square lattice clipped to a circle, which is why the
+ * field reads as radial while its rows and columns still line up. Two
+ * earlier passes got this wrong in opposite directions: a full-screen grid
+ * with no circle, then rings with no lattice.
+ *
+ * The disc is wider than the panel is tall, so it is cropped top and bottom
+ * — as it is in the shot.
  */
-const BLOBS = [
-  { x: -15, y: 2, r: 3.4 },
-  { x: -10.5, y: -2, r: 4.4 },
-  { x: -5.5, y: 1.5, r: 5.2 },
-  { x: 0, y: -1, r: 5.8 },
-  { x: 5.5, y: 2, r: 5.2 },
-  { x: 10.5, y: -1.5, r: 4.4 },
-  { x: 15, y: 1.5, r: 3.4 },
-  { x: -7, y: -6.5, r: 2.6 },
-  { x: 7, y: 6.5, r: 2.6 },
-];
+const PITCH = 4.7; // vw between dots
+const FIELD = 33; // vw, radius of the disc the lattice is clipped to
+const CORE = 11; // vw, radius of the fused core
 
 /**
- * The field: concentric rings rather than a grid, so it reads as radiating
- * from the core the way the reference's does. Radius in vmin, and how many
- * dots sit on that ring.
+ * The core. An even rosette fuses into a rounded square with regular lobes;
+ * the shot's mass is irregular, so the ring is uneven in angle, distance and
+ * size, with two satellites pulling the outline further off-round.
  */
-const RINGS = [
-  { r: 11, n: 8 },
-  { r: 16, n: 12 },
-  { r: 21, n: 16 },
-  { r: 26, n: 18 },
-  { r: 31, n: 20 },
-  { r: 36, n: 22 },
+const BLOBS = [
+  { x: 0, y: 0, r: 5.6 },
+  { x: 4.9, y: -1.2, r: 4.3 },
+  { x: 2.6, y: 4.6, r: 3.8 },
+  { x: -2.9, y: 4.3, r: 4.5 },
+  { x: -5.1, y: -0.8, r: 4.0 },
+  { x: -2.4, y: -4.8, r: 4.4 },
+  { x: 3.1, y: -4.4, r: 3.6 },
+  { x: 7.4, y: 2.4, r: 2.8 },
+  { x: -6.9, y: -3.4, r: 2.6 },
 ];
 
-/** The fringe colours the reference cycles through. */
-const FRINGE = ["#fbeb1c", "#6a7bff", "#ff6ab8", "#57e08a"];
+/** The fringe colours the shot cycles through. */
+const FRINGE = ["#fbeb1c", "#4fc3f7", "#ff6ab8", "#57e08a"];
 
-const DOTS = RINGS.flatMap((ring, ringIndex) =>
-  Array.from({ length: ring.n }, (_, index) => {
-    const angle = (index / ring.n) * Math.PI * 2 + ringIndex * 0.28;
-    return {
-      x: Math.cos(angle) * ring.r,
-      y: Math.sin(angle) * ring.r,
-      colour: FRINGE[(ringIndex + index) % FRINGE.length],
-      /* The outer rings thin out, as they do in the shot. */
-      size: 1.4 - ringIndex * 0.12,
-      ring: ringIndex > 1 && (ringIndex + index) % 3 === 0,
-    };
-  }),
-);
+/* The lattice, clipped to the disc and with the core's own area left out —
+   the shot has no free dots inside the molten mass. */
+const SPAN = Math.ceil(FIELD / PITCH);
+const DOTS: { x: number; y: number; colour: string; ring: boolean }[] = [];
+for (let row = -SPAN; row <= SPAN; row += 1) {
+  for (let col = -SPAN; col <= SPAN; col += 1) {
+    const x = col * PITCH;
+    const y = row * PITCH;
+    const r = Math.hypot(x, y);
+    if (r > FIELD || r < CORE * 0.55) continue;
+    DOTS.push({
+      x,
+      y,
+      colour: FRINGE[(row + col + 8) % FRINGE.length],
+      ring: (row * 3 + col) % 4 === 0,
+    });
+  }
+}
 
 export function MetaballIntro({ onDone }: { onDone?: () => void }) {
   const root = useRef<HTMLDivElement>(null);
@@ -98,7 +108,11 @@ export function MetaballIntro({ onDone }: { onDone?: () => void }) {
          source of everything else. */
       tl.to(dots, {
         scale: 1,
-        opacity: 1,
+        /* Each dot back to its own rim fade, not a flat 1 — animating them
+           all to full opacity throws the falloff away and the disc turns
+           into a hard cut-out circle. */
+        opacity: (_index: number, target: HTMLElement) =>
+          Number(target.dataset.fade ?? 1),
         duration: 0.5,
         ease: "back.out(2)",
         /* DOTS is built ring by ring, so plain order already runs
@@ -177,10 +191,10 @@ export function MetaballIntro({ onDone }: { onDone?: () => void }) {
             data-blob
             className="absolute block rounded-full bg-brand"
             style={{
-              width: `${blob.r * 2}vmin`,
-              height: `${blob.r * 2}vmin`,
-              left: `calc(50% + ${blob.x}vmin)`,
-              top: `calc(50% + ${blob.y}vmin)`,
+              width: `${blob.r * 2}vw`,
+              height: `${blob.r * 2}vw`,
+              left: `calc(50% + ${blob.x.toFixed(2)}vw)`,
+              top: `calc(50% + ${blob.y.toFixed(2)}vw)`,
               translate: "-50% -50%",
             }}
           />
@@ -189,25 +203,31 @@ export function MetaballIntro({ onDone }: { onDone?: () => void }) {
 
       {/* The field, inverting wherever the flood has reached. */}
       <div className="absolute inset-0" style={{ mixBlendMode: "difference" }}>
-        {DOTS.map((dot, index) => (
-          <span
-            key={index}
-            data-dot
-            className="absolute block rounded-full"
-            style={{
-              width: `${dot.size}vmin`,
-              height: `${dot.size}vmin`,
-              left: `calc(50% + ${dot.x.toFixed(2)}vmin)`,
-              top: `calc(50% + ${dot.y.toFixed(2)}vmin)`,
-              translate: "-50% -50%",
-              /* Some are rings, some are solid — the shot mixes the two. */
-              background: dot.ring ? "transparent" : dot.colour,
-              boxShadow: dot.ring
-                ? `0 0 0 0.3vmin ${dot.colour}`
-                : `0 0 0.9vmin ${dot.colour}`,
-            }}
-          />
-        ))}
+        {DOTS.map((dot, index) => {
+          /* Dimmer toward the rim, which is what makes the disc read as a
+             field rather than as a cut-out circle. */
+          const fade = 1 - (Math.hypot(dot.x, dot.y) / FIELD) * 0.72;
+          return (
+            <span
+              key={index}
+              data-dot
+              data-fade={fade.toFixed(2)}
+              className="absolute block rounded-full"
+              style={{
+                width: "0.95vw",
+                height: "0.95vw",
+                left: `calc(50% + ${dot.x.toFixed(2)}vw)`,
+                top: `calc(50% + ${dot.y.toFixed(2)}vw)`,
+                translate: "-50% -50%",
+                opacity: fade.toFixed(2),
+                background: dot.ring ? "transparent" : dot.colour,
+                boxShadow: dot.ring
+                  ? `0 0 0 0.26vw ${dot.colour}`
+                  : `0 0 0.8vw ${dot.colour}`,
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* The flat sheet the flood hands over to. */}
