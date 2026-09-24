@@ -35,28 +35,34 @@ const GLOW = DISC / 3;
 /**
  * Slot geometry.
  *
- * A 612 centre on a 1512 stage leaves exactly 450px a side, and that has to
- * hold a whole record, two gaps and half of the next one — which fixes the
- * neighbours at 250: 37 + 250 + 38 + 125 = 450. Bigger neighbours and the
- * half record has nowhere to go.
+ * A 612 centre on a 1512 stage leaves 450px a side for a whole record, two
+ * gaps and half of the next, which fixes the neighbours at 250:
+ * 37 + 250 + 38 + 125 = 450.
  *
- * ±2 is centred on the stage's own edge, so the edge cuts it exactly in
- * half. Only the ring is clipped, not the stage — the spectrum canvas runs
- * from −442 to 1053 and clipping the stage chopped it.
- *
- * The centre stays at 612 because that is the stage's height; it cannot
- * grow without the hero's frame growing with it.
+ * The outer pair is the exception: it is placed on the *viewport* edge, not
+ * the stage's. The stage is a fixed 1512 frame scaled to fit, so on most
+ * windows it is narrower than the screen — cutting at its edge put the cut
+ * 45px inside the page with black either side of it. `edge` marks those two
+ * slots so the component can position them from the measured scale instead.
  */
-const SLOTS: Record<number, { cx: number; size: number; visible: boolean }> = {
-  [-2]: { cx: 0, size: 250, visible: true },
+const SLOTS: Record<
+  number,
+  { cx: number; size: number; visible: boolean; edge?: -1 | 1 }
+> = {
+  [-2]: { cx: 0, size: 250, visible: true, edge: -1 },
   [-1]: { cx: 287.5, size: 250, visible: true },
   [0]: { cx: 756.5, size: DISC, visible: true },
   [1]: { cx: 1224.5, size: 250, visible: true },
-  [2]: { cx: STAGE_WIDTH, size: 250, visible: true },
+  [2]: { cx: STAGE_WIDTH, size: 250, visible: true, edge: 1 },
 };
 
 /** Parked off-stage, so a disc wrapping round the ring never crosses the view. */
-function slotFor(offset: number) {
+function slotFor(offset: number): {
+  cx: number;
+  size: number;
+  visible: boolean;
+  edge?: -1 | 1;
+} {
   const known = SLOTS[offset];
   if (known) return known;
   const away = Math.abs(offset) - 2;
@@ -116,6 +122,54 @@ export function VinylCarousel({
    * right, never the long way round; the previous position tells us which
    * discs are wrapping behind the ring this step. */
   const [ring, setRing] = useState({ active: activeIndex, prev: activeIndex });
+
+  /**
+   * Half the viewport, in stage units. The stage is a fixed 1512 frame
+   * scaled to fit, and the scale is not knowable from here — so it is
+   * measured: rendered width over 1512. The outer records are then placed
+   * at the centre plus or minus this, which puts them on the screen's edge
+   * at any scale, and the screen cuts them in half.
+   *
+   * Defaults to half the stage, which is where they sat before, so the
+   * first paint is never wrong-looking.
+   */
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [edgeX, setEdgeX] = useState(STAGE_WIDTH / 2);
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+
+    /* How far the screen's edge is from the stage's centre, in stage units.
+    
+       The stage is a fixed 1512 frame scaled to fit, and the scale is only
+       knowable by measuring what it renders at — but the wrapper above also
+       carries `data-reveal="scale"`, so for the first second it is
+       travelling from 0.88 and every early reading is of a scale that no
+       longer applies. Three earlier attempts all read it too soon: a
+       ResizeObserver on this element (whose layout box never changes, so it
+       fires once, early), a settle-detector (a slow tween holds still to
+       half a pixel, so it settled mid-travel), and `.stage-hero`'s height
+       (inside the same reveal).
+    
+       So it is read on a schedule that outlasts the reveal, and again
+       whenever the viewport changes. */
+    const measure = () => {
+      const scale = el.getBoundingClientRect().width / STAGE_WIDTH;
+      if (scale > 0) setEdgeX(window.innerWidth / scale / 2);
+    };
+
+    const timers = [0, 400, 1200, 2000].map((delay) =>
+      window.setTimeout(measure, delay),
+    );
+    const observer = new ResizeObserver(measure);
+    observer.observe(document.documentElement);
+
+    return () => {
+      timers.forEach(window.clearTimeout);
+      observer.disconnect();
+    };
+  }, []);
   const ringActive = ring.active;
   const moveRing = (k: number) =>
     setRing((current) => ({ active: k, prev: current.active }));
@@ -297,7 +351,9 @@ export function VinylCarousel({
 
   return (
     <div
-      /* No clip: nothing on the stage is meant to be cut any more. */
+      ref={stageRef}
+      /* No clip here: the outer records are cut by the screen, not by this
+         box, which is narrower than the screen on most windows. */
       className="relative"
       style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
     >
@@ -342,7 +398,11 @@ export function VinylCarousel({
       <div className="absolute inset-0 [overflow-x:clip]">
         {offsets.map((off, k) => {
           const track = tracks[k % tracks.length];
-          const slot = slotFor(off);
+          const base = slotFor(off);
+          /* The outer pair rides the screen edge rather than the stage's. */
+          const slot = base.edge
+            ? { ...base, cx: SLOTS[0].cx + base.edge * edgeX }
+            : base;
           const isCentre = off === 0;
           const label = isCentre
             ? playing
