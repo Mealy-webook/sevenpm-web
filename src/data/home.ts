@@ -248,6 +248,30 @@ export const festivalsRowOrder = [
   "casa-anfa-latina",
 ];
 
+/**
+ * The two polaroids in the hero (Figma 2490:26516 and 2490:26519), the
+ * comp's own photographs. Card 355.571 x 401.608 with the print inset
+ * 327.793 x 326.45 — even on three sides and deep at the foot, which is
+ * what makes it read as a polaroid rather than a framed picture.
+ *
+ * Positions are the centre of each card as a share of the 1512 x 853 hero,
+ * so the pair keeps its arrangement at any width.
+ */
+export const heroPolaroids = [
+  {
+    image: "/assets/hero-polaroid-1.jpg",
+    rotate: 10.9,
+    x: 81.98,
+    y: 38.08,
+  },
+  {
+    image: "/assets/hero-polaroid-2.jpg",
+    rotate: -5.71,
+    x: 68.71,
+    y: 57.86,
+  },
+];
+
 export const homeCopy = {
   /** The accessible name for the hero heading — see `HeroHeadline`. */
   heroTitle: "More music, more life",

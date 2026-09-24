@@ -2,7 +2,7 @@ import { StageMeter } from "@/components/motion/StageMeter";
 import { HeroTerminal } from "@/components/home/HeroTerminal";
 import Image from "next/image";
 
-import { festivals, festivalsRowOrder, homeCopy } from "@/data/home";
+import { heroPolaroids, homeCopy } from "@/data/home";
 
 /**
  * Homepage hero, from Figma 2467:19559 (the 15:202 page).
@@ -23,11 +23,6 @@ import { festivals, festivalsRowOrder, homeCopy } from "@/data/home";
  * than starting below it, so there is no bare strip across the top.
  */
 export function HomeHero() {
-  const covers = festivalsRowOrder
-    .map((id) => festivals.find((f) => f.id === id))
-    .filter((f): f is (typeof festivals)[number] => Boolean(f?.card))
-    .slice(0, 2);
-
   return (
     /* Centred in the fold, not sitting at the top of it. The section is
        the screen minus the header rather than the whole screen: it already
@@ -37,52 +32,62 @@ export function HomeHero() {
     <section className="relative isolate flex h-[calc(100svh-var(--header-h,0px))] w-full flex-col justify-center">
       <HeroTerminal />
 
-      <div className="shell relative z-10 grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,auto)_minmax(0,1fr)]">
-        <div className="flex flex-col gap-6">
-          <h1
-            className="hero-headline m-0 font-daltown uppercase text-white"
-            data-no-split
-          >
-            {homeCopy.heroLead}
-            <br />
-            {homeCopy.heroSecond}
-          </h1>
+      <div className="shell relative z-10 flex w-full flex-col gap-4">
+        <h1
+          className="hero-headline m-0 flex flex-col gap-4 font-daltown uppercase text-white"
+          data-no-split
+        >
+          <span className="block">{homeCopy.heroLead}</span>
+          <span className="block">{homeCopy.heroSecond}</span>
+        </h1>
 
-          {/* Ranged left under the headline, on the headline's own measure
-            rather than centred — the heading is not centred either. */}
-          <p
-            className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[18px] leading-[1.6] text-content-secondary"
-            data-split="lines"
-            data-reveal-delay="0.12"
-          >
-            {homeCopy.intro}
-          </p>
-        </div>
+        {/* 17/24 on the headline's own measure, ranged left under it. */}
+        <p
+          className="m-0 max-w-[634px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
+          data-split="lines"
+          data-reveal-delay="0.12"
+        >
+          {homeCopy.intro}
+        </p>
+      </div>
 
-        {/* Two covers to the right of the copy, the second dropped so the
-            pair reads as a stack rather than a row. Only from `lg`: below
-            that the heading already takes the width, and a pair of covers
-            squeezed beside it would be thumbnails. */}
-        <div className="hidden items-center justify-end gap-5 lg:flex">
-          {covers.map((festival, index) => (
-            <span
-              key={festival.id}
-              className={`relative block aspect-square w-[clamp(130px,13vw,215px)] shrink-0 overflow-hidden bg-[#27272a] ${
-                index === 1 ? "translate-y-10" : "-translate-y-6"
-              }`}
-            >
+      {/* The two polaroids, centred on their share of the comp's frame and
+          tilted the way it tilts them. Hidden below `lg`, where the heading
+          takes the whole width and they would sit on top of it. */}
+      {heroPolaroids.map((polaroid) => (
+        <span
+          key={polaroid.image}
+          aria-hidden
+          className="pointer-events-none absolute z-[5] hidden w-[clamp(180px,23.5vw,356px)] lg:block"
+          style={{
+            left: `${polaroid.x}%`,
+            top: `${polaroid.y}%`,
+            translate: "-50% -50%",
+            rotate: `${polaroid.rotate}deg`,
+          }}
+        >
+          {/* The card is its own element so the border percentages resolve
+              against the card's width. On the positioned wrapper they would
+              resolve against the section — a 1512px containing block, which
+              made the border ten times too deep. */}
+          <span className="block bg-white p-[3.91%] pb-[17.23%] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
+            <span className="relative block aspect-[327.793/326.45] w-full overflow-hidden bg-[#27272a]">
               <Image
-                src={festival.card as string}
+                src={polaroid.image}
                 alt=""
                 fill
-                sizes="215px"
+                /* The print is near-square and the photograph is 3:2, so
+                   `cover` scales it to the box's height: it needs ~480px of
+                   width to land at the card's full size. */
+                sizes="480px"
                 priority
                 className="object-cover"
               />
             </span>
-          ))}
-        </div>
-      </div>
+          </span>
+        </span>
+      ))}
+
       <StageMeter className="absolute bottom-10 right-[var(--shell-gutter)] z-10 hidden items-end gap-0.5 xl:flex" />
     </section>
   );
