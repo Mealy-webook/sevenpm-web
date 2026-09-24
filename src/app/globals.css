@@ -141,18 +141,16 @@ body {
   color: #fff;
 }
 
-/* The hero headline is "MORE" plus the word that cycles, centred (Figma
-   2467:19561). 260px is the comp's size and 17.2vw is what that is at its
-   1512 frame, so the cap only bites below that width — applied to the
-   finished size rather than to --display-size, which would compound with
-   --display-scale and leave a phone with a 25px headline. Below 640 it
-   stacks into two lines instead and keeps the comp's size: a hero headline
-   should be big, and there is no width for both. */
-@media (min-width: 640px) {
-  .hero-headline {
-    font-size: min(calc(260px * var(--display-scale)), 17.2vw);
-    line-height: 0.723em;
-  }
+/* The hero headline is the name on its own, so it is sized to span the
+   screen rather than capped against the comp's two-word measure. Measured
+   on the page, Daltown sets "SEVENPM" at 1.75x its font size, so 46vw
+   fills about four fifths of the width at any screen. Applied to the finished size rather
+   than to --display-size, which would compound with --display-scale and
+   leave a phone with a 25px headline. No longer behind a 640 breakpoint:
+   a single word cannot stack, so it needs sizing at every width. */
+.hero-headline {
+  font-size: min(calc(760px * var(--display-scale)), 46vw);
+  line-height: 0.78em;
 }
 
 .display-text--faq {
