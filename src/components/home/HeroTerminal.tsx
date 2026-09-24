@@ -58,7 +58,14 @@ export function HeroTerminal() {
   const paused = reduced || offscreen;
 
   return (
-    <div ref={holder} aria-hidden className="absolute inset-0 z-0">
+    /* Up behind the fixed header, not stopping under it. The hero starts
+       below the header's in-flow spacer, so a plain `inset-0` leaves a bare
+       strip across the top of the page. */
+    <div
+      ref={holder}
+      aria-hidden
+      className="absolute inset-x-0 bottom-0 top-[calc(-1*var(--header-h,0px))] z-0"
+    >
       <FaultyTerminal
         scale={1.6}
         gridMul={[2, 1]}

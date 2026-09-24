@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -116,13 +115,6 @@ export function KineticHero() {
           >
             {homeCopy.intro}
           </p>
-          <Link
-            href={homeCopy.heroCta.href}
-            data-magnetic="0.2"
-            className="mt-2 flex h-[65px] min-w-[193px] items-center justify-center bg-white px-8 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-[#18181b] transition-colors hover:bg-brand"
-          >
-            {homeCopy.heroCta.label}
-          </Link>
         </div>
 
         <StageMeter className="absolute bottom-10 right-[var(--shell-gutter)] z-10 hidden items-end gap-0.5 xl:flex" />

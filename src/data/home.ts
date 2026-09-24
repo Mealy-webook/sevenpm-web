@@ -232,21 +232,14 @@ export const festivalsRowOrder = [
 ];
 
 export const homeCopy = {
-  /** The accessible name for the hero heading, which is shown a word at a
-      time — see `HeroHeadline`. */
-  heroTitle: "More music more life",
-  heroLead: "More",
-  heroWords: ["Music", "Life"],
+  /** The accessible name for the hero heading — see `HeroHeadline`. */
+  heroTitle: "SEVENPM",
+  heroLead: "Sevenpm",
+  /** Empty: the hero heading is the name, with nothing cycling after it. */
+  heroWords: [] as string[],
   intro:
     "SEVENPM creates cultural experiences that bring the world’s artists, Moroccan talent and communities together—transforming cities through music, culture and unforgettable moments.",
   listenHint: ["Press & Hold", "spacebar to listen"],
-  /**
-   * The hero's CTA. The comp (2482:25049) draws the button as an unlabelled
-   * 193 × 65 placeholder, so both the words and the destination are chosen
-   * here: the page's job is tickets, and the featured event is the one thing
-   * on it you can actually buy.
-   */
-  heroCta: { label: "Book tickets", href: `/events/${jazzablanca.slug}/book` },
   /** The festival row's title (2482:25044). */
   festivalsTitle: "Our iconic festivals",
   newsletter: {

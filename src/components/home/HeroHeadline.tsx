@@ -7,7 +7,9 @@ import { StagePulse } from "@/components/motion/StagePulse";
 import { homeCopy } from "@/data/home";
 
 /**
- * "MORE" and then a word that keeps changing — MUSIC, then LIFE, then back.
+ * The hero heading. It is the name on its own; the machinery for a lead
+ * plus a word that keeps changing is still here and runs whenever
+ * `homeCopy.heroWords` has two or more in it.
  * One line from 640px up, stacked into two below it where there is no width
  * for both. The
  * brand line is the same either way round; this just says it a word at a time
@@ -49,7 +51,7 @@ export function HeroHeadline() {
     const chars = (scope: Element) => scope.querySelectorAll("[data-char]");
     const lead = el.querySelector("[data-lead]");
     const slots = Array.from(el.querySelectorAll<HTMLElement>("[data-word]"));
-    if (!lead || slots.length < 2) return;
+    if (!lead) return;
 
     const ctx = gsap.context(() => {
       gsap.set(chars(lead), { yPercent: 60, opacity: 0, rotate: 4 });
@@ -70,10 +72,12 @@ export function HeroHeadline() {
         stagger: 0.022,
       };
 
-      gsap
-        .timeline()
-        .to(chars(lead), settle)
-        .to(chars(slots[0]), settle, 0.12);
+      const entrance = gsap.timeline().to(chars(lead), settle);
+      if (slots[0]) entrance.to(chars(slots[0]), settle, 0.12);
+
+      /* Nothing to cycle when the heading is a single word, which is what
+         it is now — the entrance above is the whole of it. */
+      if (slots.length < 2) return;
 
       /* One leg per word, so the cycle works for any number of them. */
       const cycle = gsap.timeline({ repeat: -1, delay: HOLD });
