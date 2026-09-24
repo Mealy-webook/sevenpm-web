@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { SponsorsSection } from "@/components/event/SponsorsSection";
 import { FestivalsRow } from "@/components/home/FestivalsRow";
 import { GalleryBento } from "@/components/home/GalleryBento";
 import { HomeHero } from "@/components/home/HomeHero";
@@ -12,7 +11,6 @@ import { HomePillars } from "@/components/home/HomePillars";
 import { HomeStory } from "@/components/home/HomeStory";
 import { NewsSection } from "@/components/home/NewsSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
-import { jazzablanca } from "@/data/events";
 import { festivals, galleryImages, homeCopy, newsItems } from "@/data/home";
 
 export const metadata: Metadata = {
@@ -24,8 +22,9 @@ export const metadata: Metadata = {
  * Homepage, from Figma node 15:202.
  *
  * The comp's order: the hero, the festival row, the kinetic band, the
- * founding block, mission/vision/values, the gallery, the news, the
- * newsletter and the partners.
+ * founding block, mission/vision/values, the gallery, the news and the
+ * newsletter. The partners band the page used to end on is gone; the
+ * event page still carries the same block as its sponsors.
  *
  * The figures section the page used to carry is not in the comp and is
  * gone with it. The gallery is the scrubbed mosaic rather than the comp's
@@ -53,8 +52,6 @@ export default function Home() {
 
         <NewsSection items={newsItems} />
         <NewsletterSection />
-        {/* Partners are the same block as the event page's sponsors. */}
-        <SponsorsSection event={jazzablanca} />
       </main>
       <SiteFooter />
     </>
