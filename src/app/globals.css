@@ -1695,3 +1695,83 @@ html.has-cursor .cursor {
 .news-tile:focus-visible .news-tile-arrow--back {
   translate: -4px 0;
 }
+
+/* ------------------------------------------------------------------ *
+ * Hero options (preview only).
+ * ------------------------------------------------------------------ */
+
+/* B · Spotlight. The photograph exists only inside the lamp, and the name
+   fills solid where the lamp crosses it. Both are the same mask, so they
+   always agree. */
+.hero-spot {
+  --sx: 50%;
+  --sy: 45%;
+}
+
+.hero-spot-photo {
+  -webkit-mask: radial-gradient(
+    circle 24vmax at var(--sx) var(--sy),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    transparent 72%
+  );
+  mask: radial-gradient(
+    circle 24vmax at var(--sx) var(--sy),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    transparent 72%
+  );
+}
+
+.hero-spot-name .hero-headline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
+  background: radial-gradient(
+    circle 24vmax at var(--sx) var(--sy),
+    #fff 0%,
+    #fff 38%,
+    transparent 66%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* No pointer to carry the lamp with, so light the whole stage instead. */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .hero-spot-photo {
+    -webkit-mask: none;
+    mask: none;
+    opacity: 0.32;
+  }
+  .hero-spot-name .hero-headline {
+    color: #fff;
+    -webkit-text-stroke: 0;
+    background: none;
+  }
+}
+
+/* C · Stub. A torn edge down the left and a drawn barcode along the foot. */
+.hero-stub {
+  -webkit-mask:
+    radial-gradient(circle 11px at 0 14px, transparent 98%, #000 100%) 0 0 /
+      100% 28px repeat-y,
+    linear-gradient(#000, #000);
+  mask:
+    radial-gradient(circle 11px at 0 14px, transparent 98%, #000 100%) 0 0 /
+      100% 28px repeat-y,
+    linear-gradient(#000, #000);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.hero-stub-barcode {
+  background-image: repeating-linear-gradient(
+    to right,
+    #18181b 0 2px,
+    transparent 2px 5px,
+    #18181b 5px 6px,
+    transparent 6px 11px,
+    #18181b 11px 14px,
+    transparent 14px 16px
+  );
+}
