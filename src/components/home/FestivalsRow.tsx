@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import VinylAlbumCard from "@/components/ui/great-ui-vinyl-album-card";
 import type { Festival } from "@/data/home";
 import { festivalsRowOrder, homeCopy } from "@/data/home";
 
@@ -13,9 +13,9 @@ import { festivalsRowOrder, homeCopy } from "@/data/home";
  * "Our iconic festivals" — Figma 2482:25025.
  *
  * The comp replaces the perspective poster stage with a plain row: the title
- * at Daltown 152/118 on a 403 measure, then the posters at 404 × 606, 32
- * apart, running off the right edge of the page. Four fit the frame and the
- * rest are past it, which is the comp saying the row moves.
+ * at Daltown 152/118 on a 403 measure, then the artwork running off the right
+ * edge of the page. Four fit the frame and the rest are past it, which is the
+ * comp saying the row moves.
  *
  * So it moves with the page: the section pins and the track scrubs sideways
  * over exactly the distance it overhangs, then releases into the band below.
@@ -26,18 +26,29 @@ import { festivalsRowOrder, homeCopy } from "@/data/home";
  * the row is an ordinary horizontal scroller — a pinned section on a phone
  * hijacks the one gesture the reader has.
  *
- * The artwork is the comp's own, cropped to its framing from the bitmaps
- * behind it; the old perspective exports are not reused here. `FestivalsRow`
- * shows only the four festivals that artwork covers.
+ * The covers are square and each one is a sleeve with a record behind it
+ * (`VinylAlbumCard`): hovering slides the record out and opens the caption
+ * underneath. One card is active at a time, held here rather than in each
+ * card, so two records are never half-out at once. The caption's height is
+ * reserved whether or not it is showing, so the row does not jump.
+ *
+ * The artwork is the comp's own, re-cropped square from the bitmaps behind
+ * it; the old perspective exports are not reused. Only the four festivals
+ * that artwork covers are in the row.
  *
  * The spacebar audio preview the old stage carried does not come with it —
  * the comp draws no control for it and no hint. `FestivalsStage` still has
  * it, and the two homepage preview routes still use that.
  */
+
+const CARD = 404;
+const CAPTION = 64;
+
 export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
   const section = useRef<HTMLElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const cards = festivalsRowOrder
     .map((id) => festivals.find((f) => f.id === id))
@@ -61,9 +72,9 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
         () => {
           /* How far the row overhangs the screen: the viewport's own
              scrollable distance, which counts the gutters, so the last
-             poster ends level with the column instead of 240px past it.
-             Read at refresh rather than once, so a resize re-measures
-             instead of scrubbing to a stale distance. */
+             cover ends level with the column instead of past it. Read at
+             refresh rather than once, so a resize re-measures instead of
+             scrubbing to a stale distance. */
           const overhang = () =>
             Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
 
@@ -108,35 +119,45 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
       <div
         ref={viewport}
         /* The gutter is padding rather than a margin so the title lines up
-           with the column and the last poster can still reach the edge. */
+           with the column and the last cover can still reach the edge. */
         className="w-full overflow-x-auto px-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        <div ref={track} className="flex w-max items-center gap-8">
+        <div ref={track} className="flex w-max items-start gap-8">
           <h2
             id="festivals-title"
-            className="m-0 w-[403px] shrink-0 font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            className="m-0 w-[403px] shrink-0 self-center font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
             data-reveal="clip"
           >
             {homeCopy.festivalsTitle}
           </h2>
 
-          {cards.map((festival) => (
-            <Link
-              key={festival.id}
-              href={festival.href}
-              aria-label={festival.name}
-              data-cursor="Open"
-              className="group relative block h-[606px] w-[404px] shrink-0 overflow-hidden bg-[#27272a]"
-            >
-              <Image
-                src={festival.card as string}
-                alt=""
-                fill
-                sizes="404px"
-                className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-              />
-            </Link>
-          ))}
+          {cards.map((festival) => {
+            const active = activeId === festival.id;
+            return (
+              <Link
+                key={festival.id}
+                href={festival.href}
+                aria-label={festival.name}
+                data-cursor="Open"
+                /* The record slides half a cover's width to the right, so
+                   the active card has to sit above its neighbour. */
+                className={`shrink-0 ${active ? "z-30" : "z-10"}`}
+              >
+                <VinylAlbumCard
+                  coverImage={festival.card as string}
+                  title={festival.name}
+                  meta={festival.when}
+                  size={CARD}
+                  captionHeight={CAPTION}
+                  active={active}
+                  onActiveChange={(next) =>
+                    setActiveId(next ? festival.id : null)
+                  }
+                  sizes={`${CARD}px`}
+                />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -20,6 +20,13 @@ export type Festival = {
    * draws have one, and the row shows only those.
    */
   card?: string;
+  /**
+   * The dates, read off the artwork, for the caption under the active card.
+   * Two of the four posters cannot supply one — Village Casa Anfa's art is
+   * the 2022 edition and Casa Anfa Latina's carries no date at all — so they
+   * have none until content provides it.
+   */
+  when?: string;
   /** Preview played while the visitor holds the spacebar. */
   audioSrc?: string;
 };
@@ -42,6 +49,7 @@ export const festivals: Festival[] = [
       height: 509.5,
     },
     card: "/assets/poster-tanjazz-26.jpg",
+    when: "18 – 20 September 2026",
   },
   {
     id: "jazzablanca",
@@ -53,6 +61,7 @@ export const festivals: Festival[] = [
       height: 495.5,
     },
     card: "/assets/poster-jazzablanca-26.jpg",
+    when: "02 – 11 July 2026",
     audioSrc: jazzablanca.playlist[0]?.audioSrc,
   },
   {

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { ConcertLights } from "@/components/motion/ConcertLights";
 import { StageMeter } from "@/components/motion/StageMeter";
 import { HeroHeadline } from "@/components/home/HeroHeadline";
 import {
@@ -44,8 +43,8 @@ import { heroReveal, homeCopy } from "@/data/home";
  * The cursor image-trail that used to live here is gone: a trail of
  * photographs dropped over a photograph that is itself opening is mush.
  *
- * Behind all of it, `ConcertLights` hangs a lighting truss at the top of the
- * page and brings its own scrim, so the copy stays readable over the beams.
+ * The lighting truss that used to hang behind this is gone. The event page's
+ * hero still has it.
  */
 export function HomeHero() {
   return (
@@ -54,8 +53,6 @@ export function HomeHero() {
       offset={["start start", "end end"]}
     >
       <ContainerSticky className="flex min-h-svh flex-col overflow-hidden">
-        <ConcertLights />
-
         <ContainerAnimated
           className="shell relative flex w-full flex-1 flex-col items-center justify-center gap-4 pt-[var(--header-h,0px)]"
           inputRange={[0, 0.6]}
