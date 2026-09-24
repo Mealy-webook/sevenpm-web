@@ -35,6 +35,16 @@ const OPTIONS = [
     note: "The hero as one enormous ticket — brand stock, perforated edge, drawn barcode. The only option that is not dark.",
   },
   {
+    href: "/preview/hero-rays",
+    label: "E · Rays",
+    note: "React Bits' LightRays (ogl) tinted brand — beams from above the frame, following the cursor. The lighting truss the hero used to have, as a shader instead of a dozen blurred elements.",
+  },
+  {
+    href: "/preview/hero-grid",
+    label: "F · Grid",
+    note: "React Bits' GridMotion (GSAP) — four rails of posters and gallery frames sliding opposite ways behind the name, easing toward the pointer. The work rather than a texture.",
+  },
+  {
     href: "/preview/hero-deck",
     label: "D · Deck",
     note: "The record turning under a tonearm with the featured festival named as what is playing. Name beside it, so nothing needs a scrim.",
@@ -50,10 +60,12 @@ export default function HeroOptionsIndex() {
             Hero options
           </h1>
           <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
-            Four alternatives to the terminal, and the current hero first. Each
-            is the real route — click to open it full size. All of them keep the
-            name and the standfirst; they differ in what is behind them and what
-            the visitor can do with it.
+            Six alternatives to the terminal, and the current hero first. A to D
+            are built here; E and F are React Bits components (LightRays and
+            GridMotion), taken from their repo as the TypeScript + Tailwind
+            variants and tinted brand. Each is the real route — click to open it
+            full size. All of them keep the name and the standfirst; they differ
+            in what is behind them and what the visitor can do with it.
           </p>
           <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
             A thumbnail never scrolls and has no pointer in it, so anything
