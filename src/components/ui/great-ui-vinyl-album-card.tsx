@@ -24,7 +24,8 @@ import { cn } from "@/lib/utils";
  * - `next/image` rather than `<img>`, so the artwork goes through the site's
  *   AVIF and quality settings.
  * - `active` can drive it from outside, so a row of these can have one
- *   caption open at a time rather than each card minding itself.
+ *   caption open at a time rather than each card minding itself, and
+ *   `dimmed` drops the artwork to luminosity when another card has it.
  *
  * Built with React, TypeScript, Tailwind CSS and Framer Motion.
  * Source: https://21st.dev/@saurabh-2607/components/great-ui-vinyl-album-card
@@ -43,6 +44,11 @@ export interface VinylAlbumCardProps {
   onActiveChange?: (active: boolean) => void;
   /** Reserve the caption's height even while it is hidden. */
   captionHeight?: number;
+  /**
+   * Drop the artwork to luminosity — the treatment the festival posters
+   * have always used for whichever one you are not looking at.
+   */
+  dimmed?: boolean;
   className?: string;
   sizes?: string;
 }
@@ -58,6 +64,7 @@ export default function VinylAlbumCard({
   active,
   onActiveChange,
   captionHeight = 64,
+  dimmed = false,
   className,
   sizes,
 }: VinylAlbumCardProps) {
@@ -73,6 +80,12 @@ export default function VinylAlbumCard({
      it stays right at any size. */
   const slide = size * 0.486;
   const label = size * 0.333;
+
+  /* The house treatment, same values and same easing as the poster stage. */
+  const art = cn(
+    "scale-[1.05] object-cover transition-[filter] duration-[600ms] ease-out",
+    dimmed && "grayscale brightness-90",
+  );
 
   return (
     <div
@@ -116,7 +129,7 @@ export default function VinylAlbumCard({
               alt=""
               fill
               sizes={`${Math.round(label)}px`}
-              className="scale-[1.05] object-cover"
+              className={art}
             />
             <span className="relative z-10 block size-3 rounded-full bg-[#0f0f0f] shadow-inner ring-1 ring-black/50" />
             <span className="absolute inset-0 rounded-full ring-2 ring-inset ring-black/20" />
@@ -143,7 +156,7 @@ export default function VinylAlbumCard({
             alt=""
             fill
             sizes={sizes ?? `${Math.round(size)}px`}
-            className="scale-[1.05] object-cover"
+            className={art}
           />
         </motion.div>
       </div>

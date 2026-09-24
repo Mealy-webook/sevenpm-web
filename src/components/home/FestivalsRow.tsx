@@ -33,6 +33,10 @@ import { festivalsRowOrder, homeCopy } from "@/data/home";
  * card, so two records are never half-out at once. The caption's height is
  * reserved whether or not it is showing, so the row does not jump.
  *
+ * Whichever card is active keeps its colour and the rest drop to
+ * luminosity, which is the treatment the poster stage always used. With
+ * nothing hovered they all stay in colour.
+ *
  * Everything after the active card slides right by exactly the record's
  * travel, on the record's own spring, so the record opens into clear space
  * rather than over its neighbour. It is a transform, not a layout change,
@@ -179,6 +183,11 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
                     size={CARD}
                     captionHeight={CAPTION}
                     active={active}
+                    /* Colour belongs to whichever card you are on. With
+                       nothing hovered they all keep it — a row of grey
+                       posters is not a resting state, it is a row that
+                       looks broken. */
+                    dimmed={activeIndex !== -1 && !active}
                     onActiveChange={(next) =>
                       setActiveId(next ? festival.id : null)
                     }
