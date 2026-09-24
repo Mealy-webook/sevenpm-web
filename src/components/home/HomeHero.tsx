@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { StageMeter } from "@/components/motion/StageMeter";
+import { HeroTerminal } from "@/components/home/HeroTerminal";
 import { HeroHeadline } from "@/components/home/HeroHeadline";
 import {
   ContainerAnimated,
@@ -43,8 +44,9 @@ import { heroReveal, homeCopy } from "@/data/home";
  * The cursor image-trail that used to live here is gone: a trail of
  * photographs dropped over a photograph that is itself opening is mush.
  *
- * The lighting truss that used to hang behind this is gone. The event page's
- * hero still has it.
+ * The ground is React Bits' FaultyTerminal tinted brand (`HeroTerminal`),
+ * in place of the lighting truss that used to hang here. The event page's
+ * hero still has the truss.
  */
 export function HomeHero() {
   return (
@@ -53,8 +55,10 @@ export function HomeHero() {
       offset={["start start", "end end"]}
     >
       <ContainerSticky className="flex min-h-svh flex-col overflow-hidden">
+        <HeroTerminal />
+
         <ContainerAnimated
-          className="shell relative flex w-full flex-1 flex-col items-center justify-center gap-4 pt-[var(--header-h,0px)]"
+          className="shell relative z-10 flex w-full flex-1 flex-col items-center justify-center gap-4 pt-[var(--header-h,0px)]"
           inputRange={[0, 0.6]}
           outputRange={[0, -60]}
         >
@@ -82,7 +86,7 @@ export function HomeHero() {
 
         {/* The frame. It starts as a pill in the middle of the screen and
             ends as the full bleed. */}
-        <ContainerInset className="relative h-[30svh] w-full shrink-0 sm:h-[38svh] xl:h-[46svh]">
+        <ContainerInset className="relative z-10 h-[30svh] w-full shrink-0 sm:h-[38svh] xl:h-[46svh]">
           {heroReveal.video ? (
             <HeroVideo
               src={heroReveal.video}
@@ -103,7 +107,7 @@ export function HomeHero() {
           )}
         </ContainerInset>
 
-        <StageMeter className="absolute bottom-10 right-[var(--shell-gutter)] hidden items-end gap-0.5 xl:flex" />
+        <StageMeter className="absolute bottom-10 right-[var(--shell-gutter)] z-10 hidden items-end gap-0.5 xl:flex" />
       </ContainerSticky>
     </ContainerScroll>
   );
