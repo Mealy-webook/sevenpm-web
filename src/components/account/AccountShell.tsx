@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AccountGuard } from "@/components/account/AccountGuard";
@@ -47,11 +49,14 @@ export function AccountShell({
                   height to hold that budget (see `AccountIdentity`). */}
               <div className="flex w-full flex-col gap-6 lg:sticky lg:top-[calc(var(--header-h,0px)+32px)] lg:max-h-[calc(100svh-var(--header-h,0px)-64px)] lg:w-[293px] lg:shrink-0">
                 <AccountIdentity />
-                <AccountNav
-                  items={accountNav}
-                  activeId={activeId}
-                  counts={counts}
-                />
+                {/* The nav reads `?tab=` to light the Requests row. */}
+                <Suspense fallback={null}>
+                  <AccountNav
+                    items={accountNav}
+                    activeId={activeId}
+                    counts={counts}
+                  />
+                </Suspense>
               </div>
               {children}
             </div>

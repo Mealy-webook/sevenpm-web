@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import type { TicketTier } from "@/data/events";
 import { CountUp } from "@/components/ui/CountUp";
+import { asset } from "@/lib/basePath";
 
 /**
  * A ticket stub, from Figma 2179:33880 (grey paper) and 2179:35522 (dark
@@ -86,7 +87,7 @@ export function TicketStub({
       aria-hidden
     >
       <Image
-        src={paper.notch}
+        src={asset(paper.notch)}
         alt=""
         width={STRIP_LONG}
         height={paper.strip}
@@ -142,7 +143,7 @@ export function TicketStub({
 
         {/* Body with scooped corners — the 218 × 347 export, turned */}
         <Image
-          src={paper.body}
+          src={asset(paper.body)}
           alt=""
           width={BODY_SHORT}
           height={BODY_LONG}

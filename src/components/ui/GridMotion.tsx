@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type FC, type ReactNode } from "react";
 import { gsap } from "gsap";
+import { asset } from "@/lib/basePath";
 
 interface GridMotionProps {
   items?: (string | ReactNode)[];
@@ -100,13 +101,13 @@ const GridMotion: FC<GridMotionProps> = ({
                       content.startsWith("/") ? (
                         <div
                           className="w-full h-full bg-cover bg-center absolute top-0 left-0"
-                          style={{ backgroundImage: `url(${content})` }}
+                          style={{ backgroundImage: `url(${asset(content)})` }}
                         ></div>
                       ) : typeof content === "string" &&
                         content.startsWith("http") ? (
                         <div
                           className="w-full h-full bg-cover bg-center absolute top-0 left-0"
-                          style={{ backgroundImage: `url(${content})` }}
+                          style={{ backgroundImage: `url(${asset(content)})` }}
                         ></div>
                       ) : (
                         <div className="p-4 text-center z-[1]">{content}</div>

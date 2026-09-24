@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { RequestsPanel } from "./RequestsPanel";
@@ -43,15 +43,18 @@ function formatWhen(booking: Booking) {
 export function BookingsPanel({
   bookings,
   now = new Date(),
-  initialTab = "Upcoming",
 }: {
   bookings: Booking[];
   /** Injected so the split is deterministic in tests and on the server. */
   now?: Date;
-  /** `/account?tab=requests` opens on the requests chip. */
-  initialTab?: Filter;
 }) {
-  const [filter, setFilter] = useState<Filter>(initialTab);
+  /* `/account?tab=requests` opens on the requests chip. Read here rather than
+     handed down from the page: a page that reads `searchParams` cannot be
+     rendered statically, and the whole site is exported as static files. */
+  const params = useSearchParams();
+  const [filter, setFilter] = useState<Filter>(
+    params.get("tab") === "requests" ? "Requests" : "Upcoming",
+  );
   const router = useRouter();
 
   /* The sidebar's "VIP Box requests" row points at ?tab=requests and lights

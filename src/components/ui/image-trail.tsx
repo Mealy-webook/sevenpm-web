@@ -3,6 +3,7 @@
 import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/basePath";
 
 /**
  * Image trail — images spawn along the cursor's path and fade out behind it.
@@ -414,7 +415,7 @@ export function ImageTrail({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={image.src}
+                src={asset(image.src)}
                 alt={image.alt ?? ""}
                 loading="lazy"
                 decoding="async"

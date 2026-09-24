@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { AccountShell } from "@/components/account/AccountShell";
 import { BookingsPanel } from "@/components/account/BookingsPanel";
@@ -17,25 +18,18 @@ export const metadata: Metadata = {
  * so `?tab=requests` opens on them — that is where the enquiry form and the
  * old /account/requests URL both send people.
  */
-export default async function AccountPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab?: string }>;
-}) {
-  const { tab } = await searchParams;
+export default function AccountPage() {
   const upcoming = bookings.filter(
     (b) => new Date(b.endsAt) >= new Date(),
   ).length;
 
+  /* `?tab=` is read inside the panel and the sidebar rather than here: a page
+     that reads `searchParams` cannot be rendered statically. */
   return (
-    <AccountShell
-      activeId={tab === "requests" ? "requests" : "bookings"}
-      counts={{ bookings: upcoming }}
-    >
-      <BookingsPanel
-        bookings={bookings}
-        initialTab={tab === "requests" ? "Requests" : "Upcoming"}
-      />
+    <AccountShell activeId="bookings" counts={{ bookings: upcoming }}>
+      <Suspense fallback={null}>
+        <BookingsPanel bookings={bookings} />
+      </Suspense>
     </AccountShell>
   );
 }

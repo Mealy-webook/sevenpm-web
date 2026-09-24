@@ -4,6 +4,20 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import { Experience } from "@/components/motion/Experience";
+import { BASE_PATH } from "@/lib/basePath";
+
+/* The six assets the stylesheets reach for by URL. `next/image` and the
+   router prefix the base path themselves; CSS `url()` does not, so when the
+   site is served from a sub-path the variables are redefined here. */
+const CSS_ASSETS = `:root{
+  --asset-arrow-right-24:url("${BASE_PATH}/assets/ic-arrow-right-24.svg");
+  --asset-arrow-up-right-24:url("${BASE_PATH}/assets/ic-arrow-up-right-24.svg");
+  --asset-arrow-right-20:url("${BASE_PATH}/assets/ic-arrow-right-20.svg");
+  --asset-arrow-left-20:url("${BASE_PATH}/assets/ic-arrow-left-20.svg");
+  --asset-chevron-down-16:url("${BASE_PATH}/assets/ic-chevron-down-16.svg");
+  --asset-grain:url("${BASE_PATH}/assets/grain.png");
+  --asset-hero-vinyl:url("${BASE_PATH}/assets/hero-vinyl.png");
+}`;
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -53,6 +67,7 @@ export default function RootLayout({
       lang="en"
       className={`${roboto.variable} ${figtree.variable} ${inter.variable} ${daltown.variable}`}
     >
+      <head>{BASE_PATH ? <style>{CSS_ASSETS}</style> : null}</head>
       <body>
         {children}
         <Experience />

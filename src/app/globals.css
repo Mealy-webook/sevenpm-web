@@ -82,6 +82,19 @@ body {
  * which leaves a 1272px content column.
  * ------------------------------------------------------------------ */
 :root {
+  /* The six assets stylesheets reach for directly. `next/image` and
+     `next/link` prefix a deployment's base path on their own; CSS `url()`
+     does not, so these are variables the document can redefine — see the
+     root layout, which rewrites them when the site is served from a
+     sub-path (GitHub Pages). */
+  --asset-arrow-right-24: url("/assets/ic-arrow-right-24.svg");
+  --asset-arrow-up-right-24: url("/assets/ic-arrow-up-right-24.svg");
+  --asset-arrow-right-20: url("/assets/ic-arrow-right-20.svg");
+  --asset-arrow-left-20: url("/assets/ic-arrow-left-20.svg");
+  --asset-chevron-down-16: url("/assets/ic-chevron-down-16.svg");
+  --asset-grain: url("/assets/grain.png");
+  --asset-hero-vinyl: url("/assets/hero-vinyl.png");
+
   --shell-gutter: 20px;
 }
 @media (min-width: 768px) {
@@ -281,22 +294,18 @@ body {
 
 @media (max-width: 1400px) {
   :root {
-  
   }
 }
 @media (max-width: 1100px) {
   :root {
-  
   }
 }
 @media (max-width: 900px) {
   :root {
-  
   }
 }
 @media (max-width: 700px) {
   :root {
-  
   }
 }
 @media (max-width: 1500px) {
@@ -336,7 +345,6 @@ body {
 }
 @media (max-width: 520px) {
   :root {
-  
   }
 }
 @media (max-width: 480px) {
@@ -347,7 +355,6 @@ body {
 @media (max-width: 400px) {
   :root {
     --hero-stage-w: 0.38;
-  
   }
 }
 
@@ -507,7 +514,10 @@ body {
    than one stub. */
 .ticket-stub-box {
   --stub-w: 403px;
-  --stub-scale: min(1, tan(atan2(100vw - 2 * var(--shell-gutter), var(--stub-w))));
+  --stub-scale: min(
+    1,
+    tan(atan2(100vw - 2 * var(--shell-gutter), var(--stub-w)))
+  );
   width: calc(var(--stub-w) * var(--stub-scale));
   height: calc(250px * var(--stub-scale));
 }
@@ -534,7 +544,6 @@ body {
   transform: scale(var(--stub-scale));
   transform-origin: top left;
 }
-
 
 /* Stub CTA: dark fill sweeps up from the bottom edge on hover. Kept off the
    generic `.sweep` class because that one sets `position: relative`, which
@@ -1003,8 +1012,8 @@ body {
   width: 16px;
   height: 16px;
   background-color: var(--color-content-primary);
-  -webkit-mask: url("/assets/ic-arrow-right-24.svg") center / contain no-repeat;
-  mask: url("/assets/ic-arrow-right-24.svg") center / contain no-repeat;
+  -webkit-mask: var(--asset-arrow-right-24) center / contain no-repeat;
+  mask: var(--asset-arrow-right-24) center / contain no-repeat;
   transition: background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1030,8 +1039,8 @@ body {
 .news-row:hover .news-arrow-glyph,
 .news-row:focus-visible .news-arrow-glyph {
   background-color: #0b0b0e;
-  -webkit-mask-image: url("/assets/ic-arrow-up-right-24.svg");
-  mask-image: url("/assets/ic-arrow-up-right-24.svg");
+  -webkit-mask-image: var(--asset-arrow-up-right-24);
+  mask-image: var(--asset-arrow-up-right-24);
 }
 
 @media (min-width: 1024px) {
@@ -1277,7 +1286,7 @@ html.has-cursor .cursor {
   inset: -50%;
   z-index: 80;
   pointer-events: none;
-  background: url("/assets/grain.png") repeat;
+  background: var(--asset-grain) repeat;
   background-size: 256px 256px;
   opacity: 0.045;
   mix-blend-mode: overlay;
@@ -1436,14 +1445,13 @@ html.has-cursor .cursor {
   height: 16px;
   margin-top: -8px;
   pointer-events: none;
-  background: url("/assets/ic-chevron-down-16.svg") no-repeat center / contain;
+  background: var(--asset-chevron-down-16) no-repeat center / contain;
 }
 
 .select-field select option {
   background: var(--color-bg-secondary);
   color: #fff;
 }
-
 
 /* The booking column's scroller. On a wide screen the journey is one
    screenful and the page itself does not move, so this is the only thing
@@ -1664,8 +1672,8 @@ html.has-cursor .cursor {
   width: 20px;
   height: 20px;
   background-color: currentColor;
-  -webkit-mask: url("/assets/ic-arrow-right-20.svg") center / contain no-repeat;
-  mask: url("/assets/ic-arrow-right-20.svg") center / contain no-repeat;
+  -webkit-mask: var(--asset-arrow-right-20) center / contain no-repeat;
+  mask: var(--asset-arrow-right-20) center / contain no-repeat;
   transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1698,8 +1706,8 @@ html.has-cursor .cursor {
 /* The back link reuses the tile's arrow, pointing the other way and
    travelling left on hover. */
 .news-tile-arrow--back {
-  -webkit-mask-image: url("/assets/ic-arrow-left-20.svg");
-  mask-image: url("/assets/ic-arrow-left-20.svg");
+  -webkit-mask-image: var(--asset-arrow-left-20);
+  mask-image: var(--asset-arrow-left-20);
 }
 
 .news-tile:hover .news-tile-arrow--back,

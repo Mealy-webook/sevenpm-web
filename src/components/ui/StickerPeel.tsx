@@ -6,6 +6,7 @@ import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 
 import "./StickerPeel.css";
+import { asset } from "@/lib/basePath";
 
 gsap.registerPlugin(Draggable, InertiaPlugin);
 
@@ -296,7 +297,7 @@ export function StickerPeel({
                 which the peel clip-path and flap geometry depend on owning. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={imageSrc}
+              src={asset(imageSrc)}
               alt=""
               width={width}
               height={height ?? width}
@@ -311,7 +312,7 @@ export function StickerPeel({
           <div className="flap-lighting">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={imageSrc}
+              src={asset(imageSrc)}
               alt=""
               width={width}
               height={height ?? width}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   useCallback,
   useEffect,
@@ -35,17 +36,10 @@ import { OrderSummaryDialog } from "./OrderSummaryDialog";
 import { PromoDialog } from "./PromoDialog";
 import { SummaryBar } from "./SummaryBar";
 import { TicketInfoDialog } from "./TicketInfoDialog";
-import {
-  ProtectionInfoDialog,
-  SkipProtectionDialog,
-} from "./TicketProtection";
+import { ProtectionInfoDialog, SkipProtectionDialog } from "./TicketProtection";
 import { TicketsStep } from "./TicketsStep";
 import { adjust, quantityOf, totals as priceCart, type Cart } from "./cart";
-import {
-  MAX_INSTALMENTS,
-  maxInstalments,
-  schedule,
-} from "./payLaterRules";
+import { MAX_INSTALMENTS, maxInstalments, schedule } from "./payLaterRules";
 import {
   LocaleMenu,
   type CurrencyCode,
@@ -89,7 +83,12 @@ export type BookingEvent = {
   venueUrl: string;
   poster: string;
   /** The event's own playlist, for the player that replaces the poster. */
-  playlist: { title: string; artist: string; artworkUrl?: string; audioSrc?: string }[];
+  playlist: {
+    title: string;
+    artist: string;
+    artworkUrl?: string;
+    audioSrc?: string;
+  }[];
   startsAt: string;
   /** Where the confirmation says the booking was sent. */
   email: string;
@@ -101,14 +100,12 @@ function clock(seconds: number) {
   return `${minutes}:${String(safe % 60).padStart(2, "0")}`;
 }
 
-export function BookingJourney({
-  event,
-  initialTier,
-}: {
-  event: BookingEvent;
-  /** `?tier=` from the event page's ticket stubs. */
-  initialTier?: string;
-}) {
+export function BookingJourney({ event }: { event: BookingEvent }) {
+  /* `?tier=` from the event page's ticket stubs, read here rather than handed
+     down: a page that reads `searchParams` cannot be rendered statically, and
+     the site is exported as static files. */
+  const initialTier = useSearchParams().get("tier");
+
   /* The event's playlist, in the shape the widget takes. */
   const playerTracks = useMemo<Track[]>(
     () =>
@@ -175,7 +172,9 @@ export function BookingJourney({
   const [method, setMethod] = useState("apple-pay");
   const [delivery, setDelivery] = useState<DeliveryChoice | null>(null);
   const [card, setCard] = useState<SavedCard | null>(null);
-  const [promo, setPromo] = useState<{ code: string; off: number } | null>(null);
+  const [promo, setPromo] = useState<{ code: string; off: number } | null>(
+    null,
+  );
   /* Ticket protection is on by default, as the comp has it. Switching it
      off asks first; switching it back on does not. */
   const [protection, setProtection] = useState(true);

@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 
 import "./music-player-widget.css";
+import { asset } from "@/lib/basePath";
 
 /**
  * Music Player Widget — from 21st.dev (@smammar), adapted for this project.
@@ -73,7 +74,10 @@ function useTransitionSound() {
       const startFreq = 440 + bassEnergy * 440;
       osc.type = "triangle";
       osc.frequency.setValueAtTime(startFreq, now);
-      osc.frequency.exponentialRampToValueAtTime(startFreq * (2 / 3), now + 0.09);
+      osc.frequency.exponentialRampToValueAtTime(
+        startFreq * (2 / 3),
+        now + 0.09,
+      );
       gain.gain.setValueAtTime(0.0001, now);
       gain.gain.exponentialRampToValueAtTime(0.06, now + 0.012);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
@@ -179,7 +183,8 @@ function useWidgetAnalyser(audioRef: React.RefObject<HTMLAudioElement | null>) {
     const count = endBin - startBin;
     if (count <= 0) return 0;
     let sum = 0;
-    for (let i = startBin; i < endBin && i < data.length; i += 1) sum += data[i];
+    for (let i = startBin; i < endBin && i < data.length; i += 1)
+      sum += data[i];
     return sum / count / 255;
   }, []);
 
@@ -221,7 +226,11 @@ function reducer(state: State, action: Action): State {
     case "PAUSE":
       return { ...state, isPlaying: false };
     case "SET_TRACK":
-      return { ...state, currentIndex: action.index, direction: action.direction };
+      return {
+        ...state,
+        currentIndex: action.index,
+        direction: action.direction,
+      };
     case "TOGGLE_SHUFFLE": {
       const shuffled = !state.shuffled;
       const order = shuffled
@@ -321,11 +330,14 @@ function useAudioPlayer(
     loadTrack(state.order[pp], !audio.paused, "prev");
   }, [state.order, state.currentIndex, state.loopMode, loadTrack, audioRef]);
 
-  const seek = useCallback((pct: number) => {
-    const audio = audioRef.current;
-    if (!audio || !audio.duration) return;
-    audio.currentTime = pct * audio.duration;
-  }, [audioRef]);
+  const seek = useCallback(
+    (pct: number) => {
+      const audio = audioRef.current;
+      if (!audio || !audio.duration) return;
+      audio.currentTime = pct * audio.duration;
+    },
+    [audioRef],
+  );
 
   /* These live in the hook rather than at the call site: the element belongs
      to this hook, and nudging it from outside counts as reaching into what a
@@ -485,8 +497,16 @@ function useScopedShortcuts(
 const COLS = 10;
 const ROWS = 10;
 const BAND_RANGES: [number, number][] = [
-  [0, 1], [1, 3], [3, 6], [6, 10], [10, 16],
-  [16, 24], [24, 36], [36, 52], [52, 74], [74, 100],
+  [0, 1],
+  [1, 3],
+  [3, 6],
+  [6, 10],
+  [10, 16],
+  [16, 24],
+  [24, 36],
+  [36, 52],
+  [52, 74],
+  [74, 100],
 ];
 const sineOut = (x: number) => Math.sin((x * Math.PI) / 2);
 const sineIn = (x: number) => 1 - Math.cos((x * Math.PI) / 2);
@@ -576,7 +596,11 @@ function ScalesMixer({
           style={{ transform: `translate(${c * 10}px, 0px)` }}
         >
           {Array.from({ length: ROWS }, (_, r) => (
-            <g key={r} mask={`url(#${maskId})`} transform={`translate(0 ${r * 10})`}>
+            <g
+              key={r}
+              mask={`url(#${maskId})`}
+              transform={`translate(0 ${r * 10})`}
+            >
               <circle
                 ref={(el) => {
                   circleRefs.current[c][r] = el;
@@ -698,7 +722,7 @@ function Disc({
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               key={l.id}
-              src={l.track.cover}
+              src={asset(l.track.cover)}
               alt={`${l.track.title} — ${l.track.artist}`}
               className={cls}
               draggable={false}
@@ -792,7 +816,9 @@ function ProgressBar({
         aria-valuenow={Math.round(pct)}
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
-          onSeek(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)));
+          onSeek(
+            Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)),
+          );
         }}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") onSeek(Math.min(1, pct / 100 + 0.05));
@@ -835,8 +861,18 @@ function Controls({
 }) {
   return (
     <div className="controls">
-      <button type="button" className="ctrl" onClick={onPrev} aria-label="Previous track">
-        <Image src="/assets/ic-player-rewind.svg" alt="" width={16} height={16} />
+      <button
+        type="button"
+        className="ctrl"
+        onClick={onPrev}
+        aria-label="Previous track"
+      >
+        <Image
+          src="/assets/ic-player-rewind.svg"
+          alt=""
+          width={16}
+          height={16}
+        />
       </button>
       <button
         type="button"
@@ -845,15 +881,36 @@ function Controls({
         aria-label={isPlaying ? "Pause" : "Play"}
       >
         {isPlaying ? (
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden>
+          <svg
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            fill="currentColor"
+            aria-hidden
+          >
             <path d="M6 5h3v14H6zM15 5h3v14h-3z" />
           </svg>
         ) : (
-          <Image src="/assets/ic-player-play.svg" alt="" width={16} height={16} />
+          <Image
+            src="/assets/ic-player-play.svg"
+            alt=""
+            width={16}
+            height={16}
+          />
         )}
       </button>
-      <button type="button" className="ctrl" onClick={onNext} aria-label="Next track">
-        <Image src="/assets/ic-player-forward.svg" alt="" width={16} height={16} />
+      <button
+        type="button"
+        className="ctrl"
+        onClick={onNext}
+        aria-label="Next track"
+      >
+        <Image
+          src="/assets/ic-player-forward.svg"
+          alt=""
+          width={16}
+          height={16}
+        />
       </button>
     </div>
   );

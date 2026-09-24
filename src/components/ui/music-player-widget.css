@@ -59,7 +59,9 @@
   /* The disc is a record, not a round crop of the sleeve: the comp lays the
      artwork in as a centre label on vinyl. Same asset the floating player
      uses, so the two are the same record. */
-  background: url("/assets/hero-vinyl.png") center / cover no-repeat, #000;
+  background:
+    var(--asset-hero-vinyl) center / cover no-repeat,
+    #000;
   border-radius: 9999px;
 }
 
@@ -83,13 +85,21 @@
 }
 
 @keyframes mpw-cover-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes mpw-cover-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* The spindle, in the part of the disc the panel crops away. */
@@ -203,13 +213,25 @@
 }
 
 @keyframes mpw-ti-in {
-  from { opacity: 0; transform: translateX(var(--dx, 0)); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(var(--dx, 0));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes mpw-ti-out {
-  from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(var(--dx, 0)); }
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(var(--dx, 0));
+  }
 }
 
 /* ---- progress, then the clock ---- */

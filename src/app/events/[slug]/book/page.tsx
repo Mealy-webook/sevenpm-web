@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { BookingJourney } from "@/components/booking/BookingJourney";
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -9,7 +10,6 @@ import { events, getEvent } from "@/data/events";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ tier?: string }>;
 };
 
 export function generateStaticParams() {
@@ -32,9 +32,8 @@ export async function generateMetadata({
  * chrome — back, breadcrumb, hold timer, globe — so neither the site header
  * nor the footer is rendered here: the page has one job.
  */
-export default async function BookPage({ params, searchParams }: PageProps) {
+export default async function BookPage({ params }: PageProps) {
   const { slug } = await params;
-  const { tier } = await searchParams;
   const event = getEvent(slug);
   if (!event) notFound();
 
@@ -42,20 +41,22 @@ export default async function BookPage({ params, searchParams }: PageProps) {
     <>
       <MotionProvider />
       <main>
-        <BookingJourney
-          event={{
-            slug: event.slug,
-            name: event.name,
-            time: bookingConfig.sessionTime,
-            venue: event.venue.name,
-            venueUrl: event.venue.directionsUrl,
-            poster: bookingConfig.poster,
-            playlist: event.playlist,
-            startsAt: event.startsAt,
-            email: accountUser.email,
-          }}
-          initialTier={tier}
-        />
+        {/* The journey reads `?tier=` itself, which needs a boundary. */}
+        <Suspense fallback={null}>
+          <BookingJourney
+            event={{
+              slug: event.slug,
+              name: event.name,
+              time: bookingConfig.sessionTime,
+              venue: event.venue.name,
+              venueUrl: event.venue.directionsUrl,
+              poster: bookingConfig.poster,
+              playlist: event.playlist,
+              startsAt: event.startsAt,
+              email: accountUser.email,
+            }}
+          />
+        </Suspense>
       </main>
     </>
   );

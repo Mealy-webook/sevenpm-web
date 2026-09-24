@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import { LogoutButton } from "@/components/auth/LogoutButton";
 
@@ -21,17 +24,22 @@ export function AccountNav({
   activeId: string;
   counts?: Record<string, number>;
 }) {
+  /* Requests is a chip on the bookings screen rather than a route of its
+     own, so `/account?tab=requests` has to light the Requests row. The page
+     cannot tell us — reading `searchParams` there would make it dynamic, and
+     the site is exported as static files — so the row reads the URL itself. */
+  const tab = useSearchParams().get("tab");
+  const currentId =
+    activeId === "bookings" && tab === "requests" ? "requests" : activeId;
+
   const row =
     "flex w-full items-center gap-4 pl-4 pr-3 drop-shadow-[0px_4px_12px_rgba(0,0,0,0.12)] transition-colors";
 
   return (
-    <nav
-      aria-label="Account"
-      className="flex w-full flex-col gap-4"
-    >
+    <nav aria-label="Account" className="flex w-full flex-col gap-4">
       <ul className="m-0 flex list-none flex-col gap-1 p-0">
         {items.map((item) => {
-          const active = item.id === activeId;
+          const active = item.id === currentId;
           const count = counts[item.id];
           return (
             <li key={item.id}>
