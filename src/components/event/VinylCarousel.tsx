@@ -18,9 +18,8 @@ import { HeroSpectrum } from "./HeroSpectrum";
  * does the travel), the arm drops back onto the new record, and it spins up as
  * the audio starts.
  *
- * Geometry is stage-space: a 1512 × 612 frame, all discs on one axis. The
- * outer pair is cut in half by the frame's edges rather than fitting inside
- * it, so what you see is one record and a half on each side of the centre.
+ * Geometry is stage-space: a 1512 × 612 frame, all discs on one axis, and
+ * everything on it sits whole and clear of its neighbours.
  */
 
 const STAGE_WIDTH = 1512;
@@ -34,32 +33,29 @@ const LABEL_INSET = (DISC - LABEL) / 2;
 const GLOW = DISC / 3;
 
 /**
- * Slot geometry. The comp receded the neighbours to 245 and 191 and fitted
- * five whole records on the stage; these are much larger and deliberately
- * run off it, so the deck reads as one record in the middle with another
- * and a half either side.
+ * Slot geometry. The comp receded the neighbours to 245 and 191 and packed
+ * five whole records onto the stage with no air between them.
  *
- * The numbers come off the 1512 stage: ±1 at 380 centred on 332 and 1180
- * sits entirely inside it, and ±2 at the same size centred on the two edges
- * is cut exactly in half by them. That halving is what the stage's
- * `overflow-x: clip` is for.
+ * Three records now, and they do not touch: the centre spans 450.5 to
+ * 1062.5, and each neighbour at 330 sits 48px clear of it, leaving 71px to
+ * the stage edge on either side. Nothing is cut, which is the point — the
+ * outer pair the stage used to halve is parked off-stage instead, because
+ * a half record only reads as a half record if something clips it.
  *
- * The centre stays at 612 because that is the stage's height — it cannot
+ * The centre stays at 612 because that is the stage's height; it cannot
  * grow without the hero's frame growing with it.
  */
 const SLOTS: Record<number, { cx: number; size: number; visible: boolean }> = {
-  [-2]: { cx: 0, size: 380, visible: true },
-  [-1]: { cx: 332, size: 380, visible: true },
+  [-1]: { cx: 236.5, size: 330, visible: true },
   [0]: { cx: 756.5, size: DISC, visible: true },
-  [1]: { cx: 1180, size: 380, visible: true },
-  [2]: { cx: STAGE_WIDTH, size: 380, visible: true },
+  [1]: { cx: 1275.5, size: 330, visible: true },
 };
 
 /** Parked off-stage, so a disc wrapping round the ring never crosses the view. */
 function slotFor(offset: number) {
   const known = SLOTS[offset];
   if (known) return known;
-  const away = Math.abs(offset) - 2;
+  const away = Math.abs(offset) - 1;
   return {
     cx: offset < 0 ? -320 - away * 240 : 1840 + away * 240,
     size: 150,
@@ -297,10 +293,8 @@ export function VinylCarousel({
 
   return (
     <div
-      /* Clipped on x only, which is what halves the outer records at the
-         edges. `clip` rather than `hidden` so the y axis stays visible and
-         the tonearm, which hangs 65px above the stage, is not cut off. */
-      className="relative [overflow-x:clip]"
+      /* No clip: nothing on the stage is meant to be cut any more. */
+      className="relative"
       style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
     >
       {/* Colour wash from the active cover, behind everything. Only the
