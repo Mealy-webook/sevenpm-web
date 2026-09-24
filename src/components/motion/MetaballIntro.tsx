@@ -23,21 +23,54 @@ import { gsap } from "gsap";
  * leaves, and nothing pulses.
  */
 
-/** The cluster: offsets from centre in vmin, and each blob's rest radius. */
+/**
+ * The core: a chain of lumps along a slightly tilted axis, not one disc.
+ * Under the goo filter they fuse into a single molten band with pinched
+ * waists between them, which is the shape the reference has.
+ * Offsets and radii in vmin.
+ */
 const BLOBS = [
-  { x: 0, y: 0, r: 9 },
-  { x: -7, y: -3, r: 6.5 },
-  { x: 7, y: 3, r: 6.5 },
-  { x: -4, y: 6, r: 5 },
-  { x: 5, y: -6, r: 5 },
-  { x: -11, y: 4, r: 4 },
-  { x: 11, y: -4, r: 4 },
-  { x: 0, y: -9, r: 3.5 },
-  { x: 0, y: 9, r: 3.5 },
+  { x: -15, y: 2, r: 3.4 },
+  { x: -10.5, y: -2, r: 4.4 },
+  { x: -5.5, y: 1.5, r: 5.2 },
+  { x: 0, y: -1, r: 5.8 },
+  { x: 5.5, y: 2, r: 5.2 },
+  { x: 10.5, y: -1.5, r: 4.4 },
+  { x: 15, y: 1.5, r: 3.4 },
+  { x: -7, y: -6.5, r: 2.6 },
+  { x: 7, y: 6.5, r: 2.6 },
 ];
 
-const COLS = 13;
-const ROWS = 9;
+/**
+ * The field: concentric rings rather than a grid, so it reads as radiating
+ * from the core the way the reference's does. Radius in vmin, and how many
+ * dots sit on that ring.
+ */
+const RINGS = [
+  { r: 11, n: 8 },
+  { r: 16, n: 12 },
+  { r: 21, n: 16 },
+  { r: 26, n: 18 },
+  { r: 31, n: 20 },
+  { r: 36, n: 22 },
+];
+
+/** The fringe colours the reference cycles through. */
+const FRINGE = ["#fbeb1c", "#6a7bff", "#ff6ab8", "#57e08a"];
+
+const DOTS = RINGS.flatMap((ring, ringIndex) =>
+  Array.from({ length: ring.n }, (_, index) => {
+    const angle = (index / ring.n) * Math.PI * 2 + ringIndex * 0.28;
+    return {
+      x: Math.cos(angle) * ring.r,
+      y: Math.sin(angle) * ring.r,
+      colour: FRINGE[(ringIndex + index) % FRINGE.length],
+      /* The outer rings thin out, as they do in the shot. */
+      size: 1.4 - ringIndex * 0.12,
+      ring: ringIndex > 1 && (ringIndex + index) % 3 === 0,
+    };
+  }),
+);
 
 export function MetaballIntro({ onDone }: { onDone?: () => void }) {
   const root = useRef<HTMLDivElement>(null);
@@ -68,7 +101,9 @@ export function MetaballIntro({ onDone }: { onDone?: () => void }) {
         opacity: 1,
         duration: 0.5,
         ease: "back.out(2)",
-        stagger: { each: 0.012, from: "center", grid: [ROWS, COLS] },
+        /* DOTS is built ring by ring, so plain order already runs
+           outward from the core. */
+        stagger: 0.008,
       });
 
       if (!reduce) {
@@ -152,23 +187,27 @@ export function MetaballIntro({ onDone }: { onDone?: () => void }) {
         ))}
       </div>
 
-      {/* The grid, inverting wherever the flood has reached. */}
-      <div
-        className="absolute inset-0 grid place-items-center"
-        style={{ mixBlendMode: "difference" }}
-      >
-        <div
-          className="grid gap-[6vmin]"
-          style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)` }}
-        >
-          {Array.from({ length: COLS * ROWS }, (_, index) => (
-            <span
-              key={index}
-              data-dot
-              className="block size-[1.1vmin] rounded-full bg-brand"
-            />
-          ))}
-        </div>
+      {/* The field, inverting wherever the flood has reached. */}
+      <div className="absolute inset-0" style={{ mixBlendMode: "difference" }}>
+        {DOTS.map((dot, index) => (
+          <span
+            key={index}
+            data-dot
+            className="absolute block rounded-full"
+            style={{
+              width: `${dot.size}vmin`,
+              height: `${dot.size}vmin`,
+              left: `calc(50% + ${dot.x.toFixed(2)}vmin)`,
+              top: `calc(50% + ${dot.y.toFixed(2)}vmin)`,
+              translate: "-50% -50%",
+              /* Some are rings, some are solid — the shot mixes the two. */
+              background: dot.ring ? "transparent" : dot.colour,
+              boxShadow: dot.ring
+                ? `0 0 0 0.3vmin ${dot.colour}`
+                : `0 0 0.9vmin ${dot.colour}`,
+            }}
+          />
+        ))}
       </div>
 
       {/* The flat sheet the flood hands over to. */}
