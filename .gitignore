@@ -40,5 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Static export for the GitHub Pages preview
+# The static export. `out/` is the build; `docs/` is the copy GitHub Pages
+# serves, so that one is committed.
 /out/
