@@ -13,14 +13,21 @@
 .track {
   display: flex;
   flex: 0 0 auto;
-  gap: 32px;
-  padding-right: 32px;
   animation: story-marquee 26s linear infinite;
   will-change: transform;
 }
 
 .band[data-direction="reverse"] .track {
   animation-direction: reverse;
+}
+
+/* Each unit owns its trailing gap, so the track is exactly
+   units x unitWidth and -50% lands on a unit boundary. */
+.unit {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 32px;
+  padding-right: 32px;
 }
 
 .word {
