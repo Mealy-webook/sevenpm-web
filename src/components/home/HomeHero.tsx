@@ -10,9 +10,10 @@ import { homeCopy } from "@/data/home";
  * whatever is playing.
  *
  * The comp sets the headline as two lines — MORE MUSIC over MORE LIFE — at
- * Daltown 260/188, ranged left against the gutter and near the top of the
- * screen rather than centred in it. No standfirst and no button: the comp
- * has neither.
+ * Daltown 260/188, ranged left against the gutter. It sits centred in the
+ * fold vertically while staying ranged left across it — centred in the
+ * screen minus the header, which is the space actually visible. No standfirst and no button:
+ * the comp has neither.
  *
  * The ground is React Bits' FaultyTerminal tinted brand (`HeroTerminal`),
  * in place of the lighting truss that used to hang here. The event page's
@@ -21,11 +22,16 @@ import { homeCopy } from "@/data/home";
  */
 export function HomeHero() {
   return (
-    <section className="relative isolate flex h-svh w-full flex-col">
+    /* Centred in the fold, not sitting at the top of it. The section is
+       the screen minus the header rather than the whole screen: it already
+       starts below the header's in-flow spacer, so sizing it to 100svh and
+       padding the header's height on top counted the header twice and
+       pushed the heading 121px low. */
+    <section className="relative isolate flex h-[calc(100svh-var(--header-h,0px))] w-full flex-col justify-center">
       <HeroTerminal />
 
       <h1
-        className="hero-headline shell relative z-10 m-0 pt-[calc(var(--header-h,0px)+40px)] font-daltown uppercase text-white"
+        className="hero-headline shell relative z-10 m-0 font-daltown uppercase text-white"
         data-no-split
       >
         {homeCopy.heroLead}
