@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { ConcertLights } from "@/components/motion/ConcertLights";
 import { StageMeter } from "@/components/motion/StageMeter";
@@ -20,7 +21,10 @@ import { heroReveal, homeCopy } from "@/data/home";
  * second word in brand, and sets the standfirst at 18/1.6 under it; here
  * that second word cycles between MUSIC and LIFE instead of standing still
  * (`HeroHeadline`). The little yellow equaliser in the bottom-right corner
- * is the comp's four bars, reading the spectrum of whatever is playing.
+ * is the comp's four bars, reading the spectrum of whatever is playing. The
+ * comp adds a 193 × 65 button under the standfirst and leaves it unlabelled,
+ * so `homeCopy.heroCta` names it and points it at the one thing on this page
+ * you can actually buy.
  *
  * The screen then holds while you scroll: the copy drifts up and a frame
  * opens beneath it from a rounded pill to the full bleed
@@ -53,7 +57,7 @@ export function HomeHero() {
         <ConcertLights />
 
         <ContainerAnimated
-          className="shell relative flex w-full flex-1 flex-col items-center justify-center gap-7 pt-[var(--header-h,0px)]"
+          className="shell relative flex w-full flex-1 flex-col items-center justify-center gap-4 pt-[var(--header-h,0px)]"
           inputRange={[0, 0.6]}
           outputRange={[0, -60]}
         >
@@ -65,6 +69,18 @@ export function HomeHero() {
           >
             {homeCopy.intro}
           </p>
+
+          <Link
+            href={homeCopy.heroCta.href}
+            data-magnetic="0.2"
+            /* The comp draws the button as a light fill, which is the
+               house primary — white ground, brand on hover. `.sweep` is no
+               use here: its fill is `currentColor`, so a button whose label
+               darkens on hover would fill with the dark too. */
+            className="mt-2 flex h-[65px] min-w-[193px] items-center justify-center bg-white px-8 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-[#18181b] transition-colors hover:bg-brand"
+          >
+            {homeCopy.heroCta.label}
+          </Link>
         </ContainerAnimated>
 
         {/* The frame. It starts as a pill in the middle of the screen and

@@ -14,6 +14,12 @@ export type Festival = {
   href: string;
   /** Poster export from the comp — already drawn in perspective for its slot. */
   poster: { src: string; width: number; height: number };
+  /**
+   * The upright 2:3 artwork the homepage row uses (Figma 2482:25040),
+   * cropped from that comp's own bitmaps. Only the four festivals the comp
+   * draws have one, and the row shows only those.
+   */
+  card?: string;
   /** Preview played while the visitor holds the spacebar. */
   audioSrc?: string;
 };
@@ -24,6 +30,7 @@ export const festivals: Festival[] = [
     name: "Village Casa Anfa",
     href: "#",
     poster: { src: "/assets/festival-poster-1.png", width: 374, height: 526 },
+    card: "/assets/poster-village-casa-anfa.jpg",
   },
   {
     id: "tanjazz",
@@ -34,6 +41,7 @@ export const festivals: Festival[] = [
       width: 362.003,
       height: 509.5,
     },
+    card: "/assets/poster-tanjazz-26.jpg",
   },
   {
     id: "jazzablanca",
@@ -44,6 +52,7 @@ export const festivals: Festival[] = [
       width: 305.5,
       height: 495.5,
     },
+    card: "/assets/poster-jazzablanca-26.jpg",
     audioSrc: jazzablanca.playlist[0]?.audioSrc,
   },
   {
@@ -55,6 +64,7 @@ export const festivals: Festival[] = [
       width: 364.064,
       height: 511,
     },
+    card: "/assets/poster-casa-anfa-latina.jpg",
   },
   {
     id: "arma-taghazout",
@@ -199,6 +209,19 @@ export const heroReveal = {
   video: null as string | null,
 };
 
+/**
+ * The homepage row, in the comp's own left-to-right order (2482:25040). The
+ * `festivals` array is left alone because `FestivalsStage`, which the two
+ * homepage preview routes still use, features whichever sits in the middle
+ * of it — and only that one has an audio preview.
+ */
+export const festivalsRowOrder = [
+  "jazzablanca",
+  "tanjazz",
+  "village-casa-anfa",
+  "casa-anfa-latina",
+];
+
 export const homeCopy = {
   /** The accessible name for the hero heading, which is shown a word at a
       time — see `HeroHeadline`. */
@@ -208,6 +231,15 @@ export const homeCopy = {
   intro:
     "SEVENPM creates cultural experiences that bring the world’s artists, Moroccan talent and communities together—transforming cities through music, culture and unforgettable moments.",
   listenHint: ["Press & Hold", "spacebar to listen"],
+  /**
+   * The hero's CTA. The comp (2482:25049) draws the button as an unlabelled
+   * 193 × 65 placeholder, so both the words and the destination are chosen
+   * here: the page's job is tickets, and the featured event is the one thing
+   * on it you can actually buy.
+   */
+  heroCta: { label: "Book tickets", href: `/events/${jazzablanca.slug}/book` },
+  /** The festival row's title (2482:25044). */
+  festivalsTitle: "Our iconic festivals",
   newsletter: {
     title: "Be the first to know",
     body: "Subscribe to our newsletter to be the first to know about concert announcements, and exclusive updates — and never miss the most exciting news.",

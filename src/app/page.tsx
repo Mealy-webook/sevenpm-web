@@ -4,8 +4,7 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SponsorsSection } from "@/components/event/SponsorsSection";
-import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { FestivalsStage } from "@/components/home/FestivalsStage";
+import { FestivalsRow } from "@/components/home/FestivalsRow";
 import { GalleryBento } from "@/components/home/GalleryBento";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeMarquee } from "@/components/home/HomeMarquee";
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
 /**
  * Homepage, from Figma node 15:202.
  *
- * The comp's order: the hero, the festival stage, the kinetic band, the
+ * The comp's order: the hero, the festival row, the kinetic band, the
  * founding block, mission/vision/values, the gallery, the news, the
  * newsletter and the partners.
  *
@@ -40,18 +39,7 @@ export default function Home() {
       <main>
         <HomeHero />
 
-        {/* The stage. 80 from the hero to the title, as the comp has it. */}
-        <section
-          id="festivals"
-          className="relative pb-16 pt-12 xl:pb-24 xl:pt-20 [overflow-x:clip]"
-        >
-          <div className="shell flex flex-col items-center gap-12">
-            <DisplayHeading reveal="clip">Festivals</DisplayHeading>
-          </div>
-          <div className="mt-12">
-            <FestivalsStage festivals={festivals} />
-          </div>
-        </section>
+        <FestivalsRow festivals={festivals} />
 
         <HomeMarquee />
         <HomeStory />
