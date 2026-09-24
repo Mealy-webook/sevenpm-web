@@ -18,7 +18,9 @@ import { HeroSpectrum } from "./HeroSpectrum";
  * does the travel), the arm drops back onto the new record, and it spins up as
  * the audio starts.
  *
- * Geometry is stage-space: a 1512 × 612 frame, all discs on one axis.
+ * Geometry is stage-space: a 1512 × 612 frame, all discs on one axis. The
+ * outer pair is cut in half by the frame's edges rather than fitting inside
+ * it, so what you see is one record and a half on each side of the centre.
  */
 
 const STAGE_WIDTH = 1512;
@@ -31,13 +33,26 @@ const LABEL_INSET = (DISC - LABEL) / 2;
 /** Glow layer box — a third of the disc, scaled ×3 by `.vinyl-glow`. */
 const GLOW = DISC / 3;
 
-/** Slot geometry for offsets from the active disc, straight from the comp. */
+/**
+ * Slot geometry. The comp receded the neighbours to 245 and 191 and fitted
+ * five whole records on the stage; these are much larger and deliberately
+ * run off it, so the deck reads as one record in the middle with another
+ * and a half either side.
+ *
+ * The numbers come off the 1512 stage: ±1 at 380 centred on 332 and 1180
+ * sits entirely inside it, and ±2 at the same size centred on the two edges
+ * is cut exactly in half by them. That halving is what the stage's
+ * `overflow-x: clip` is for.
+ *
+ * The centre stays at 612 because that is the stage's height — it cannot
+ * grow without the hero's frame growing with it.
+ */
 const SLOTS: Record<number, { cx: number; size: number; visible: boolean }> = {
-  [-2]: { cx: 9.5, size: 191, visible: true },
-  [-1]: { cx: 278.5, size: 245, visible: true },
+  [-2]: { cx: 0, size: 380, visible: true },
+  [-1]: { cx: 332, size: 380, visible: true },
   [0]: { cx: 756.5, size: DISC, visible: true },
-  [1]: { cx: 1246.5, size: 245, visible: true },
-  [2]: { cx: 1526.5, size: 191, visible: true },
+  [1]: { cx: 1180, size: 380, visible: true },
+  [2]: { cx: STAGE_WIDTH, size: 380, visible: true },
 };
 
 /** Parked off-stage, so a disc wrapping round the ring never crosses the view. */
@@ -282,7 +297,10 @@ export function VinylCarousel({
 
   return (
     <div
-      className="relative"
+      /* Clipped on x only, which is what halves the outer records at the
+         edges. `clip` rather than `hidden` so the y axis stays visible and
+         the tonearm, which hangs 65px above the stage, is not cut off. */
+      className="relative [overflow-x:clip]"
       style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
     >
       {/* Colour wash from the active cover, behind everything. Only the
