@@ -250,8 +250,10 @@ export const festivalsRowOrder = [
 
 export const homeCopy = {
   /** The accessible name for the hero heading — see `HeroHeadline`. */
-  heroTitle: "SEVENPM",
-  heroLead: "Sevenpm",
+  heroTitle: "More music, more life",
+  /** The comp's two lines (2482:25006). */
+  heroLead: "More music",
+  heroSecond: "More life",
   /** Empty: the hero heading is the name, with nothing cycling after it. */
   heroWords: [] as string[],
   intro:

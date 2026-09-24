@@ -141,18 +141,15 @@ body {
   color: #fff;
 }
 
-/* The hero headline is the name on its own, so it is sized to span the
-   screen rather than capped against the comp's two-word measure. Measured
-   on the page, Daltown sets "SEVENPM" at 1.75x its font size, so 46vw
-   fills about four fifths of the width at any screen. Applied to the finished size rather
-   than to --display-size, which would compound with --display-scale and
-   leave a phone with a 25px headline. No longer behind a 640 breakpoint:
-   a single word cannot stack, so it needs sizing at every width. */
+/* The hero headline is two lines of "MORE MUSIC / MORE LIFE" (Figma
+   2482:25006), Daltown 260 on a 188 line box. 17.2vw is what 260px is at
+   the comp's own 1512 frame, so the cap only bites below that width —
+   applied to the finished size rather than to --display-size, which would
+   compound with --display-scale and leave a phone with a 25px headline. */
 .hero-headline {
-  font-size: min(calc(760px * var(--display-scale)), 46vw);
-  line-height: 0.78em;
+  font-size: min(calc(260px * var(--display-scale)), 17.2vw);
+  line-height: 0.723em;
 }
-
 .display-text--faq {
   --display-size: 152px;
   --display-line: 118px;
@@ -237,26 +234,31 @@ body {
  * a *length*, which makes both `scale()` and the matching height invalid.
  * ------------------------------------------------------------------ */
 :root {
-  /* The width ladder below sets this. It is not the scale the deck uses —
-     see `--hero-stage-scale`. */
+  /* The width ladder below sets this. The deck no longer reads it — see
+     `--hero-stage-scale`, which derives its width term from the viewport
+     so the stage fills the page rather than fitting inside it. */
   --hero-stage-w: 1;
 
   /**
-   * The deck is fitted to the height as well as the width.
+   * The deck fills the width and is capped by the height.
    *
-   * The ladder alone answers only to width, so a wide but short window — a
-   * laptop at 1512 x 700, a half-height browser — left the record at full
-   * size and taller than the screen: you could never see a whole record,
-   * only the middle of one. This caps it at just over half the viewport
-   * height, which is what leaves room for the name above it and the share
-   * button below.
+   * The width term is the viewport over the 1512 frame, so the stage spans
+   * the page exactly — the stepped ladder above fitted it *inside* the
+   * viewport and left a band of empty page either side, which is what put
+   * padding around the records.
+   *
+   * The height term still wins on a wide but short window — a laptop at
+   * 1512 x 700, a half-height browser — where a full-size record would be
+   * taller than the screen and you could never see a whole one. 0.68 is
+   * where a 612 record exactly fits a 900-tall window, so an ordinary
+   * desktop is width-driven and only genuinely short ones are capped.
    *
    * `tan(atan2())` divides two lengths into a unitless ratio, which plain
    * calc() cannot, and a scale factor must be unitless.
    */
   --hero-stage-scale: min(
-    var(--hero-stage-w),
-    tan(atan2(calc(100svh * 0.55), 612px))
+    tan(atan2(100vw, 1512px)),
+    tan(atan2(calc(100svh * 0.68), 612px))
   );
 
   /* The polaroid fan is 1294.42px wide in a 1272px column. Fit it to the
