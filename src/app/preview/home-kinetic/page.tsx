@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { KineticHero } from "@/components/home/options/KineticHero";
 import { KineticIntro } from "@/components/home/options/KineticIntro";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 
@@ -24,6 +25,9 @@ export default function KineticIntroPreview() {
       <MotionProvider />
       <SiteHeader logoSize={100} />
       <main>
+        {/* A: the hero with the band running behind it. */}
+        <KineticHero />
+        {/* B: the full sequence, word by word, with the record pinned. */}
         <KineticIntro />
         <NewsletterSection />
       </main>
