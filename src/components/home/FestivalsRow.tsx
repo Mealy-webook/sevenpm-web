@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -32,6 +33,13 @@ import { festivalsRowOrder, homeCopy } from "@/data/home";
  * card, so two records are never half-out at once. The caption's height is
  * reserved whether or not it is showing, so the row does not jump.
  *
+ * Everything after the active card slides right by exactly the record's
+ * travel, on the record's own spring, so the record opens into clear space
+ * rather than over its neighbour. It is a transform, not a layout change,
+ * so the track keeps its measured width and the scrub distance stays put.
+ * The last card has nothing after it to move: its record opens into the
+ * page gutter, and at the very end of the scrub the screen edge trims it.
+ *
  * The artwork is the comp's own, re-cropped square from the bitmaps behind
  * it; the old perspective exports are not reused. Only the four festivals
  * that artwork covers are in the row.
@@ -43,6 +51,19 @@ import { festivalsRowOrder, homeCopy } from "@/data/home";
 
 const CARD = 404;
 const CAPTION = 64;
+/**
+ * How far the record travels out of its sleeve — the same ratio the card
+ * uses. Everything after the active card moves by exactly this, so the
+ * record opens into clear space instead of over its neighbour.
+ */
+const PUSH = CARD * 0.486;
+/** The record's spring, so the neighbours move with it rather than after it. */
+const PUSH_SPRING = {
+  type: "spring" as const,
+  stiffness: 80,
+  damping: 15,
+  mass: 1,
+};
 
 export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
   const section = useRef<HTMLElement>(null);
@@ -53,6 +74,7 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
   const cards = festivalsRowOrder
     .map((id) => festivals.find((f) => f.id === id))
     .filter((f): f is Festival => Boolean(f?.card));
+  const activeIndex = cards.findIndex((f) => f.id === activeId);
 
   useEffect(() => {
     const sectionEl = section.current;
@@ -131,31 +153,39 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
             {homeCopy.festivalsTitle}
           </h2>
 
-          {cards.map((festival) => {
+          {cards.map((festival, index) => {
             const active = activeId === festival.id;
+            /* Only what sits after the active card needs to move: the
+               record comes out to the right. */
+            const pushed = activeIndex !== -1 && index > activeIndex;
             return (
-              <Link
+              <motion.div
                 key={festival.id}
-                href={festival.href}
-                aria-label={festival.name}
-                data-cursor="Open"
-                /* The record slides half a cover's width to the right, so
-                   the active card has to sit above its neighbour. */
-                className={`shrink-0 ${active ? "z-30" : "z-10"}`}
+                className="shrink-0"
+                style={{ zIndex: active ? 30 : 10 }}
+                animate={{ x: pushed ? PUSH : 0 }}
+                transition={PUSH_SPRING}
               >
-                <VinylAlbumCard
-                  coverImage={festival.card as string}
-                  title={festival.name}
-                  meta={festival.when}
-                  size={CARD}
-                  captionHeight={CAPTION}
-                  active={active}
-                  onActiveChange={(next) =>
-                    setActiveId(next ? festival.id : null)
-                  }
-                  sizes={`${CARD}px`}
-                />
-              </Link>
+                <Link
+                  href={festival.href}
+                  aria-label={festival.name}
+                  data-cursor="Open"
+                  className="block"
+                >
+                  <VinylAlbumCard
+                    coverImage={festival.card as string}
+                    title={festival.name}
+                    meta={festival.when}
+                    size={CARD}
+                    captionHeight={CAPTION}
+                    active={active}
+                    onActiveChange={(next) =>
+                      setActiveId(next ? festival.id : null)
+                    }
+                    sizes={`${CARD}px`}
+                  />
+                </Link>
+              </motion.div>
             );
           })}
         </div>
