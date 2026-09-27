@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -144,7 +145,7 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
       <ul ref={list} className="m-0 flex w-full list-none flex-col p-0">
         {items.map((item, index) => (
           <li key={item.href} className="border-b border-white/10">
-            <a
+            <Link
               href={item.href}
               data-news-row={index}
               data-cursor="Read"
@@ -181,7 +182,7 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
               >
                 <span className="news-arrow-glyph" />
               </span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

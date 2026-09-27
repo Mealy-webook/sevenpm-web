@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -35,7 +36,7 @@ export function HeroLineup() {
             key={festival.id}
             className="border-t border-white/12 last:border-b"
           >
-            <a
+            <Link
               href={festival.href}
               onMouseEnter={() => setLive(festival.id)}
               onMouseLeave={() => setLive(null)}
@@ -49,7 +50,7 @@ export function HeroLineup() {
               <span className="news-date shrink-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[1.5px] text-content-secondary">
                 {festival.when ?? festival.city}
               </span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

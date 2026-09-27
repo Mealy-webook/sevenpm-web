@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import styles from "./options.module.css";
@@ -74,7 +75,7 @@ export default function HomeOptionsIndex() {
         <ul className="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 xl:grid-cols-3">
           {OPTIONS.map((option, index) => (
             <li key={option.href} className="flex flex-col gap-3">
-              <a
+              <Link
                 href={option.href}
                 className={`${styles.card} group border border-white/10 bg-bg-secondary transition-colors hover:border-brand`}
               >
@@ -87,7 +88,7 @@ export default function HomeOptionsIndex() {
                   className={styles.frame}
                 />
                 <span className="absolute inset-0 bg-[#0b0b0e]/0 transition-colors group-hover:bg-[#0b0b0e]/20" />
-              </a>
+              </Link>
 
               <div className="flex flex-col gap-1">
                 <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-white">

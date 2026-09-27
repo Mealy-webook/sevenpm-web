@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import styles from "./options.module.css";
@@ -67,7 +68,7 @@ export default function HeroOptionsIndex() {
         <ul className="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 xl:grid-cols-3">
           {OPTIONS.map((option, index) => (
             <li key={option.href} className="flex flex-col gap-3">
-              <a
+              <Link
                 href={option.href}
                 className={`${styles.card} group border border-white/10 bg-bg-secondary transition-colors hover:border-brand`}
               >
@@ -78,7 +79,7 @@ export default function HeroOptionsIndex() {
                   className={styles.frame}
                   tabIndex={-1}
                 />
-              </a>
+              </Link>
               <div className="flex flex-col gap-1">
                 <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-brand">
                   {option.label}

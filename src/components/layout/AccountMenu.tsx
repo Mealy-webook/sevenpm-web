@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 
 import { LogoutButton } from "@/components/auth/LogoutButton";
@@ -62,9 +63,9 @@ function Row({
     "menu-row flex w-full items-center gap-4 border border-border-tertiary pl-4 pr-3 shadow-[0px_4px_24px_0px_rgba(0,0,0,0.12)] transition-colors hover:bg-white/5";
 
   return href ? (
-    <a href={href} role="menuitem" className={className}>
+    <Link href={href} role="menuitem" className={className}>
       {inner}
-    </a>
+    </Link>
   ) : (
     <button
       type="button"
@@ -116,13 +117,13 @@ export function AccountMenu({
         </span>
       </div>
 
-      <a
+      <Link
         href="/account#profile"
         role="menuitem"
         className="btn-secondary flex w-full items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary"
       >
         View profile
-      </a>
+      </Link>
 
       <div className="flex w-full flex-col gap-2">
         <Row icon="/assets/ic-ticket.svg" label="My bookings" href="/account" />

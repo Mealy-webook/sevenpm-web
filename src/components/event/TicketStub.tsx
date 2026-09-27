@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 
 import type { TicketTier } from "@/data/events";
@@ -311,14 +312,14 @@ export function TicketStub({
               <span className="relative z-10">{tier.cta}</span>
             </button>
           ) : (
-            <a
+            <Link
               href={href ?? tier.href ?? "#tickets"}
               data-magnetic="0.15"
               className={look}
               style={box}
             >
               <span className="relative z-10">{tier.cta}</span>
-            </a>
+            </Link>
           );
         })()}
       </div>
