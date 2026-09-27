@@ -88,9 +88,13 @@ export function LoyaltyPanel() {
       {/* Rewards */}
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <span id="loyalty-title">
-            <SectionTitle>{loyaltyCopy.title}</SectionTitle>
-          </span>
+          <h2
+            id="loyalty-title"
+            className="account-panel-title m-0 font-daltown uppercase text-white"
+            data-no-split
+          >
+            {loyaltyCopy.title}
+          </h2>
           {/* The band is shared with every other account tab now, so the
               expiry sits with the Beats it is about. */}
           <p className="m-0 font-[family-name:var(--font-sans)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
@@ -103,27 +107,28 @@ export function LoyaltyPanel() {
           aria-label={loyaltyCopy.title}
           className="flex flex-wrap gap-[10px]"
         >
-          {[{ id: "all", name: loyaltyCopy.allMemberships }, ...loyaltyTiers].map(
-            (chip) => {
-              const selected = filter === chip.id;
-              return (
-                <button
-                  key={chip.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  onClick={() => setFilter(chip.id)}
-                  className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
-                    selected
-                      ? "border border-content-primary bg-white/10"
-                      : "border border-white/10 bg-white/5 hover:bg-white/10"
-                  }`}
-                >
-                  {chip.name}
-                </button>
-              );
-            },
-          )}
+          {[
+            { id: "all", name: loyaltyCopy.allMemberships },
+            ...loyaltyTiers,
+          ].map((chip) => {
+            const selected = filter === chip.id;
+            return (
+              <button
+                key={chip.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                onClick={() => setFilter(chip.id)}
+                className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
+                  selected
+                    ? "border border-content-primary bg-white/10"
+                    : "border border-white/10 bg-white/5 hover:bg-white/10"
+                }`}
+              >
+                {chip.name}
+              </button>
+            );
+          })}
         </div>
 
         {shown.length === 0 ? (

@@ -59,7 +59,8 @@ export function WalletPanel({
     >
       <h2
         id="wallet-title"
-        className="m-0 font-[family-name:var(--font-display)] text-[26px] font-bold uppercase leading-8 tracking-[-0.13px] text-content-primary"
+        className="account-panel-title m-0 font-daltown uppercase text-white"
+        data-no-split
       >
         {walletCopy.title}
       </h2>
@@ -86,9 +87,7 @@ export function WalletPanel({
       )}
 
       {/* Transactions */}
-      <div
-        className="flex flex-col gap-6 border border-white/5 p-6"
-      >
+      <div className="flex flex-col gap-6 border border-white/5 p-6">
         <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
           {walletCopy.transactionsTitle}
         </h3>

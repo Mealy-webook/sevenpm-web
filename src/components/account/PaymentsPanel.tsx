@@ -56,7 +56,8 @@ export function PaymentsPanel({
       <div className="flex items-center gap-4">
         <h2
           id="payments-title"
-          className="m-0 min-w-0 flex-1 truncate font-[family-name:var(--font-display)] text-[26px] font-bold uppercase leading-8 tracking-[-0.13px] text-content-primary"
+          className="account-panel-title m-0 min-w-0 flex-1 truncate font-daltown uppercase text-white"
+          data-no-split
         >
           {copy.title}
         </h2>
