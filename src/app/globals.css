@@ -168,6 +168,15 @@ body {
   --display-line: 118px;
 }
 
+/* Account panel titles (Figma 2496:7748) — the section heading on an account
+   screen, at display size rather than the UI face. Steps down with the rest
+   of the display type on a narrow window. */
+.account-panel-title {
+  font-size: calc(88px * var(--display-scale));
+  line-height: calc(62px * var(--display-scale));
+  letter-spacing: 0.88px;
+}
+
 /* Account name band (Figma 2173:25808) */
 .account-name {
   /* Half the section-title size: this band is a label on a settings screen,

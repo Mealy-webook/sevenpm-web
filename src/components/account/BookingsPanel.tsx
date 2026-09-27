@@ -7,13 +7,17 @@ import { useState } from "react";
 
 import { RequestsPanel } from "./RequestsPanel";
 import type { Booking } from "@/data/account";
-import { bookingsCopy, requestsCopy } from "@/data/account";
+import { bookingsCopy, requestsCopy, walletCurrency } from "@/data/account";
 
 /**
- * Bookings, from Figma 2467:17822. Section title with a description, the
- * chips, then the bookings as a three-up grid of cards — a square poster, the
- * event, when and where, and the ticket count as an inline link — or the
- * empty state with the cassette sticker.
+ * Bookings, from Figma 2496:7702. The display-size title, the chips, then the
+ * bookings as 305-wide cards — or the empty state with the cassette sticker.
+ *
+ * The card is the booking's own summary rather than a link to the event: the
+ * artwork with what you bought written over it, the status, the name at
+ * display size, when and where — and, when the booking is on an instalment
+ * plan, a footer carrying how far through it you are and what the next
+ * payment costs, with the action to make it.
  *
  * VIP box requests are the third chip rather than a sidebar entry of their
  * own. An enquiry is a booking that has not been priced yet, and someone
@@ -22,23 +26,14 @@ import { bookingsCopy, requestsCopy } from "@/data/account";
 
 type Filter = (typeof bookingsCopy.filters)[number] | "Requests";
 
+/* The comp gives the date alone — "2 Juillet 2026" — with no time and no
+   range. The gate cares about the day; the hour is on the event page. */
 const dateFormat = new Intl.DateTimeFormat("en-GB", {
-  weekday: "short",
   day: "numeric",
-  month: "short",
+  month: "long",
+  year: "numeric",
   timeZone: "Africa/Casablanca",
 });
-const timeFormat = new Intl.DateTimeFormat("en-US", {
-  hour: "numeric",
-  minute: "2-digit",
-  timeZone: "Africa/Casablanca",
-});
-
-function formatWhen(booking: Booking) {
-  const start = new Date(booking.startsAt);
-  const end = new Date(booking.endsAt);
-  return `${dateFormat.format(start)} ${timeFormat.format(start)} - ${timeFormat.format(end)}`;
-}
 
 export function BookingsPanel({
   bookings,
@@ -77,17 +72,14 @@ export function BookingsPanel({
       className="flex min-w-0 flex-1 flex-col gap-6"
       aria-labelledby="bookings-title"
     >
-      <div className="flex flex-col gap-1">
-        <h2
-          id="bookings-title"
-          className="m-0 font-[family-name:var(--font-display)] text-[26px] font-bold uppercase leading-8 tracking-[-0.13px] text-content-primary"
-        >
-          {bookingsCopy.title}
-        </h2>
-        <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-          {bookingsCopy.description}
-        </p>
-      </div>
+      {/* Display size, and no standfirst: the comp carries neither. */}
+      <h2
+        id="bookings-title"
+        className="account-panel-title m-0 font-daltown uppercase text-white"
+        data-no-split
+      >
+        {bookingsCopy.title}
+      </h2>
 
       <div
         role="tablist"
@@ -139,91 +131,125 @@ export function BookingsPanel({
               </p>
             </div>
           ) : (
-            /* Three across on a wide screen: a square poster, the event, when
-               and where, and the ticket count as an inline link (2467:18170). */
-            <ul className="m-0 grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 xl:grid-cols-3">
-              {shown.map((booking) => (
-                <li
-                  key={booking.id}
-                  className="flex flex-col items-start gap-4"
-                >
-                  <Link
-                    href={`/events/${booking.eventSlug}`}
-                    className="group relative block aspect-square w-full overflow-hidden bg-ink-700"
-                    data-cursor="Open"
+            /* 305 per card, wrapping — the comp draws one, at that width,
+               and says nothing about what a second does. */
+            <ul className="m-0 flex list-none flex-wrap gap-6 p-0">
+              {shown.map((booking) => {
+                const contents = bookingsCopy.contents(
+                  booking.tickets,
+                  booking.addons ?? 0,
+                );
+                return (
+                  <li
+                    key={booking.id}
+                    className="flex w-full max-w-[305px] flex-col bg-bg-secondary"
                   >
-                    <Image
-                      src={booking.image}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 90vw, (max-width: 1280px) 45vw, 295px"
-                      className="object-cover transition-[scale] duration-700 group-hover:scale-105"
-                    />
-                  </Link>
+                    <div className="flex flex-col justify-center gap-3 px-4 pb-3 pt-4">
+                      <div className="flex flex-col gap-2">
+                        <div className="relative">
+                          <Link
+                            href={`/events/${booking.eventSlug}`}
+                            className="group relative block aspect-[240/160] w-full overflow-hidden bg-bg-tertiary"
+                            data-cursor="Open"
+                          >
+                            <Image
+                              src={booking.image}
+                              alt=""
+                              fill
+                              sizes="305px"
+                              className="object-cover transition-[scale] duration-700 group-hover:scale-105"
+                            />
+                          </Link>
+                          {/* Over the artwork, bottom right: what you bought. */}
+                          <span className="pointer-events-none absolute bottom-3 right-3 bg-bg-primary px-1.5 py-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                            {contents}
+                          </span>
+                        </div>
 
-                  <div className="flex w-full flex-col gap-2">
-                    <h3 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white">
-                      <Link
-                        href={`/events/${booking.eventSlug}`}
-                        className="transition-colors hover:text-brand"
-                      >
-                        {booking.eventName}
-                      </Link>
-                    </h3>
+                        {booking.payment && (
+                          /* Orange on near-black: the comp lays 90% black over
+                             the orange rather than tinting it, so the tag sits
+                             back while the text stays at full strength. */
+                          <span
+                            className="flex w-fit items-center gap-1 px-1.5 py-1"
+                            style={{
+                              backgroundImage:
+                                "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 100%), linear-gradient(90deg, #ff7f29 0%, #ff7f29 100%)",
+                            }}
+                          >
+                            <Image
+                              src="/assets/ic-pending-16.svg"
+                              alt=""
+                              width={16}
+                              height={16}
+                              className="size-4 shrink-0"
+                            />
+                            <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-[#ff7f29]">
+                              {bookingsCopy.pending}
+                            </span>
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="flex flex-col gap-1 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-                      <span className="flex items-center gap-1">
-                        <Image
-                          src="/assets/ic-clock-16.svg"
-                          alt=""
-                          width={16}
-                          height={16}
-                          className="size-4 shrink-0"
-                        />
-                        <time dateTime={booking.startsAt}>
-                          {formatWhen(booking)}
+                      <div className="flex flex-col gap-1">
+                        <h3 className="m-0 truncate font-daltown text-[56px] uppercase leading-[42px] tracking-[0.56px] text-white">
+                          <Link
+                            href={`/events/${booking.eventSlug}`}
+                            className="transition-colors hover:text-brand"
+                          >
+                            {booking.eventName}
+                          </Link>
+                        </h3>
+                        <time
+                          dateTime={booking.startsAt}
+                          className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-brand"
+                        >
+                          {dateFormat.format(new Date(booking.startsAt))}
                         </time>
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Image
-                          src="/assets/ic-pin-16.svg"
-                          alt=""
-                          width={16}
-                          height={16}
-                          className="size-4 shrink-0"
-                        />
                         {booking.venueUrl ? (
                           <a
                             href={booking.venueUrl}
                             target="_blank"
                             rel="noreferrer noopener"
-                            className="underline decoration-solid underline-offset-2 transition-colors hover:text-white"
+                            className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary underline decoration-solid transition-colors hover:text-white"
                           >
                             {booking.venue}
                           </a>
                         ) : (
-                          booking.venue
+                          <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary underline decoration-solid">
+                            {booking.venue}
+                          </span>
                         )}
-                      </span>
+                      </div>
                     </div>
-                  </div>
 
-                  <Link
-                    href={`/events/${booking.eventSlug}#tickets`}
-                    className="group/link flex items-center gap-2 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
-                  >
-                    {booking.tickets}{" "}
-                    {booking.tickets === 1 ? "Ticket" : "Tickets"}
-                    <Image
-                      src="/assets/ic-chevron-right-20.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className="size-5 transition-[translate] duration-300 group-hover/link:translate-x-1"
-                    />
-                  </Link>
-                </li>
-              ))}
+                    {booking.payment && (
+                      /* The plan, and the way to move it along. */
+                      <div className="flex flex-col justify-center border-t border-solid border-white/5 p-4">
+                        <div className="flex items-center gap-2">
+                          <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
+                            <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                              {bookingsCopy.instalments(
+                                booking.payment.paid,
+                                booking.payment.instalments,
+                              )}
+                            </span>
+                            <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+                              {booking.payment.next} {walletCurrency}
+                            </span>
+                          </div>
+                          <Link
+                            href={`/events/${booking.eventSlug}/book`}
+                            className="flex min-w-0 flex-1 items-center justify-center gap-2 whitespace-nowrap bg-brand px-5 py-4 text-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e] transition-opacity hover:opacity-90"
+                          >
+                            {bookingsCopy.pay}
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </>

@@ -493,29 +493,53 @@ export type Booking = {
   venue: string;
   venueUrl?: string;
   tickets: number;
+  /** Extras bought with the tickets; counted beside them on the card. */
+  addons?: number;
+  /**
+   * An instalment plan, when the booking is being paid off rather than paid.
+   * The card turns into its own reminder: the orange status tag, how far
+   * through the plan you are, and what the next payment costs.
+   */
+  payment?: {
+    /** Instalments settled so far, out of `instalments`. */
+    paid: number;
+    instalments: number;
+    /** What the next instalment costs, in `walletCurrency`. */
+    next: number;
+  };
 };
 
 export const bookings: Booking[] = [
   {
-    id: "bk-2026-0918",
+    id: "bk-2027-0917",
     eventName: "Jazzablanca",
     eventSlug: "jazzablanca",
     image: "/assets/festival-poster-3.png",
-    startsAt: "2026-09-18T19:00:00+01:00",
-    endsAt: "2026-09-18T21:30:00+01:00",
+    /* The night this booking is for — the same one `jazzablanca.startsAt`
+       names in `events.ts`. The two had drifted a year apart. */
+    startsAt: "2027-09-17T19:00:00+01:00",
+    endsAt: "2027-09-17T21:30:00+01:00",
     venue: "Palais des Institutions Italiennes",
     venueUrl:
       "https://www.google.com/maps/search/?api=1&query=Palais+des+Institutions+Italiennes+Casablanca",
     tickets: 2,
+    addons: 2,
+    payment: { paid: 2, instalments: 4, next: 37.5 },
   },
 ];
 
 export const bookingsCopy = {
   title: "Bookings",
-  description:
-    "Your tickets live here. Wristbands are issued at the gate on presentation of your booking reference.",
   filters: ["Upcoming", "Past"] as const,
   empty: "No bookings yet",
+  /** Over the artwork: what the booking is for. */
+  contents: (tickets: number, addons: number) =>
+    addons > 0
+      ? `${tickets} ${tickets === 1 ? "Ticket" : "Tickets"}, ${addons} ${addons === 1 ? "Addon" : "Addons"}`
+      : `${tickets} ${tickets === 1 ? "Ticket" : "Tickets"}`,
+  pending: "Pending payment",
+  instalments: (paid: number, of: number) => `Payments (${paid}/${of})`,
+  pay: "Make payment",
 };
 
 /* ------------------------------------------------------------------ *
