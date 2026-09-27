@@ -1,1 +1,0 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,52239,t=>{"use strict";t.i(47167),t.s(["asset",0,function(t){return/^(https?:)?\/\//.test(t)||t.startsWith("data:")?t:`/sevenpm-web${t}`}])}]);

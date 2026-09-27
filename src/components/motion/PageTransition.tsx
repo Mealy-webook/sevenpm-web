@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { stripBase } from "@/lib/basePath";
 
 /**
  * Route transitions. Clicking any internal link (same origin, new pathname,
@@ -51,11 +52,15 @@ export function PageTransition() {
       // reads as a stutter rather than a transition.
       const inAccount = (path: string) =>
         path === "/account" || path.startsWith("/account/");
-      if (inAccount(url.pathname) && inAccount(location.pathname)) return;
+      /* Both of these come out of the DOM, so under a base path they carry
+         the prefix, and the router puts it back on whatever it is given.
+         Compare and navigate in the app's own path space. */
+      const to = stripBase(url.pathname);
+      if (inAccount(to) && inAccount(stripBase(location.pathname))) return;
       e.preventDefault();
       e.stopPropagation();
       if (pending.current) return;
-      pending.current = url.pathname + url.search + url.hash;
+      pending.current = to + url.search + url.hash;
 
       const el = sheets.current;
       if (!el) {

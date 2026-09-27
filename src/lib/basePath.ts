@@ -14,6 +14,21 @@
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /**
+ * Drop the deployment's base path from a pathname read out of the DOM.
+ *
+ * An anchor's `pathname` is the real URL's, so under a base path it already
+ * carries the prefix — while the router prepends the prefix to whatever it is
+ * given. Handing one straight to the other doubles it, and the link 404s.
+ */
+export function stripBase(pathname: string) {
+  if (!BASE_PATH) return pathname;
+  if (pathname === BASE_PATH) return "/";
+  return pathname.startsWith(BASE_PATH + "/")
+    ? pathname.slice(BASE_PATH.length)
+    : pathname;
+}
+
+/**
  * Prefix a root-relative asset path with the deployment's base path. Absolute
  * URLs pass through: the deck's album art is remote.
  */
