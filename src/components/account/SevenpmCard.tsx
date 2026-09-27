@@ -57,22 +57,27 @@ export function SevenpmCard({
                 "linear-gradient(109.43deg, rgba(255,255,255,0) 31.99%, rgb(255,255,255) 50.37%, rgba(255,255,255,0) 68.76%)",
             }}
           />
+          {/* The wordmark ships white, for dark grounds. On the brand-yellow
+              card face it has to be the ink: `brightness-0` takes any colour
+              in the file to black, so one asset serves both. */}
           <Image
             src="/assets/wordmark.svg"
             alt="SEVENPM"
             width={1272}
             height={238}
-            className="absolute left-[5.9%] top-[7.9%] w-[31.2%]"
+            className="absolute left-[5.9%] top-[7.9%] w-[31.2%] brightness-0"
           />
         </span>
 
-        {/* The pocket. Its own ground is the page's, so it hides the card
-            exactly where the comp does. */}
+        {/* The pocket, whose top edge is where the card disappears into it.
+            The export carried 19 rows of page ground above the leather, which
+            read as a gap under the card's tab; cropped, the remaining 207
+            lands exactly on the box's floor (250 - 17.2% of 250). */}
         <Image
           src="/assets/wallet-leather.png"
           alt=""
           width={412}
-          height={226}
+          height={207}
           aria-hidden
           className="absolute inset-x-0 top-[17.2%] block w-full"
         />
