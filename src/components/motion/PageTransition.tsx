@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { stripBase } from "@/lib/basePath";
 
 /**
  * Route transitions. Clicking any internal link (same origin, new pathname,
@@ -21,6 +20,26 @@ export function PageTransition() {
   const sheets = useRef<HTMLDivElement>(null);
   const pending = useRef<string | null>(null);
   const covered = useRef(false);
+
+  /* The deployment's base path, worked out from Next rather than from the
+     environment.
+     
+     `usePathname` reports the app's own path — no base path — while
+     `location.pathname` is the real URL's and carries it. Whatever the second
+     has that the first does not is the prefix. An anchor's `pathname` carries
+     it too, and the router puts it back on whatever it is handed, so a
+     pathname taken straight from the DOM and pushed comes out doubled and
+     every link 404s.
+     
+     Reading `NEXT_PUBLIC_BASE_PATH` here instead looked equivalent and was
+     not: it is not inlined into this client chunk, so the constant was "",
+     the correction compiled away, and the bug survived a deploy. */
+  const prefix = useRef("");
+  useEffect(() => {
+    const loc = window.location.pathname.replace(/\/$/, "");
+    const app = (pathname || "/").replace(/\/$/, "");
+    prefix.current = app && loc.endsWith(app) ? loc.slice(0, -app.length) : loc;
+  }, [pathname]);
 
   // Park the sheets below the viewport. Done here rather than with a
   // Tailwind translate class: GSAP writes `transform`, Tailwind v4 writes the
@@ -55,8 +74,13 @@ export function PageTransition() {
       /* Both of these come out of the DOM, so under a base path they carry
          the prefix, and the router puts it back on whatever it is given.
          Compare and navigate in the app's own path space. */
-      const to = stripBase(url.pathname);
-      if (inAccount(to) && inAccount(stripBase(location.pathname))) return;
+      const strip = (path: string) => {
+        const p = prefix.current;
+        if (!p || !path.startsWith(p)) return path;
+        return path.slice(p.length) || "/";
+      };
+      const to = strip(url.pathname);
+      if (inAccount(to) && inAccount(strip(location.pathname))) return;
       e.preventDefault();
       e.stopPropagation();
       if (pending.current) return;
