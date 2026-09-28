@@ -63,13 +63,19 @@ const LEVELS = [
 const HOLD_AT = 0.9;
 
 /* Timings, in seconds. The climb was 1.4 and the whole intro was over in
-   about two: too quick to read the meter, let alone the figure. */
-const CLIMB = 2.6;
+   about two: too quick to read the meter, let alone the figure.
+   
+   The tail was never seen until the release was fixed — the loader used to
+   cut out at 90 — so these were tuned blind. Trimmed on first sight of them:
+   at their old values the page did not begin to lift until about 4.2s, which
+   is slower than the cut it replaced. The hero now starts moving at roughly
+   the moment the old build simply vanished. */
+const CLIMB = 2;
 /** A beat at 90 even when the page is already loaded, so the hold shows. */
-const HOLD_BEAT = 0.45;
-const FINISH = 0.7;
-const PEAK = 0.22;
-const WIPE = 0.9;
+const HOLD_BEAT = 0.12;
+const FINISH = 0.45;
+const PEAK = 0.2;
+const WIPE = 0.7;
 
 export function Preloader() {
   // Rendered from the first frame so a first visit never flashes the page;
@@ -141,10 +147,26 @@ export function Preloader() {
 
     gsap.set(bars, { scaleY: 0.08, transformOrigin: "50% 100%" });
 
-    const finish = () => {
+    /* Hand the page over to its own motion.
+     *
+     * Fired as the sheet starts to lift, not once it has gone: the reveals
+     * take about a second to play, so waiting for the wipe to finish left a
+     * beat of bare page before the headline moved. Starting them behind the
+     * sheet means the hero is already in motion by the time it clears.
+     *
+     * Idempotent — the wipe calls it, and `finish` calls it again in case the
+     * timeline is cut short. */
+    let handedOff = false;
+    const handOff = () => {
+      if (handedOff) return;
+      handedOff = true;
       pending = false;
-      document.body.style.overflow = previous;
       document.dispatchEvent(new Event(READY_EVENT));
+    };
+
+    const finish = () => {
+      handOff();
+      document.body.style.overflow = previous;
       setPhase("done");
     };
 
@@ -169,7 +191,12 @@ export function Preloader() {
     /* Nothing waits forever. */
     const failsafe = gsap.delayedCall(6, onLoaded);
 
-    const tl = gsap.timeline({ onComplete: finish });
+    /* No `onComplete: finish` here. The climb ends on `.addPause()`, and the
+       playhead reaching that end fired onComplete anyway — so the loader tore
+       itself down at 90 and the release never ran: no last ten per cent, no
+       peak, and no wipe. The sheet simply cut out. `finish` belongs at the end
+       of the release, which is where it is now. */
+    const tl = gsap.timeline();
 
     tl.fromTo(
       "[data-pre-num]",
@@ -214,15 +241,23 @@ export function Preloader() {
         )
         .to(
           "[data-pre-num], [data-pre-meta]",
-          { y: -14, opacity: 0, duration: 0.45, ease: "power3.in" },
-          ">0.15",
+          { y: -14, opacity: 0, duration: 0.4, ease: "power3.in" },
+          ">0",
         )
         .to(
           el,
-          { clipPath: "inset(0 0 100% 0)", duration: WIPE, ease: "expo.inOut" },
+          {
+            clipPath: "inset(0 0 100% 0)",
+            duration: WIPE,
+            ease: "expo.inOut",
+            /* On the tween itself rather than as a callback positioned at
+               "<": the page is handed over the instant the sheet starts to
+               lift, so the hero plays behind it instead of after it. */
+            onStart: handOff,
+          },
           "<0.1",
         )
-        .add(() => tl.play());
+        .add(finish);
     };
 
     return () => {

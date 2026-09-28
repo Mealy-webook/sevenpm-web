@@ -40,12 +40,21 @@ export function MotionProvider() {
 
     /* On a first visit the preloader covers the page for ~2.5s; the hero's
      * reveals wait for its `sevenpm:ready` so they play once it lifts. The
-     * from-states are still applied immediately (inside the context below),
-     * so nothing flashes. */
+     * from-states are applied immediately either way, so nothing flashes.
+     *
+     * The waiting is done by not building the tweens yet. Disabling their
+     * ScrollTriggers afterwards did not work: `gsap.context` runs
+     * synchronously, and a ScrollTrigger evaluates its start the moment it is
+     * created — so anything already on screen had played and finished behind
+     * the loader, and the hero was revealed sitting still. */
     const holding = introPending();
-    if (holding) {
-      ScrollTrigger.getAll().forEach((t) => t.disable(false));
-    }
+    let released = !holding;
+    const queued: (() => void)[] = [];
+    /** Build now, or as soon as the loader hands over. */
+    const onRelease = (build: () => void) => {
+      if (released) build();
+      else queued.push(build);
+    };
 
     const ctx = gsap.context(() => {
       /* ---------------------------------------------------------------- */
@@ -62,16 +71,18 @@ export function MotionProvider() {
             wordsClass: "split-word",
           });
           gsap.set(split.chars, { yPercent: 60, opacity: 0, rotate: 4 });
-          gsap.to(split.chars, {
-            yPercent: 0,
-            opacity: 1,
-            rotate: 0,
-            duration: 1.1,
-            ease: "expo.out",
-            stagger: { each: 0.022, from: "start" },
-            delay: Number(el.dataset.revealDelay ?? 0),
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          });
+          onRelease(() =>
+            gsap.to(split.chars, {
+              yPercent: 0,
+              opacity: 1,
+              rotate: 0,
+              duration: 1.1,
+              ease: "expo.out",
+              stagger: { each: 0.022, from: "start" },
+              delay: Number(el.dataset.revealDelay ?? 0),
+              scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            }),
+          );
         });
 
       /* ---------------------------------------------------------------- */
@@ -101,19 +112,24 @@ export function MotionProvider() {
           mask: "lines",
           linesClass: "split-line",
           autoSplit: true,
-          onSplit: (self) =>
-            gsap.fromTo(
-              self.lines,
-              { yPercent: 110 },
-              {
+          onSplit: (self) => {
+            /* Down behind its mask straight away; it rises when the loader
+               lets go. Returning the tween lets GSAP kill it before a
+               re-split, which only applies once there is one to return. */
+            gsap.set(self.lines, { yPercent: 110 });
+            const build = () =>
+              gsap.to(self.lines, {
                 yPercent: 0,
                 duration: 1,
                 ease: "expo.out",
                 stagger: 0.08,
                 delay: Number(el.dataset.revealDelay ?? 0),
                 scrollTrigger: { trigger: el, start: "top 90%", once: true },
-              },
-            ),
+              });
+            if (released) return build();
+            queued.push(build);
+            return undefined;
+          },
         });
       });
 
@@ -148,14 +164,16 @@ export function MotionProvider() {
         }
 
         gsap.set(targets, from);
-        gsap.to(targets, {
-          ...to,
-          duration: kind === "clip" ? 1.1 : 0.85,
-          ease: kind === "clip" ? "expo.out" : "power3.out",
-          delay,
-          stagger: isStagger ? 0.075 : 0,
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-        });
+        onRelease(() =>
+          gsap.to(targets, {
+            ...to,
+            duration: kind === "clip" ? 1.1 : 0.85,
+            ease: kind === "clip" ? "expo.out" : "power3.out",
+            delay,
+            stagger: isStagger ? 0.075 : 0,
+            scrollTrigger: { trigger: el, start: "top 88%", once: true },
+          }),
+        );
       });
 
       /* ---------------------------------------------------------------- */
@@ -208,10 +226,10 @@ export function MotionProvider() {
 
     let onReady: (() => void) | null = null;
     if (holding) {
-      const triggers = ScrollTrigger.getAll();
-      triggers.forEach((t) => t.disable(false));
       onReady = () => {
-        triggers.forEach((t) => t.enable(false));
+        released = true;
+        queued.forEach((build) => build());
+        queued.length = 0;
         ScrollTrigger.refresh();
       };
       document.addEventListener(READY_EVENT, onReady, { once: true });
