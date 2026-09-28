@@ -140,7 +140,10 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
       ref={section}
       id="festivals"
       aria-labelledby="festivals-title"
-      className="relative flex min-h-svh flex-col justify-center py-16 xl:py-20"
+      /* Full-screen only where the row is pinned and scrubbed. On a phone
+         it is a plain swipe, and a viewport-tall section there spent the
+         whole screen on the heading with every poster off to the right. */
+      className="relative flex flex-col justify-center py-16 lg:min-h-svh xl:py-20"
     >
       <div
         ref={viewport}
@@ -151,7 +154,12 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
         <div ref={track} className="flex w-max items-start gap-8">
           <h2
             id="festivals-title"
-            className="m-0 w-[403px] shrink-0 self-center font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            /* 403 is the comp's column. At that fixed width the heading itself
+               ran off a phone, so the section title had to be swiped into
+               view; and filling the width exactly hid the fact that anything
+               follows it. 72vw leaves the first poster showing at its edge,
+               which is what says the row moves. */
+            className="m-0 w-[min(403px,72vw)] shrink-0 self-center font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
             data-reveal="clip"
           >
             {homeCopy.festivalsTitle}
