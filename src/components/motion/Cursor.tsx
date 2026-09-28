@@ -15,14 +15,23 @@ import { gsap } from "gsap";
  * to hit. Anywhere someone is spending money, the pointer is theirs.
  */
 
-/** Routes that opt out of the custom cursor. */
-const NATIVE_CURSOR = [/^\/events\/[^/]+\/book$/];
+/**
+ * Routes that opt out of the custom cursor.
+ *
+ * Matched on the end of the path, and with any trailing slash taken off
+ * first. The static export writes `/book/`, so an anchored `…/book$` quietly
+ * stopped matching there and the journey got the ring back on the deployed
+ * site while looking right in dev. Leaving the front open also survives a
+ * deployment base path.
+ */
+const NATIVE_CURSOR = [/(^|\/)events\/[^/]+\/book$/];
 export function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
   const pathname = usePathname();
-  const native = NATIVE_CURSOR.some((route) => route.test(pathname));
+  const path = pathname.replace(/\/+$/, "");
+  const native = NATIVE_CURSOR.some((route) => route.test(path));
 
   useEffect(() => {
     if (native) return;
