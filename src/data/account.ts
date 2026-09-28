@@ -195,7 +195,7 @@ export const walletCopy = {
   transactionsTitle: "Transactions",
   empty: "No transactions yet",
   /** The comp's empty state art — a receipt and a clock. */
-  emptyArt: "/assets/empty-transactions.png",
+  emptyArt: "/assets/empty-transactions.webp",
   /** Top up, from Figma 2196:10582, 2196:11179 and 2196:12115. */
   topUp: {
     title: "Top up",
@@ -542,7 +542,7 @@ export const bookings: Booking[] = [
     id: "bk-2027-0917",
     eventName: "Jazzablanca",
     eventSlug: "jazzablanca",
-    image: "/assets/festival-poster-3.png",
+    image: "/assets/festival-poster-3.webp",
     /* The night this booking is for — the same one `jazzablanca.startsAt`
        names in `events.ts`. The two had drifted a year apart. */
     startsAt: "2027-09-17T19:00:00+01:00",

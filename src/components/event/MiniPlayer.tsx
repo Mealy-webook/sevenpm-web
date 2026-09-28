@@ -55,7 +55,7 @@ export function MiniPlayer({
       >
         <span className="cover absolute inset-0 block rounded-full">
           <Image
-            src="/assets/hero-vinyl.png"
+            src="/assets/hero-vinyl.webp"
             alt=""
             fill
             sizes="56px"

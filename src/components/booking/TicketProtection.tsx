@@ -25,7 +25,7 @@ function Shield() {
   return (
     <span className="relative block size-[110px] shrink-0 overflow-hidden">
       <Image
-        src="/assets/protect-shield.png"
+        src="/assets/protect-shield.webp"
         alt=""
         width={1254}
         height={1254}

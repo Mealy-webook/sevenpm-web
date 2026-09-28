@@ -16,7 +16,7 @@ const CSS_ASSETS = `:root{
   --asset-arrow-left-20:url("${BASE_PATH}/assets/ic-arrow-left-20.svg");
   --asset-chevron-down-16:url("${BASE_PATH}/assets/ic-chevron-down-16.svg");
   --asset-grain:url("${BASE_PATH}/assets/grain.png");
-  --asset-hero-vinyl:url("${BASE_PATH}/assets/hero-vinyl.png");
+  --asset-hero-vinyl:url("${BASE_PATH}/assets/hero-vinyl.webp");
 }`;
 
 const roboto = Roboto({

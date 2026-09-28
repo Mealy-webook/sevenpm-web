@@ -93,7 +93,7 @@ body {
   --asset-arrow-left-20: url("/assets/ic-arrow-left-20.svg");
   --asset-chevron-down-16: url("/assets/ic-chevron-down-16.svg");
   --asset-grain: url("/assets/grain.png");
-  --asset-hero-vinyl: url("/assets/hero-vinyl.png");
+  --asset-hero-vinyl: url("/assets/hero-vinyl.webp");
 
   --shell-gutter: 20px;
 }

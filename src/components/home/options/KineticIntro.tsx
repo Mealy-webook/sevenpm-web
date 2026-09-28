@@ -188,7 +188,7 @@ export function KineticIntro() {
         <div className="relative z-10 aspect-square w-[min(42vh,380px)]">
           <div ref={disc} className="relative size-full will-change-transform">
             <Image
-              src="/assets/hero-vinyl.png"
+              src="/assets/hero-vinyl.webp"
               alt=""
               fill
               sizes="560px"

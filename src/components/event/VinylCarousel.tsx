@@ -435,7 +435,7 @@ export function VinylCarousel({
                 className="relative size-full"
               >
                 <Image
-                  src="/assets/hero-vinyl.png"
+                  src="/assets/hero-vinyl.webp"
                   alt=""
                   width={DISC}
                   height={DISC}

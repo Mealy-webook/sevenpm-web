@@ -60,7 +60,7 @@ const seed: BoxRequest[] = [
     nights: "18 Sep, 19 Sep",
     guests: 10,
     email: "ahmed@gmail.com",
-    image: "/assets/festival-poster-3.png",
+    image: "/assets/festival-poster-3.webp",
     venue: "Palais des Institutions Italiennes",
     venueUrl:
       "https://www.google.com/maps/search/?api=1&query=Palais+des+Institutions+Italiennes+Casablanca",

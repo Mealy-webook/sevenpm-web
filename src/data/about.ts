@@ -80,7 +80,7 @@ export const aboutFestivals: AboutFestival[] = [
     body: "After a landmark edition that drew more than 20,000 festivalgoers, Jazzablanca returns to Anfa Park with open-air concerts, a food court, a makers' market and much more — an immersive experience full of surprises.",
     website: "https://www.jazzablanca.com/",
     instagram: "https://www.instagram.com/jazzablanca_fest/",
-    poster: "/assets/festival-poster-3.png",
+    poster: "/assets/festival-poster-3.webp",
     href: "/events/jazzablanca",
   },
   {
@@ -90,7 +90,7 @@ export const aboutFestivals: AboutFestival[] = [
     body: "Soak up the captivating atmosphere of Tangier. The city itself becomes the stage as Tanjazz explores musical diversity through a fusion of styles every September.",
     website: "https://tanjazz.org/",
     instagram: "https://www.instagram.com/tanjazzofficiel/",
-    poster: "/assets/festival-poster-2.png",
+    poster: "/assets/festival-poster-2.webp",
   },
   {
     name: "Casa Anfa Latina",
@@ -98,13 +98,13 @@ export const aboutFestivals: AboutFestival[] = [
     body: "Feel the Latin energy at the heart of Anfa Park, where the passion and warmth of Latin rhythms carry you away — a vibrant celebration of Latin culture.",
     website: "https://www.casaanfalatina.com/",
     instagram: "https://www.instagram.com/casa.anfa.latina/",
-    poster: "/assets/festival-poster-4.png",
+    poster: "/assets/festival-poster-4.webp",
   },
   {
     name: "Village Casa Anfa",
     city: "Anfa Park, Casablanca",
     body: "A festival village for the whole family: music, games and food across Anfa Park.",
-    poster: "/assets/festival-poster-1.png",
+    poster: "/assets/festival-poster-1.webp",
   },
 ];
 

@@ -44,7 +44,7 @@ export const festivals: Festival[] = [
     city: "Casablanca",
     name: "Village Casa Anfa",
     href: "#",
-    poster: { src: "/assets/festival-poster-1.png", width: 374, height: 526 },
+    poster: { src: "/assets/festival-poster-1.webp", width: 374, height: 526 },
     card: "/assets/poster-village-casa-anfa.jpg",
   },
   {
@@ -53,7 +53,7 @@ export const festivals: Festival[] = [
     name: "Tanjazz",
     href: "#",
     poster: {
-      src: "/assets/festival-poster-2.png",
+      src: "/assets/festival-poster-2.webp",
       width: 362.003,
       height: 509.5,
     },
@@ -66,7 +66,7 @@ export const festivals: Festival[] = [
     name: "Jazzablanca",
     href: `/events/${jazzablanca.slug}`,
     poster: {
-      src: "/assets/festival-poster-3.png",
+      src: "/assets/festival-poster-3.webp",
       width: 305.5,
       height: 495.5,
     },
@@ -80,7 +80,7 @@ export const festivals: Festival[] = [
     name: "Casa Anfa Latina",
     href: "#",
     poster: {
-      src: "/assets/festival-poster-4.png",
+      src: "/assets/festival-poster-4.webp",
       width: 364.064,
       height: 511,
     },
@@ -91,7 +91,7 @@ export const festivals: Festival[] = [
     city: "Taghazout",
     name: "Arma Taghazout",
     href: "#",
-    poster: { src: "/assets/festival-poster-5.png", width: 375, height: 526 },
+    poster: { src: "/assets/festival-poster-5.webp", width: 375, height: 526 },
   },
 ];
 
@@ -224,16 +224,6 @@ export const homePillars = [
  * The frame the hero opens onto as you scroll. `video` wins when it is set;
  * the still is its poster.
  */
-export const heroReveal = {
-  image: "/assets/gallery-2.jpg",
-  /**
-   * A 13s silent loop cut from the site's own photographs — four slow pushes
-   * with crossfades, 1920 x 1080 so the frame has pixels at its 16:9 open
-   * state. Replace with real festival footage when there is some; the still
-   * above stays as its poster either way.
-   */
-  video: "/assets/hero-reel.mp4" as string | null,
-};
 
 /**
  * The homepage row, in the comp's own left-to-right order (2482:25040). The
