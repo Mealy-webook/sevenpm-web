@@ -113,9 +113,6 @@ export function OrderSummaryDialog({
               <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
                 {formatMoney(totals.total)}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
-                {bookingCopy.orderSummary.vat(formatMoney(totals.vat))}
-              </span>
             </span>
           </div>
         </div>

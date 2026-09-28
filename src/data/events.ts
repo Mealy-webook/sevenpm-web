@@ -70,8 +70,7 @@ export type Artist = { image: string; name: string; time?: string };
 
 /** A single 406px circle, or a 2×2 block of 200px circles. */
 export type ArtistGroup =
-  | ({ type: "solo" } & Artist)
-  | { type: "quad"; items: (Artist | null)[] };
+  ({ type: "solo" } & Artist) | { type: "quad"; items: (Artist | null)[] };
 
 export type ArtistDay = {
   id: string;
@@ -292,24 +291,63 @@ export const jazzablanca: EventDetails = {
       id: "18-september",
       label: "18 Sep",
       groups: [
-        { type: "solo", image: "/assets/gallery-1.jpg", name: "Artist 1", time: "11:15 PM" },
+        {
+          type: "solo",
+          image: "/assets/gallery-1.jpg",
+          name: "Artist 1",
+          time: "11:15 PM",
+        },
         {
           type: "quad",
           items: [
-            { image: "/assets/gallery-3.jpg", name: "Artist 2", time: "7:00 PM" },
-            { image: "/assets/gallery-6.jpg", name: "Artist 3", time: "8:00 PM" },
-            { image: "/assets/gallery-2.jpg", name: "Artist 4", time: "9:00 PM" },
-            { image: "/assets/gallery-5.jpg", name: "Artist 5", time: "9:30 PM" },
+            {
+              image: "/assets/gallery-3.jpg",
+              name: "Artist 2",
+              time: "7:00 PM",
+            },
+            {
+              image: "/assets/gallery-6.jpg",
+              name: "Artist 3",
+              time: "8:00 PM",
+            },
+            {
+              image: "/assets/gallery-2.jpg",
+              name: "Artist 4",
+              time: "9:00 PM",
+            },
+            {
+              image: "/assets/gallery-5.jpg",
+              name: "Artist 5",
+              time: "9:30 PM",
+            },
           ],
         },
-        { type: "solo", image: "/assets/gallery-4.jpg", name: "Artist 6", time: "11:15 PM" },
-        { type: "solo", image: "/assets/gallery-1.jpg", name: "Artist 7", time: "11:15 PM" },
+        {
+          type: "solo",
+          image: "/assets/gallery-4.jpg",
+          name: "Artist 6",
+          time: "11:15 PM",
+        },
+        {
+          type: "solo",
+          image: "/assets/gallery-1.jpg",
+          name: "Artist 7",
+          time: "11:15 PM",
+        },
         {
           type: "quad",
           items: [
-            { image: "/assets/gallery-3.jpg", name: "Artist 8", time: "10:00 PM" },
+            {
+              image: "/assets/gallery-3.jpg",
+              name: "Artist 8",
+              time: "10:00 PM",
+            },
             null,
-            { image: "/assets/gallery-6.jpg", name: "Artist 9", time: "10:45 PM" },
+            {
+              image: "/assets/gallery-6.jpg",
+              name: "Artist 9",
+              time: "10:45 PM",
+            },
             null,
           ],
         },
@@ -321,24 +359,63 @@ export const jazzablanca: EventDetails = {
       id: "19-september",
       label: "19 Sep",
       groups: [
-        { type: "solo", image: "/assets/gallery-1.jpg", name: "Artist 7", time: "11:15 PM" },
+        {
+          type: "solo",
+          image: "/assets/gallery-1.jpg",
+          name: "Artist 7",
+          time: "11:15 PM",
+        },
         {
           type: "quad",
           items: [
-            { image: "/assets/gallery-5.jpg", name: "Artist 5", time: "7:00 PM" },
-            { image: "/assets/gallery-3.jpg", name: "Artist 2", time: "8:00 PM" },
-            { image: "/assets/gallery-6.jpg", name: "Artist 9", time: "9:00 PM" },
-            { image: "/assets/gallery-6.jpg", name: "Artist 3", time: "9:30 PM" },
+            {
+              image: "/assets/gallery-5.jpg",
+              name: "Artist 5",
+              time: "7:00 PM",
+            },
+            {
+              image: "/assets/gallery-3.jpg",
+              name: "Artist 2",
+              time: "8:00 PM",
+            },
+            {
+              image: "/assets/gallery-6.jpg",
+              name: "Artist 9",
+              time: "9:00 PM",
+            },
+            {
+              image: "/assets/gallery-6.jpg",
+              name: "Artist 3",
+              time: "9:30 PM",
+            },
           ],
         },
-        { type: "solo", image: "/assets/gallery-1.jpg", name: "Artist 1", time: "11:15 PM" },
-        { type: "solo", image: "/assets/gallery-4.jpg", name: "Artist 6", time: "11:15 PM" },
+        {
+          type: "solo",
+          image: "/assets/gallery-1.jpg",
+          name: "Artist 1",
+          time: "11:15 PM",
+        },
+        {
+          type: "solo",
+          image: "/assets/gallery-4.jpg",
+          name: "Artist 6",
+          time: "11:15 PM",
+        },
         {
           type: "quad",
           items: [
-            { image: "/assets/gallery-2.jpg", name: "Artist 4", time: "10:00 PM" },
+            {
+              image: "/assets/gallery-2.jpg",
+              name: "Artist 4",
+              time: "10:00 PM",
+            },
             null,
-            { image: "/assets/gallery-3.jpg", name: "Artist 8", time: "10:45 PM" },
+            {
+              image: "/assets/gallery-3.jpg",
+              name: "Artist 8",
+              time: "10:45 PM",
+            },
             null,
           ],
         },
@@ -398,6 +475,12 @@ export function getEvent(slug: string): EventDetails | undefined {
   return events.find((event) => event.slug === slug);
 }
 
+/** The footer's own words (2467:23440). */
+export const footerCopy = {
+  /** Reads into the WBK logo beside it. */
+  poweredBy: "Powered by",
+};
+
 export const socialLinks: SocialLink[] = [
   { label: "Spotify", href: "https://open.spotify.com" },
   { label: "Instagram", href: "https://instagram.com" },
@@ -429,7 +512,8 @@ export const vipBoxCopy = {
   guests: "How many guests?",
   days: "Which nights?",
   notes: "Anything else we should know?",
-  notesHint: "Catering, accessibility, a birthday — anything that shapes the quote.",
+  notesHint:
+    "Catering, accessibility, a birthday — anything that shapes the quote.",
   submit: "Send enquiry",
   close: "Close",
   required: "We need this to come back to you",
@@ -446,8 +530,7 @@ export const vipBoxCopy = {
     "Accept it and a payment link follows.",
     "Pay and your box tickets are issued to your account.",
   ],
-  sentNote:
-    "Nothing is charged until you have seen a price and accepted it.",
+  sentNote: "Nothing is charged until you have seen a price and accepted it.",
   track: "Track this request",
   done: "Done",
 };

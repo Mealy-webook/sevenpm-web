@@ -193,14 +193,7 @@ export const bookingConfig = {
    * is one constant to change when the real one lands.
    */
   protectionRate: 0.1,
-  /**
-   * VAT is included in the total rather than added to it, which is how the
-   * comp reads it ("Total Incl. VAT" with "VAT 27.75 MAD" beneath).
-   *
-   * 20% — Morocco's standard rate. It sat at 15%, which is a reduced rate and
-   * not the one that applies to a ticket.
-   */
-  vatRate: 0.2,
+
   poster: "/assets/poster-jazzablanca.jpg",
   /**
    * The running time under the event's name. It lives here rather than on the
@@ -303,8 +296,7 @@ export const bookingCopy = {
     size: (size: string) => `Size: ${size}`,
     subtotal: "Subtotal",
     wallet: "Wallet credit",
-    total: "Total Incl. VAT",
-    vat: (amount: string) => `VAT ${amount}`,
+    total: "Total",
   },
   checkout: {
     title: "Checkout",
@@ -587,8 +579,7 @@ export const bookingCopy = {
       fee: "Innovation fees",
       promo: "Promocode",
       wallet: "Wallet credit",
-      total: "Total Incl. VAT",
-      vat: (amount: string) => `VAT ${amount}`,
+      total: "Total",
       receipt: "Download receipt",
     },
     order: {

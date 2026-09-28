@@ -30,7 +30,12 @@ function Shield() {
         width={1254}
         height={1254}
         className="absolute max-w-none"
-        style={{ left: "-6.42%", top: "-5.8%", width: "113.41%", height: "113.41%" }}
+        style={{
+          left: "-6.42%",
+          top: "-5.8%",
+          width: "113.41%",
+          height: "113.41%",
+        }}
       />
     </span>
   );
@@ -53,7 +58,9 @@ export function TicketProtectionRow({
   const labelId = useId();
 
   return (
-    <div className={`flex w-full items-center gap-4 border border-white/5 py-3 pl-4 pr-3 ${className}`}>
+    <div
+      className={`flex w-full items-center gap-4 border border-white/5 py-3 pl-4 pr-3 ${className}`}
+    >
       <Image
         src="/assets/ic-shield-24.svg"
         alt=""

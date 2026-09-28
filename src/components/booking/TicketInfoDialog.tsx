@@ -50,7 +50,9 @@ export function TicketInfoDialog({
               value={quantity}
               name={ticket.name}
               onAdd={() => setQuantity(1)}
-              onChange={(by) => setQuantity((current) => Math.max(0, current + by))}
+              onChange={(by) =>
+                setQuantity((current) => Math.max(0, current + by))
+              }
             />
           </div>
           <button

@@ -26,7 +26,9 @@ export function ItemDetailsDialog({
   onAdd: (quantity: number, size?: string) => void;
 }) {
   const titleId = useId();
-  const [size, setSize] = useState(initialSize ?? addon?.sizes?.[2] ?? addon?.sizes?.[0]);
+  const [size, setSize] = useState(
+    initialSize ?? addon?.sizes?.[2] ?? addon?.sizes?.[0],
+  );
   const [quantity, setQuantity] = useState(Math.max(1, initialQuantity ?? 0));
 
   if (!addon) return null;
@@ -51,7 +53,9 @@ export function ItemDetailsDialog({
               value={quantity}
               name={addon.name}
               onAdd={() => setQuantity(1)}
-              onChange={(by) => setQuantity((current) => Math.max(0, current + by))}
+              onChange={(by) =>
+                setQuantity((current) => Math.max(0, current + by))
+              }
             />
           </div>
           <button
@@ -87,7 +91,11 @@ export function ItemDetailsDialog({
             <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
               {bookingCopy.extras.size}
             </p>
-            <div role="radiogroup" aria-label={bookingCopy.extras.size} className="flex flex-wrap gap-2">
+            <div
+              role="radiogroup"
+              aria-label={bookingCopy.extras.size}
+              className="flex flex-wrap gap-2"
+            >
               {addon.sizes.map((option) => {
                 const selected = option === size;
                 return (

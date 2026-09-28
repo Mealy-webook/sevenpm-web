@@ -120,7 +120,6 @@ export type Totals = {
   /** What the wallet actually covers — never more than what is left. */
   wallet: number;
   total: number;
-  vat: number;
 };
 
 export function totals(
@@ -169,7 +168,5 @@ export function totals(
     promo,
     wallet,
     total,
-    /** VAT is inside the total, not added to it — see `bookingConfig`. */
-    vat: total * bookingConfig.vatRate,
   };
 }

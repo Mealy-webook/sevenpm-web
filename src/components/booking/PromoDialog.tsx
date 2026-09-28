@@ -73,7 +73,10 @@ export function PromoDialog({
             ) : undefined
           }
         />
-        <SheetSubmit onClick={apply} disabled={Boolean(error) || code.length === 0}>
+        <SheetSubmit
+          onClick={apply}
+          disabled={Boolean(error) || code.length === 0}
+        >
           {copy.apply}
         </SheetSubmit>
       </div>

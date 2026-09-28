@@ -4,11 +4,7 @@ import Image from "next/image";
 import { useId, useState } from "react";
 
 import { Sheet, SheetField, SheetSubmit } from "@/components/ui/Sheet";
-import {
-  bookingCopy,
-  deliveryCountries,
-  pickupPoints,
-} from "@/data/booking";
+import { bookingCopy, deliveryCountries, pickupPoints } from "@/data/booking";
 
 /**
  * Delivery details, from Figma 2139:4597 (pickup) and 2139:4953 (address):
@@ -24,7 +20,9 @@ export type DeliveryChoice =
 export function describeDelivery(choice: DeliveryChoice | null) {
   if (!choice) return null;
   if (choice.mode === "pickup") {
-    return pickupPoints.find((point) => point.id === choice.point)?.hint ?? null;
+    return (
+      pickupPoints.find((point) => point.id === choice.point)?.hint ?? null
+    );
   }
   return [choice.city, choice.country].filter(Boolean).join(", ");
 }
@@ -119,7 +117,11 @@ export function DeliveryDialog({
             <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
               {copy.pickupLabel}
             </p>
-            <div role="radiogroup" aria-label={copy.pickupLabel} className="flex flex-col gap-2">
+            <div
+              role="radiogroup"
+              aria-label={copy.pickupLabel}
+              className="flex flex-col gap-2"
+            >
               {pickupPoints.map((item) => {
                 const selected = point === item.id;
                 return (

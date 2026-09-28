@@ -36,7 +36,7 @@ export const legal: Record<"terms" | "privacy", LegalDoc> = {
       {
         heading: "Tickets",
         body: [
-          "A ticket admits one person to the session named on it. Prices are shown in Moroccan dirham and include VAT at the standard rate.",
+          "A ticket admits one person to the session named on it. Prices are shown in Moroccan dirham, inclusive of any tax that applies.",
           "Where a booking is paid in instalments, the tickets are issued once the final instalment clears. Until then the booking is held but not fulfilled.",
         ],
       },

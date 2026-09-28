@@ -1,7 +1,6 @@
 import Image from "next/image";
 
-import { socialLinks } from "@/data/events";
-import { LiveClock } from "./LiveClock";
+import { footerCopy, socialLinks } from "@/data/events";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -40,18 +39,24 @@ export function SiteFooter() {
           ))}
         </nav>
 
-        <div className="flex w-full flex-col items-center gap-4 font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary sm:flex-row sm:justify-between">
-          <LiveClock />
-          <p className="m-0 text-center">
+        {/* Centred, one line under another — 2467:23440. The local clock and
+            the back-to-top link the footer used to carry either side of the
+            copyright are not in it. */}
+        <div className="flex w-full flex-col items-center gap-6">
+          <p className="m-0 text-center font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary">
             © {year} SEVENPM. All rights reserved.
           </p>
-          <a
-            href="#top"
-            className="link-sweep font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
-            data-magnetic="0.3"
-          >
-            Back to top ↑
-          </a>
+
+          <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-content-primary">
+            {footerCopy.poweredBy}
+            <Image
+              src="/assets/wbk-logo.svg"
+              alt="WBK"
+              width={61}
+              height={18}
+              className="h-[18px] w-[61px]"
+            />
+          </p>
         </div>
       </div>
     </footer>

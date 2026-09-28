@@ -55,10 +55,7 @@ function Radio({ selected }: { selected: boolean }) {
       className="size-6 shrink-0"
     />
   ) : (
-    <span
-      aria-hidden
-      className="size-6 shrink-0 border border-white/30"
-    />
+    <span aria-hidden className="size-6 shrink-0 border border-white/30" />
   );
 }
 
@@ -397,11 +394,6 @@ export function PriceDetails({
    * on the summary bar under this card, where the button is.
    */
   const dueToday = payLater?.length ? payLater[0].amount : totals.total;
-  /* VAT follows the figure above it. Quoting the whole order's VAT under
-     today's payment would be two different orders' numbers in one row. */
-  const dueVat = payLater?.length
-    ? dueToday * bookingConfig.vatRate
-    : totals.vat;
 
   return (
     <div className="flex flex-col bg-bg-secondary">
@@ -411,7 +403,10 @@ export function PriceDetails({
         </h2>
 
         <div className="flex flex-col gap-2">
-          <PriceLine label={summary.subtotal} amount={formatMoney(totals.subtotal)} />
+          <PriceLine
+            label={summary.subtotal}
+            amount={formatMoney(totals.subtotal)}
+          />
           {totals.protection > 0 && (
             <PriceLine
               label={copy.protection.label}
@@ -452,9 +447,6 @@ export function PriceDetails({
               <span className="font-[family-name:var(--font-sans)] text-[17px] font-bold leading-6 tracking-[0.085px] text-content-primary">
                 {formatMoney(dueToday)}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
-                {summary.vat(formatMoney(dueVat))}
-              </span>
             </span>
           </div>
 
@@ -462,39 +454,39 @@ export function PriceDetails({
         </div>
 
         <div className="flex flex-col gap-1">
-        <label className="flex cursor-pointer items-start gap-3">
-          <input
-            type="checkbox"
-            checked={agreed}
-            onChange={(event) => onAgreed(event.target.checked)}
-            aria-invalid={Boolean(error)}
-            className="peer sr-only"
-          />
-          {/* The design system's Checkbox: 24 square, a 5% black ground
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              checked={agreed}
+              onChange={(event) => onAgreed(event.target.checked)}
+              aria-invalid={Boolean(error)}
+              className="peer sr-only"
+            />
+            {/* The design system's Checkbox: 24 square, a 5% black ground
               behind a 30% white border when off, a solid white ground with
               the inverse checkmark when on. Not the brand yellow — that is
               the switch's colour, and using it here made the two controls
               on this screen look like the same kind of thing. */}
-          <span
-            aria-hidden
-            className={`mt-[2px] flex size-6 shrink-0 items-center justify-center p-1 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${
-              agreed ? "bg-white" : "border border-white/30 bg-black/5"
-            }`}
-          >
-            {agreed && (
-              <Image
-                src="/assets/ic-checkmark-16.svg"
-                alt=""
-                width={16}
-                height={16}
-                className="size-4"
-              />
-            )}
-          </span>
-          <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
-            {copy.agreement}
-          </span>
-        </label>
+            <span
+              aria-hidden
+              className={`mt-[2px] flex size-6 shrink-0 items-center justify-center p-1 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${
+                agreed ? "bg-white" : "border border-white/30 bg-black/5"
+              }`}
+            >
+              {agreed && (
+                <Image
+                  src="/assets/ic-checkmark-16.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="size-4"
+                />
+              )}
+            </span>
+            <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              {copy.agreement}
+            </span>
+          </label>
           {error && (
             <p
               role="alert"

@@ -155,7 +155,11 @@ function PriceRow({
       }`}
     >
       <span className={positive ? "" : "text-content-secondary"}>{label}</span>
-      <span className={positive ? "font-semibold" : "font-semibold text-content-primary"}>
+      <span
+        className={
+          positive ? "font-semibold" : "font-semibold text-content-primary"
+        }
+      >
         {amount}
       </span>
     </div>
@@ -247,7 +251,10 @@ export function BookingConfirmation({
 
     const media = gsap.matchMedia();
     media.add("(min-width: 1024px)", () => {
-      const cards = gsap.utils.toArray<HTMLElement>("[data-confirm-card]", root);
+      const cards = gsap.utils.toArray<HTMLElement>(
+        "[data-confirm-card]",
+        root,
+      );
       if (cards.length < 3) return;
 
       const from = [
@@ -345,9 +352,9 @@ export function BookingConfirmation({
       `${copy.price.subtotal}: ${formatMoney(totals.subtotal)}`,
       `${copy.price.fee}: ${formatMoney(totals.fee)}`,
       totals.promo > 0 && `${copy.price.promo}: -${formatMoney(totals.promo)}`,
-      totals.wallet > 0 && `${copy.price.wallet}: -${formatMoney(totals.wallet)}`,
+      totals.wallet > 0 &&
+        `${copy.price.wallet}: -${formatMoney(totals.wallet)}`,
       `${copy.price.total}: ${formatMoney(totals.total)}`,
-      `${copy.price.vat(formatMoney(totals.vat))}`,
       "",
       copy.note,
     ]
@@ -356,10 +363,7 @@ export function BookingConfirmation({
     saveFile(`${orderNumber}.txt`, "text/plain", lines);
   };
 
-  const lineRow = (
-    line: Totals["ticketLines"][number],
-    last: boolean,
-  ) => (
+  const lineRow = (line: Totals["ticketLines"][number], last: boolean) => (
     <li
       key={line.key}
       className={`flex items-center gap-3 py-3 ${
@@ -412,7 +416,10 @@ export function BookingConfirmation({
             priority
           />
           <div className="flex max-w-[642px] flex-col gap-1">
-            <h1 data-hero-title className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]">
+            <h1
+              data-hero-title
+              className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]"
+            >
               {copy.title}
             </h1>
             <p
@@ -606,13 +613,8 @@ export function BookingConfirmation({
                   <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
                     {copy.price.total}
                   </span>
-                  <span className="flex flex-col items-end">
-                    <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
-                      {formatMoney(totals.total)}
-                    </span>
-                    <span className="font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
-                      {copy.price.vat(formatMoney(totals.vat))}
-                    </span>
+                  <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+                    {formatMoney(totals.total)}
                   </span>
                 </div>
               </div>
@@ -721,7 +723,6 @@ export function BookingConfirmation({
             today={payLater[0].due}
           />
         )}
-
       </main>
     </>
   );
