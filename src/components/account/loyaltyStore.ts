@@ -71,10 +71,8 @@ export function redeemReward(reward: LoyaltyReward) {
         id: `r-${reward.id}-${Date.now()}`,
         kind: "burn",
         label: "Burn beats",
-        time: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        }),
+        /* Just now. */
+        minutesAgo: 0,
         detail: reward.name,
         beats: -reward.cost,
         dayOffset: 0,
@@ -110,10 +108,8 @@ export function earnBeats(orderNumber: string, amount: number, detail: string) {
         id: `e-${orderNumber}`,
         kind: "earn",
         label: "Earn beats",
-        time: new Date().toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        }),
+        /* Just now. */
+        minutesAgo: 0,
         detail,
         beats: amount,
         dayOffset: 0,

@@ -12,6 +12,7 @@ import {
   loyaltyTiers,
   type LoyaltyEntry,
   type LoyaltyReward,
+  clockAgo,
 } from "@/data/account";
 
 /**
@@ -230,7 +231,7 @@ export function LoyaltyPanel() {
                               {entry.label}
                             </span>
                             <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-                              {entry.time}
+                              {clockAgo(entry.minutesAgo)}
                             </span>
                           </span>
 

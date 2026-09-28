@@ -56,8 +56,13 @@ export type WalletTransaction = {
   /** `topup` adds to the balance, `payment` takes from it. */
   kind: "topup" | "payment";
   label: string;
-  /** Time of day, already formatted — mock data has no real timestamps. */
-  time: string;
+  /**
+   * How long ago it happened, in minutes. Formatted where it is shown, so a
+   * row filed under "Today" is never given a clock time later than the clock
+   * — which is what fixed strings did to anyone opening the page in the
+   * morning.
+   */
+  minutesAgo: number;
   /** Revealed when the row is expanded. */
   detail: string;
   /** Positive for a top-up, negative for a payment. */
@@ -66,6 +71,20 @@ export type WalletTransaction = {
   dayOffset: number;
 };
 
+/**
+ * A clock time `minutes` ago, for a row that records when something happened.
+ *
+ * Read on the client, where "now" is the visitor's now. The times used to be
+ * fixed strings — so a transaction filed under "Today" at 10:37 PM was in the
+ * future for anyone who opened the page before bedtime.
+ */
+export function clockAgo(minutes: number) {
+  return new Date(Date.now() - minutes * 60_000).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
 export const walletCurrency = "MAD";
 
 export const walletTransactions: WalletTransaction[] = [
@@ -73,7 +92,7 @@ export const walletTransactions: WalletTransaction[] = [
     id: "tx-006",
     kind: "payment",
     label: "Withdraw money",
-    time: "10:37 PM",
+    minutesAgo: 95,
     detail: "Merch store — Anfa Park",
     amount: -60,
     dayOffset: 0,
@@ -82,7 +101,7 @@ export const walletTransactions: WalletTransaction[] = [
     id: "tx-005",
     kind: "payment",
     label: "Withdraw money",
-    time: "9:12 PM",
+    minutesAgo: 210,
     detail: "Bar — Anfa Park · 3 drinks",
     amount: -90,
     dayOffset: 0,
@@ -91,7 +110,7 @@ export const walletTransactions: WalletTransaction[] = [
     id: "tx-004",
     kind: "topup",
     label: "Add money",
-    time: "6:40 PM",
+    minutesAgo: 320,
     detail: "Visa ending 6411",
     amount: 200,
     dayOffset: 0,
@@ -100,7 +119,7 @@ export const walletTransactions: WalletTransaction[] = [
     id: "tx-003",
     kind: "payment",
     label: "Withdraw money",
-    time: "8:05 PM",
+    minutesAgo: 2014,
     detail: "Jazzablanca — weekend pass · 2 tickets",
     amount: -200,
     dayOffset: 1,
@@ -109,7 +128,7 @@ export const walletTransactions: WalletTransaction[] = [
     id: "tx-002",
     kind: "topup",
     label: "Add money",
-    time: "7:20 PM",
+    minutesAgo: 2088,
     detail: "Visa ending 6411",
     amount: 500,
     dayOffset: 1,
@@ -118,7 +137,7 @@ export const walletTransactions: WalletTransaction[] = [
     id: "tx-001",
     kind: "topup",
     label: "Welcome credit",
-    time: "9:00 AM",
+    minutesAgo: 13682,
     detail: "SEVENPM loyalty program",
     amount: 100,
     dayOffset: 9,
@@ -322,7 +341,8 @@ export type LoyaltyEntry = {
   id: string;
   kind: "earn" | "burn";
   label: string;
-  time: string;
+  /** Minutes ago — see `clockAgo`. */
+  minutesAgo: number;
   /** Revealed when the row is expanded. */
   detail: string;
   beats: number;
@@ -385,7 +405,7 @@ export const loyaltyActivity: LoyaltyEntry[] = [
     id: "l1",
     kind: "burn",
     label: "Burn beats",
-    time: "10:37 PM",
+    minutesAgo: 95,
     detail: "5% discount promocode, redeemed at checkout",
     beats: -200,
     dayOffset: 0,
@@ -394,7 +414,7 @@ export const loyaltyActivity: LoyaltyEntry[] = [
     id: "l2",
     kind: "burn",
     label: "Burn beats",
-    time: "10:37 PM",
+    minutesAgo: 210,
     detail: "Wallet top up discount",
     beats: -100,
     dayOffset: 0,
@@ -403,7 +423,7 @@ export const loyaltyActivity: LoyaltyEntry[] = [
     id: "l3",
     kind: "earn",
     label: "Earn Beats",
-    time: "10:37 PM",
+    minutesAgo: 320,
     detail: "Jazzablanca — 2 tickets, scanned at the main gate",
     beats: 210,
     dayOffset: 0,
@@ -460,7 +480,19 @@ export const loyaltyCopy = {
   howTo: "How it works",
   /** Beats expire, so the card says when and how many. */
   expiring: 100,
-  expiresAt: "20 Sep 2026",
+  /* Worked out rather than written down. As a literal it was "20 Sep 2026",
+     which the calendar passed — a balance that expired in the past, shown as
+     something still to come. Ninety days out keeps it true whenever the page
+     is opened. */
+  get expiresAt() {
+    const day = new Date();
+    day.setDate(day.getDate() + 90);
+    return day.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  },
   expiry: (beats: number, date: string) =>
     `${beats.toLocaleString("en-US")} beats will expire at ${date}`,
   /** The banner under the header chip when Beats land — Figma 2213:16229. */

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import type { WalletTransaction } from "@/data/account";
-import { formatAmount, walletCopy } from "@/data/account";
+import { formatAmount, walletCopy, clockAgo } from "@/data/account";
 import { TopUpDialog } from "./TopUpDialog";
 import { SevenpmCard } from "./SevenpmCard";
 import { VenuePayDialog } from "./VenuePayDialog";
@@ -143,7 +143,7 @@ export function WalletPanel({
                               {tx.label}
                             </span>
                             <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
-                              {tx.time}
+                              {clockAgo(tx.minutesAgo)}
                             </span>
                           </span>
                           <span
@@ -159,7 +159,7 @@ export function WalletPanel({
                             type="button"
                             aria-expanded={open}
                             aria-controls={`${tx.id}-detail`}
-                            aria-label={`Details of ${tx.label}, ${tx.time}`}
+                            aria-label={`Details of ${tx.label}, ${clockAgo(tx.minutesAgo)}`}
                             onClick={() => setOpenId(open ? null : tx.id)}
                             className="flex cursor-pointer items-center justify-center p-1.5 transition-opacity hover:opacity-70"
                           >
@@ -211,10 +211,8 @@ export function WalletPanel({
                 id: `topup-${Date.now()}`,
                 kind: "topup",
                 label: walletCopy.topUpCta,
-                time: new Date().toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                }),
+                /* Just now. */
+                minutesAgo: 0,
                 detail: walletCopy.topUp.doneBody(
                   `${amount.toLocaleString("en-US")} ${currency}`,
                 ),
