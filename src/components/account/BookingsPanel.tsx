@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { RequestsPanel } from "./RequestsPanel";
@@ -52,6 +52,9 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
     params.get("tab") === "requests" ? "Requests" : "Upcoming",
   );
   const router = useRouter();
+  /* The panel renders at `/account` and at `/account/bookings`; the chip
+     writes whichever it is actually on. */
+  const pathname = usePathname();
 
   /* Which booking's payment sheet is open, and how far through its plan we
      have got. Settling is local to the page — there is no payment provider
@@ -64,9 +67,10 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
      otherwise the row and the chip disagree about which screen you are on. */
   const select = (next: Filter) => {
     setFilter(next);
-    router.replace(next === "Requests" ? "/account?tab=requests" : "/account", {
-      scroll: false,
-    });
+    router.replace(
+      next === "Requests" ? `${pathname}?tab=requests` : pathname,
+      { scroll: false },
+    );
   };
   /* A booking with no end time is placed by when it starts. */
   const endsAt = (b: Booking) => new Date(b.endsAt ?? b.startsAt);

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 /** Account — SevenPM Rewards, from Figma 2250:10073. */
 export default function LoyaltyPage() {
   return (
-    <AccountShell activeId="loyalty">
+    <AccountShell activeId="loyalty" detail>
       <LoyaltyPanel />
     </AccountShell>
   );

@@ -253,12 +253,20 @@ export type AccountNavItem = {
  * comp; they are the Bookings screen's third chip now, and `?tab=requests`
  * still opens it.
  */
+/** Shared wording for the account frame. */
+export const accountCopy = {
+  /** The way back to the menu on a narrow screen. */
+  back: "Account",
+};
+
 export const accountNav: AccountNavItem[] = [
   {
     id: "bookings",
     label: "Bookings",
     icon: "/assets/ic-acct-bookings.svg",
-    href: "/account",
+    /* Its own screen, like every other entry: on a narrow window `/account`
+       is the menu, so the panel needs somewhere of its own to open. */
+    href: "/account/bookings",
   },
   {
     id: "wallet",

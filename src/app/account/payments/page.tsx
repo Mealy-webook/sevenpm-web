@@ -16,7 +16,7 @@ export const metadata: Metadata = {
  */
 export default function PaymentsPage() {
   return (
-    <AccountShell activeId="payments">
+    <AccountShell activeId="payments" detail>
       <PaymentsPanel cards={paymentCards} />
     </AccountShell>
   );

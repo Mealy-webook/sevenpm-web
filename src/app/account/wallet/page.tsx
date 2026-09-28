@@ -17,7 +17,7 @@ export const metadata: Metadata = {
  *  shell (2449:37125), same as every other account tab. */
 export default function WalletPage() {
   return (
-    <AccountShell activeId="wallet">
+    <AccountShell activeId="wallet" detail>
       <WalletPanel
         balance={walletBalance}
         currency={walletCurrency}

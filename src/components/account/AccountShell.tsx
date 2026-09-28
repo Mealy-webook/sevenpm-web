@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import { Suspense } from "react";
 
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -5,7 +7,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AccountGuard } from "@/components/account/AccountGuard";
 import { AccountIdentity } from "@/components/account/AccountIdentity";
 import { AccountNav } from "@/components/account/AccountNav";
-import { accountNav } from "@/data/account";
+import { accountCopy, accountNav } from "@/data/account";
 
 /**
  * The frame every account screen shares, from Figma 2173:25780 and 2449:37125:
@@ -26,9 +28,22 @@ import { accountNav } from "@/data/account";
  */
 export function AccountShell({
   activeId,
+  detail = false,
   children,
 }: {
   activeId: string;
+  /**
+   * A screen reached *from* the account menu rather than the menu itself.
+   *
+   * Narrow, the account is master and detail: `/account` is the list of where
+   * you can go, and each entry opens on its own. Stacking the two — the whole
+   * menu, then the panel under it — meant scrolling past five rows and a
+   * display-size name to reach anything.
+   *
+   * From `lg` both columns are on screen at once and the distinction stops
+   * mattering: every route draws the menu beside its panel, as before.
+   */
+  detail?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -45,14 +60,39 @@ export function AccountShell({
                   header, and no taller than the screen minus the header and
                   the section's own padding. The name scales with the viewport
                   height to hold that budget (see `AccountIdentity`). */}
-              <div className="flex w-full flex-col gap-6 lg:sticky lg:top-[calc(var(--header-h,0px)+32px)] lg:max-h-[calc(100svh-var(--header-h,0px)-64px)] lg:w-[293px] lg:shrink-0">
+              <div
+                className={`w-full flex-col gap-6 lg:sticky lg:top-[calc(var(--header-h,0px)+32px)] lg:flex lg:max-h-[calc(100svh-var(--header-h,0px)-64px)] lg:w-[293px] lg:shrink-0 ${
+                  detail ? "hidden" : "flex"
+                }`}
+              >
                 <AccountIdentity />
                 {/* The nav reads `?tab=` to light the Requests row. */}
                 <Suspense fallback={null}>
                   <AccountNav items={accountNav} activeId={activeId} />
                 </Suspense>
               </div>
-              {children}
+              {/* Back to the menu. Only on a detail screen, and only while
+                  the menu is not on screen beside it. */}
+              <div className={detail ? "contents" : "hidden lg:contents"}>
+                <div className="flex min-w-0 flex-1 flex-col gap-6">
+                  {detail && (
+                    <Link
+                      href="/account"
+                      className="flex w-fit items-center gap-2 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary transition-colors hover:text-white lg:hidden"
+                    >
+                      <Image
+                        src="/assets/ic-arrow-left-20.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="size-5"
+                      />
+                      {accountCopy.back}
+                    </Link>
+                  )}
+                  {children}
+                </div>
+              </div>
             </div>
           </section>
         </AccountGuard>

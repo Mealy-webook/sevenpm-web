@@ -5,5 +5,5 @@ import { redirect } from "next/navigation";
  * out by the enquiry form's confirmation, so it redirects rather than 404s.
  */
 export default function RequestsPage() {
-  redirect("/account?tab=requests");
+  redirect("/account/bookings?tab=requests");
 }

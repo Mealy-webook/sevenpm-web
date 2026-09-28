@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 /** Account — profile, from Figma 2173:26214. */
 export default function ProfilePage() {
   return (
-    <AccountShell activeId="profile">
+    <AccountShell activeId="profile" detail>
       <ProfilePanel sections={profileSections} />
     </AccountShell>
   );
