@@ -217,7 +217,7 @@ export const jazzablanca: EventDetails = {
       priceFrom: "50",
       currency: "MAD",
       wasPrice: "70",
-      discount: "20% off",
+      discount: "29% off",
       cta: "Get your ticket",
     },
     {
@@ -227,7 +227,7 @@ export const jazzablanca: EventDetails = {
       priceFrom: "100",
       currency: "MAD",
       wasPrice: "120",
-      discount: "20% off",
+      discount: "17% off",
       cta: "Get your ticket",
       featured: true,
     },
@@ -238,7 +238,7 @@ export const jazzablanca: EventDetails = {
       priceFrom: "500",
       currency: "MAD",
       wasPrice: "700",
-      discount: "20% off",
+      discount: "29% off",
       cta: "Get your ticket",
     },
     {

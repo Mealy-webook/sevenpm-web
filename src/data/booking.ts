@@ -62,50 +62,56 @@ const lineup: LineupSlot[] = Array.from({ length: 6 }, (_, index) => ({
   image: `/assets/gallery-${(index % 6) + 1}.jpg`,
 }));
 
+/**
+ * What a ticket is worth off, worked out rather than written down.
+ *
+ * Every ticket used to carry a hand-typed "20% off" beside a price that was
+ * 80% off, and the labels had drifted apart from the numbers on both this
+ * screen and the event page. A label that is derived cannot be wrong.
+ */
+export function percentOff(price: number, wasPrice: number) {
+  return `${Math.round((1 - price / wasPrice) * 100)}% off`;
+}
+
+/**
+ * The passes, priced as the event page advertises them.
+ *
+ * These are the same three products with the same ids the event page sells
+ * (`tiers` in `events.ts`), so a stub's `?tier=` names a real ticket here and
+ * the price the visitor was shown is the price they are charged. They used to
+ * be three copy-pasted single days at 50 MAD apiece — the same figure for a
+ * day, a weekend and the whole run.
+ *
+ * No VIP box: a box is quoted, not bought. The event page sends that one to
+ * the enquiry form, and selling it here for 50 MAD said otherwise.
+ */
 export const ticketGroups: TicketGroup[] = [
   {
     id: "general",
     label: "General admission",
     tickets: [
       {
-        id: "fri-19",
-        name: "Single day: Fri 19 Sept",
+        id: "day",
+        name: "Single day",
         price: 50,
-        wasPrice: 252,
-        discount: "20% off",
+        wasPrice: 70,
+        discount: percentOff(50, 70),
         lineup,
       },
       {
-        id: "sat-20",
-        name: "Single day: Sat 20 Sept",
-        price: 50,
-        wasPrice: 252,
-        discount: "20% off",
+        id: "weekend",
+        name: "Weekend pass",
+        price: 100,
+        wasPrice: 120,
+        discount: percentOff(100, 120),
         lineup,
       },
       {
-        id: "mon-20",
-        name: "Single day: Mon 20 Sept",
-        price: 50,
-        wasPrice: 252,
-        discount: "20% off",
-        lineup,
-      },
-    ],
-  },
-  {
-    id: "vip",
-    label: "VIP boxes",
-    tickets: [
-      {
-        id: "vip-box-1",
-        name: "VIP Box 1",
-        price: 50,
-        wasPrice: 252,
-        discount: "20% off",
-        /* The same three things the enquiry flow quotes for a box, so the
-           two places that sell one describe it the same way. */
-        perks: ["Private box for 10", "Catering included", "Parking included"],
+        id: "all-days",
+        name: "All days pass",
+        price: 500,
+        wasPrice: 700,
+        discount: percentOff(500, 700),
         lineup,
       },
     ],
@@ -190,8 +196,11 @@ export const bookingConfig = {
   /**
    * VAT is included in the total rather than added to it, which is how the
    * comp reads it ("Total Incl. VAT" with "VAT 27.75 MAD" beneath).
+   *
+   * 20% — Morocco's standard rate. It sat at 15%, which is a reduced rate and
+   * not the one that applies to a ticket.
    */
-  vatRate: 0.15,
+  vatRate: 0.2,
   poster: "/assets/poster-jazzablanca.jpg",
   /**
    * The running time under the event's name. It lives here rather than on the

@@ -176,9 +176,10 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
   const [promo, setPromo] = useState<{ code: string; off: number } | null>(
     null,
   );
-  /* Ticket protection is on by default, as the comp has it. Switching it
-     off asks first; switching it back on does not. */
-  const [protection, setProtection] = useState(true);
+  /* Ticket protection is off until it is chosen. The comp draws it ticked,
+     but a paid add-on that opts you in by default is a charge you have to
+     notice to avoid — so it is offered, not assumed. */
+  const [protection, setProtection] = useState(false);
   /* How many payments a buy-now-pay-later plan is split into. Clamped to
      what the event date allows wherever it is used. */
   const [plan, setPlan] = useState(MAX_INSTALMENTS);
@@ -589,16 +590,20 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
 
           {step === "checkout" && (
             <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.12px] text-content-secondary max-lg:hidden">
-              {/* The legal pages don't exist yet, so these stay plain text
-                    rather than 404 links. Wrap them in <Link> the day they do. */}
               {bookingCopy.checkout.terms}{" "}
-              <span className="text-content-primary">
+              <Link
+                href="/terms"
+                className="text-content-primary underline underline-offset-2 transition-colors hover:text-brand"
+              >
                 {bookingCopy.checkout.termsLink}
-              </span>
+              </Link>
               . {bookingCopy.checkout.privacyLead}{" "}
-              <span className="text-content-primary">
+              <Link
+                href="/privacy"
+                className="text-content-primary underline underline-offset-2 transition-colors hover:text-brand"
+              >
                 {bookingCopy.checkout.privacyLink}
-              </span>{" "}
+              </Link>{" "}
               {bookingCopy.checkout.privacyTail}
             </p>
           )}

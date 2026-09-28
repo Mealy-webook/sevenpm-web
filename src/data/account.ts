@@ -550,9 +550,9 @@ export const bookings: Booking[] = [
     venue: "Palais des Institutions Italiennes",
     venueUrl:
       "https://www.google.com/maps/search/?api=1&query=Palais+des+Institutions+Italiennes+Casablanca",
-    /* Two single-day tickets and two parking spaces. */
+    /* Two single-day passes and two parking spaces. */
     cart: [
-      { key: "fri-19", kind: "ticket", id: "fri-19", qty: 2 },
+      { key: "day", kind: "ticket", id: "day", qty: 2 },
       { key: "ga-parking", kind: "addon", id: "ga-parking", qty: 2 },
     ],
     payment: {
