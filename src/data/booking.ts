@@ -209,7 +209,11 @@ export const pickupPoints = [
 
 /** Where a courier can reach — Figma 2139:4953. */
 export const deliveryCountries = [
-  { code: "MA", label: "Morocco", cities: ["Casablanca", "Rabat", "Marrakech", "Tangier"] },
+  {
+    code: "MA",
+    label: "Morocco",
+    cities: ["Casablanca", "Rabat", "Marrakech", "Tangier"],
+  },
   { code: "SA", label: "Saudi Arabia", cities: ["Riyadh", "Jeddah", "Dammam"] },
   { code: "FR", label: "France", cities: ["Paris", "Lyon", "Marseille"] },
 ];
@@ -272,9 +276,9 @@ export const bookingCopy = {
     openDetails: (name: string) => `${name} — sizes and details`,
   },
   summaryBar: {
-    tickets: (count: number) => `${count} ${count === 1 ? "Ticket" : "Tickets"}`,
-    addons: (count: number) =>
-      `${count} ${count === 1 ? "add-on" : "add-ons"}`,
+    tickets: (count: number) =>
+      `${count} ${count === 1 ? "Ticket" : "Tickets"}`,
+    addons: (count: number) => `${count} ${count === 1 ? "add-on" : "add-ons"}`,
     empty: "No tickets yet",
     total: "Total",
     open: "Open the order summary",
@@ -302,7 +306,10 @@ export const bookingCopy = {
     add: "Add",
     edit: "Edit",
     payWith: "Pay with",
-    wallet: "Use webook credit",
+    /* "Use wallet credit" — the payments sheet's wording for the same thing
+       (`payLater.walletLabel`), and this said "webook credit", which is not
+       this brand. */
+    wallet: "Use wallet credit",
     /* "Pay in installment" used to head this list. The checkout comp
        (2410:20033) drops it — buy-now-pay-later is the same idea, built
        properly, and two options for one thing only asked the visitor to
