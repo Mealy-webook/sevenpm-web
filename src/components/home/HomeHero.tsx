@@ -1,5 +1,6 @@
 import { StageMeter } from "@/components/motion/StageMeter";
 import { HeroTerminal } from "@/components/home/HeroTerminal";
+import { HeroDrift } from "@/components/home/HeroDrift";
 import Image from "next/image";
 
 import { heroPolaroids, homeCopy } from "@/data/home";
@@ -33,9 +34,14 @@ export function HomeHero() {
       <HeroTerminal />
 
       <div className="shell relative z-10 flex w-full flex-col gap-4">
+        {/* The two lines wipe up through their own mask, one after the
+            other. `data-no-split` keeps the character reveal off it — at this
+            size a per-letter stagger reads as a fault, not as motion. */}
         <h1
           className="hero-headline m-0 flex flex-col gap-4 font-daltown uppercase text-white"
           data-no-split
+          data-reveal="clip"
+          data-reveal-stagger
         >
           <span className="block">{homeCopy.heroLead}</span>
           <span className="block">{homeCopy.heroSecond}</span>
@@ -63,30 +69,46 @@ export function HomeHero() {
             left: `${polaroid.x}%`,
             top: `${polaroid.y}%`,
             translate: "-50% -50%",
-            rotate: `${polaroid.rotate}deg`,
           }}
         >
-          {/* The card is its own element so the border percentages resolve
-              against the card's width. On the positioned wrapper they would
-              resolve against the section — a 1512px containing block, which
-              made the border ten times too deep. */}
-          <span className="block bg-white p-[3.91%] pb-[17.23%] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
-            <span className="relative block aspect-[327.793/326.45] w-full overflow-hidden bg-[#27272a]">
-              <Image
-                src={polaroid.image}
-                alt=""
-                fill
-                /* The print is near-square and the photograph is 3:2, so
-                   `cover` scales it to the box's height: it needs ~480px of
-                   width to land at the card's full size. */
-                sizes="480px"
-                priority
-                className="object-cover"
-              />
+          {/* Everything that moves happens here, so the wrapper above keeps
+              its centring — that `translate` is never animated and so cannot
+              be lost. GSAP folds this element's `rotate` into the transform
+              it builds (leaving `rotate: none` behind), which is why the tilt
+              is set here rather than on the wrapper: there it would be
+              absorbed along with the centring. */}
+          <span
+            className="block"
+            style={{ rotate: `${polaroid.rotate}deg` }}
+            data-reveal="scale"
+            data-reveal-delay={polaroid.delay}
+            data-parallax={polaroid.parallax}
+            data-hero-drift={polaroid.depth}
+          >
+            {/* The card is its own element so the border percentages resolve
+                against the card's width. On the positioned wrapper they would
+                resolve against the section — a 1512px containing block, which
+                made the border ten times too deep. */}
+            <span className="block bg-white p-[3.91%] pb-[17.23%] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
+              <span className="relative block aspect-[327.793/326.45] w-full overflow-hidden bg-[#27272a]">
+                <Image
+                  src={polaroid.image}
+                  alt=""
+                  fill
+                  /* The print is near-square and the photograph is 3:2, so
+                     `cover` scales it to the box's height: it needs ~480px of
+                     width to land at the card's full size. */
+                  sizes="480px"
+                  priority
+                  className="object-cover"
+                />
+              </span>
             </span>
           </span>
         </span>
       ))}
+
+      <HeroDrift />
 
       <StageMeter className="absolute bottom-10 right-[var(--shell-gutter)] z-10 hidden items-end gap-0.5 xl:flex" />
     </section>

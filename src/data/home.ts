@@ -263,12 +263,21 @@ export const heroPolaroids = [
     rotate: 10.9,
     x: 81.98,
     y: 38.08,
+    /* The back card settles first and sits deeper: it drifts less with the
+       cursor and against the scroll, so the pair separates instead of
+       sliding as one sheet. */
+    delay: 0.18,
+    parallax: -0.06,
+    depth: 0.6,
   },
   {
     image: "/assets/hero-polaroid-2.jpg",
     rotate: -5.71,
     x: 68.71,
     y: 57.86,
+    delay: 0.3,
+    parallax: 0.05,
+    depth: 1,
   },
 ];
 
