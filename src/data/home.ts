@@ -169,8 +169,11 @@ export const homeStoryFounded = "2018";
  */
 export const homeStoryHeading = "Sevenpm";
 
+/* Reads on its own. It used to run "Founded in 2018, was born from the
+   desire…" — written to continue out of the heading above it, which leaves
+   the sentence without a subject wherever the two are not read together. */
 export const homeStoryStatement =
-  "Founded in 2018, was born from the desire to propel cultural events in Morocco to new heights.";
+  "Founded in 2018, SEVENPM was born from the desire to propel cultural events in Morocco to new heights.";
 
 /** The story block — Figma 2227:5229. */
 export const homeStory = {

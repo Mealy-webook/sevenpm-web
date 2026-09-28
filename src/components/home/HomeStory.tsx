@@ -34,7 +34,10 @@ export function HomeStory() {
 
         <div className="flex flex-col gap-4">
           <h2
-            className="m-0 font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            /* `pb` because the reveal masks to this element's box, and at
+               0.78 leading the glyphs stand taller than it — the descenders
+               were being cut off along the bottom of the wipe. */
+            className="m-0 pb-[0.1em] font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
             data-reveal="clip"
           >
             {homeStoryHeading}
