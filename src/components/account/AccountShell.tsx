@@ -26,11 +26,9 @@ import { accountNav } from "@/data/account";
  */
 export function AccountShell({
   activeId,
-  counts,
   children,
 }: {
   activeId: string;
-  counts?: Record<string, number>;
   children: React.ReactNode;
 }) {
   return (
@@ -51,11 +49,7 @@ export function AccountShell({
                 <AccountIdentity />
                 {/* The nav reads `?tab=` to light the Requests row. */}
                 <Suspense fallback={null}>
-                  <AccountNav
-                    items={accountNav}
-                    activeId={activeId}
-                    counts={counts}
-                  />
+                  <AccountNav items={accountNav} activeId={activeId} />
                 </Suspense>
               </div>
               {children}

@@ -3,7 +3,6 @@ import { Suspense } from "react";
 
 import { AccountShell } from "@/components/account/AccountShell";
 import { BookingsPanel } from "@/components/account/BookingsPanel";
-import { bookings } from "@/data/account";
 
 export const metadata: Metadata = {
   title: "My bookings — SEVENPM",
@@ -19,16 +18,12 @@ export const metadata: Metadata = {
  * old /account/requests URL both send people.
  */
 export default function AccountPage() {
-  const upcoming = bookings.filter(
-    (b) => new Date(b.endsAt) >= new Date(),
-  ).length;
-
   /* `?tab=` is read inside the panel and the sidebar rather than here: a page
      that reads `searchParams` cannot be rendered statically. */
   return (
-    <AccountShell activeId="bookings" counts={{ bookings: upcoming }}>
+    <AccountShell activeId="bookings">
       <Suspense fallback={null}>
-        <BookingsPanel bookings={bookings} />
+        <BookingsPanel />
       </Suspense>
     </AccountShell>
   );

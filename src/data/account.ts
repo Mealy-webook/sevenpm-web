@@ -491,7 +491,8 @@ export type Booking = {
   image: string;
   /** ISO datetimes; the card formats them. */
   startsAt: string;
-  endsAt: string;
+  /** When it is over, if the event says. Falls back to `startsAt`. */
+  endsAt?: string;
   venue: string;
   venueUrl?: string;
   /**
@@ -500,6 +501,17 @@ export type Booking = {
    * the card and the breakdown in the payments sheet both come from here.
    */
   cart: Cart;
+  /**
+   * The options the order was actually priced with — wallet credit, a promo
+   * code, ticket protection. Without them the account re-prices the same cart
+   * on different terms and quotes a figure the checkout never charged.
+   */
+  pricing?: {
+    wallet?: boolean;
+    promo?: number;
+    protection?: boolean;
+    delivery?: number;
+  };
   /**
    * An instalment plan, when the booking is being paid off rather than paid.
    * The card turns into its own reminder: the orange status tag, how far

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
+import { countUpcoming, useBookings } from "./bookingsStore";
+
 import { LogoutButton } from "@/components/auth/LogoutButton";
 
 import type { AccountNavItem } from "@/data/account";
@@ -18,12 +20,17 @@ import { logoutCopy } from "@/data/account";
 export function AccountNav({
   items,
   activeId,
-  counts = {},
 }: {
   items: AccountNavItem[];
   activeId: string;
-  counts?: Record<string, number>;
 }) {
+  /* The bookings badge counts what is still to come, read from the store so
+     a booking made in the journey shows up the moment it is confirmed. It
+     used to be handed down by every account page, which meant five places
+     computing the same number off a list that could no longer change. */
+  const counts: Record<string, number> = {
+    bookings: countUpcoming(useBookings()),
+  };
   /* Requests is a chip on the bookings screen rather than a route of its
      own, so `/account?tab=requests` has to light the Requests row. The page
      cannot tell us — reading `searchParams` there would make it dynamic, and

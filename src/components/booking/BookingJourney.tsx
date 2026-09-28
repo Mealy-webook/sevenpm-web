@@ -13,6 +13,7 @@ import {
 } from "react";
 
 import { BookingConfirmation } from "./BookingConfirmation";
+import { addBooking } from "@/components/account/bookingsStore";
 import { deckAudioRef } from "@/components/event/DeckHost";
 import {
   readDeck,
@@ -293,6 +294,39 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
           today,
         )
       : null;
+
+  /* A confirmed order becomes a booking on the account. Recorded here rather
+     than in `confirm` so the plan above is already worked out, and keyed on
+     the order number so re-rendering the confirmation cannot list it twice. */
+  useEffect(() => {
+    if (!orderNumber) return;
+    addBooking({
+      id: orderNumber,
+      eventName: event.name,
+      eventSlug: event.slug,
+      image: event.poster,
+      startsAt: event.startsAt,
+      venue: event.venue,
+      venueUrl: event.venueUrl,
+      cart,
+      /* The terms this order went out on, so the account prices it the same
+         way the checkout just did. */
+      pricing: { wallet, promo: promo?.off ?? 0, protection },
+      /* Pay-later only. The first instalment is taken today, so the plan
+         arrives with one already settled. */
+      payment: payLaterPlan
+        ? {
+            paid: 1,
+            instalments: payLaterPlan.length,
+            startedAt: today.toISOString(),
+          }
+        : undefined,
+    });
+    /* Only the order number should re-run this: the cart and the plan are
+       fixed once an order exists, and listing them would re-record on every
+       render of the confirmation. */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderNumber]);
 
   if (orderNumber) {
     return (

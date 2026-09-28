@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { AccountShell } from "@/components/account/AccountShell";
 import { PaymentsPanel } from "@/components/account/PaymentsPanel";
-import { bookings, paymentCards } from "@/data/account";
+import { paymentCards } from "@/data/account";
 
 export const metadata: Metadata = {
   title: "Payments — SEVENPM",
@@ -15,12 +15,8 @@ export const metadata: Metadata = {
  * shared rather than duplicated.
  */
 export default function PaymentsPage() {
-  const upcoming = bookings.filter(
-    (b) => new Date(b.endsAt) >= new Date(),
-  ).length;
-
   return (
-    <AccountShell activeId="payments" counts={{ bookings: upcoming }}>
+    <AccountShell activeId="payments">
       <PaymentsPanel cards={paymentCards} />
     </AccountShell>
   );

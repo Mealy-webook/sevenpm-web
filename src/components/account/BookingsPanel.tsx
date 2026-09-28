@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { RequestsPanel } from "./RequestsPanel";
+import { useBookings } from "./bookingsStore";
 import { PaymentsSheet } from "@/components/booking/PaymentsSheet";
 import { totals } from "@/components/booking/cart";
 import { schedule } from "@/components/booking/payLaterRules";
@@ -39,14 +40,10 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
   timeZone: "Africa/Casablanca",
 });
 
-export function BookingsPanel({
-  bookings,
-  now = new Date(),
-}: {
-  bookings: Booking[];
-  /** Injected so the split is deterministic in tests and on the server. */
-  now?: Date;
-}) {
+export function BookingsPanel({ now = new Date() }: { now?: Date }) {
+  /* From the store, so a booking made in the journey is here the moment it
+     is confirmed rather than only in the demo list the page shipped with. */
+  const bookings = useBookings();
   /* `/account?tab=requests` opens on the requests chip. Read here rather than
      handed down from the page: a page that reads `searchParams` cannot be
      rendered statically, and the whole site is exported as static files. */
@@ -71,10 +68,10 @@ export function BookingsPanel({
       scroll: false,
     });
   };
+  /* A booking with no end time is placed by when it starts. */
+  const endsAt = (b: Booking) => new Date(b.endsAt ?? b.startsAt);
   const shown = bookings.filter((b) =>
-    filter === "Upcoming"
-      ? new Date(b.endsAt) >= now
-      : new Date(b.endsAt) < now,
+    filter === "Upcoming" ? endsAt(b) >= now : endsAt(b) < now,
   );
 
   return (
@@ -147,7 +144,7 @@ export function BookingsPanel({
               {shown.map((booking) => {
                 /* Priced from the booking's own cart, so the card, the order
                    tab and the plan cannot quote different figures. */
-                const order = totals(booking.cart);
+                const order = totals(booking.cart, booking.pricing);
                 const contents = bookingsCopy.contents(
                   order.ticketCount,
                   order.addonCount,
@@ -290,7 +287,7 @@ export function BookingsPanel({
       {paying?.payment && (
         <PaymentsSheet
           instalments={schedule(
-            totals(paying.cart).total,
+            totals(paying.cart, paying.pricing).total,
             paying.payment.instalments,
             new Date(paying.payment.startedAt),
           )}
@@ -299,7 +296,7 @@ export function BookingsPanel({
             setCleared((prev) => ({ ...prev, [paying.id]: count }))
           }
           onClose={() => setPaying(null)}
-          totals={totals(paying.cart)}
+          totals={totals(paying.cart, paying.pricing)}
           event={{
             name: paying.eventName,
             poster: paying.image,
