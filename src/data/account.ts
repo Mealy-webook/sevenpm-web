@@ -4,6 +4,8 @@
  * everything the account screens render comes from here.
  */
 
+import type { Cart } from "@/components/booking/cart";
+
 export const accountUser = {
   name: "Ahmed Mealy",
   email: "ahmed@gmail.com",
@@ -492,20 +494,26 @@ export type Booking = {
   endsAt: string;
   venue: string;
   venueUrl?: string;
-  tickets: number;
-  /** Extras bought with the tickets; counted beside them on the card. */
-  addons?: number;
+  /**
+   * What was bought, in the booking journey's own cart shape, so the order
+   * can be priced by `totals()` rather than written down twice. The counts on
+   * the card and the breakdown in the payments sheet both come from here.
+   */
+  cart: Cart;
   /**
    * An instalment plan, when the booking is being paid off rather than paid.
    * The card turns into its own reminder: the orange status tag, how far
    * through the plan you are, and what the next payment costs.
+   *
+   * The amounts are not stored — `schedule()` derives them from the order
+   * total, so the card and the sheet cannot quote different figures.
    */
   payment?: {
     /** Instalments settled so far, out of `instalments`. */
     paid: number;
     instalments: number;
-    /** What the next instalment costs, in `walletCurrency`. */
-    next: number;
+    /** When the plan started; it runs monthly from here. */
+    startedAt: string;
   };
 };
 
@@ -522,9 +530,16 @@ export const bookings: Booking[] = [
     venue: "Palais des Institutions Italiennes",
     venueUrl:
       "https://www.google.com/maps/search/?api=1&query=Palais+des+Institutions+Italiennes+Casablanca",
-    tickets: 2,
-    addons: 2,
-    payment: { paid: 2, instalments: 4, next: 37.5 },
+    /* Two single-day tickets and two parking spaces. */
+    cart: [
+      { key: "fri-19", kind: "ticket", id: "fri-19", qty: 2 },
+      { key: "ga-parking", kind: "addon", id: "ga-parking", qty: 2 },
+    ],
+    payment: {
+      paid: 2,
+      instalments: 4,
+      startedAt: "2026-07-17T10:00:00+01:00",
+    },
   },
 ];
 
@@ -540,6 +555,8 @@ export const bookingsCopy = {
   pending: "Pending payment",
   instalments: (paid: number, of: number) => `Payments (${paid}/${of})`,
   pay: "Make payment",
+  /** Once the plan is settled there is nothing left to press. */
+  settled: "Paid in full",
 };
 
 /* ------------------------------------------------------------------ *

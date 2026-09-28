@@ -6,6 +6,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { RequestsPanel } from "./RequestsPanel";
+import { PaymentsSheet } from "@/components/booking/PaymentsSheet";
+import { totals } from "@/components/booking/cart";
+import { schedule } from "@/components/booking/payLaterRules";
+import { bookingConfig } from "@/data/booking";
 import type { Booking } from "@/data/account";
 import { bookingsCopy, requestsCopy, walletCurrency } from "@/data/account";
 
@@ -51,6 +55,12 @@ export function BookingsPanel({
     params.get("tab") === "requests" ? "Requests" : "Upcoming",
   );
   const router = useRouter();
+
+  /* Which booking's payment sheet is open, and how far through its plan we
+     have got. Settling is local to the page — there is no payment provider
+     behind any of this — so the count lives here rather than in the data. */
+  const [paying, setPaying] = useState<Booking | null>(null);
+  const [cleared, setCleared] = useState<Record<string, number>>({});
 
   /* The sidebar's "VIP Box requests" row points at ?tab=requests and lights
      up from the URL, so picking a chip writes the URL as well as the state —
@@ -135,10 +145,24 @@ export function BookingsPanel({
                and says nothing about what a second does. */
             <ul className="m-0 flex list-none flex-wrap gap-6 p-0">
               {shown.map((booking) => {
+                /* Priced from the booking's own cart, so the card, the order
+                   tab and the plan cannot quote different figures. */
+                const order = totals(booking.cart);
                 const contents = bookingsCopy.contents(
-                  booking.tickets,
-                  booking.addons ?? 0,
+                  order.ticketCount,
+                  order.addonCount,
                 );
+                const plan = booking.payment
+                  ? schedule(
+                      order.total,
+                      booking.payment.instalments,
+                      new Date(booking.payment.startedAt),
+                    )
+                  : null;
+                const paid = booking.payment
+                  ? (cleared[booking.id] ?? booking.payment.paid)
+                  : 0;
+                const nextDue = plan?.[paid] ?? null;
                 return (
                   <li
                     key={booking.id}
@@ -166,7 +190,7 @@ export function BookingsPanel({
                           </span>
                         </div>
 
-                        {booking.payment && (
+                        {nextDue && (
                           /* Orange on near-black: the comp lays 90% black over
                              the orange rather than tinting it, so the tag sits
                              back while the text stays at full strength. */
@@ -223,27 +247,33 @@ export function BookingsPanel({
                       </div>
                     </div>
 
-                    {booking.payment && (
+                    {booking.payment && plan && (
                       /* The plan, and the way to move it along. */
                       <div className="flex flex-col justify-center border-t border-solid border-white/5 p-4">
                         <div className="flex items-center gap-2">
                           <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
                             <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
                               {bookingsCopy.instalments(
-                                booking.payment.paid,
+                                paid,
                                 booking.payment.instalments,
                               )}
                             </span>
                             <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
-                              {booking.payment.next} {walletCurrency}
+                              {(nextDue?.amount ?? 0).toFixed(2)}{" "}
+                              {walletCurrency}
                             </span>
                           </div>
-                          <Link
-                            href={`/events/${booking.eventSlug}/book`}
-                            className="flex min-w-0 flex-1 items-center justify-center gap-2 whitespace-nowrap bg-brand px-5 py-4 text-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e] transition-opacity hover:opacity-90"
+                          {/* The flow this button names already exists —
+                              `PaymentsSheet` is the one the journey opens
+                              from its confirmation. */}
+                          <button
+                            type="button"
+                            onClick={() => setPaying(booking)}
+                            disabled={!nextDue}
+                            className="flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 whitespace-nowrap bg-brand px-5 py-4 text-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e] transition-opacity hover:opacity-90 disabled:cursor-default disabled:opacity-40"
                           >
-                            {bookingsCopy.pay}
-                          </Link>
+                            {nextDue ? bookingsCopy.pay : bookingsCopy.settled}
+                          </button>
                         </div>
                       </div>
                     )}
@@ -253,6 +283,32 @@ export function BookingsPanel({
             </ul>
           )}
         </>
+      )}
+
+      {/* The flow behind "Make payment": the instalments, each with its own
+          Pay, and the order they belong to (Figma 2417:22873 / 2420:25015). */}
+      {paying?.payment && (
+        <PaymentsSheet
+          instalments={schedule(
+            totals(paying.cart).total,
+            paying.payment.instalments,
+            new Date(paying.payment.startedAt),
+          )}
+          cleared={cleared[paying.id] ?? paying.payment.paid}
+          onPay={(count) =>
+            setCleared((prev) => ({ ...prev, [paying.id]: count }))
+          }
+          onClose={() => setPaying(null)}
+          totals={totals(paying.cart)}
+          event={{
+            name: paying.eventName,
+            poster: paying.image,
+            time: bookingConfig.sessionTime,
+            venue: paying.venue,
+            venueUrl: paying.venueUrl ?? "",
+          }}
+          today={now}
+        />
       )}
     </section>
   );
