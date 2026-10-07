@@ -66,7 +66,6 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
                       onMouseEnter={() => setActive(index)}
                       onFocus={() => setActive(index)}
                       className="group flex items-start gap-5 py-5"
-                      data-cursor="Read"
                     >
                       <span
                         aria-hidden

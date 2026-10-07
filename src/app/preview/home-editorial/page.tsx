@@ -9,7 +9,10 @@ import { SponsorsSection } from "@/components/event/SponsorsSection";
 import { FestivalsStage } from "@/components/home/FestivalsStage";
 import { HomeHero } from "@/components/home/HomeHero";
 import { Chapter } from "@/components/home/redesign/Chapter";
-import { ChapterRail, type ChapterRef } from "@/components/home/redesign/ChapterRail";
+import {
+  ChapterRail,
+  type ChapterRef,
+} from "@/components/home/redesign/ChapterRail";
 import { PreviewSwitch } from "@/components/home/redesign/PreviewSwitch";
 import { StatsStrip } from "@/components/home/redesign/StatsStrip";
 import { WordMarquee } from "@/components/home/redesign/WordMarquee";
@@ -118,7 +121,6 @@ export default function HomeEditorialPreview() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  data-cursor="Read"
                   data-reveal="up"
                   data-reveal-delay={0.08 * index}
                   className={`news-row group flex flex-col gap-4 md:pr-8 ${

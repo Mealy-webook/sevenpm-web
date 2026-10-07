@@ -62,7 +62,6 @@ export function AboutFestivals({ festivals }: { festivals: AboutFestival[] }) {
               return (
                 <li
                   key={festival.name}
-                  data-cursor="Open"
                   className="group border-b border-border-tertiary py-8 transition-colors duration-300 hover:border-white/25"
                   onMouseEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}

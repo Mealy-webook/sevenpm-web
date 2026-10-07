@@ -34,7 +34,6 @@ export function NewsStage({ items }: { items: NewsItem[] }) {
         <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
           <Link
             href={lead.href}
-            data-cursor="Read"
             data-reveal="up"
             className="news-row group flex flex-col gap-6"
           >
@@ -71,7 +70,6 @@ export function NewsStage({ items }: { items: NewsItem[] }) {
                 >
                   <Link
                     href={item.href}
-                    data-cursor="Read"
                     data-reveal="up"
                     data-reveal-delay={0.08 * index}
                     className="news-row group flex flex-col gap-3 py-7"

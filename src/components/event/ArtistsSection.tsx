@@ -22,18 +22,20 @@ import {
 
 /** Flatten a day into one act per panel; the comp's 2×2 blocks carry gaps. */
 function actsOf(day: ArtistDay): HoverExpandItem[] {
-  return day.groups.flatMap((group) =>
-    group.type === "solo"
-      ? [group]
-      : group.items.filter((item): item is NonNullable<typeof item> =>
-          Boolean(item),
-        ),
-  ).map((artist) => ({
-    title: artist.name,
-    meta: artist.time,
-    src: artist.image,
-    alt: artist.name,
-  }));
+  return day.groups
+    .flatMap((group) =>
+      group.type === "solo"
+        ? [group]
+        : group.items.filter((item): item is NonNullable<typeof item> =>
+            Boolean(item),
+          ),
+    )
+    .map((artist) => ({
+      title: artist.name,
+      meta: artist.time,
+      src: artist.image,
+      alt: artist.name,
+    }));
 }
 
 export function ArtistsSection({ event }: { event: EventDetails }) {
@@ -47,7 +49,10 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
     /* Tighter vertical padding than its neighbours: the display heading is
        208px of line box on its own, and at the usual py-24 there is not a
        screen's worth of room left for a row of portraits. */
-    <section id="artists" className="section-screen relative overflow-hidden py-12">
+    <section
+      id="artists"
+      className="section-screen relative overflow-hidden py-12"
+    >
       <div className="shell flex flex-col items-center gap-12">
         <DisplayHeading reveal="clip">Line-up</DisplayHeading>
 
@@ -76,7 +81,11 @@ export function ArtistsSection({ event }: { event: EventDetails }) {
         </div>
       </div>
 
-      <div className="shell mt-12 w-full" data-reveal="up" data-reveal-delay="0.08">
+      <div
+        className="shell mt-12 w-full"
+        data-reveal="up"
+        data-reveal-delay="0.08"
+      >
         <HoverExpandGallery
           /* Re-keyed per day: the panels are different acts, and the open one
              should be the first of the new day rather than whichever index

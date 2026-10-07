@@ -181,7 +181,6 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
                 <Link
                   href={festival.href}
                   aria-label={festival.name}
-                  data-cursor="Open"
                   className="block"
                 >
                   <VinylAlbumCard

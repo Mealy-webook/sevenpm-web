@@ -5,11 +5,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 import { festivals } from "@/data/home";
-import {
-  LoaderDoors,
-  LoaderLineup,
-  LoaderSoundcheck,
-} from "./CounterLoaders";
+import { LoaderDoors, LoaderLineup, LoaderSoundcheck } from "./CounterLoaders";
 
 /**
  * Four alternatives to the needle-drop intro, written to the same contract so
@@ -84,13 +80,22 @@ export function LoaderCounter({ run, onDone }: LoaderProps) {
             ease: "power2.inOut",
             onUpdate() {
               const el = document.querySelector("[data-c-num]");
-              if (el) el.textContent = String(Math.round(count.n)).padStart(2, "0");
+              if (el)
+                el.textContent = String(Math.round(count.n)).padStart(2, "0");
             },
           },
           0,
         )
-        .to("[data-c-rule]", { scaleX: 1, duration: 1.3, ease: "power2.inOut" }, 0)
-        .to("[data-c-num]", { yPercent: -120, duration: 0.4, ease: "power3.in" }, 1.5)
+        .to(
+          "[data-c-rule]",
+          { scaleX: 1, duration: 1.3, ease: "power2.inOut" },
+          0,
+        )
+        .to(
+          "[data-c-num]",
+          { yPercent: -120, duration: 0.4, ease: "power3.in" },
+          1.5,
+        )
         .to(
           "[data-c-sheet]",
           { yPercent: -100, duration: 0.7, ease: "expo.inOut" },
@@ -141,8 +146,16 @@ export function LoaderWordmark({ run, onDone }: LoaderProps) {
         ease: "expo.out",
         stagger: 0.06,
       })
-        .to("[data-w-rule]", { scaleX: 1, duration: 0.6, ease: "expo.out" }, 0.5)
-        .to("[data-w-lockup]", { yPercent: -140, duration: 0.6, ease: "power3.in" }, 1.4)
+        .to(
+          "[data-w-rule]",
+          { scaleX: 1, duration: 0.6, ease: "expo.out" },
+          0.5,
+        )
+        .to(
+          "[data-w-lockup]",
+          { yPercent: -140, duration: 0.6, ease: "power3.in" },
+          1.4,
+        )
         .to(
           "[data-w-sheet]",
           { yPercent: -100, duration: 0.7, ease: "expo.inOut" },
@@ -158,7 +171,10 @@ export function LoaderWordmark({ run, onDone }: LoaderProps) {
         <div data-w-lockup className="flex flex-col items-center gap-4">
           <span className="flex">
             {"SEVENPM".split("").map((letter, index) => (
-              <span key={`${letter}-${index}`} className="block overflow-hidden">
+              <span
+                key={`${letter}-${index}`}
+                className="block overflow-hidden"
+              >
                 <span
                   data-w-letter
                   className="block font-daltown text-[clamp(48px,11vw,140px)] uppercase leading-[0.85] text-white"
@@ -168,7 +184,10 @@ export function LoaderWordmark({ run, onDone }: LoaderProps) {
               </span>
             ))}
           </span>
-          <span data-w-rule className="block h-[3px] w-[min(70vw,520px)] bg-brand" />
+          <span
+            data-w-rule
+            className="block h-[3px] w-[min(70vw,520px)] bg-brand"
+          />
         </div>
       </div>
     </div>
@@ -269,13 +288,21 @@ export function LoaderCurtain({ run, onDone }: LoaderProps) {
       gsap.set("[data-d-mark]", { opacity: 0, scale: 0.9 });
 
       tl.to("[data-d-left]", { xPercent: 0, duration: 0.6, ease: "expo.inOut" })
-        .to("[data-d-right]", { xPercent: 0, duration: 0.6, ease: "expo.inOut" }, 0)
+        .to(
+          "[data-d-right]",
+          { xPercent: 0, duration: 0.6, ease: "expo.inOut" },
+          0,
+        )
         .to(
           "[data-d-mark]",
           { opacity: 1, scale: 1, duration: 0.5, ease: "expo.out" },
           0.45,
         )
-        .to("[data-d-mark]", { opacity: 0, duration: 0.3, ease: "power2.in" }, 1.4)
+        .to(
+          "[data-d-mark]",
+          { opacity: 0, duration: 0.3, ease: "power2.in" },
+          1.4,
+        )
         .to(
           "[data-d-left]",
           { xPercent: -100, duration: 0.8, ease: "expo.inOut" },

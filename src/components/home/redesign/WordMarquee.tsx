@@ -98,7 +98,11 @@ export function WordMarquee({
               <span key={`${copy}-${index}`} className="flex items-center">
                 <span
                   className={`display-text wm-word whitespace-nowrap px-8 ${
-                    size === "md" ? "wm-word--md" : size === "sm" ? "wm-word--sm" : ""
+                    size === "md"
+                      ? "wm-word--md"
+                      : size === "sm"
+                        ? "wm-word--sm"
+                        : ""
                   } ${tone === "ghost" ? "text-white/[0.07]" : "text-white/80"}`}
                   data-no-split=""
                 >
@@ -106,7 +110,11 @@ export function WordMarquee({
                 </span>
                 <span
                   className={`block shrink-0 bg-brand ${
-                    size === "xl" ? "size-4" : size === "md" ? "size-2.5" : "size-2"
+                    size === "xl"
+                      ? "size-4"
+                      : size === "md"
+                        ? "size-2.5"
+                        : "size-2"
                   } ${tone === "ghost" ? "opacity-20" : ""}`}
                 />
               </span>

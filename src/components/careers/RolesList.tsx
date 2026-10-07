@@ -63,7 +63,6 @@ export function RolesList({ roles }: { roles: JobRole[] }) {
               <div className="flex min-w-0 flex-1 flex-col gap-[10px]">
                 <Link
                   href={`/careers/${role.id}`}
-                  data-cursor="Open"
                   className="font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors hover:text-brand"
                 >
                   {role.title}

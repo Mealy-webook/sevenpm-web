@@ -21,7 +21,13 @@ import {
  */
 
 /** The slug line a printer sets above a block: number, title, rule. */
-function Slug({ number, children }: { number: string; children: React.ReactNode }) {
+function Slug({
+  number,
+  children,
+}: {
+  number: string;
+  children: React.ReactNode;
+}) {
   return (
     <p className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary">
       <span className="text-brand">{number}</span>
@@ -80,7 +86,6 @@ export function PosterWall() {
                 <Link
                   href={festival.href}
                   className={`${styles.pinned} relative block aspect-[3/4] w-full overflow-hidden ${tilt[index % tilt.length]}`}
-                  data-cursor="Open"
                 >
                   <Image
                     src={festival.poster.src}
@@ -110,7 +115,9 @@ export function PosterStory() {
   const body = homeStory.body.slice(1);
 
   return (
-    <section className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}>
+    <section
+      className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}
+    >
       <div className="shell flex flex-col gap-10">
         <Slug number="02">The house</Slug>
 
@@ -173,7 +180,9 @@ export function PosterStory() {
 /** News as cuttings: the date stamped, the headline set, the rest torn off. */
 export function PosterClippings() {
   return (
-    <section className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}>
+    <section
+      className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}
+    >
       <div className="shell flex flex-col gap-10">
         <Slug number="03">Latest</Slug>
 
@@ -212,13 +221,18 @@ export function PosterContact() {
   const frames = [...galleryRows[0], ...galleryRows[1]];
 
   return (
-    <section className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}>
+    <section
+      className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}
+    >
       <div className="shell flex flex-col gap-10">
         <Slug number="04">On the night</Slug>
       </div>
 
       <div className="mt-2 bg-[#0b0b0e] py-3">
-        <div aria-hidden className={`${styles.sprockets} h-[10px] w-full opacity-70`} />
+        <div
+          aria-hidden
+          className={`${styles.sprockets} h-[10px] w-full opacity-70`}
+        />
         <ul
           className="m-0 flex list-none gap-2 overflow-x-auto p-3"
           data-lenis-prevent
@@ -237,7 +251,10 @@ export function PosterContact() {
             </li>
           ))}
         </ul>
-        <div aria-hidden className={`${styles.sprockets} h-[10px] w-full opacity-70`} />
+        <div
+          aria-hidden
+          className={`${styles.sprockets} h-[10px] w-full opacity-70`}
+        />
       </div>
     </section>
   );
@@ -246,12 +263,16 @@ export function PosterContact() {
 /** The newsletter as a mail-in coupon, cut line and all. */
 export function PosterCoupon() {
   return (
-    <section className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}>
+    <section
+      className={`${styles.wall} border-t border-white/10 py-16 xl:py-24`}
+    >
       <div className="shell flex flex-col gap-10">
         <Slug number="05">Keep in touch</Slug>
 
         <div className={`${styles.inked} p-3`}>
-          <div className={`${styles.cut} flex flex-col gap-6 p-8 text-[#0b0b0e] xl:p-12`}>
+          <div
+            className={`${styles.cut} flex flex-col gap-6 p-8 text-[#0b0b0e] xl:p-12`}
+          >
             <h2 className="m-0 font-daltown text-[clamp(36px,6vw,72px)] uppercase leading-[0.9]">
               {homeCopy.newsletter.title}
             </h2>

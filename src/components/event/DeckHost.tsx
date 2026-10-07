@@ -15,7 +15,10 @@ import {
 import { useAudioAnalyser } from "./useAudioAnalyser";
 import { needleDrop } from "./vinylNoise";
 import { paletteFrom } from "@/components/motion/artworkPalette";
-import { setStageAnalyser, setStagePalette } from "@/components/motion/stageAudio";
+import {
+  setStageAnalyser,
+  setStagePalette,
+} from "@/components/motion/stageAudio";
 
 /**
  * The one <audio> element on the site, mounted in the root layout.

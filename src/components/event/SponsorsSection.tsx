@@ -65,7 +65,11 @@ export function SponsorsSection({ event }: { event: EventDetails }) {
                 className="sponsor-cell flex aspect-square items-center justify-center bg-bg-primary p-6"
                 /* Down and across, so the turn reads as one pass over the
                    wall rather than fifteen unrelated flips. */
-                style={{ "--flip-delay": `${(column + row) * 90}ms` } as React.CSSProperties}
+                style={
+                  {
+                    "--flip-delay": `${(column + row) * 90}ms`,
+                  } as React.CSSProperties
+                }
               >
                 <span
                   key={sponsor.name}

@@ -11,10 +11,7 @@ import { homeCopy, homeStory } from "@/data/home";
 export function ClosingStage() {
   const { title, body, cta } = homeCopy.newsletter;
   return (
-    <section
-      id="newsletter"
-      className="section-screen relative py-16 xl:py-24"
-    >
+    <section id="newsletter" className="section-screen relative py-16 xl:py-24">
       <div className="shell flex flex-col items-center gap-10 text-center">
         <DisplayHeading reveal="clip" size="faq">
           {title}

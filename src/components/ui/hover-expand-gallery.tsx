@@ -139,7 +139,10 @@ export function HoverExpandGallery({
                     the panel above it (the panel's width animates under it). */}
                 <span
                   aria-hidden={!isActive}
-                  style={{ background: item.accent, opacity: "var(--hx-img-o)" }}
+                  style={{
+                    background: item.accent,
+                    opacity: "var(--hx-img-o)",
+                  }}
                   className="relative block h-[var(--hx-img-h)] w-full overflow-hidden transition-[height,opacity] duration-[var(--hx-t)] ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none lg:absolute lg:inset-y-2 lg:left-[var(--hx-rail)] lg:right-3 lg:h-auto lg:w-auto lg:transition-opacity"
                 >
                   {item.src ? (

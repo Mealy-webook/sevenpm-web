@@ -132,9 +132,17 @@ export function LoaderSoundcheck({ run, onDone }: LoaderProps) {
         { scaleY: 1, duration: 0.18, ease: "power2.out", overwrite: true },
         1.45,
       )
-        .to("[data-s-num]", { yPercent: -120, duration: 0.4, ease: "power3.in" }, 1.7)
+        .to(
+          "[data-s-num]",
+          { yPercent: -120, duration: 0.4, ease: "power3.in" },
+          1.7,
+        )
         .to("[data-s-meta]", { opacity: 0, duration: 0.3 }, 1.7)
-        .to("[data-s-sheet]", { yPercent: -100, duration: 0.7, ease: "expo.inOut" }, 1.8);
+        .to(
+          "[data-s-sheet]",
+          { yPercent: -100, duration: 0.7, ease: "expo.inOut" },
+          1.8,
+        );
     },
     onDone,
   );
@@ -216,7 +224,11 @@ export function LoaderLineup({ run, onDone }: LoaderProps) {
         duration: 0.45,
         ease: "expo.out",
       })
-        .to("[data-l-rule]", { scaleX: 1, duration: 1.4, ease: "power2.inOut" }, 0)
+        .to(
+          "[data-l-rule]",
+          { scaleX: 1, duration: 1.4, ease: "power2.inOut" },
+          0,
+        )
         /* One name per step, snapped so a name is never caught mid-slide. */
         .to(
           "[data-l-strip]",
@@ -227,9 +239,17 @@ export function LoaderLineup({ run, onDone }: LoaderProps) {
           },
           0,
         )
-        .to("[data-l-num]", { yPercent: -120, duration: 0.4, ease: "power3.in" }, 1.6)
+        .to(
+          "[data-l-num]",
+          { yPercent: -120, duration: 0.4, ease: "power3.in" },
+          1.6,
+        )
         .to("[data-l-strip]", { opacity: 0, duration: 0.3 }, 1.6)
-        .to("[data-l-sheet]", { yPercent: -100, duration: 0.7, ease: "expo.inOut" }, 1.7);
+        .to(
+          "[data-l-sheet]",
+          { yPercent: -100, duration: 0.7, ease: "expo.inOut" },
+          1.7,
+        );
 
       runCount(tl, "[data-l-num]", 1.4, 0);
     },
@@ -306,7 +326,11 @@ export function LoaderDoors({ run, onDone }: LoaderProps) {
           { opacity: 0.55, scale: 1, duration: 1.4, ease: "power2.inOut" },
           0,
         )
-        .to("[data-o-num]", { opacity: 0, duration: 0.3, ease: "power2.in" }, 1.5)
+        .to(
+          "[data-o-num]",
+          { opacity: 0, duration: 0.3, ease: "power2.in" },
+          1.5,
+        )
         .to("[data-o-meta]", { opacity: 0, duration: 0.3 }, 1.5)
         /* Doors. */
         .to(

@@ -135,7 +135,11 @@ export function CardDialog({
       titleId={titleId}
       closeLabel={copy.close}
     >
-      <form onSubmit={submit} noValidate className="flex flex-col gap-3 px-5 pb-5 pt-4">
+      <form
+        onSubmit={submit}
+        noValidate
+        className="flex flex-col gap-3 px-5 pb-5 pt-4"
+      >
         <SheetField
           id={`${baseId}-number`}
           label={copy.number}
@@ -173,7 +177,9 @@ export function CardDialog({
               width={26}
               height={16}
               className={`h-4 w-auto transition-opacity ${
-                digits.length >= 2 && item !== mark ? "opacity-30" : "opacity-100"
+                digits.length >= 2 && item !== mark
+                  ? "opacity-30"
+                  : "opacity-100"
               }`}
             />
           ))}
@@ -281,7 +287,11 @@ export function CardDialog({
               className={`size-3 ${remember ? "opacity-100" : "opacity-0"}`}
               fill="none"
             >
-              <path d="M2 8.5 6 12.5 14 3.5" stroke="#18181b" strokeWidth="2.5" />
+              <path
+                d="M2 8.5 6 12.5 14 3.5"
+                stroke="#18181b"
+                strokeWidth="2.5"
+              />
             </svg>
           </span>
           <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary">

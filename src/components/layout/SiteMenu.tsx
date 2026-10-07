@@ -164,7 +164,9 @@ export function SiteMenu({
    */
   const requestClose = () => {
     const el = root.current;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (!el || leaving.current || reduce) {
       onClose();
       return;
@@ -251,7 +253,6 @@ export function SiteMenu({
           { y: 0, opacity: 1, duration: 0.6, stagger: 0.05 },
           "<+=0.2",
         );
-
     }, el);
 
     return () => ctx.revert();
@@ -265,7 +266,9 @@ export function SiteMenu({
   useEffect(() => {
     const el = submenu.current;
     if (!el) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     if (!openGroup) {
       if (reduce) gsap.set(el, { height: 0 });

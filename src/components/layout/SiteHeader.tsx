@@ -375,10 +375,10 @@ export function SiteHeader({
         data-surface={surface}
       >
         <div
-        className={`shell flex items-start gap-[52px] pb-8 pt-6 xl:pt-8 ${
-          compact ? "xl:pb-8" : "xl:pb-12"
-        }`}
-      >
+          className={`shell flex items-start gap-[52px] pb-8 pt-6 xl:pt-8 ${
+            compact ? "xl:pb-8" : "xl:pb-12"
+          }`}
+        >
           <Link href="/" aria-label="SEVENPM home" className="shrink-0">
             <Image
               src="/assets/logo-mark.svg"

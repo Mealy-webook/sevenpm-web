@@ -23,7 +23,10 @@ export function PosterHero() {
     <section className={`${styles.wall} relative isolate overflow-hidden`}>
       {/* The pinned bills, behind the sheet. Hidden on phones, where there is
           no wall to pin them to. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden xl:block">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 hidden xl:block"
+      >
         {pinned.map((festival, index) => {
           const spots = [
             "left-[2%] top-[14%] w-[190px] -rotate-6",
@@ -52,7 +55,10 @@ export function PosterHero() {
           className={`${styles.inked} ${styles.taped} relative mx-auto w-full max-w-[1020px] -rotate-[1.5deg] px-6 py-10 text-[#0b0b0e] sm:px-12 sm:py-14`}
         >
           {/* Printer's marks, top-left and bottom-right of the sheet. */}
-          <span aria-hidden className={`${styles.crop} left-3 top-3 border-b-0 border-r-0`} />
+          <span
+            aria-hidden
+            className={`${styles.crop} left-3 top-3 border-b-0 border-r-0`}
+          />
           <span
             aria-hidden
             className={`${styles.crop} bottom-3 right-3 border-l-0 border-t-0`}

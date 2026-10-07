@@ -65,7 +65,6 @@ export function NewsCovers({ articles }: { articles: NewsArticle[] }) {
             >
               <Link
                 href={`/news/${article.slug}`}
-                data-cursor="Read"
                 className={`group relative block w-full overflow-hidden bg-ink-700 ${
                   feature
                     ? "aspect-[16/9]"

@@ -26,7 +26,10 @@ export function ChapterRail({ chapters }: { chapters: ChapterRef[] }) {
         else if (entries.every((entry) => !entry.isIntersecting)) {
           const anyOn = sections.some((section) => {
             const rect = section.getBoundingClientRect();
-            return rect.top < window.innerHeight * 0.5 && rect.bottom > window.innerHeight * 0.5;
+            return (
+              rect.top < window.innerHeight * 0.5 &&
+              rect.bottom > window.innerHeight * 0.5
+            );
           });
           if (!anyOn) setActive(null);
         }

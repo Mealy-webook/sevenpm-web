@@ -109,8 +109,6 @@ export function HeroSection({ event }: { event: EventDetails }) {
                 {event.venue.name}
               </a>
             </div>
-
-
           </div>
 
           {/* The deck — one Figma stage at every width, scaled as a unit */}
@@ -189,7 +187,6 @@ export function HeroSection({ event }: { event: EventDetails }) {
           />
         </div>
       </section>
-
     </>
   );
 }

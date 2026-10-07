@@ -94,7 +94,9 @@ export function TopUpDialog({
             id={fieldId}
             label={copy.amount}
             value={amount}
-            onChange={(next) => setAmount(next.replace(/[^\d]/g, "").slice(0, 6))}
+            onChange={(next) =>
+              setAmount(next.replace(/[^\d]/g, "").slice(0, 6))
+            }
             inputMode="numeric"
             trailing={
               amount ? (

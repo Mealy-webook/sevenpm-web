@@ -27,7 +27,6 @@ export function NewsCard({
   return (
     <Link
       href={`/news/${article.slug}`}
-      data-cursor="Read"
       className="news-tile group flex h-full flex-col gap-4"
     >
       <span className="relative block aspect-[3/2] w-full overflow-hidden bg-[#27272a]">

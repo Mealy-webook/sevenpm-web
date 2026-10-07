@@ -104,12 +104,90 @@ type Beam = {
    Each takes the punch on its own slow cycle, so the bar has a shape instead
    of six beams throbbing as one. */
 const BEAMS: Beam[] = [
-  { x: 0.08, base: 0.34, sway: 0.1, speed: 0.55, phase: 0, spread: 0.42, kind: "key", slot: 0, idle: 0.3, punch: 0.5, reach: 0.5, motor: 2.6 },
-  { x: 0.26, base: 0.16, sway: 0.14, speed: 0.4, phase: 1.9, spread: 0.3, kind: "fill", slot: 0, idle: 0.16, punch: 0.42, reach: 0.64, motor: 3.6 },
-  { x: 0.42, base: -0.08, sway: 0.11, speed: 0.63, phase: 3.4, spread: 0.36, kind: "key", slot: 1, idle: 0.26, punch: 0.46, reach: 0.7, motor: 4.3 },
-  { x: 0.58, base: 0.1, sway: 0.13, speed: 0.47, phase: 0.8, spread: 0.34, kind: "key", slot: 2, idle: 0.28, punch: 0.52, reach: 0.7, motor: 3.0 },
-  { x: 0.76, base: -0.2, sway: 0.09, speed: 0.58, phase: 2.6, spread: 0.29, kind: "fill", slot: 1, idle: 0.15, punch: 0.4, reach: 0.6, motor: 4.7 },
-  { x: 0.93, base: -0.36, sway: 0.12, speed: 0.44, phase: 4.7, spread: 0.44, kind: "key", slot: 0, idle: 0.3, punch: 0.48, reach: 0.46, motor: 2.3 },
+  {
+    x: 0.08,
+    base: 0.34,
+    sway: 0.1,
+    speed: 0.55,
+    phase: 0,
+    spread: 0.42,
+    kind: "key",
+    slot: 0,
+    idle: 0.3,
+    punch: 0.5,
+    reach: 0.5,
+    motor: 2.6,
+  },
+  {
+    x: 0.26,
+    base: 0.16,
+    sway: 0.14,
+    speed: 0.4,
+    phase: 1.9,
+    spread: 0.3,
+    kind: "fill",
+    slot: 0,
+    idle: 0.16,
+    punch: 0.42,
+    reach: 0.64,
+    motor: 3.6,
+  },
+  {
+    x: 0.42,
+    base: -0.08,
+    sway: 0.11,
+    speed: 0.63,
+    phase: 3.4,
+    spread: 0.36,
+    kind: "key",
+    slot: 1,
+    idle: 0.26,
+    punch: 0.46,
+    reach: 0.7,
+    motor: 4.3,
+  },
+  {
+    x: 0.58,
+    base: 0.1,
+    sway: 0.13,
+    speed: 0.47,
+    phase: 0.8,
+    spread: 0.34,
+    kind: "key",
+    slot: 2,
+    idle: 0.28,
+    punch: 0.52,
+    reach: 0.7,
+    motor: 3.0,
+  },
+  {
+    x: 0.76,
+    base: -0.2,
+    sway: 0.09,
+    speed: 0.58,
+    phase: 2.6,
+    spread: 0.29,
+    kind: "fill",
+    slot: 1,
+    idle: 0.15,
+    punch: 0.4,
+    reach: 0.6,
+    motor: 4.7,
+  },
+  {
+    x: 0.93,
+    base: -0.36,
+    sway: 0.12,
+    speed: 0.44,
+    phase: 4.7,
+    spread: 0.44,
+    kind: "key",
+    slot: 0,
+    idle: 0.3,
+    punch: 0.48,
+    reach: 0.46,
+    motor: 2.3,
+  },
 ];
 
 /** How many specks of haze drift through the light. */
@@ -117,11 +195,7 @@ const MOTES = 34;
 
 type Mote = { x: number; y: number; r: number; vx: number; vy: number };
 
-export function ConcertLights({
-  scrim = "left",
-}: {
-  scrim?: "left" | "even";
-}) {
+export function ConcertLights({ scrim = "left" }: { scrim?: "left" | "even" }) {
   const layer = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
 

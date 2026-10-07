@@ -84,7 +84,10 @@ export function BroadcastHero() {
         {/* Channel strip */}
         <div className="flex flex-wrap items-center gap-4 border-b border-white/10 pb-5">
           <span className="flex items-center gap-2 bg-[#ff3c3c]/10 px-3 py-1">
-            <span aria-hidden className={`${styles.onair} size-2 bg-[#ff3c3c]`} />
+            <span
+              aria-hidden
+              className={`${styles.onair} size-2 bg-[#ff3c3c]`}
+            />
             <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-[#ff3c3c]">
               On air
             </span>
@@ -196,7 +199,6 @@ export function BroadcastSchedule() {
               <Link
                 href={festival.href}
                 className="group flex items-center gap-6 py-5 transition-colors hover:bg-white/[0.03]"
-                data-cursor="Open"
               >
                 <span className="w-[56px] shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tabular-nums text-brand">
                   {19 + index}:30

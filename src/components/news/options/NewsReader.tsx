@@ -38,7 +38,9 @@ export function NewsReader({ articles }: { articles: NewsArticle[] }) {
                 onClick={() => setActive(index)}
                 aria-current={selected ? "true" : undefined}
                 className={`flex w-full cursor-pointer flex-col items-start gap-1 py-4 text-left transition-colors ${
-                  selected ? "text-white" : "text-content-secondary hover:text-white"
+                  selected
+                    ? "text-white"
+                    : "text-content-secondary hover:text-white"
                 }`}
               >
                 <span className="flex w-full items-center gap-3 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px]">

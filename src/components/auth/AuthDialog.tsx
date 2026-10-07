@@ -411,7 +411,9 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                     <button
                       key={domain}
                       type="button"
-                      onClick={() => setEmail(`${email.split("@")[0]}${domain}`)}
+                      onClick={() =>
+                        setEmail(`${email.split("@")[0]}${domain}`)
+                      }
                       className="btn-secondary flex cursor-pointer items-center px-3 py-2 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-primary"
                     >
                       {domain}
@@ -431,7 +433,11 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
               )}
             </div>
 
-            <Cta busy={busy} onClick={submitEmail} disabled={Boolean(emailError)}>
+            <Cta
+              busy={busy}
+              onClick={submitEmail}
+              disabled={Boolean(emailError)}
+            >
               {authCopy.welcome.submit}
             </Cta>
 

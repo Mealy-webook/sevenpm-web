@@ -148,8 +148,6 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
             <Link
               href={item.href}
               data-news-row={index}
-              data-cursor="Read"
-              data-cursor-invert="true"
               /* One line at every width. The columns give back what they
                  can on a phone — the number and the arrow shrink, the date
                  sizes to its own text — and the headline takes the rest. */

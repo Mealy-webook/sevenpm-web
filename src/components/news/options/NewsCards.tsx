@@ -62,7 +62,6 @@ export function NewsCards({ articles }: { articles: NewsArticle[] }) {
             <li key={article.slug}>
               <Link
                 href={`/news/${article.slug}`}
-                data-cursor="Read"
                 className={`news-card-filed flex h-full flex-col gap-4 bg-[#f2efe6] p-4 text-[#18181b] ${tilt[index % tilt.length]}`}
               >
                 <span className="flex items-start justify-between gap-3">

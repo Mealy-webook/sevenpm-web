@@ -149,7 +149,6 @@ export function ArtefactsSections() {
                   <Link
                     href={festival.href}
                     className={`${styles.stock} ${styles.lift} flex flex-col gap-4 p-4 text-[#0b0b0e] ${tilt[index % tilt.length]}`}
-                    data-cursor="Play"
                   >
                     {/* The label: artwork in the window, spools under it. */}
                     <span className="relative block aspect-[16/10] w-full overflow-hidden bg-[#0b0b0e]">
@@ -221,20 +220,22 @@ export function ArtefactsSections() {
 
             {/* The fold: the other half of the sheet, printed dark. */}
             <div className="relative grid grid-cols-2 gap-px bg-[#0b0b0e]/15 p-px">
-              {homeStory.photos.concat(prints.slice(0, 2)).map((photo, index) => (
-                <span
-                  key={`${photo}-${index}`}
-                  className="relative aspect-[4/3] w-full overflow-hidden"
-                >
-                  <Image
-                    src={photo}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                    className="object-cover"
-                  />
-                </span>
-              ))}
+              {homeStory.photos
+                .concat(prints.slice(0, 2))
+                .map((photo, index) => (
+                  <span
+                    key={`${photo}-${index}`}
+                    className="relative aspect-[4/3] w-full overflow-hidden"
+                  >
+                    <Image
+                      src={photo}
+                      alt=""
+                      fill
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      className="object-cover"
+                    />
+                  </span>
+                ))}
             </div>
           </div>
         </div>

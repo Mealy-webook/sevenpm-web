@@ -229,7 +229,6 @@ export function StickerPeel({
   return (
     <div
       className={`sticker-peel ${className}`}
-      data-cursor="Peel"
       ref={dragTargetRef}
       style={cssVars}
       role={label ? "img" : "presentation"}

@@ -72,7 +72,9 @@ function SelectRow({
         >
           <Image
             src={
-              selected ? "/assets/ic-check-square.svg" : "/assets/ic-check-off.svg"
+              selected
+                ? "/assets/ic-check-square.svg"
+                : "/assets/ic-check-off.svg"
             }
             alt=""
             width={16}

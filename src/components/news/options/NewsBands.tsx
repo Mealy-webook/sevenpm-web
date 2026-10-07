@@ -20,10 +20,12 @@ export function NewsBands({ articles }: { articles: NewsArticle[] }) {
   return (
     <ul className="m-0 flex list-none flex-col p-0">
       {articles.map((article, index) => (
-        <li key={article.slug} className="border-t border-white/10 last:border-b">
+        <li
+          key={article.slug}
+          className="border-t border-white/10 last:border-b"
+        >
           <Link
             href={`/news/${article.slug}`}
-            data-cursor="Read"
             className="news-band group relative flex w-full items-center gap-6 overflow-hidden px-1 py-8 xl:py-12"
             onPointerMove={(event) => {
               const el = event.currentTarget;

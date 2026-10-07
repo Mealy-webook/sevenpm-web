@@ -59,7 +59,6 @@ export function NewsBroadsheet({ articles }: { articles: NewsArticle[] }) {
         <Link
           href={`/news/${lead.slug}`}
           className="group flex flex-col gap-6 border-b border-white/10 pb-10 lg:flex-row lg:items-end"
-          data-cursor="Read"
         >
           <span className="relative block aspect-[16/9] w-full overflow-hidden bg-ink-700 lg:w-[62%]">
             <Image
@@ -97,7 +96,6 @@ export function NewsBroadsheet({ articles }: { articles: NewsArticle[] }) {
             <Link
               href={`/news/${article.slug}`}
               className="group flex items-start gap-5 py-6"
-              data-cursor="Read"
             >
               <span
                 aria-hidden

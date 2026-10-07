@@ -175,7 +175,6 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                           <Link
                             href={`/events/${booking.eventSlug}`}
                             className="group relative block aspect-[240/160] w-full overflow-hidden bg-bg-tertiary"
-                            data-cursor="Open"
                           >
                             <Image
                               src={booking.image}

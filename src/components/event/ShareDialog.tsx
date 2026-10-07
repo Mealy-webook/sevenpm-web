@@ -103,7 +103,8 @@ export function ShareDialog({
   const shown = TARGETS.filter(
     (target) =>
       target.href ||
-      (typeof navigator !== "undefined" && typeof navigator.share === "function"),
+      (typeof navigator !== "undefined" &&
+        typeof navigator.share === "function"),
   );
 
   return (
