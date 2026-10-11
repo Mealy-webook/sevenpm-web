@@ -90,6 +90,32 @@ export const HOSPITALITY_VARIANTS = [
     label: "P · Chapters",
     note: "One package per screen, full-bleed, snapping as you scroll.",
   },
+
+  {
+    slug: "hospitality-ladder",
+    label: "Q · Ladder",
+    note: "Ascending plinths — the levels drawn, not described.",
+  },
+  {
+    slug: "hospitality-longread",
+    label: "R · Long read",
+    note: "Prose that argues, packages as pull-outs inside it.",
+  },
+  {
+    slug: "hospitality-difference",
+    label: "S · Difference",
+    note: "The same night twice — standing ticket against the package.",
+  },
+  {
+    slug: "hospitality-stack",
+    label: "T · Stack",
+    note: "Cards that deal themselves into a pile as you scroll.",
+  },
+  {
+    slug: "hospitality-quotefirst",
+    label: "U · Form first",
+    note: "The form opens the page; packages sit under it as reference.",
+  },
 ];
 
 export function VariantBar({ current }: { current: string }) {
