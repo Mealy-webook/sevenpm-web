@@ -1,114 +1,67 @@
 import { StageMeter } from "@/components/motion/StageMeter";
 import { HeroTerminal } from "@/components/home/HeroTerminal";
-import { HeroDrift } from "@/components/home/HeroDrift";
-import Image from "next/image";
+import { HeroPill } from "@/components/home/HeroPill";
 
-import { heroPolaroids, homeCopy } from "@/data/home";
+import { homeCopy } from "@/data/home";
 
 /**
- * Homepage hero, from Figma 2467:19559 (the 15:202 page).
+ * Homepage hero, from Figma 2482:25005.
  *
- * One screen: the headline, the ground, and the equaliser in the
- * bottom-right corner that is the comp's four bars reading the spectrum of
- * whatever is playing.
+ * Two centred lines — MORE over MUSIC — with the O of MORE knocked out and a
+ * photograph of the crowd set into the hole. The hole is not an O: the comp
+ * draws a 455 x 173 pill at a 999px radius, two and a half times the width of
+ * the glyph it stands in for, so the word reads as MORE with a window cut
+ * through it rather than as a letter made of picture.
  *
- * The comp sets the headline as two lines — MORE MUSIC over MORE LIFE — at
- * Daltown 260/188, ranged left against the gutter. It sits centred in the
- * fold vertically while staying ranged left across it — centred in the
- * screen minus the header, which is the space actually visible. No standfirst and no button:
- * the comp has neither.
+ * The letters are live Daltown, not the comp's outlined vectors. Same font,
+ * same glyphs, same widths — and it keeps the headline as text that scales
+ * with `--display-scale`, can be selected, and costs no SVG payload.
  *
- * The ground is React Bits' FaultyTerminal tinted brand (`HeroTerminal`),
- * in place of the lighting truss that used to hang here. The event page's
- * hero still has the truss. It reaches up behind the fixed header rather
- * than starting below it, so there is no bare strip across the top.
+ * Everything about the pill is expressed as a multiple of the font size
+ * (see `heroPill` in `data/home.ts`), so the hole and the 4px gaps either
+ * side of it track the type at every width instead of drifting out of the
+ * word as the headline scales.
+ *
+ * What this comp drops, against the 15:202 hero it replaces: the standfirst,
+ * the two polaroids, and the equaliser in the corner. The ground stays — the
+ * tinted FaultyTerminal was always an implementation choice rather than
+ * something the comps draw.
  */
 export function HomeHero() {
+  const { heroCut, heroTitle } = homeCopy;
+
   return (
-    /* Centred in the fold, not sitting at the top of it. The section is
-       the screen minus the header rather than the whole screen: it already
-       starts below the header's in-flow spacer, so sizing it to 100svh and
-       padding the header's height on top counted the header twice and
-       pushed the heading 121px low. */
-    <section className="relative isolate flex h-[calc(100svh-var(--header-h,0px))] w-full flex-col justify-center">
+    /* Centred in the fold, not sitting at the top of it. The section is the
+       screen minus the header rather than the whole screen: it already starts
+       below the header's in-flow spacer, so sizing it to 100svh and padding
+       the header's height on top counted the header twice. */
+    <section className="relative isolate flex h-[calc(100svh-var(--header-h,0px))] w-full flex-col items-center justify-center">
       <HeroTerminal />
 
-      <div className="shell relative z-10 flex w-full flex-col gap-4">
-        {/* The two lines wipe up through their own mask, one after the
-            other. `data-no-split` keeps the character reveal off it — at this
-            size a per-letter stagger reads as a fault, not as motion. */}
-        <h1
-          className="hero-headline m-0 flex flex-col gap-4 font-daltown uppercase text-white"
+      <div className="shell relative z-10 flex w-full flex-col items-center">
+        {/* The composition is decorative in the literal sense: read aloud it
+            would be "M, image, RE, MUSIC". The heading carries the words, and
+            the drawing of them is hidden from the accessibility tree. */}
+        <h1 className="sr-only">{heroTitle}</h1>
+
+        <div
+          aria-hidden
+          className="hero-headline flex flex-col items-center gap-[0.1077em] font-daltown uppercase text-white"
           data-no-split
           data-reveal="clip"
           data-reveal-stagger
         >
-          <span className="block">{homeCopy.heroLead}</span>
-          <span className="block">{homeCopy.heroSecond}</span>
-        </h1>
-
-        {/* 17/24 on the headline's own measure, ranged left under it. */}
-        <p
-          className="m-0 max-w-[634px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
-          data-split="lines"
-          data-reveal-delay="0.12"
-        >
-          {homeCopy.intro}
-        </p>
-      </div>
-
-      {/* The two polaroids, centred on their share of the comp's frame and
-          tilted the way it tilts them. Hidden below `lg`, where the heading
-          takes the whole width and they would sit on top of it. */}
-      {heroPolaroids.map((polaroid) => (
-        <span
-          key={polaroid.image}
-          aria-hidden
-          className="pointer-events-none absolute z-[5] hidden w-[clamp(180px,23.5vw,356px)] lg:block"
-          style={{
-            left: `${polaroid.x}%`,
-            top: `${polaroid.y}%`,
-            translate: "-50% -50%",
-          }}
-        >
-          {/* Everything that moves happens here, so the wrapper above keeps
-              its centring — that `translate` is never animated and so cannot
-              be lost. GSAP folds this element's `rotate` into the transform
-              it builds (leaving `rotate: none` behind), which is why the tilt
-              is set here rather than on the wrapper: there it would be
-              absorbed along with the centring. */}
-          <span
-            className="block"
-            style={{ rotate: `${polaroid.rotate}deg` }}
-            data-reveal="scale"
-            data-reveal-delay={polaroid.delay}
-            data-parallax={polaroid.parallax}
-            data-hero-drift={polaroid.depth}
-          >
-            {/* The card is its own element so the border percentages resolve
-                against the card's width. On the positioned wrapper they would
-                resolve against the section — a 1512px containing block, which
-                made the border ten times too deep. */}
-            <span className="block bg-white p-[3.91%] pb-[17.23%] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
-              <span className="relative block aspect-[327.793/326.45] w-full overflow-hidden bg-[#27272a]">
-                <Image
-                  src={polaroid.image}
-                  alt=""
-                  fill
-                  /* The print is near-square and the photograph is 3:2, so
-                     `cover` scales it to the box's height: it needs ~480px of
-                     width to land at the card's full size. */
-                  sizes="480px"
-                  priority
-                  className="object-cover"
-                />
-              </span>
-            </span>
+          {/* MORE, with the hole in it. */}
+          <span className="flex items-center justify-center">
+            <span className="block">{heroCut.before}</span>
+            <HeroPill />
+            <span className="block">{heroCut.after}</span>
           </span>
-        </span>
-      ))}
 
-      <HeroDrift />
+          {/* MUSIC. */}
+          <span className="block">{heroCut.second}</span>
+        </div>
+      </div>
 
       <StageMeter className="absolute bottom-10 right-[var(--shell-gutter)] z-10 hidden items-end gap-0.5 xl:flex" />
     </section>

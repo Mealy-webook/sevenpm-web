@@ -277,9 +277,47 @@ export const heroPolaroids = [
 export const homeCopy = {
   /** The accessible name for the hero heading — see `HeroHeadline`. */
   heroTitle: "More music, more life",
-  /** The comp's two lines (2482:25006). */
+  /** The old two lines (2482:25006). Still used by the `/preview/home-*`
+   *  explorations, which are frozen against the comps they were drawn from. */
   heroLead: "More music",
   heroSecond: "More life",
+
+  /**
+   * The live hero (2482:25005): MORE over MUSIC, with the O of MORE knocked
+   * out and a photograph set into the hole.
+   *
+   * The first line is stored as the letters either side of the hole rather
+   * than as a word, because the hole is not a glyph — Figma draws a 455 x 173
+   * pill where the O would be, two and a half times its width.
+   */
+  heroCut: {
+    before: "M",
+    after: "RE",
+    second: "Music",
+    pill: {
+      src: "/assets/hero-pill.jpg",
+      alt: "",
+      /* Figma's geometry as ratios of the type size, so the hole and its
+         air track the headline at every width instead of drifting out of the
+         word as the type scales. */
+      width: 455 / 260,
+      height: 173 / 260,
+      /**
+       * The comp sets 4px between the pill and the letters, measured between
+       * inked edges — its M and R are outlined vectors with no side bearings.
+       * Live text has them, and they are invisible, so matching the comp's
+       * number here would have left a visibly wider hole than the comp draws.
+       * Measured against Daltown: the M carries ~0.0105em of trailing bearing
+       * and the R ~0.002em of leading. Both are subtracted so the optical gap
+       * is the comp's 4px.
+       */
+      gapBefore: 4 / 260 - 0.0105,
+      gapAfter: 4 / 260 - 0.002,
+      /** Where a clip goes when there is one. Falls back to the still. */
+      video: undefined as string | undefined,
+      poster: "/assets/hero-pill.jpg",
+    },
+  },
   /** Empty: the hero heading is the name, with nothing cycling after it. */
   heroWords: [] as string[],
   intro:
