@@ -41,6 +41,14 @@ export type HospitalityPackage = {
   gallery: string[];
   /** True for the one the mockup draws full width at the foot of the grid. */
   wide?: boolean;
+  /**
+   * Where this package sits relative to the stage, as a percentage of the
+   * site plan, for the floorplan direction. Read off what each package says
+   * about itself — the box faces the stage, the terraces look down on it,
+   * the garden sits behind, the pass is the gate — not off a survey. A real
+   * site plan should replace these.
+   */
+  plan?: { x: number; y: number };
 };
 
 export const hospitalityPackages: HospitalityPackage[] = [
@@ -56,6 +64,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     perUnit: "per box, per night",
     photo: "Photo: VIP box with view of the stage",
     image: "/assets/gallery-4.jpg",
+    plan: { x: 50, y: 32 },
     specs: [
       { label: "Capacity", value: "Up to 10 guests" },
       { label: "Festival", value: "Jazzablanca" },
@@ -87,6 +96,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     perUnit: "per guest, per night",
     photo: "Photo: Garden Party VIP",
     image: "/assets/gallery-5.jpg",
+    plan: { x: 24, y: 62 },
     specs: [
       { label: "Capacity", value: "[Group size]" },
       { label: "Festival", value: "Jazzablanca" },
@@ -108,6 +118,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     perUnit: "per guest, per night",
     photo: "Photo: Terrasses d’Anfa",
     image: "/assets/gallery-6.jpg",
+    plan: { x: 76, y: 52 },
     specs: [
       { label: "Capacity", value: "[Group size]" },
       { label: "Festival", value: "Jazzablanca" },
@@ -130,6 +141,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     perUnit: "per pass",
     photo: "Photo: guests at the festival entrance",
     image: "/assets/gallery-1.jpg",
+    plan: { x: 50, y: 86 },
     specs: [
       { label: "Capacity", value: "From [X] passes" },
       { label: "Festival", value: "Jazzablanca" },
@@ -151,6 +163,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     perUnit: "per guest",
     photo: "Photo: Tanjazz VIP area",
     image: "/assets/gallery-3.jpg",
+    plan: { x: 20, y: 30 },
     specs: [
       { label: "Capacity", value: "[Group size]" },
       { label: "Festival", value: "Tanjazz" },

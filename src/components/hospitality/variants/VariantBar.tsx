@@ -39,6 +39,31 @@ export const HOSPITALITY_VARIANTS = [
     label: "F · Compare",
     note: "One table: every package against every other, side by side.",
   },
+  {
+    slug: "hospitality-plan",
+    label: "G · Plan",
+    note: "Packages pinned on a plan of the site — where your party stands.",
+  },
+  {
+    slug: "hospitality-night",
+    label: "H · Night",
+    note: "Doors at seven to last call, the evening written out.",
+  },
+  {
+    slug: "hospitality-posters",
+    label: "I · Posters",
+    note: "Each package as a gig poster, pasted up and slightly off square.",
+  },
+  {
+    slug: "hospitality-concierge",
+    label: "J · Concierge",
+    note: "Three questions, then a recommendation instead of a catalogue.",
+  },
+  {
+    slug: "hospitality-view",
+    label: "K · View",
+    note: "A pinned view that changes to what each package looks out on.",
+  },
 ];
 
 export function VariantBar({ current }: { current: string }) {
