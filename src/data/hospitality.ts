@@ -25,6 +25,13 @@ export type HospitalityPackage = {
   price: string;
   perUnit: string;
   photo: string;
+  /**
+   * A stand-in from the existing festival library so the page can be shown
+   * before the hospitality shoot happens. Only Tanjazz VIP's is of its own
+   * festival; the rest are illustrative, which is why `photo` above keeps the
+   * brief for the picture that should replace it.
+   */
+  image: string;
   /** The four spec tiles on the package page. */
   specs: { label: string; value: string }[];
   included: string[];
@@ -48,6 +55,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[XX,XXX] MAD",
     perUnit: "per box, per night",
     photo: "Photo: VIP box with view of the stage",
+    image: "/assets/gallery-4.jpg",
     specs: [
       { label: "Capacity", value: "Up to 10 guests" },
       { label: "Festival", value: "Jazzablanca" },
@@ -78,6 +86,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per guest, per night",
     photo: "Photo: Garden Party VIP",
+    image: "/assets/gallery-5.jpg",
     specs: [
       { label: "Capacity", value: "[Group size]" },
       { label: "Festival", value: "Jazzablanca" },
@@ -98,6 +107,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per guest, per night",
     photo: "Photo: Terrasses d’Anfa",
+    image: "/assets/gallery-6.jpg",
     specs: [
       { label: "Capacity", value: "[Group size]" },
       { label: "Festival", value: "Jazzablanca" },
@@ -119,6 +129,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per pass",
     photo: "Photo: guests at the festival entrance",
+    image: "/assets/gallery-1.jpg",
     specs: [
       { label: "Capacity", value: "From [X] passes" },
       { label: "Festival", value: "Jazzablanca" },
@@ -139,6 +150,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per guest",
     photo: "Photo: Tanjazz VIP area",
+    image: "/assets/gallery-3.jpg",
     specs: [
       { label: "Capacity", value: "[Group size]" },
       { label: "Festival", value: "Tanjazz" },
@@ -162,6 +174,9 @@ export const hospitalityCopy = {
   intro:
     "Business packages to host your clients, partners and teams at our festivals: private spaces, the best views of the stage, food and drinks taken care of.",
   heroPhoto: "Wide photo: guests in the VIP area facing the main stage at night",
+  /* Illustrative, as above: a crowd shot from the festival library standing
+     in for the VIP-area photograph the brief above describes. */
+  heroImage: "/assets/gallery-2.jpg",
   primary: { label: "Explore packages", href: "#packages" },
   secondary: { label: "Request a quote", href: "#quote" },
 

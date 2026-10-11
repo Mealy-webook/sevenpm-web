@@ -1,30 +1,58 @@
+import Image from "next/image";
+
 /**
- * A photograph that has not been supplied yet.
+ * A photograph on a page whose own shoot has not happened yet.
  *
- * Both mockups are drawn with diagonally hatched boxes carrying a caption of
- * what belongs there — "[Photo: crowd in front of the main stage, Anfa Park]"
- * — and those captions are the brief. Reproducing the slot keeps the brief
- * visible on the page instead of burying it in a comment, and makes the gaps
- * countable when the shoot is commissioned.
+ * Given `src`, it renders that picture — a stand-in from the existing
+ * festival library — and keeps `caption` as the brief for the photograph that
+ * should replace it, carried in the alt text and in the markup rather than
+ * buried in a comment, so the substitutions stay countable.
  *
- * Swap for `next/image` as each photograph lands.
+ * Without `src` it falls back to the hatched box the mockups themselves draw,
+ * which is still the right thing where nothing in the library fits.
  */
 export function PhotoSlot({
   caption,
+  src,
   className = "",
   rounded = true,
+  priority = false,
+  sizes = "(min-width: 1024px) 50vw, 100vw",
 }: {
   caption: string;
+  src?: string;
   className?: string;
   rounded?: boolean;
+  priority?: boolean;
+  sizes?: string;
 }) {
+  const shape = `${rounded ? "" : "!rounded-none"} ${className}`;
+
+  if (src) {
+    return (
+      <div
+        /* The brief travels with the picture. When the real shot lands, this
+           attribute is the list of what it has to show. */
+        data-photo-brief={caption}
+        className={`photo-slot relative overflow-hidden bg-ink-900 ${shape}`}
+      >
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       role="img"
       aria-label={caption}
-      className={`photo-slot grid place-items-center bg-ink-900 px-6 text-center ${
-        rounded ? "" : "!rounded-none"
-      } ${className}`}
+      className={`photo-slot grid place-items-center bg-ink-900 px-6 text-center ${shape}`}
     >
       <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/35">
         [{caption}]

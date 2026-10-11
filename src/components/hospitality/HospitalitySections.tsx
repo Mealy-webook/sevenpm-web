@@ -13,7 +13,10 @@ export function HospitalityHero() {
     <section className="relative">
       <PhotoSlot
         caption={heroPhoto}
+        src={hospitalityCopy.heroImage}
         rounded={false}
+        priority
+        sizes="100vw"
         className="min-h-[220px] w-full xl:min-h-[320px]"
       />
       <div className="shell flex flex-col gap-7 py-10 xl:py-14">

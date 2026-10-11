@@ -1291,6 +1291,45 @@ a[href] {
   }
 }
 
+/* Hospitality passes (direction A). The stub is torn off the body by a
+   column of holes punched through the card: a repeating radial gradient
+   masked down a 1px line, so the perforation is one element and scales with
+   the card rather than being a row of divs. Vertical on a wide card,
+   horizontal once it stacks. */
+.hosp-pass {
+  border-radius: var(--radius);
+}
+.hosp-stub {
+  position: relative;
+  border-top: 1px dashed rgba(127, 127, 127, 0.45);
+}
+.hosp-stub::before {
+  content: "";
+  position: absolute;
+  inset-inline: -7px;
+  top: -7px;
+  height: 14px;
+  background:
+    radial-gradient(circle at 7px 7px, var(--color-bg-primary, #0b0b0e) 7px, transparent 7.5px)
+      left center / 28px 14px repeat-x;
+}
+@media (min-width: 1024px) {
+  .hosp-stub {
+    border-top: 0;
+    border-left: 1px dashed rgba(127, 127, 127, 0.45);
+  }
+  .hosp-stub::before {
+    inset-inline: auto;
+    inset-block: -7px;
+    left: -7px;
+    width: 14px;
+    height: auto;
+    background:
+      radial-gradient(circle at 7px 7px, var(--color-bg-primary, #0b0b0e) 7px, transparent 7.5px)
+        center top / 14px 28px repeat-y;
+  }
+}
+
 /* Form chips. The fill has to come from the input's state, and the input is
    visually hidden inside the label — so the label is styled through :has()
    rather than by mirroring the state into React. */
