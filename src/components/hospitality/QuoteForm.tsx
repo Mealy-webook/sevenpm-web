@@ -35,7 +35,19 @@ function Field({
  *
  * Nothing is sent — there is no backend behind this build.
  */
-export function QuoteForm({ selected }: { selected?: string }) {
+export function QuoteForm({
+  selected,
+  /**
+   * Render the fields alone, without the section wrapper, the eyebrow and
+   * the heading. The redesigned page puts the form inside its own closing
+   * band, which already carries all three — without this it would have
+   * announced itself twice and nested a section inside a section.
+   */
+  bare = false,
+}: {
+  selected?: string;
+  bare?: boolean;
+}) {
   const { quote } = hospitalityCopy;
   const [sent, setSent] = useState(false);
   const ids = {
@@ -52,32 +64,19 @@ export function QuoteForm({ selected }: { selected?: string }) {
     consent: useId(),
   };
 
-  return (
-    <section id="quote" className="relative scroll-mt-24 py-14 xl:py-20">
-      <div className="shell grid gap-10 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16">
-        <div className="flex flex-col gap-5">
-          <p
-            className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand"
-            data-reveal="up"
-          >
-            {quote.eyebrow}
-          </p>
-          <DisplayHeading align="left" reveal="clip" size="faq">
-            {quote.title}
-          </DisplayHeading>
-          <p className="m-0 font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
-            {quote.body}
-          </p>
-        </div>
-
+  const form = (
         <form
           data-reveal="up"
           onSubmit={(event) => {
             event.preventDefault();
             setSent(true);
           }}
-          className="flex flex-col gap-6 border border-white/10 bg-ink-900 p-6 xl:p-9"
-          style={{ borderRadius: "var(--radius)" }}
+          className={
+            bare
+              ? "flex flex-col gap-6"
+              : "flex flex-col gap-6 border border-white/10 bg-ink-900 p-6 xl:p-9"
+          }
+          style={bare ? undefined : { borderRadius: "var(--radius)" }}
         >
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label="Package">
@@ -192,6 +191,29 @@ export function QuoteForm({ selected }: { selected?: string }) {
             </p>
           </div>
         </form>
+  );
+
+  if (bare) return form;
+
+  return (
+    <section id="quote" className="relative scroll-mt-24 py-14 xl:py-20">
+      <div className="shell grid gap-10 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16">
+        <div className="flex flex-col gap-5">
+          <p
+            className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand"
+            data-reveal="up"
+          >
+            {quote.eyebrow}
+          </p>
+          <DisplayHeading align="left" reveal="clip" size="faq">
+            {quote.title}
+          </DisplayHeading>
+          <p className="m-0 font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+            {quote.body}
+          </p>
+        </div>
+
+        {form}
       </div>
     </section>
   );

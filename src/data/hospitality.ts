@@ -231,6 +231,70 @@ export const hospitalityExtras: Extra[] = [
   },
 ];
 
+/**
+ * Copy for the redesigned page, which is one idea rather than a catalogue:
+ * the page is the evening, told in order, from doors at seven to the last
+ * call. Every section is an hour of it.
+ *
+ * SEVENPM is named for the hour the music starts, so the clock is the
+ * brand's own device rather than a theme borrowed for a page.
+ */
+export const nightCopy = {
+  hero: {
+    stamp: "19:00 · Doors",
+    /* Set with a window cut through the O — see `WordWindow`. */
+    title: "Hospitality",
+    windowAt: 1,
+    standfirst:
+      "Your clients, your partners, your team — at the festival, with a room of your own and somebody looking after all of it.",
+    primary: { label: "See the spaces", href: "#spaces" },
+    secondary: { label: "Ask for a quote", href: "#rsvp" },
+  },
+
+  manifesto: {
+    stamp: "Why",
+    /* The argument, in the fewest words that still make it. */
+    lead: "A festival is a difficult place to host anyone.",
+    body: "The sound is where the stage is, the bar is where the queue is, and the seat is wherever you got to first. Hospitality is the version of the night where none of that is your problem.",
+    points: [
+      {
+        title: "A room of your own",
+        body: "Boxes, terraces and garden spaces held for your party alone, with the stage in front of them.",
+      },
+      {
+        title: "Nothing to arrange",
+        body: "Tickets, catering and parking in one package. You turn up; the evening is already built.",
+      },
+      {
+        title: "One person, all night",
+        body: "A single contact from the first quote to the last call, who knows your party by name.",
+      },
+    ],
+  },
+
+  spaces: {
+    stamp: "20:00 · The spaces",
+    title: "Where your night happens",
+    body: "Five rooms across two festivals. Each one is held for your party for the evening and quoted around what you need in it.",
+  },
+
+  night: {
+    stamp: "The running order",
+    title: "How the evening goes",
+  },
+
+  smallPrint: {
+    stamp: "The small print",
+    title: "Good to know",
+  },
+
+  rsvp: {
+    stamp: "00:00 · Last call",
+    title: "Tell us the night",
+    body: "Give us the date, the number and anything the evening needs. One of our team comes back with a quote built around it.",
+  },
+};
+
 export const hospitalityCopy = {
   eyebrow: "Jazzablanca · Tanjazz",
   title: "Hospitality",
