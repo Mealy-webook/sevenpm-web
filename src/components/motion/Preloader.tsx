@@ -6,15 +6,68 @@ import { gsap } from "gsap";
 export const READY_EVENT = "sevenpm:ready";
 
 /**
- * True until the intro has finished, and re-initialised to true by every full
- * page load. `MotionProvider` reads it to know whether to hold its reveals —
- * it must not hold on a client-side navigation, where no intro runs and no
- * ready event will ever come.
+ * True only while an intro is actually going to play.
+ *
+ * It starts false because the loader is no longer mounted site-wide: it lives
+ * on the homepage alone. `MotionProvider` reads this to decide whether to hold
+ * its reveals, and on every other route there is no loader to wait for — were
+ * this to default to true, nothing would ever dispatch `sevenpm:ready` and the
+ * page would sit at its from-state forever.
+ *
+ * The loader claims it during render (see `claimIntro`), which is before any
+ * layout effect runs, so `MotionProvider` still sees the right answer.
  */
-let pending = true;
+let pending = false;
 
 export function introPending() {
   return pending;
+}
+
+/** Session key for "this visitor has already seen the intro". */
+const VISIT_KEY = "sevenpm:intro-seen";
+
+/**
+ * Has the intro already played this visit?
+ *
+ * `sessionStorage` rather than `localStorage`: "once per visit" means once per
+ * tab session, so closing the tab and coming back tomorrow earns the front
+ * door again. It can throw outright in a private window or with site data
+ * blocked, so every access is wrapped — a storage failure means the intro
+ * plays, which is the old behaviour and the safe one.
+ */
+function introSeen() {
+  try {
+    return sessionStorage.getItem(VISIT_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markIntroSeen() {
+  try {
+    sessionStorage.setItem(VISIT_KEY, "1");
+  } catch {
+    /* Nothing to do: the intro simply plays again next time. */
+  }
+}
+
+/**
+ * Run before the loader's own markup is parsed, so a repeat visit never shows
+ * a frame of yellow before React hydrates and takes it away. Paired with the
+ * `html[data-intro-seen] .preloader { display: none }` rule in globals.css.
+ */
+export const INTRO_FLAG_SCRIPT = `try{if(sessionStorage.getItem('${VISIT_KEY}')==='1')document.documentElement.dataset.introSeen='1'}catch(e){}`;
+
+/**
+ * Called by the loader as it renders, to tell `MotionProvider` that a hold is
+ * coming. Render, not an effect: every render in the tree finishes before the
+ * first layout effect, so this lands in time; an effect would not.
+ */
+function claimIntro() {
+  if (typeof window === "undefined") return;
+  if (introSeen()) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  pending = true;
 }
 
 /**
@@ -33,11 +86,14 @@ export function introPending() {
  * A page that is already loaded therefore never stalls at 90, and a slow one
  * never shows 100 over an empty screen.
  *
- * It plays on every load, refresh included: it is the site's front door and
- * a door you only see once is a door you never see. Client-side navigation
- * does not replay it — the component mounts once per document. While it runs
- * the body is scroll-locked (which also pauses Lenis) and `MotionProvider`
- * holds its reveals until `sevenpm:ready`.
+ * It plays once per visit, on the homepage, and nowhere else. The component
+ * is mounted by `src/app/page.tsx` rather than the root layout, so every
+ * other route — the booking journey above all — never renders it at all and
+ * cannot be covered by it. Within a visit, `sessionStorage` keeps it from
+ * replaying on a refresh or on a later return to the homepage; a new tab is a
+ * new visit and sees it again. While it runs the body is scroll-locked (which
+ * also pauses Lenis) and `MotionProvider` holds its reveals until
+ * `sevenpm:ready`.
  *
  * It makes no sound: a first load has had no gesture yet and the browser
  * would refuse the context, and a loader that only sometimes has audio is
@@ -86,16 +142,29 @@ export function Preloader() {
   const counter = useRef<HTMLSpanElement>(null);
   const meter = useRef<HTMLDivElement>(null);
 
+  /* Declared during render so `MotionProvider` knows whether to hold before
+     its layout effect runs. Calling it from an effect would be a frame late
+     and the hero would have revealed itself behind the sheet. */
+  claimIntro();
+
   useEffect(() => {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    /* Skipped when the visitor has had it already this session, or asked for
+       less motion. The page still has to be handed over in both cases —
+       `MotionProvider` is waiting on the same event either way. */
+    const skip = reduce || introSeen();
     const id = requestAnimationFrame(() => {
-      if (reduce) {
+      if (skip) {
         pending = false;
         document.dispatchEvent(new Event(READY_EVENT));
         setPhase("done");
       } else {
+        /* Marked as it starts, not as it ends: a visitor who reloads midway
+           through has still seen the front door and should not be shown it
+           again. */
+        markIntroSeen();
         setPhase("run");
       }
     });

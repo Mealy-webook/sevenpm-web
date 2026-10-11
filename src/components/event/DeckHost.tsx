@@ -31,6 +31,13 @@ import {
  * Everything that has to follow the element follows it here: the analyser the
  * lighting rig reads, the colour it is lit in, the needle drop, and the
  * floating player that takes over once the deck itself is off screen.
+ *
+ * Nothing here ever starts the music. There is no autoplay and no gesture
+ * trap: the element plays only once something has set `playing` on the store,
+ * and the only things that do that are the deck's own play control and the
+ * mini player's. A stray click on the page does not put a record on — this
+ * used to arm the first pointerdown anywhere, which meant dismissing a menu
+ * could start the music.
  */
 
 /** Shared so the deck on the event page can drive its own visualiser. */
@@ -49,7 +56,6 @@ export function DeckHost() {
   const router = useRouter();
   const pathname = usePathname();
   const audioRef = useRef<HTMLAudioElement>(null);
-  const blocked = useRef(false);
 
   useEffect(() => {
     deckAudioRef.current = audioRef.current;
@@ -105,10 +111,10 @@ export function DeckHost() {
     if (!track?.audioSrc) return;
 
     const start = () => {
-      audio.play().catch(() => {
-        blocked.current = true;
-        setPlaying(false);
-      });
+      /* If the browser refuses, the deck goes back to stopped and stays
+         there. Nothing re-arms it: the next press of play is the visitor's
+         to make. */
+      audio.play().catch(() => setPlaying(false));
     };
 
     const wait = needleDrop();
@@ -140,26 +146,6 @@ export function DeckHost() {
     else audio.addEventListener("loadedmetadata", seek, { once: true });
     return () => audio.removeEventListener("loadedmetadata", seek);
   }, [resume, deck.activeIndex]);
-
-  /* Autoplay is refused until the visitor has interacted. When that is what
-     stopped us, arm the first gesture so the music starts the moment they
-     touch anything. */
-  useEffect(() => {
-    let spent = false;
-    const kick = () => {
-      if (spent) return;
-      spent = true;
-      off();
-      if (blocked.current) setPlaying(true);
-    };
-    const off = () => {
-      window.removeEventListener("pointerdown", kick);
-      window.removeEventListener("keydown", kick);
-    };
-    window.addEventListener("pointerdown", kick);
-    window.addEventListener("keydown", kick);
-    return off;
-  }, []);
 
   /* The floating player stands in for the deck, so it shows exactly when the
      deck cannot be reached — scrolled past it, or on another route — and not

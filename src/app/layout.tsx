@@ -66,6 +66,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${roboto.variable} ${figtree.variable} ${inter.variable} ${daltown.variable}`}
+      /* The homepage sets `data-intro-seen` here from an inline script, before
+         React loads, so a repeat visit never flashes the preloader. React did
+         not render that attribute and would otherwise report a mismatch on
+         every page — the same reason a theme script needs this. */
+      suppressHydrationWarning
     >
       <head>{BASE_PATH ? <style>{CSS_ASSETS}</style> : null}</head>
       <body>

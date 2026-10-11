@@ -121,23 +121,30 @@ body {
  * Figma sets the section titles at 260px on a 208px line box and the FAQ at
  * 152/118. `--display-scale` steps the whole thing down on smaller screens so
  * the composition (not just the type) keeps its proportions.
+ *
+ * Every step is then multiplied by `--display-trim`, a single global notch
+ * taken off the display type by request. The comp's ratios are untouched —
+ * the whole scale moves together — so a heading is still a heading next to
+ * its own standfirst, just less of one. Set it back to 1 to get Figma's own
+ * sizes exactly.
  * ------------------------------------------------------------------ */
 :root {
-  --display-scale: 1;
+  --display-trim: 0.9;
+  --display-scale: calc(1 * var(--display-trim));
 }
 @media (max-width: 900px) {
   :root {
-    --display-scale: 0.7;
+    --display-scale: calc(0.7 * var(--display-trim));
   }
 }
 @media (max-width: 600px) {
   :root {
-    --display-scale: 0.5;
+    --display-scale: calc(0.5 * var(--display-trim));
   }
 }
 @media (max-width: 400px) {
   :root {
-    --display-scale: 0.42;
+    --display-scale: calc(0.42 * var(--display-trim));
   }
 }
 
@@ -160,7 +167,13 @@ body {
    applied to the finished size rather than to --display-size, which would
    compound with --display-scale and leave a phone with a 25px headline. */
 .hero-headline {
-  font-size: min(calc(260px * var(--display-scale)), 17.2vw);
+  /* The vw cap takes the same trim as the scale beside it; without that the
+     cap would hold the headline at its old size on exactly the narrow widths
+     where it bites. */
+  font-size: min(
+    calc(260px * var(--display-scale)),
+    calc(17.2vw * var(--display-trim))
+  );
   line-height: 0.723em;
 }
 .display-text--faq {
@@ -1278,9 +1291,44 @@ a[href] {
   }
 }
 
+/* Form chips. The fill has to come from the input's state, and the input is
+   visually hidden inside the label — so the label is styled through :has()
+   rather than by mirroring the state into React. */
+.chip {
+  border-radius: var(--radius);
+}
+.chip:has(input:checked) {
+  background: var(--color-brand, #f5e03c);
+  border-color: var(--color-brand, #f5e03c);
+  color: #18181b;
+}
+.chip:has(input:focus-visible) {
+  outline: 2px solid var(--color-brand, #f5e03c);
+  outline-offset: 2px;
+}
+
+/* A photograph that has not been shot yet. The hatch is the mockups' own —
+   it reads as "slot", not as "broken image", at any size. */
+.photo-slot {
+  border-radius: var(--radius);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.035) 0 10px,
+    transparent 10px 20px
+  );
+}
+
 /* Preloader sheet: clipped away from the bottom up by GSAP. */
 .preloader {
   clip-path: inset(0 0 0 0);
+}
+
+/* The intro plays once a visit. On the second arrival React takes the sheet
+   out as soon as it hydrates, but the markup is in the homepage's HTML and
+   would paint yellow before that — so an inline script at the top of the page
+   sets this flag from sessionStorage and the sheet never shows at all. */
+html[data-intro-seen] .preloader {
+  display: none;
 }
 
 /* The preloader's stage is 800 × 680 of fixed geometry — the deck's record

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
 import { ConcertLights } from "@/components/motion/ConcertLights";
@@ -27,10 +27,15 @@ import { VinylCarousel } from "./VinylCarousel";
  * the root layout, so the music survives the walk into the booking journey.
  * This page announces its playlist and then drives the shared deck.
  *
- * The page opens with the music running, a lighting rig behind it and the
- * event name breathing on the beat — the same rig the homepage hero uses,
- * reading the same clock. The deck's own analyser drives it here, so the
- * light is the track rather than a stand-in for it. */
+ * The page opens silent. A lighting rig plays behind it and the event name
+ * breathes on the beat — the same rig the homepage hero uses, reading the
+ * same clock — but no record is turning until the visitor puts one on. The
+ * deck used to call `setPlaying(true)` on mount and let the browser's
+ * autoplay policy decide the rest, which meant the music started by itself
+ * wherever the policy allowed it. A cue under the deck says the music is
+ * there; pressing play is the only thing that starts it. Once it has started,
+ * the deck's own analyser drives the rig, so the light is the track rather
+ * than a stand-in for it. */
 const FRAME_WIDTH = 1512;
 const FRAME_HEIGHT = 1052;
 const STAGE_HEIGHT = 612;
@@ -49,10 +54,15 @@ export function HeroSection({ event }: { event: EventDetails }) {
     });
   }, [event.playlist, event.name, event.slug]);
 
-  /* The deck starts running. Whether it is allowed to is the host's problem. */
-  useEffect(() => {
-    setPlaying(true);
-  }, []);
+  /* Nothing starts the deck. The cue below stands in until the visitor does,
+     and retires for good once they have — it is an invitation, not a status
+     light, so pausing later must not bring it back. */
+  const [started, setStarted] = useState(false);
+  /* Adjusted during render rather than in an effect: this is derived state —
+     "has the deck ever played" — not a subscription to anything. React
+     re-renders immediately without committing the first pass, so the cue
+     never paints after the music has started. */
+  if (deck.playing && !started) setStarted(true);
 
   /* Report the deck's visibility so the floating player knows whether it is
      needed, and give it up on the way out. */
@@ -145,6 +155,31 @@ export function HeroSection({ event }: { event: EventDetails }) {
               />
             </div>
           </div>
+
+          {/* The cue. The deck is silent until it is asked, and a record that
+              makes no sound reads as decoration — so the page says, once,
+              that there is music on it and where the switch is. It is a
+              button rather than a label: the quickest way to answer "press
+              play" is to let the sentence itself do it. */}
+          {!started && event.playlist.some((entry) => entry.audioSrc) && (
+            <button
+              type="button"
+              onClick={() => setPlaying(true)}
+              className="group flex items-center gap-3 border border-white/25 px-4 py-2.5 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/80 transition-colors hover:border-white/60 hover:text-white"
+            >
+              <span
+                aria-hidden
+                className="grid size-6 shrink-0 place-items-center rounded-full bg-brand text-[#18181b]"
+              >
+                {/* A play triangle, drawn rather than imported: there is no
+                    24px play glyph in the asset set. */}
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                  <path d="M0 0.8v10.4L9.6 6 0 0.8Z" fill="currentColor" />
+                </svg>
+              </span>
+              Press play — {event.name} on the decks
+            </button>
+          )}
 
           {/* Below the deck, where 2393:16345 puts it. */}
           <div data-reveal="up" data-reveal-delay="0.1">

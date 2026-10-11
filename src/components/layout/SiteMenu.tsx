@@ -14,6 +14,7 @@ import {
   type CurrencyCode,
   type LanguageCode,
 } from "./LocaleMenu";
+import { MENU_LINKS } from "@/data/menu";
 import { socialLinks } from "@/data/events";
 
 gsap.registerPlugin(CustomEase);
@@ -54,28 +55,11 @@ if (!gsap.parseEase(EASE)) {
   CustomEase.create(EASE, "0.65, 0.01, 0.05, 0.99");
 }
 
-type MenuLink = { label: string; href: string };
-type MenuEntry = MenuLink & { children?: MenuLink[] };
-
-export const MENU_LINKS: MenuEntry[] = [
-  { label: "Home", href: "/" },
-  {
-    label: "Festivals",
-    href: "/#festivals",
-    children: [
-      { label: "Jazzablanca", href: "/events/jazzablanca" },
-      { label: "Tanjazz", href: "/about#festivals" },
-      { label: "Casa Anfa Latina", href: "/about#festivals" },
-      { label: "Village Casa Anfa", href: "/about#festivals" },
-    ],
-  },
-  { label: "News", href: "/news" },
-  { label: "Team", href: "/team" },
-  { label: "Careers", href: "/careers" },
-];
-
+/* Stepped down from 44/56/72. The list went from five entries to eight and
+   at the comp's size it no longer fitted the drawer on a laptop; the trim
+   taken off the display type elsewhere applies here too. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[44px] font-black uppercase leading-[0.8] text-white transition-colors hover:text-brand sm:text-[56px] xl:text-[72px]";
+  "block font-[family-name:var(--font-display)] text-[34px] font-black uppercase leading-[0.85] text-white transition-colors hover:text-brand sm:text-[42px] xl:text-[54px]";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -156,6 +140,8 @@ export function SiteMenu({
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [picker, setPicker] = useState<"language" | "currency" | null>(null);
   const submenuId = useId();
+  const newsletterId = useId();
+  const [subscribed, setSubscribed] = useState(false);
   const year = new Date().getFullYear();
 
   /**
@@ -398,7 +384,7 @@ export function SiteMenu({
 
           <nav
             aria-label="Primary"
-            className="mt-8 flex w-full flex-col items-end gap-6"
+            className="mt-8 flex w-full flex-col items-end gap-4"
           >
             {MENU_LINKS.map((entry) => {
               const expanded = openGroup === entry.label;
@@ -470,6 +456,50 @@ export function SiteMenu({
               );
             })}
           </nav>
+
+          {/* The newsletter, under Contact: the menu's last entry is how to
+              reach us, and this is the other half of that — how we reach you.
+              Compact rather than the homepage's taped bill, which would take
+              the whole drawer. Nothing is sent; the button says so, the same
+              way the homepage block does. */}
+          <form
+            data-menu-meta
+            className="mt-8 flex w-full flex-col items-end gap-3"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setSubscribed(true);
+            }}
+          >
+            <label
+              className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/60"
+              htmlFor={newsletterId}
+            >
+              Be the first to know
+            </label>
+            <div className="flex w-full max-w-[420px] items-stretch gap-2">
+              <input
+                id={newsletterId}
+                type="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+                onChange={() => setSubscribed(false)}
+                className="min-w-0 flex-1 border-[0.5px] border-white/25 bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/35 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand"
+              />
+              <button
+                type="submit"
+                className="shrink-0 bg-brand px-4 py-3 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] transition-colors hover:bg-white"
+              >
+                {subscribed ? "Noted" : "Sign up"}
+              </button>
+            </div>
+            <p
+              role="status"
+              className="m-0 min-h-4 w-full text-right font-[family-name:var(--font-display)] text-[12px] leading-4 text-white/45"
+            >
+              {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
+            </p>
+          </form>
 
           <div className="mt-auto flex w-full flex-col items-end gap-6 pt-12">
             <nav

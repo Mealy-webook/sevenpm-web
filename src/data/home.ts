@@ -286,7 +286,7 @@ export const homeCopy = {
     "SEVENPM creates cultural experiences that bring the world’s artists, Moroccan talent and communities together—transforming cities through music, culture and unforgettable moments.",
   listenHint: ["Press & Hold", "spacebar to listen"],
   /** The festival row's title (2482:25044). */
-  festivalsTitle: "Our iconic festivals",
+  festivalsTitle: "Upcoming events",
   newsletter: {
     title: "Be the first to know",
     body: "Subscribe to our newsletter to be the first to know about concert announcements, and exclusive updates — and never miss the most exciting news.",
