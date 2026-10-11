@@ -24,6 +24,21 @@ export const HOSPITALITY_VARIANTS = [
     label: "C · Pill",
     note: "The hero's window cut through every package name.",
   },
+  {
+    slug: "hospitality-dossier",
+    label: "D · Dossier",
+    note: "Taped sheets, the spec as a ruled docket down each one.",
+  },
+  {
+    slug: "hospitality-spreads",
+    label: "E · Spreads",
+    note: "Full-bleed photographic bands, the name laid over the picture.",
+  },
+  {
+    slug: "hospitality-compare",
+    label: "F · Compare",
+    note: "One table: every package against every other, side by side.",
+  },
 ];
 
 export function VariantBar({ current }: { current: string }) {
