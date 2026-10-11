@@ -64,6 +64,32 @@ export const HOSPITALITY_VARIANTS = [
     label: "K · View",
     note: "A pinned view that changes to what each package looks out on.",
   },
+
+  {
+    slug: "hospitality-builder",
+    label: "L · Builder",
+    note: "Pick the space, then what goes in it, with a running docket.",
+  },
+  {
+    slug: "hospitality-carte",
+    label: "M · Carte",
+    note: "A menu: one column, leaders, no photography at all.",
+  },
+  {
+    slug: "hospitality-accordion",
+    label: "N · Accordion",
+    note: "Every package on one screen, opening in place.",
+  },
+  {
+    slug: "hospitality-rail",
+    label: "O · Rail",
+    note: "Tall cards running sideways, snapping into place.",
+  },
+  {
+    slug: "hospitality-chapters",
+    label: "P · Chapters",
+    note: "One package per screen, full-bleed, snapping as you scroll.",
+  },
 ];
 
 export function VariantBar({ current }: { current: string }) {

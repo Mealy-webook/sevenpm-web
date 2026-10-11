@@ -181,6 +181,56 @@ export function getPackage(slug: string) {
   return hospitalityPackages.find((entry) => entry.slug === slug);
 }
 
+/**
+ * Add-ons for the builder direction, where the visitor assembles a night
+ * rather than picking a package off a shelf.
+ *
+ * Every one of these is drawn from something the packages already name —
+ * catering, parking, a host, a separate entrance — so nothing here invents a
+ * service SEVENPM has not said it offers. The prices are placeholders in the
+ * mockups' own bracket form, because they are prices and a guessed one on a
+ * page that exists to quote is worse than a visible gap.
+ */
+export type Extra = {
+  id: string;
+  label: string;
+  note: string;
+  price: string;
+};
+
+export const hospitalityExtras: Extra[] = [
+  {
+    id: "catering",
+    label: "Catering",
+    note: "Food and drinks through the night, served in your space.",
+    price: "[XXX] MAD",
+  },
+  {
+    id: "parking",
+    label: "On-site parking",
+    note: "Spaces held inside the site, so nobody is hunting for a car at midnight.",
+    price: "[XXX] MAD",
+  },
+  {
+    id: "host",
+    label: "A dedicated host",
+    note: "One of our team stays with your party from arrival to last call.",
+    price: "[XXX] MAD",
+  },
+  {
+    id: "entrance",
+    label: "Private entrance",
+    note: "A separate gate away from the main entrance, with a cloakroom.",
+    price: "[XXX] MAD",
+  },
+  {
+    id: "transfers",
+    label: "Guest transfers",
+    note: "Cars between the hotel and the site, both ways.",
+    price: "[XXX] MAD",
+  },
+];
+
 export const hospitalityCopy = {
   eyebrow: "Jazzablanca · Tanjazz",
   title: "Hospitality",

@@ -28,13 +28,22 @@ export function PhotoSlot({
 }) {
   const shape = `${rounded ? "" : "!rounded-none"} ${className}`;
 
+  /* `next/image` with `fill` needs a positioned parent, and this provides
+     one — but a caller that wants the picture as a backdrop passes its own
+     `absolute inset-0`, and two position utilities on one element is a
+     coin toss decided by CSS source order, not by the order they are
+     written. Where the caller has positioned it, theirs stands; `absolute`
+     satisfies `fill` just as well as `relative` does. */
+  const positioned = /(^|\s)(absolute|fixed|sticky)(\s|$)/.test(className);
+  const base = positioned ? "" : "relative";
+
   if (src) {
     return (
       <div
         /* The brief travels with the picture. When the real shot lands, this
            attribute is the list of what it has to show. */
         data-photo-brief={caption}
-        className={`photo-slot relative overflow-hidden bg-ink-900 ${shape}`}
+        className={`photo-slot ${base} overflow-hidden bg-ink-900 ${shape}`}
       >
         <Image
           src={src}
