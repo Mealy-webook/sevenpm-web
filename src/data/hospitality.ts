@@ -295,6 +295,65 @@ export const nightCopy = {
   },
 };
 
+/**
+ * Copy for the paper design.
+ *
+ * The idea is an inversion. Every other page on this site is dark and loud,
+ * because every other page is about the crowd. Hospitality is the room above
+ * the crowd — the one place at a festival where you can hear the person
+ * you brought — so the page is paper, set in black, and the only noise on it
+ * is the photography.
+ *
+ * It is a quieter argument than the clock design makes, and a more expensive
+ * looking one, which is the right register for the thing being sold.
+ */
+export const paperCopy = {
+  hero: {
+    rule: "SEVENPM · Hospitality",
+    title: "Where it gets quiet",
+    standfirst:
+      "A festival is ten thousand people having the best night of the year. Hospitality is the room above it, held for your party, where you can hear each other.",
+    meta: [
+      { label: "Festivals", value: "Jazzablanca · Tanjazz" },
+      { label: "Spaces", value: "Five" },
+      { label: "Booking", value: "By quote" },
+    ],
+  },
+
+  argument: {
+    rule: "The case",
+    /* Set as an editorial opening: the first paragraph carries a drop cap. */
+    lead: "There is no good way to host someone at a festival. The sound is where the stage is, the bar is where the queue is, and the seat — if there is one — is wherever you got to first. You spend the evening apologising to the person you invited.",
+    body: [
+      "Hospitality is the version of that night where none of it is your problem. A space held for your party alone, with the stage in front of it and the queue somewhere else entirely. Food and drink brought to you. Parking inside the site. One person from our team who knows your guests by name and stays with them until the last call.",
+      "It is not a better ticket. It is a different evening.",
+    ],
+  },
+
+  spaces: {
+    rule: "The spaces",
+    title: "Five rooms",
+    note: "Each one is held for your party for the evening and quoted around what you need in it.",
+  },
+
+  included: {
+    rule: "The specification",
+    title: "What comes with the room",
+    /* Pooled across the packages — see the component. */
+  },
+
+  order: {
+    rule: "The evening",
+    title: "How the night runs",
+  },
+
+  enquiry: {
+    rule: "Enquiries",
+    title: "Tell us the night",
+    body: "The date, the number of guests, anything the evening needs. We come back with a quote built around it.",
+  },
+};
+
 export const hospitalityCopy = {
   eyebrow: "Jazzablanca · Tanjazz",
   title: "Hospitality",

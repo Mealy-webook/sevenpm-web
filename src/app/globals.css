@@ -1330,6 +1330,53 @@ a[href] {
   }
 }
 
+/* ------------------------------------------------------------------ *
+ * The paper page.
+ *
+ * Hospitality is set on paper rather than on the site's ink, which means a
+ * handful of components that hard-code white type need to be told otherwise
+ * for the length of this page. Scoped to `.paper` so nothing leaks: the
+ * header and footer stay as they are.
+ * ------------------------------------------------------------------ */
+.paper {
+  --paper-ink: #16161a;
+  --paper-bg: #efece4;
+  background: var(--paper-bg);
+  color: var(--paper-ink);
+}
+
+/* `DisplayHeading` hard-codes white, which is right everywhere else. */
+.paper .display-text {
+  color: var(--paper-ink);
+}
+
+/* A drop cap on the opening paragraph of the argument. Real initial-letter
+   where it is supported, and a plain large first letter where it is not —
+   Safari and Chrome differ here, and the fallback is not worth a polyfill. */
+.paper-opening::first-letter {
+  initial-letter: 3;
+  -webkit-initial-letter: 3;
+  float: left;
+  margin-right: 0.08em;
+  font-family: var(--font-headline);
+  font-size: 3.2em;
+  line-height: 0.82;
+  font-weight: 400;
+  color: var(--paper-ink);
+}
+@supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+  .paper-opening::first-letter {
+    float: none;
+    margin-right: 0.06em;
+    font-size: inherit;
+  }
+}
+
+/* A hairline that reads as a printed rule rather than a UI border. */
+.paper-rule {
+  border-top: 1px solid rgba(22, 22, 26, 0.22);
+}
+
 /* Form chips. The fill has to come from the input's state, and the input is
    visually hidden inside the label — so the label is styled through :has()
    rather than by mirroring the state into React. */

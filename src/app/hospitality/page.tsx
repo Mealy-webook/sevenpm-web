@@ -3,12 +3,15 @@ import type { Metadata } from "next";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { Manifesto } from "@/components/hospitality/night/Manifesto";
-import { NightHero } from "@/components/hospitality/night/NightHero";
-import { Rooms } from "@/components/hospitality/night/Rooms";
-import { RunningOrder } from "@/components/hospitality/night/RunningOrder";
-import { Rsvp } from "@/components/hospitality/night/Rsvp";
-import { SmallPrint } from "@/components/hospitality/night/SmallPrint";
+import { QuoteForm } from "@/components/hospitality/QuoteForm";
+import { PaperRooms } from "@/components/hospitality/paper/PaperRooms";
+import {
+  PaperArgument,
+  PaperEnquiry,
+  PaperHero,
+  PaperOrder,
+  PaperSpecification,
+} from "@/components/hospitality/paper/PaperSections";
 import { hospitalityCopy } from "@/data/hospitality";
 
 export const metadata: Metadata = {
@@ -17,36 +20,42 @@ export const metadata: Metadata = {
 };
 
 /**
- * `/hospitality`, rebuilt around one idea: the page is the evening.
+ * `/hospitality`, the paper design.
  *
- * Twenty-one earlier directions each redesigned the package block and left
- * the rest of the page alone — the same hero, the same three small cards,
- * the same four steps, the same accordion. That was the problem. None of
- * them could land, because the page around them was never designed.
+ * An inversion. Every other page on this site is dark and loud because every
+ * other page is about the crowd; hospitality is the room above the crowd, so
+ * this one is paper, set in black, and the only noise on it is the
+ * photography. The design is the argument — a quiet page for the quiet
+ * option, which is also the expensive one.
  *
- * This replaces all of it. The spine is the clock, which SEVENPM is named
- * for: doors at seven, the spaces at eight, the headline at ten, last call
- * at midnight. The hero cuts a window through the O of HOSPITALITY the way
- * the homepage cuts one through MORE, and the rooms repeat that shape at
- * size, which is what makes the page belong to this site rather than to a
- * template.
+ * Nothing bleeds and nothing moves. The pictures are held to a column, the
+ * sections are divided by printed rules rather than borders or panels, and
+ * the specification is a table because a specification is a table. The one
+ * dark moment is the enquiry at the foot, which closes the brochure and
+ * takes the page back to the festival.
  *
- * The four booking steps are folded into the running order rather than
- * keeping a section of their own: they are what happens before seven, so
- * they are its first hour.
+ * The clock design this replaced is kept at
+ * `/preview/hospitality-night-design`.
  */
 export default function HospitalityPage() {
   return (
     <>
       <MotionProvider />
       <SiteHeader />
-      <main>
-        <NightHero />
-        <Manifesto />
-        <Rooms />
-        <RunningOrder />
-        <SmallPrint />
-        <Rsvp />
+      {/* `.paper` scopes the inversion: `DisplayHeading` and the rules are
+          told to use ink instead of white for the length of this page, and
+          nothing leaks to the header or the footer. */}
+      <main className="paper">
+        <PaperHero />
+        <PaperArgument />
+        <PaperRooms />
+        <PaperSpecification />
+        <PaperOrder />
+        <PaperEnquiry>
+          <div>
+            <QuoteForm bare />
+          </div>
+        </PaperEnquiry>
       </main>
       <SiteFooter />
     </>
