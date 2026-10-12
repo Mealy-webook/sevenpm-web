@@ -15,6 +15,7 @@ import {
   type LanguageCode,
 } from "./LocaleMenu";
 import { MENU_LINKS } from "@/data/menu";
+import { menuSocialLinks } from "@/data/events";
 
 gsap.registerPlugin(CustomEase);
 
@@ -61,7 +62,7 @@ if (!gsap.parseEase(EASE)) {
    without scrolling — the drawer scrolls, which is the right answer: the
    alternative was shrinking content's own type to fit furniture. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.8] transition-colors sm:text-[34px] xl:text-[40px]";
+  "block font-[family-name:var(--font-display)] text-[30px] font-black uppercase leading-[1.1] tracking-[-1px] transition-colors sm:text-[36px] xl:text-[40px]";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -298,16 +299,12 @@ export function SiteMenu({
         className="absolute inset-0 cursor-default bg-black/70 backdrop-blur-sm"
       />
 
-      {/* The sheet does not scroll; the column inside it does. It used to be
-          the scroller, and the curtain behind it is `inset-0`, which an
-          absolutely positioned child resolves against the visible box rather
-          than the scrollable content — so on a short screen the background
-          stopped at the fold and the rest of the menu scrolled over the dimmed
-          page. */}
-      <div
-        data-menu-sheet
-        className="absolute inset-y-0 right-0 flex w-full max-w-[900px] flex-col"
-      >
+      {/* Full page (2556:20635), not the right-hand drawer it was. The sheet
+          does not scroll; the column inside it does — the curtain behind it
+          is `inset-0`, which an absolutely positioned child resolves against
+          the visible box rather than the scrollable content, so a scrolling
+          sheet left the background stopping at the fold. */}
+      <div data-menu-sheet className="absolute inset-0 flex flex-col">
         {/* The curtain: three layers, wiped in one after another */}
         <div aria-hidden className="absolute inset-0 overflow-hidden">
           <div data-menu-layer className="absolute inset-0 bg-brand" />
@@ -315,12 +312,9 @@ export function SiteMenu({
           <div data-menu-layer className="absolute inset-0 bg-ink-900" />
         </div>
 
-        {/* 32 on the left and the shell's gutter on the right, which is how
-            2231:12258 sets the column: the type is right-aligned, so the room
-            belongs on that side. */}
-        <div /* 120 of gutter at the comp's 900 frame, falling back to the
-             shell's own on anything narrower. */
-          className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[max(var(--shell-gutter),5vw)] py-8 xl:px-[72px]">
+        {/* 120 of gutter at the comp's 1512 frame, falling back to the
+            shell's own on anything narrower. */}
+        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[max(var(--shell-gutter),5vw)] py-8 xl:px-[120px]">
           {/* Language and currency on the left, close on the right. */}
           <div className="flex w-full items-center justify-between gap-4">
             {/* Flush, with no gap: the comp sets the two side by side. */}
@@ -388,26 +382,32 @@ export function SiteMenu({
             </button>
           </div>
 
+          {/* Two columns at the comp's 1512 (2556:20723): the list on the
+              left, the three panels on the right, 32 apart and each taking
+              half. They stack below `lg`, where two columns of this depth
+              would each be too narrow to read. */}
+          <div className="mt-8 flex w-full flex-1 flex-col gap-8 lg:flex-row lg:items-start">
           <nav
             aria-label="Primary"
-            className="mt-8 flex w-full flex-col items-start gap-6"
+            className="flex w-full flex-1 flex-col items-start gap-6"
           >
-            {MENU_LINKS.map((entry) => {
+            {MENU_LINKS.map((entry, index) => {
               const expanded = openGroup === entry.label;
               return (
                 <div
                   key={entry.label}
                   className="flex w-full flex-col items-start gap-6"
                 >
-                  {/* The rule sits above each entry, the first one included
-                      — 2231:12302 opens the list with one. It used to close
-                      each row instead, which put a line under Contact and
-                      none over Festivals. */}
-                  <span
-                    data-menu-rule
-                    className="block h-px w-full bg-white/10"
-                    aria-hidden
-                  />
+                  {/* Rules divide the entries rather than top-and-tailing
+                      them: 2556:20723 has none above Festivals and none under
+                      Contact, so the first row skips it. */}
+                  {index > 0 ? (
+                    <span
+                      data-menu-rule
+                      className="block h-px w-full bg-white/10"
+                      aria-hidden
+                    />
+                  ) : null}
 
                   <span className="menu-mask">
                     {entry.children ? (
@@ -486,7 +486,7 @@ export function SiteMenu({
               newsletter rather than as a loose button.
 
               Nothing is sent from either. */}
-          <div className="mt-4 flex w-full flex-col gap-4" data-menu-meta>
+          <div className="flex w-full flex-1 flex-col gap-4" data-menu-meta>
             {/* Put your brand on stage. */}
             <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
               <div className="flex min-w-0 flex-1 flex-col">
@@ -554,9 +554,40 @@ export function SiteMenu({
                 {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
               </p>
             </form>
+
+            {/* Follow us (2556:20805) — the socials return as icons in
+                bordered tiles, after three changes that each removed them
+                from somewhere. TikTok is new; the written list never had it. */}
+            <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
+              <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.11px] text-content-primary">
+                Follow us
+              </p>
+              <ul className="m-0 flex list-none flex-wrap items-center gap-4 p-0">
+                {menuSocialLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={link.label}
+                      className="flex items-center justify-center border border-white/10 bg-bg-secondary p-4 transition-colors hover:border-white/40"
+                    >
+                      <Image
+                        src={link.icon}
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="size-6"
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
           </div>
 
-          <div className="mt-auto flex w-full flex-col items-start gap-4 pt-12">
+          <div className="mt-auto flex w-full flex-col items-start gap-4 pt-10">
             {/* The copyright and the WBK credit on one line, as the comp
                 sets them (2550:18409). */}
             <div

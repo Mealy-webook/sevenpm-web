@@ -518,15 +518,31 @@ export const socialLinks: SocialLink[] = [
 ];
 
 /**
- * The four the menu carries, in its own order (2231:12302). The drawer
- * trimmed from seven to four: a single wrapped line of seven at 1.56px of
- * tracking was most of the width of the panel.
+ * The five the menu's Follow Us panel carries, as icons (2556:20805).
+ * TikTok is new here — it is the one platform the written list never had.
  */
-export const menuSocialLinks: SocialLink[] = [
-  socialLinks[1], // Instagram
-  socialLinks[2], // Facebook
-  socialLinks[0], // Spotify
-  socialLinks[4], // youtube
+export const menuSocialLinks: (SocialLink & { icon: string })[] = [
+  {
+    label: "Facebook",
+    href: "https://facebook.com",
+    icon: "/assets/ic-social-facebook.svg",
+  },
+  { label: "X", href: "https://x.com", icon: "/assets/ic-social-x.svg" },
+  {
+    label: "TikTok",
+    href: "https://tiktok.com",
+    icon: "/assets/ic-social-tiktok.svg",
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com",
+    icon: "/assets/ic-social-youtube.svg",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com",
+    icon: "/assets/ic-social-instagram.svg",
+  },
 ];
 
 /**
