@@ -504,6 +504,9 @@ export const footerCopy = {
   poweredBy: "Powered by",
 };
 
+/**
+ * The full set, in the order the site footer runs them.
+ */
 export const socialLinks: SocialLink[] = [
   { label: "Spotify", href: "https://open.spotify.com" },
   { label: "Instagram", href: "https://instagram.com" },
@@ -512,6 +515,18 @@ export const socialLinks: SocialLink[] = [
   { label: "youtube", href: "https://youtube.com" },
   { label: "Soundcloud", href: "https://soundcloud.com" },
   { label: "Apple music", href: "https://music.apple.com" },
+];
+
+/**
+ * The four the menu carries, in its own order (2231:12302). The drawer
+ * trimmed from seven to four: a single wrapped line of seven at 1.56px of
+ * tracking was most of the width of the panel.
+ */
+export const menuSocialLinks: SocialLink[] = [
+  socialLinks[1], // Instagram
+  socialLinks[2], // Facebook
+  socialLinks[0], // Spotify
+  socialLinks[4], // youtube
 ];
 
 /**

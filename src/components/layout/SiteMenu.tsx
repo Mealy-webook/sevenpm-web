@@ -15,7 +15,7 @@ import {
   type LanguageCode,
 } from "./LocaleMenu";
 import { MENU_LINKS } from "@/data/menu";
-import { socialLinks } from "@/data/events";
+import { menuSocialLinks } from "@/data/events";
 
 gsap.registerPlugin(CustomEase);
 
@@ -62,7 +62,7 @@ if (!gsap.parseEase(EASE)) {
    without scrolling — the drawer scrolls, which is the right answer: the
    alternative was shrinking content's own type to fit furniture. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[33px] font-black uppercase leading-[0.8] transition-colors sm:text-[42px] xl:text-[54px]";
+  "block font-[family-name:var(--font-display)] text-[38px] font-black uppercase leading-[0.8] transition-colors sm:text-[52px] xl:text-[72px]";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -307,7 +307,7 @@ export function SiteMenu({
           page. */}
       <div
         data-menu-sheet
-        className="absolute inset-y-0 right-0 flex w-full max-w-[756px] flex-col"
+        className="absolute inset-y-0 right-0 flex w-full max-w-[900px] flex-col"
       >
         {/* The curtain: three layers, wiped in one after another */}
         <div aria-hidden className="absolute inset-0 overflow-hidden">
@@ -319,7 +319,9 @@ export function SiteMenu({
         {/* 32 on the left and the shell's gutter on the right, which is how
             2231:12258 sets the column: the type is right-aligned, so the room
             belongs on that side. */}
-        <div className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain py-8 pl-8 pr-[var(--shell-gutter)]">
+        <div /* 120 of gutter at the comp's 900 frame, falling back to the
+             shell's own on anything narrower. */
+          className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[max(var(--shell-gutter),6vw)] py-8 xl:px-[120px]">
           {/* Language and currency on the left, close on the right. */}
           <div className="flex w-full items-center justify-between gap-4">
             {/* Flush, with no gap: the comp sets the two side by side. */}
@@ -389,15 +391,25 @@ export function SiteMenu({
 
           <nav
             aria-label="Primary"
-            className="mt-8 flex w-full flex-col items-end gap-4"
+            className="mt-8 flex w-full flex-col items-start gap-6"
           >
             {MENU_LINKS.map((entry) => {
               const expanded = openGroup === entry.label;
               return (
                 <div
                   key={entry.label}
-                  className="flex w-full flex-col items-end gap-6"
+                  className="flex w-full flex-col items-start gap-6"
                 >
+                  {/* The rule sits above each entry, the first one included
+                      — 2231:12302 opens the list with one. It used to close
+                      each row instead, which put a line under Contact and
+                      none over Festivals. */}
+                  <span
+                    data-menu-rule
+                    className="block h-px w-full bg-white/10"
+                    aria-hidden
+                  />
+
                   <span className="menu-mask">
                     {entry.children ? (
                       <button
@@ -442,7 +454,7 @@ export function SiteMenu({
                       id={submenuId}
                       className="h-0 w-full overflow-hidden"
                     >
-                      <ul className="m-0 flex list-none flex-col items-end gap-4 p-0">
+                      <ul className="m-0 flex list-none flex-col items-start gap-4 p-0">
                         {entry.children.map((child) => (
                           <li key={child.label} className="menu-mask">
                             <Link
@@ -450,7 +462,7 @@ export function SiteMenu({
                               data-menu-sub-link
                               tabIndex={expanded ? undefined : -1}
                               onClick={onClose}
-                              className="block font-[family-name:var(--font-display)] text-[19px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[25px]"
+                              className="block font-[family-name:var(--font-display)] text-[22px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
                             >
                               {child.label}
                             </Link>
@@ -460,11 +472,6 @@ export function SiteMenu({
                     </div>
                   )}
 
-                  <span
-                    data-menu-rule
-                    className="block h-px w-full bg-white/10"
-                    aria-hidden
-                  />
                 </div>
               );
             })}
@@ -493,7 +500,9 @@ export function SiteMenu({
               <h2 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-bold uppercase leading-[1.13] tracking-[-0.15px] text-content-primary sm:text-[26px]">
                 Be the first to know
               </h2>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+              {/* #56565d, the inverse secondary this panel uses in the comp —
+                  darker than the page's own secondary. */}
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[20px] tracking-[0.15px] text-[#56565d]">
                 Subscribe to our newsletter to be the first to know about
                 concert announcements, and exclusive updates — and never miss
                 the most exciting news.
@@ -532,13 +541,13 @@ export function SiteMenu({
             </p>
           </form>
 
-          <div className="mt-auto flex w-full flex-col items-end gap-6 pt-12">
+          <div className="mt-auto flex w-full flex-col items-start gap-4 pt-12">
             <nav
               aria-label="Social"
               data-menu-meta
-              className="flex w-full flex-wrap items-center justify-end gap-x-6 gap-y-4"
+              className="flex w-full flex-wrap items-center gap-x-6 gap-y-3"
             >
-              {socialLinks.map((link) => (
+              {menuSocialLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -550,12 +559,26 @@ export function SiteMenu({
                 </a>
               ))}
             </nav>
-            <p
+            {/* The copyright and the WBK credit on one line, as the comp
+                sets them (2550:18409). */}
+            <div
               data-menu-meta
-              className="m-0 w-full text-right font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary"
+              className="flex flex-wrap items-center gap-x-4 gap-y-2"
             >
-              © {year} SEVENPM. All rights reserved.
-            </p>
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
+                © {year} SEVENPM. All rights reserved.
+              </p>
+              <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-content-primary">
+                Powered by
+                <Image
+                  src="/assets/wbk-logo.svg"
+                  alt="WBK"
+                  width={61}
+                  height={18}
+                  className="h-[18px] w-[61px]"
+                />
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -2,15 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { MENU_LINKS } from "@/data/menu";
-import { footerCopy, socialLinks } from "@/data/events";
+import { footerCopy } from "@/data/events";
 
+/**
+ * Site footer, from Figma 2542:15137 (2467:23439).
+ *
+ * Three things, centred: the oversized wordmark, one row of the menu, and
+ * the copyright beside the WBK credit.
+ *
+ * Two things it no longer carries. The festivals were nested under their
+ * parent here as they are in the drawer — the comp runs a single flat row,
+ * and a footer that re-states the drawer's hierarchy is repeating the
+ * drawer rather than summarising it. And the social links are gone: they
+ * were added here by request, the comp has dropped them, and they are still
+ * in the menu, which is the one place the site now lists them.
+ */
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
     <footer>
-      {/* Oversized SEVENPM wordmark */}
-      <div className="pt-16 xl:pt-24">
+      {/* The wordmark, full width of the column. */}
+      <div className="pt-16 xl:pt-20">
         <div className="shell" data-reveal="clip">
           <Image
             src="/assets/wordmark.svg"
@@ -23,69 +36,31 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="shell flex flex-col items-center justify-center gap-12 py-16 xl:py-24">
-        {/* The whole menu, repeated. The drawer is behind a button and a
-            footer is where people look for the site's shape, so the same list
-            is set out flat here — including the festivals, which are nested
-            in the drawer and are no use hidden a second time.
-
-            Read from `MENU_LINKS`, not copied: the two lists cannot drift. */}
+      <div className="shell flex flex-col items-center justify-center gap-10 py-10">
+        {/* One flat row, 32 apart, centred. Wraps rather than scrolls:
+            eight labels at this size fit two comfortable lines on a phone. */}
         <nav
           aria-label="Site"
-          className="flex w-full flex-wrap items-start justify-center gap-x-10 gap-y-6"
+          className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
         >
           {MENU_LINKS.map((entry) => (
-            <div
+            <Link
               key={entry.label}
-              className="flex flex-col items-center gap-2 text-center"
+              href={entry.href}
+              className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
             >
-              <Link
-                href={entry.href}
-                className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
-              >
-                {entry.label}
-              </Link>
-              {entry.children?.map((child) => (
-                <Link
-                  key={child.label}
-                  href={child.href}
-                  className="whitespace-nowrap font-[family-name:var(--font-ui)] text-[13px] leading-[1.4] text-text-secondary transition-colors hover:text-brand"
-                >
-                  {child.label}
-                </Link>
-              ))}
-            </div>
+              {entry.label}
+            </Link>
           ))}
         </nav>
 
-        <span aria-hidden className="block h-px w-full bg-white/10" />
-
-        <nav
-          aria-label="Social"
-          className="flex flex-wrap items-center justify-center gap-8"
-        >
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Centred, one line under another — 2467:23440. The local clock and
-            the back-to-top link the footer used to carry either side of the
-            copyright are not in it. */}
-        <div className="flex w-full flex-col items-center gap-6">
-          <p className="m-0 text-center font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-text-secondary">
+        {/* The copyright and the credit on one line, 24 apart. */}
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <p className="m-0 text-center font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
             © {year} SEVENPM. All rights reserved.
           </p>
 
-          <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-sm leading-[1.5] text-content-primary">
+          <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-content-primary">
             {footerCopy.poweredBy}
             <Image
               src="/assets/wbk-logo.svg"
