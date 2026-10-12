@@ -55,11 +55,14 @@ if (!gsap.parseEase(EASE)) {
   CustomEase.create(EASE, "0.65, 0.01, 0.05, 0.99");
 }
 
-/* Stepped down from 44/56/72. The list went from five entries to eight and
-   at the comp's size it no longer fitted the drawer on a laptop; the trim
-   taken off the display type elsewhere applies here too. */
+/* 2231:12302 sets the entries at Roboto Black 72 on a 0.8 line box. 64 is
+   that with the site-wide display trim applied, which is where this lands on
+   a wide drawer; the smaller steps are for narrow ones. The list carries
+   eight entries where the comp drew five, so it no longer fits a laptop
+   without scrolling — the drawer scrolls, which is the right answer: the
+   alternative was shrinking content's own type to fit furniture. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[34px] font-black uppercase leading-[0.85] text-white transition-colors hover:text-brand sm:text-[42px] xl:text-[54px]";
+  "block font-[family-name:var(--font-display)] text-[38px] font-black uppercase leading-[0.8] transition-colors sm:text-[50px] xl:text-[64px]";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -370,7 +373,9 @@ export function SiteMenu({
               type="button"
               aria-label="Close menu"
               onClick={requestClose}
-              className="flex size-[52px] cursor-pointer items-center justify-center bg-[rgba(37,37,37,0.5)] transition-colors hover:bg-[rgba(37,37,37,0.9)]"
+              /* The comp's secondary button: a 5% fill behind a 10% hairline,
+                 rather than the heavier grey this carried before. */
+              className="flex size-[52px] cursor-pointer items-center justify-center border-[0.5px] border-white/10 bg-white/5 transition-colors hover:border-white/25 hover:bg-white/10"
             >
               <Image
                 src="/assets/ic-close.svg"
@@ -403,9 +408,17 @@ export function SiteMenu({
                         onClick={() =>
                           setOpenGroup(expanded ? null : entry.label)
                         }
-                        /* The comp keeps the expanded entry white, so the
-                           only colour cue is hover. */
-                        className={`${ENTRY_TYPE} cursor-pointer`}
+                        /* Brand yellow while open. An earlier note here said
+                           the comp kept the expanded entry white — 2231:12302
+                           is the Festivals-open state and sets it to
+                           #fbeb1c, so the open group is the one coloured
+                           thing in the list and the only cue that does not
+                           depend on a cursor being present. */
+                        className={`${ENTRY_TYPE} cursor-pointer ${
+                          expanded
+                            ? "text-brand"
+                            : "text-white hover:text-brand"
+                        }`}
                       >
                         {entry.label}
                       </button>
@@ -414,7 +427,7 @@ export function SiteMenu({
                         href={entry.href}
                         data-menu-link
                         onClick={onClose}
-                        className={`menu-link ${ENTRY_TYPE}`}
+                        className={`menu-link ${ENTRY_TYPE} text-white hover:text-brand`}
                       >
                         {entry.label}
                       </Link>
@@ -437,7 +450,7 @@ export function SiteMenu({
                               data-menu-sub-link
                               tabIndex={expanded ? undefined : -1}
                               onClick={onClose}
-                              className="block font-[family-name:var(--font-display)] text-[20px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
+                              className="block font-[family-name:var(--font-display)] text-[22px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
                             >
                               {child.label}
                             </Link>
@@ -457,45 +470,63 @@ export function SiteMenu({
             })}
           </nav>
 
-          {/* The newsletter, under Contact: the menu's last entry is how to
-              reach us, and this is the other half of that — how we reach you.
-              Compact rather than the homepage's taped bill, which would take
-              the whole drawer. Nothing is sent; the button says so, the same
-              way the homepage block does. */}
+          {/* The newsletter, under Contact (2550:18293). The menu's last
+              entry is how to reach us; this is the other half of it.
+
+              A panel rather than the bare field this carried before: the comp
+              gives it a secondary-background block with 32 of padding, a
+              title at 30/34, a line of why, and the field beside a white
+              Subscribe button. Left-aligned inside the panel, against the
+              right-ranged list above it, which is what stops it reading as a
+              ninth menu entry.
+
+              Nothing is sent — there is no list behind this build. */}
           <form
             data-menu-meta
-            className="mt-8 flex w-full flex-col items-end gap-3"
+            className="mt-10 flex w-full flex-col gap-6 bg-bg-secondary p-6 sm:p-8"
             onSubmit={(event) => {
               event.preventDefault();
               setSubscribed(true);
             }}
           >
-            <label
-              className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/60"
-              htmlFor={newsletterId}
-            >
-              Be the first to know
-            </label>
-            <div className="flex w-full max-w-[420px] items-stretch gap-2">
+            <div className="flex flex-col gap-1">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-bold uppercase leading-[1.13] tracking-[-0.15px] text-content-primary sm:text-[30px]">
+                Be the first to know
+              </h2>
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+                Subscribe to our newsletter to be the first to know about
+                concert announcements, and exclusive updates — and never miss
+                the most exciting news.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-4">
+              <label className="sr-only" htmlFor={newsletterId}>
+                Your email
+              </label>
               <input
                 id={newsletterId}
                 type="email"
                 name="email"
                 required
-                placeholder="you@example.com"
+                placeholder="Your email"
                 onChange={() => setSubscribed(false)}
-                className="min-w-0 flex-1 border-[0.5px] border-white/25 bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/35 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand"
+                className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
               />
+              {/* White, as the comp draws it — the one primary action in the
+                  drawer, and the brand yellow is already spent on the open
+                  group above. */}
               <button
                 type="submit"
-                className="shrink-0 bg-brand px-4 py-3 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] transition-colors hover:bg-white"
+                className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand"
               >
-                {subscribed ? "Noted" : "Sign up"}
+                {subscribed ? "Noted" : "Subscribe"}
               </button>
             </div>
+
             <p
               role="status"
-              className="m-0 min-h-4 w-full text-right font-[family-name:var(--font-display)] text-[12px] leading-4 text-white/45"
+              className="m-0 min-h-4 font-[family-name:var(--font-display)] text-[12px] leading-4 text-white/45"
             >
               {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
             </p>
