@@ -38,7 +38,7 @@ export function HospitalitySection() {
             id="hospitality-title"
             /* 120/100 at the comp's frame. It sets as two lines there and
                the measure keeps it that way without a hard break. */
-            className="m-0 max-w-[9ch] font-daltown text-[clamp(37px,6.81vw,92px)] uppercase leading-[0.84] tracking-[0.03em] text-white"
+            className="section-title max-w-[9ch]  text-white"
             data-reveal="clip"
           >
             Hospitality packages
@@ -71,7 +71,7 @@ export function HospitalitySection() {
 
                   <div className="flex flex-1 flex-col gap-6 p-8">
                     <div className="flex flex-col gap-2">
-                      <h3 className="m-0 font-daltown text-[clamp(28px,3.39vw,61px)] uppercase leading-[0.84] tracking-[0.02em] text-white">
+                      <h3 className="card-title text-white">
                         {entry.name}
                       </h3>
                       <p className="m-0 font-[family-name:var(--font-ui)] text-[12px] font-bold uppercase leading-4 tracking-[0.12px] text-content-secondary">

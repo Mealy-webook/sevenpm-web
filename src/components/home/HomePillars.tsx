@@ -28,7 +28,7 @@ export function HomePillars() {
             }`}
             data-reveal="up"
           >
-            <h2 className="m-0 font-daltown text-[clamp(41px,5.1vw,68px)] uppercase leading-[0.75] tracking-[0.03em] text-white">
+            <h2 className="section-title  text-white">
               {pillar.title}
             </h2>
             <p className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary">

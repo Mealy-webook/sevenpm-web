@@ -44,7 +44,7 @@ export function PaperHero() {
         <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:gap-16">
           <div className="flex flex-col gap-7">
             <h1
-              className="m-0 max-w-[12ch] font-daltown text-[clamp(37px,7.66vw,126px)] uppercase leading-[0.84] text-[#16161a]"
+              className="section-title max-w-[12ch]  text-[#16161a]"
               data-reveal="clip"
             >
               {title}
@@ -155,7 +155,7 @@ export function PaperOrder() {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <h2
-            className="m-0 font-daltown text-[clamp(26px,4.28vw,65px)] uppercase leading-[0.88] text-[#16161a]"
+            className="section-title  text-[#16161a]"
             data-reveal="clip"
           >
             {title}
@@ -216,7 +216,7 @@ export function PaperSpecification() {
         <Rule>{rule}</Rule>
 
         <h2
-          className="m-0 max-w-[16ch] font-daltown text-[clamp(26px,4.28vw,65px)] uppercase leading-[0.88] text-[#16161a]"
+          className="section-title max-w-[16ch]  text-[#16161a]"
           data-reveal="clip"
         >
           {title}
@@ -306,7 +306,7 @@ export function PaperEnquiry({ children }: { children: React.ReactNode }) {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <div className="flex flex-col gap-5">
             <h2
-              className="m-0 max-w-[12ch] font-daltown text-[clamp(28px,4.69vw,75px)] uppercase leading-[0.88] text-white"
+              className="section-title max-w-[12ch]  text-white"
               data-reveal="clip"
             >
               {title}

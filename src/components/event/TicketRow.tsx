@@ -32,7 +32,7 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
       <div className="flex min-w-0 flex-1 flex-col justify-center bg-bg-tertiary py-4">
         <div className="flex flex-col items-start gap-4 bg-bg-secondary p-6 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <h3 className="m-0 font-daltown text-[clamp(28px,3.56vw,61px)] uppercase leading-[0.84] tracking-[0.02em] text-content-primary">
+            <h3 className="card-title text-content-primary">
               {tier.title}
             </h3>
 

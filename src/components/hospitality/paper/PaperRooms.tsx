@@ -26,7 +26,7 @@ export function PaperRooms() {
 
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
           <h2
-            className="m-0 font-daltown text-[clamp(28px,4.69vw,75px)] uppercase leading-[0.88] text-[#16161a]"
+            className="section-title  text-[#16161a]"
             data-reveal="clip"
           >
             {title}
@@ -63,7 +63,7 @@ export function PaperRooms() {
                     {entry.festival}
                   </span>
 
-                  <span className="font-daltown text-[clamp(23px,3.38vw,49px)] uppercase leading-[0.9] text-[#16161a] transition-opacity group-hover:opacity-70">
+                  <span className="card-title text-[#16161a] transition-opacity group-hover:opacity-70">
                     {entry.name}
                   </span>
 

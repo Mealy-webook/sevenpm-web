@@ -56,7 +56,7 @@ export function NewsletterSection() {
           />
 
           <div className="flex flex-col items-center gap-4">
-            <h2 className="m-0 text-center font-daltown text-[clamp(33px,6.8vw,102px)] uppercase leading-[0.98]">
+            <h2 className="section-title text-center ">
               {title}
             </h2>
             <span

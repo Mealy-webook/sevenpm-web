@@ -34,7 +34,7 @@ export function SponsorCta() {
           <div className="flex flex-col items-center gap-4">
             <h2
               id="sponsor-cta"
-              className="m-0 text-center font-daltown text-[clamp(33px,6.8vw,102px)] uppercase leading-[0.73]"
+              className="section-title text-center "
             >
               Put your brand on stage.
             </h2>

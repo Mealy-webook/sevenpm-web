@@ -44,7 +44,7 @@ export function LineupBand() {
       <div className="shell">
         <h2
           id="lineup-title"
-          className="m-0 font-daltown text-[clamp(37px,6.81vw,92px)] uppercase leading-[0.84] tracking-[0.03em] text-white"
+          className="section-title  text-white"
           data-reveal="clip"
         >
           Lineup

@@ -149,6 +149,46 @@ body {
   }
 }
 
+/* ------------------------------------------------------------------ *
+ * Section titles — one size, everywhere.
+ *
+ * The design system sets a section heading at Daltown 120 on a 100 line box
+ * with 3.6px of tracking, and the current comps use it for every one of
+ * them: Explore tickets, hospitality packages, lineup, you need to know.
+ *
+ * This exists because the site had sixty different sizes for the same thing.
+ * Each one was defensible where it was written — a clamp tuned to its own
+ * section — and together they meant no two section titles matched. The
+ * graduated type reduction then rescaled all sixty independently, which made
+ * it worse.
+ *
+ * It scales on `--display-scale`, so it keeps the breakpoint steps and the
+ * global trim that everything else does.
+ * ------------------------------------------------------------------ */
+.section-title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-weight: 400;
+  font-size: calc(120px * var(--display-scale));
+  line-height: calc(100px * var(--display-scale));
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* The step below a section title: the name on a card, a package or a ticket.
+   The comps set it at Daltown 72 on a 60 line box with 1.44px of tracking,
+   and it was carrying its own clamp in three places. Same scale as the
+   section title above, so the two move together. */
+.card-title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-weight: 400;
+  font-size: calc(72px * var(--display-scale));
+  line-height: calc(60px * var(--display-scale));
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .display-text {
   --display-size: 260px;
   --display-line: 208px;
