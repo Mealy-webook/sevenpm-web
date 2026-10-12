@@ -1226,19 +1226,27 @@ body {
   --radius: 0px;
 }
 
-button,
-[role="button"],
-summary,
-input:not([type="checkbox"]):not([type="radio"]),
-select,
-textarea,
-img,
-video,
-canvas,
-.btn-secondary,
-.news-tile,
-.ticket-stub-box {
-  border-radius: var(--radius);
+/* In `@layer base`, not unlayered. Tailwind v4 emits its utilities inside
+   `@layer utilities`, and unlayered CSS beats every layer whatever its
+   specificity — so an unlayered `img { border-radius }` here silently
+   overrode `rounded-full` on everything that is meant to be a circle. The
+   vinyl labels went square, which is how it was caught. Base sits below
+   utilities, so an explicit `rounded-*` now wins as it should. */
+@layer base {
+  button,
+  [role="button"],
+  summary,
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea,
+  img,
+  video,
+  canvas,
+  .btn-secondary,
+  .news-tile,
+  .ticket-stub-box {
+    border-radius: var(--radius);
+  }
 }
 
 /* Native affordance. The custom cursor used to carry this — its ring was what
