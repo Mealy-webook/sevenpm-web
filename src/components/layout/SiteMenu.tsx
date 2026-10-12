@@ -477,6 +477,26 @@ export function SiteMenu({
             })}
           </nav>
 
+          {/* Become a sponsor. Not in 2231:12302 — added by request.
+              
+              It sits under the list rather than in it on purpose: the entries
+              above are places to go, and this is something to do. Giving it
+              the brand fill rather than a sixth 72px row keeps the comp's
+              list intact and still makes it the loudest thing in the drawer.
+
+              A rule above it, like the entries, so it belongs to the column
+              rather than floating between the list and the newsletter. */}
+          <div data-menu-meta className="mt-6 flex w-full flex-col gap-6">
+            <span aria-hidden className="block h-px w-full bg-white/10" />
+            <Link
+              href="/sponsor"
+              onClick={onClose}
+              className="sweep flex items-center justify-center self-start bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+            >
+              <span className="relative z-10">Become a sponsor</span>
+            </Link>
+          </div>
+
           {/* The newsletter, under Contact (2550:18293). The menu's last
               entry is how to reach us; this is the other half of it.
 
