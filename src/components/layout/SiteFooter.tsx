@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { MENU_LINKS } from "@/data/menu";
+import { FOOTER_LINKS } from "@/data/menu";
 import { footerCopy } from "@/data/events";
 
 /**
@@ -10,12 +10,15 @@ import { footerCopy } from "@/data/events";
  * Three things, centred: the oversized wordmark, one row of the menu, and
  * the copyright beside the WBK credit.
  *
- * Two things it no longer carries. The festivals were nested under their
- * parent here as they are in the drawer — the comp runs a single flat row,
- * and a footer that re-states the drawer's hierarchy is repeating the
- * drawer rather than summarising it. And the social links are gone: they
- * were added here by request, the comp has dropped them, and they are still
- * in the menu, which is the one place the site now lists them.
+ * It runs its own list (`FOOTER_LINKS`), not the drawer's. The two comps
+ * disagree on purpose: the footer names the pages that sell — upcoming
+ * events, concerts, sponsorship, hospitality — and the drawer names Team,
+ * which the footer does not.
+ *
+ * No nested festivals and no social links. Both were here and neither is in
+ * the comp; a footer that re-states the drawer's hierarchy is repeating it
+ * rather than summarising it, and the socials are now listed in the menu
+ * alone.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -43,7 +46,7 @@ export function SiteFooter() {
           aria-label="Site"
           className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
         >
-          {MENU_LINKS.map((entry) => (
+          {FOOTER_LINKS.map((entry) => (
             <Link
               key={entry.label}
               href={entry.href}

@@ -1,28 +1,26 @@
 /**
- * The site's navigation, in the order content gave it.
+ * The site's navigation.
  *
- * Its own module rather than a const inside `SiteMenu` because the footer
- * repeats the same list, and `SiteMenu` is a client component carrying GSAP —
- * importing from it would have pulled all of that into the footer's graph for
- * the sake of an array of strings.
+ * Two lists, because the comps carry two. The drawer (2231:12302) runs five
+ * entries with Festivals opening onto its two festivals; the footer
+ * (2542:15137) runs eight in one flat row. They are not a long and short
+ * version of each other — the footer names the commercial pages the drawer
+ * leaves out, and the drawer names Team, which the footer does not.
+ *
+ * Its own module rather than a const inside `SiteMenu`, because that is a
+ * client component carrying GSAP and the footer would have pulled all of it
+ * in for the sake of an array of strings.
  */
 
 export type MenuLink = { label: string; href: string };
 export type MenuEntry = MenuLink & { children?: MenuLink[] };
 
 /**
- * The menu, in the order content gave it.
- *
- * No "Home": the logo in the header is the way back, and an entry that
- * duplicates it only takes a line from the ones that do not. Festivals keeps
- * its two named festivals — Jazzablanca and Tanjazz — rather than all four:
- * the other two have no page of their own, and the full list is on
- * `/events`.
- *
- * The footer repeats this list, so anything added here appears there too.
+ * The drawer, exactly as 2231:12302 lists it. Festivals is the only entry
+ * with children, and it opens onto the two festivals that have somewhere to
+ * go — the other two have no page yet and the full set is on `/events`.
  */
 export const MENU_LINKS: MenuEntry[] = [
-  { label: "Upcoming events", href: "/events" },
   {
     label: "Festivals",
     href: "/events",
@@ -31,6 +29,20 @@ export const MENU_LINKS: MenuEntry[] = [
       { label: "Tanjazz", href: "/events" },
     ],
   },
+  { label: "News", href: "/news" },
+  { label: "Team", href: "/team" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
+];
+
+/**
+ * The footer, exactly as 2542:15137 lists it — one flat row, no children.
+ * It carries the pages that sell: upcoming events, concerts, sponsorship
+ * and hospitality, none of which the drawer names.
+ */
+export const FOOTER_LINKS: MenuLink[] = [
+  { label: "Upcoming events", href: "/events" },
+  { label: "Festivals", href: "/events" },
   { label: "Concerts", href: "/concerts" },
   { label: "Become a sponsor", href: "/sponsor" },
   { label: "Hospitality", href: "/hospitality" },
@@ -38,4 +50,3 @@ export const MENU_LINKS: MenuEntry[] = [
   { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
 ];
-
