@@ -15,7 +15,6 @@ import {
   type LanguageCode,
 } from "./LocaleMenu";
 import { MENU_LINKS } from "@/data/menu";
-import { menuSocialLinks } from "@/data/events";
 
 gsap.registerPlugin(CustomEase);
 
@@ -62,7 +61,7 @@ if (!gsap.parseEase(EASE)) {
    without scrolling — the drawer scrolls, which is the right answer: the
    alternative was shrinking content's own type to fit furniture. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[38px] font-black uppercase leading-[0.8] transition-colors sm:text-[52px] xl:text-[72px]";
+  "block font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.8] transition-colors sm:text-[34px] xl:text-[40px]";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -321,7 +320,7 @@ export function SiteMenu({
             belongs on that side. */}
         <div /* 120 of gutter at the comp's 900 frame, falling back to the
              shell's own on anything narrower. */
-          className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[max(var(--shell-gutter),6vw)] py-8 xl:px-[120px]">
+          className="relative flex min-h-full flex-1 flex-col overflow-y-auto overscroll-contain px-[max(var(--shell-gutter),5vw)] py-8 xl:px-[72px]">
           {/* Language and currency on the left, close on the right. */}
           <div className="flex w-full items-center justify-between gap-4">
             {/* Flush, with no gap: the comp sets the two side by side. */}
@@ -477,108 +476,87 @@ export function SiteMenu({
             })}
           </nav>
 
-          {/* Become a sponsor. Not in 2231:12302 — added by request.
-              
-              It sits under the list rather than in it on purpose: the entries
-              above are places to go, and this is something to do. Giving it
-              the brand fill rather than a sixth 72px row keeps the comp's
-              list intact and still makes it the loudest thing in the drawer.
+          {/* Two panels under the list (2556:20586) — the sponsor pitch over
+              the newsletter, 16 apart, each a secondary block behind a 5%
+              hairline with 24 of padding.
 
-              A rule above it, like the entries, so it belongs to the column
-              rather than floating between the list and the newsletter. */}
-          <div data-menu-meta className="mt-6 flex w-full flex-col gap-6">
-            <span aria-hidden className="block h-px w-full bg-white/10" />
-            <Link
-              href="/sponsor"
-              onClick={onClose}
-              className="sweep flex items-center justify-center self-start bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              The sponsor CTA was added here by hand a change ago and the comp
+              has since caught up with it, so the hand-made version is gone and
+              this is the drawn one: same idea, set as a panel to match the
+              newsletter rather than as a loose button.
+
+              Nothing is sent from either. */}
+          <div className="mt-4 flex w-full flex-col gap-4" data-menu-meta>
+            {/* Put your brand on stage. */}
+            <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
+              <div className="flex min-w-0 flex-1 flex-col">
+                <p className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.11px] text-content-primary">
+                  Put your brand on stage.
+                </p>
+                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[20px] tracking-[0.15px] text-[#56565d]">
+                  Join SEVENPM festivals and put your brand at the center of
+                  Morocco&rsquo;s live music scene.
+                </p>
+              </div>
+              <Link
+                href="/sponsor"
+                onClick={onClose}
+                className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              >
+                <span className="relative z-10">Become a sponsor</span>
+              </Link>
+            </div>
+
+            {/* Be the first to know. */}
+            <form
+              className="flex w-full flex-col gap-4 border border-white/5 bg-bg-secondary p-6"
+              onSubmit={(event) => {
+                event.preventDefault();
+                setSubscribed(true);
+              }}
             >
-              <span className="relative z-10">Become a sponsor</span>
-            </Link>
+              <div className="flex flex-col gap-1">
+                <h2 className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.11px] text-content-primary">
+                  Be the first to know
+                </h2>
+                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[20px] tracking-[0.15px] text-[#56565d]">
+                  Subscribe to our newsletter to be the first to know about
+                  concert announcements, and exclusive updates — and never miss
+                  the most exciting news.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-0">
+                <label className="sr-only" htmlFor={newsletterId}>
+                  Your email
+                </label>
+                <input
+                  id={newsletterId}
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Your email"
+                  onChange={() => setSubscribed(false)}
+                  className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
+                />
+                <button
+                  type="submit"
+                  className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand"
+                >
+                  {subscribed ? "Noted" : "Subscribe"}
+                </button>
+              </div>
+
+              <p
+                role="status"
+                className="m-0 min-h-4 font-[family-name:var(--font-display)] text-[12px] leading-4 text-white/45"
+              >
+                {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
+              </p>
+            </form>
           </div>
 
-          {/* The newsletter, under Contact (2550:18293). The menu's last
-              entry is how to reach us; this is the other half of it.
-
-              A panel rather than the bare field this carried before: the comp
-              gives it a secondary-background block with 32 of padding, a
-              title at 30/34, a line of why, and the field beside a white
-              Subscribe button. Left-aligned inside the panel, against the
-              right-ranged list above it, which is what stops it reading as a
-              ninth menu entry.
-
-              Nothing is sent — there is no list behind this build. */}
-          <form
-            data-menu-meta
-            className="mt-10 flex w-full flex-col gap-6 bg-bg-secondary p-6 sm:p-8"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setSubscribed(true);
-            }}
-          >
-            <div className="flex flex-col gap-1">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-bold uppercase leading-[1.13] tracking-[-0.15px] text-content-primary sm:text-[26px]">
-                Be the first to know
-              </h2>
-              {/* #56565d, the inverse secondary this panel uses in the comp —
-                  darker than the page's own secondary. */}
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[20px] tracking-[0.15px] text-[#56565d]">
-                Subscribe to our newsletter to be the first to know about
-                concert announcements, and exclusive updates — and never miss
-                the most exciting news.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-4">
-              <label className="sr-only" htmlFor={newsletterId}>
-                Your email
-              </label>
-              <input
-                id={newsletterId}
-                type="email"
-                name="email"
-                required
-                placeholder="Your email"
-                onChange={() => setSubscribed(false)}
-                className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
-              />
-              {/* White, as the comp draws it — the one primary action in the
-                  drawer, and the brand yellow is already spent on the open
-                  group above. */}
-              <button
-                type="submit"
-                className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand"
-              >
-                {subscribed ? "Noted" : "Subscribe"}
-              </button>
-            </div>
-
-            <p
-              role="status"
-              className="m-0 min-h-4 font-[family-name:var(--font-display)] text-[12px] leading-4 text-white/45"
-            >
-              {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
-            </p>
-          </form>
-
           <div className="mt-auto flex w-full flex-col items-start gap-4 pt-12">
-            <nav
-              aria-label="Social"
-              data-menu-meta
-              className="flex w-full flex-wrap items-center gap-x-6 gap-y-3"
-            >
-              {menuSocialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
             {/* The copyright and the WBK credit on one line, as the comp
                 sets them (2550:18409). */}
             <div
