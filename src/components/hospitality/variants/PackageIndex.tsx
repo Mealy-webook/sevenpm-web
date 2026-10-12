@@ -54,18 +54,18 @@ export function PackageIndex() {
                   >
                     <span className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                       <span
-                        className={`font-daltown text-[clamp(32px,5.5vw,76px)] uppercase leading-[0.9] transition-colors ${
+                        className={`font-daltown text-[clamp(28px,4.7vw,65px)] uppercase leading-[0.9] transition-colors ${
                           on ? "text-brand" : "text-white"
                         }`}
                       >
                         {entry.name}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white/70">
+                      <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white/70">
                         {from} {entry.price}
                       </span>
                     </span>
 
-                    <span className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-ui)] text-[14px] leading-6 text-content-secondary">
+                    <span className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-ui)] text-[13px] leading-6 text-content-secondary">
                       <span className="text-brand">{entry.festival}</span>
                       <span aria-hidden className="text-white/25">
                         ·
@@ -80,7 +80,7 @@ export function PackageIndex() {
                     {/* The summary belongs to the row the eye is on. On a
                         phone there is no hover, so every row keeps its own. */}
                     <span
-                      className={`max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary lg:transition-opacity ${
+                      className={`max-w-[560px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary lg:transition-opacity ${
                         on ? "lg:opacity-100" : "lg:opacity-40"
                       }`}
                     >
@@ -112,7 +112,7 @@ export function PackageIndex() {
           </div>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

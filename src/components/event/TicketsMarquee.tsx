@@ -140,7 +140,7 @@ export function TicketsMarquee() {
                     <span
                       key={i}
                       aria-hidden={i >= RIBBON_ITEMS}
-                      className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[40px] font-bold uppercase leading-[1.1] text-black"
+                      className="shrink-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[34px] font-bold uppercase leading-[1.1] text-black"
                     >
                       Get your tickets
                     </span>

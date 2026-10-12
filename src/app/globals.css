@@ -123,13 +123,14 @@ body {
  * the composition (not just the type) keeps its proportions.
  *
  * Every step is then multiplied by `--display-trim`, a single global notch
- * taken off the display type by request. The comp's ratios are untouched —
+ * taken off the display type by request — 0.9 at first, 0.82 after a second
+ * pass. The comp's ratios are untouched —
  * the whole scale moves together — so a heading is still a heading next to
  * its own standfirst, just less of one. Set it back to 1 to get Figma's own
  * sizes exactly.
  * ------------------------------------------------------------------ */
 :root {
-  --display-trim: 0.9;
+  --display-trim: 0.82;
   --display-scale: calc(1 * var(--display-trim));
 }
 @media (max-width: 900px) {
@@ -1622,7 +1623,7 @@ html[data-intro-seen] .preloader {
   translate: -50% -50%;
   pointer-events: none;
   font-family: var(--font-headline);
-  font-size: 40px;
+  font-size: 34px;
   line-height: 1;
   color: var(--color-brand);
   text-shadow: 0 0 24px rgba(251, 235, 28, 0.55);
@@ -1706,7 +1707,7 @@ html[data-intro-seen] .preloader {
 
 /* The beats themselves: a note, not a figure. */
 .beats-token {
-  font-size: 22px;
+  font-size: 19px;
 }
 
 .beats-banner[data-open="true"]::before {

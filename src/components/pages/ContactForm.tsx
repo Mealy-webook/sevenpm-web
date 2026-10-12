@@ -20,7 +20,7 @@ export function ContactForm() {
   const [sent, setSent] = useState(false);
 
   const field =
-    "w-full border-[0.5px] border-white/25 bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-[17px] leading-6 text-white placeholder:text-white/35 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
+    "w-full border-[0.5px] border-white/25 bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/35 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
   const label =
     "font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/60";
 
@@ -76,7 +76,7 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="sweep flex items-center self-start bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e]"
+        className="sweep flex items-center self-start bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
       >
         <span className="relative z-10">{sent ? "Noted" : form.label}</span>
       </button>

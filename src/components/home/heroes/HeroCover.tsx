@@ -37,7 +37,7 @@ export function HeroCover() {
       <div className="relative flex h-full flex-col justify-between px-[var(--shell-gutter)] py-12">
         <div className="flex items-start justify-between gap-6">
           <h1
-            className="m-0 font-daltown text-[clamp(30px,4.2vw,64px)] uppercase leading-[0.82] tracking-[0.02em] text-white"
+            className="m-0 font-daltown text-[clamp(26px,3.54vw,54px)] uppercase leading-[0.82] tracking-[0.02em] text-white"
             data-no-split
           >
             {homeCopy.heroTitle}
@@ -54,7 +54,7 @@ export function HeroCover() {
           {lines.map((line) => (
             <li
               key={line}
-              className="font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-5 tracking-[1.2px] text-white"
+              className="font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-5 tracking-[1.2px] text-white"
             >
               <span aria-hidden className="mr-3 text-brand">
                 /
@@ -64,7 +64,7 @@ export function HeroCover() {
           ))}
         </ul>
 
-        <p className="m-0 max-w-[520px] font-[family-name:var(--font-display)] text-[15px] leading-6 tracking-[0.085px] text-white/75">
+        <p className="m-0 max-w-[520px] font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.085px] text-white/75">
           {homeCopy.intro}
         </p>
       </div>

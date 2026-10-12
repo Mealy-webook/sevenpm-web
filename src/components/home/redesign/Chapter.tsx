@@ -51,7 +51,7 @@ export function Chapter({
       <div className="shell relative flex flex-col gap-10 xl:gap-14">
         <div className="flex items-end gap-5 xl:gap-8">
           <span
-            className="font-daltown text-[48px] leading-[0.8] text-brand xl:text-[72px]"
+            className="font-daltown text-[41px] leading-[0.8] text-brand xl:text-[61px]"
             data-reveal="up"
           >
             {number}

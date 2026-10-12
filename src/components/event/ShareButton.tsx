@@ -34,7 +34,7 @@ export function ShareButton({ eventName }: { eventName: string }) {
           height={16}
           className="size-4"
         />
-        <span className="px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+        <span className="px-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
           {shareCopy.open}
         </span>
       </button>

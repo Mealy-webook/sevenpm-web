@@ -80,7 +80,7 @@ export function PaymentsPanel({
       </div>
 
       {cards.length === 0 ? (
-        <p className="m-0 py-6 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+        <p className="m-0 py-6 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
           {copy.empty}
         </p>
       ) : (

@@ -57,7 +57,7 @@ export function AccountCard({
       <div className="flex min-h-6 items-center justify-between gap-4">
         <h3
           id={titleId}
-          className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary"
+          className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary"
         >
           {title}
         </h3>
@@ -98,7 +98,7 @@ export function AccountRow({
         </span>
       )}
       <span className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+        <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
           {label}
         </span>
         {value && (

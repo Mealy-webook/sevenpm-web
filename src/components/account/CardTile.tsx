@@ -53,13 +53,13 @@ export function CardTile({
           className="absolute inset-0 size-full object-cover"
         />
 
-        <p className="absolute left-6 top-7 m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary">
+        <p className="absolute left-6 top-7 m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary">
           {accountUser.name}
         </p>
 
         <div className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-4">
           <span className="flex min-w-0 flex-col gap-1 text-content-primary">
-            <span className="font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px]">
+            <span className="font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px]">
               xxxx xxxx xxxx {card.last4}
             </span>
             {card.expiry && (
@@ -85,7 +85,7 @@ export function CardTile({
           the row reads as flush to the top edge and loose at the bottom. */}
       <div className="relative z-[1] flex w-full flex-wrap items-center justify-between gap-3 bg-white/5 py-3 pl-4 pr-3 pt-9">
         <span className="flex items-center gap-2">
-          <span className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+          <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
             {paymentsCopy.cards.setDefault}
           </span>
           <Switch
@@ -122,7 +122,7 @@ export function CardTile({
             className="size-4"
           />
           <span
-            className={`flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] ${
+            className={`flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] ${
               isDefault ? "text-white/30" : "text-[#ff6c6c]"
             }`}
           >

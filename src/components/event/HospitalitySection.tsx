@@ -38,12 +38,12 @@ export function HospitalitySection() {
             id="hospitality-title"
             /* 120/100 at the comp's frame. It sets as two lines there and
                the measure keeps it that way without a hard break. */
-            className="m-0 max-w-[9ch] font-daltown text-[clamp(44px,8vw,108px)] uppercase leading-[0.84] tracking-[0.03em] text-white"
+            className="m-0 max-w-[9ch] font-daltown text-[clamp(37px,6.81vw,92px)] uppercase leading-[0.84] tracking-[0.03em] text-white"
             data-reveal="clip"
           >
             Hospitality packages
           </h2>
-          <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
             {hospitalityCopy.intro}
           </p>
         </div>
@@ -71,7 +71,7 @@ export function HospitalitySection() {
 
                   <div className="flex flex-1 flex-col gap-6 p-8">
                     <div className="flex flex-col gap-2">
-                      <h3 className="m-0 font-daltown text-[clamp(32px,4vw,72px)] uppercase leading-[0.84] tracking-[0.02em] text-white">
+                      <h3 className="m-0 font-daltown text-[clamp(28px,3.39vw,61px)] uppercase leading-[0.84] tracking-[0.02em] text-white">
                         {entry.name}
                       </h3>
                       <p className="m-0 font-[family-name:var(--font-ui)] text-[12px] font-bold uppercase leading-4 tracking-[0.12px] text-content-secondary">
@@ -83,20 +83,20 @@ export function HospitalitySection() {
 
                     <div className="mt-auto flex flex-col gap-6">
                       <p className="m-0 flex flex-wrap items-baseline gap-x-1 gap-y-0.5">
-                        <span className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary">
+                        <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary">
                           {from}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-white">
+                        <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white">
                           {entry.price}
                         </span>
-                        <span className="font-[family-name:var(--font-ui)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+                        <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
                           / {entry.perUnit}
                         </span>
                       </p>
 
                       <Link
                         href={`/hospitality/${entry.slug}`}
-                        className="sweep flex w-full items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e]"
+                        className="sweep flex w-full items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
                       >
                         <span className="relative z-10">Request a quote</span>
                       </Link>

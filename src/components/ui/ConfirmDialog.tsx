@@ -75,7 +75,7 @@ export function ConfirmDialog({
           <div className="flex flex-col gap-1 px-5 py-5 backdrop-blur-[32px]">
             <h2
               id={titleId}
-              className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+              className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
             >
               {title}
             </h2>
@@ -94,7 +94,7 @@ export function ConfirmDialog({
               onClick={onCancel}
               className="btn-secondary flex flex-1 cursor-pointer items-center justify-center px-5 py-4"
             >
-              <span className="flex h-5 items-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+              <span className="flex h-5 items-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
                 {cancelLabel}
               </span>
             </button>
@@ -104,7 +104,7 @@ export function ConfirmDialog({
               className="btn-secondary flex flex-1 cursor-pointer items-center justify-center px-5 py-4"
             >
               <span
-                className={`flex h-5 items-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${
+                className={`flex h-5 items-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${
                   destructive ? "text-[#ff6c6c]" : "text-content-primary"
                 }`}
               >

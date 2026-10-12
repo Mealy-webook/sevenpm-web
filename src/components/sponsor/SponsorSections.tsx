@@ -30,7 +30,7 @@ export function SponsorHero() {
             {title}
           </DisplayHeading>
           <p
-            className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[17px] leading-[1.7] text-content-secondary"
+            className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary"
             data-split="lines"
             data-reveal-delay="0.1"
           >
@@ -40,13 +40,13 @@ export function SponsorHero() {
             <Link
               href={primary.href}
               data-magnetic="0.2"
-              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">{primary.label}</span>
             </Link>
             <Link
               href={secondary.href}
-              className="btn-secondary flex items-center border border-white/25 px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
+              className="btn-secondary flex items-center border border-white/25 px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
             >
               {secondary.label}
             </Link>
@@ -71,13 +71,13 @@ export function SponsorStats() {
         {sponsorCopy.stats.map((stat) => (
           <div key={stat.note} data-reveal="up" className="flex flex-col gap-1">
             <p
-              className={`m-0 font-[family-name:var(--font-display)] text-[34px] font-black uppercase leading-[1] tracking-[-0.01em] sm:text-[40px] ${
+              className={`m-0 font-[family-name:var(--font-display)] text-[30px] font-black uppercase leading-[1] tracking-[-0.01em] sm:text-[34px] ${
                 stat.accent ? "text-brand" : "text-white"
               }`}
             >
               {stat.value}
             </p>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.5] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-content-secondary">
               {stat.note}
             </p>
           </div>
@@ -107,7 +107,7 @@ export function SponsorTrust() {
           {brands.map((brand) => (
             <li
               key={brand}
-              className="font-[family-name:var(--font-display)] text-[20px] font-bold leading-7 text-white sm:text-[22px]"
+              className="font-[family-name:var(--font-display)] text-[18px] font-bold leading-7 text-white sm:text-[19px]"
             >
               {brand}
             </li>
@@ -142,15 +142,15 @@ export function SponsorAudience() {
               className="flex flex-col gap-2 border border-white/10 bg-ink-900 p-6"
               style={{ borderRadius: "var(--radius)" }}
             >
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
                 {card.label}
               </p>
               <p /* No `uppercase`: these are values, not headings, and the mockup's
                      "[XXk]" has a lowercase k that carries meaning. */
-                className="m-0 font-[family-name:var(--font-display)] text-[30px] font-black leading-[1] tracking-[-0.01em] text-brand">
+                className="m-0 font-[family-name:var(--font-display)] text-[26px] font-black leading-[1] tracking-[-0.01em] text-brand">
                 {card.value}
               </p>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/45">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                 {card.note}
               </p>
             </div>

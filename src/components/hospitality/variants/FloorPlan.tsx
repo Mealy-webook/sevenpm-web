@@ -40,7 +40,7 @@ export function FloorPlan() {
           <DisplayHeading align="left" reveal="clip" size="faq">
             {title}
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             Where your party actually stands. Pick a position on the site and
             the package that holds it comes up beside the plan.
           </p>
@@ -141,17 +141,17 @@ export function FloorPlan() {
                     >
                       <span className="flex items-baseline justify-between gap-4">
                         <span
-                          className={`font-[family-name:var(--font-display)] text-[18px] font-bold leading-6 transition-colors ${
+                          className={`font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 transition-colors ${
                             on ? "text-brand" : "text-white"
                           }`}
                         >
                           {entry.name}
                         </span>
-                        <span className="shrink-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white/60">
+                        <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white/60">
                           {from} {entry.price}
                         </span>
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary">
                         {entry.capacity} · {entry.perUnit}
                       </span>
                     </Link>
@@ -163,7 +163,7 @@ export function FloorPlan() {
 
             <Link
               href={`/hospitality/${current.slug}`}
-              className="sweep flex items-center self-start bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center self-start bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">
                 {discover} {current.name}
@@ -172,7 +172,7 @@ export function FloorPlan() {
           </div>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote} The plan is schematic.
         </p>
       </div>

@@ -51,7 +51,7 @@ export function ArtefactsHero() {
               </span>
             </div>
 
-            <h1 className="m-0 font-daltown text-[clamp(52px,8.5vw,136px)] uppercase leading-[0.84]">
+            <h1 className="m-0 font-daltown text-[clamp(44px,7.25vw,116px)] uppercase leading-[0.84]">
               {homeCopy.heroLead} {homeCopy.heroWords[0]}
               <br />
               <span className="text-[#0b0b0e]/35">
@@ -59,14 +59,14 @@ export function ArtefactsHero() {
               </span>
             </h1>
 
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-[#0b0b0e]/80">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#0b0b0e]/80">
               {homeCopy.intro}
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="#festivals"
-                className="flex items-center justify-center bg-[#0b0b0e] px-6 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-[#f2efe6] transition-colors hover:bg-[#0b0b0e]/85"
+                className="flex items-center justify-center bg-[#0b0b0e] px-6 py-4 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-[#f2efe6] transition-colors hover:bg-[#0b0b0e]/85"
               >
                 See what is on
               </Link>
@@ -85,7 +85,7 @@ export function ArtefactsHero() {
               <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px] text-[#0b0b0e]/55">
                 Season
               </span>
-              <span className="font-daltown text-[40px] uppercase leading-[0.9]">
+              <span className="font-daltown text-[34px] uppercase leading-[0.9]">
                 2026
               </span>
             </div>
@@ -93,7 +93,7 @@ export function ArtefactsHero() {
               <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px] text-[#0b0b0e]/55">
                 Doors
               </span>
-              <span className="font-daltown text-[40px] uppercase leading-[0.9]">
+              <span className="font-daltown text-[34px] uppercase leading-[0.9]">
                 7 PM
               </span>
             </div>
@@ -122,7 +122,7 @@ export function ArtefactsSections() {
           >
             {homeStats.map((stat) => (
               <span key={stat.label} className="flex items-baseline gap-2">
-                <span className="font-daltown text-[28px] uppercase leading-[0.9]">
+                <span className="font-daltown text-[25px] uppercase leading-[0.9]">
                   {stat.prefix}
                   {stat.year ? stat.value : stat.value.toLocaleString("en-US")}
                   {stat.suffix}
@@ -165,7 +165,7 @@ export function ArtefactsSections() {
                       className={`${styles.spools} block h-[26px] w-full opacity-80`}
                     />
                     <span className="flex items-baseline justify-between gap-3 border-t-2 border-[#0b0b0e]/20 pt-3">
-                      <span className="font-daltown text-[24px] uppercase leading-[1]">
+                      <span className="font-daltown text-[21px] uppercase leading-[1]">
                         {festival.name}
                       </span>
                       <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase tracking-[2px] text-[#0b0b0e]/55">
@@ -189,10 +189,10 @@ export function ArtefactsSections() {
             className={`${styles.stock} grid grid-cols-1 gap-0 text-[#0b0b0e] lg:grid-cols-2`}
           >
             <div className="flex flex-col gap-6 p-8 xl:p-12">
-              <h2 className="m-0 font-daltown text-[clamp(32px,4vw,56px)] uppercase leading-[0.9]">
+              <h2 className="m-0 font-daltown text-[clamp(28px,3.43vw,48px)] uppercase leading-[0.9]">
                 Since 2018
               </h2>
-              <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-[1.7] text-[#0b0b0e]/80">
+              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[1.7] text-[#0b0b0e]/80">
                 {homeStory.body}
               </p>
               <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
@@ -279,10 +279,10 @@ export function ArtefactsSections() {
                           7PM
                         </span>
                       </span>
-                      <span className="font-daltown text-[24px] uppercase leading-[0.95]">
+                      <span className="font-daltown text-[21px] uppercase leading-[0.95]">
                         {item.title}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-[#0b0b0e]/70">
+                      <span className="font-[family-name:var(--font-display)] text-[13px] leading-[18px] text-[#0b0b0e]/70">
                         {item.excerpt}
                       </span>
                     </span>
@@ -339,10 +339,10 @@ export function ArtefactsSections() {
             <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2.5px] text-[#0b0b0e]/55">
               Reply card
             </span>
-            <h2 className="m-0 font-daltown text-[clamp(32px,5vw,64px)] uppercase leading-[0.9]">
+            <h2 className="m-0 font-daltown text-[clamp(28px,4.22vw,54px)] uppercase leading-[0.9]">
               {homeCopy.newsletter.title}
             </h2>
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-[#0b0b0e]/80">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#0b0b0e]/80">
               {homeCopy.newsletter.body}
             </p>
             {/* No handler: this is a review page, and the live newsletter has
@@ -355,11 +355,11 @@ export function ArtefactsSections() {
                 id="artefacts-newsletter"
                 type="email"
                 placeholder="you@example.com"
-                className="w-full border-b-2 border-[#0b0b0e]/35 bg-transparent px-1 py-3 font-[family-name:var(--font-display)] text-[17px] leading-6 text-[#0b0b0e] placeholder:text-[#0b0b0e]/40 focus:border-[#0b0b0e] focus:outline-none sm:max-w-[420px]"
+                className="w-full border-b-2 border-[#0b0b0e]/35 bg-transparent px-1 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-[#0b0b0e] placeholder:text-[#0b0b0e]/40 focus:border-[#0b0b0e] focus:outline-none sm:max-w-[420px]"
               />
               <button
                 type="button"
-                className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-8 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-[#f2efe6] transition-colors hover:bg-[#0b0b0e]/85"
+                className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-8 py-4 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-[#f2efe6] transition-colors hover:bg-[#0b0b0e]/85"
               >
                 {homeCopy.newsletter.cta}
               </button>

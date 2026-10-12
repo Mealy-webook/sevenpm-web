@@ -69,11 +69,11 @@ export function DossierSheets() {
                       {entry.festival} · Business package
                     </p>
 
-                    <h3 className="m-0 font-daltown text-[clamp(32px,5.5vw,72px)] uppercase leading-[0.9]">
+                    <h3 className="m-0 font-daltown text-[clamp(28px,4.66vw,61px)] uppercase leading-[0.9]">
                       {entry.name}
                     </h3>
 
-                    <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-[#18181b]/75">
+                    <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#18181b]/75">
                       {entry.summary}
                     </p>
 
@@ -91,7 +91,7 @@ export function DossierSheets() {
                           <dt className="m-0 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[1.56px] text-[#18181b]/55">
                             {spec.label}
                           </dt>
-                          <dd className="m-0 text-right font-[family-name:var(--font-display)] text-[15px] font-semibold leading-5">
+                          <dd className="m-0 text-right font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5">
                             {spec.value}
                           </dd>
                         </div>
@@ -103,7 +103,7 @@ export function DossierSheets() {
                         <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-[#18181b]/55">
                           {from}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[26px] font-black leading-8">
+                        <span className="font-[family-name:var(--font-display)] text-[23px] font-black leading-8">
                           {entry.price}
                         </span>
                         <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-[#18181b]/55">
@@ -112,7 +112,7 @@ export function DossierSheets() {
                       </div>
                       <Link
                         href={`/hospitality/${entry.slug}`}
-                        className="flex items-center bg-[#0b0b0e] px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+                        className="flex items-center bg-[#0b0b0e] px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
                         style={{ borderRadius: "var(--radius)" }}
                       >
                         {discover}
@@ -136,7 +136,7 @@ export function DossierSheets() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

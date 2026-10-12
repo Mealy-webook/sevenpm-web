@@ -67,7 +67,7 @@ export default function HomeEditorialPreview() {
         >
           <div className="flex flex-col gap-12">
             <p
-              className="m-0 max-w-[980px] font-[family-name:var(--font-display)] text-[22px] font-black uppercase leading-[1.25] tracking-[-0.2px] text-white xl:text-[34px]"
+              className="m-0 max-w-[980px] font-[family-name:var(--font-display)] text-[19px] font-black uppercase leading-[1.25] tracking-[-0.2px] text-white xl:text-[30px]"
               data-split="lines"
             >
               {homeStory.body}
@@ -131,14 +131,14 @@ export default function HomeEditorialPreview() {
                     <time className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-5 tracking-[1.2px] text-brand">
                       {item.date}
                     </time>
-                    <span className="font-daltown text-[28px] leading-none text-white/25">
+                    <span className="font-daltown text-[25px] leading-none text-white/25">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors group-hover:text-brand xl:text-[22px]">
+                  <span className="font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors group-hover:text-brand xl:text-[19px]">
                     {item.title}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[15px] leading-6 tracking-[0.15px] text-content-secondary">
+                  <span className="font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.15px] text-content-secondary">
                     {item.excerpt}
                   </span>
                 </Link>
@@ -146,7 +146,7 @@ export default function HomeEditorialPreview() {
             </div>
             <Link
               href="/news"
-              className="sweep flex items-center justify-center self-start border-[1.5px] border-text-secondary px-8 py-5 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-none text-white transition-colors hover:border-white"
+              className="sweep flex items-center justify-center self-start border-[1.5px] border-text-secondary px-8 py-5 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-none text-white transition-colors hover:border-white"
               data-magnetic="0.2"
               data-reveal="up"
             >
@@ -162,11 +162,11 @@ export default function HomeEditorialPreview() {
           image="/assets/gallery-1.jpg"
         >
           <div className="flex max-w-[760px] flex-col gap-8">
-            <h3 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[1.05] text-brand xl:text-[44px]">
+            <h3 className="m-0 font-[family-name:var(--font-display)] text-[25px] font-black uppercase leading-[1.05] text-brand xl:text-[37px]">
               {homeCopy.newsletter.title}
             </h3>
             <p
-              className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-[1.6] text-content-secondary"
+              className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-[1.6] text-content-secondary"
               data-split="lines"
             >
               {homeCopy.newsletter.body}
@@ -175,13 +175,13 @@ export default function HomeEditorialPreview() {
               <a
                 href="#join"
                 data-magnetic="0.25"
-                className="lift inline-flex items-center bg-brand px-8 py-5 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-none text-[#18181b] transition-colors hover:bg-white"
+                className="lift inline-flex items-center bg-brand px-8 py-5 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-none text-[#18181b] transition-colors hover:bg-white"
               >
                 {homeCopy.newsletter.cta}
               </a>
               <Link
                 href={`/events/${jazzablanca.slug}`}
-                className="btn-secondary inline-flex items-center px-8 py-5 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-none text-white"
+                className="btn-secondary inline-flex items-center px-8 py-5 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-none text-white"
               >
                 Next up: {jazzablanca.name}
               </Link>

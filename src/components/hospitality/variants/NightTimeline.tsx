@@ -63,7 +63,7 @@ export function NightTimeline() {
           <DisplayHeading align="left" reveal="clip" size="faq">
             {title}
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             Doors at seven, last call at midnight. Pick the package and the
             night fills in underneath it.
           </p>
@@ -84,7 +84,7 @@ export function NightTimeline() {
                 type="button"
                 aria-pressed={on}
                 onClick={() => setActive(index)}
-                className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[15px] leading-5 transition-colors ${
+                className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors ${
                   on
                     ? "border-brand bg-brand font-semibold text-[#18181b]"
                     : "border-white/20 text-white/80 hover:border-white/50"
@@ -110,15 +110,15 @@ export function NightTimeline() {
                   className="absolute left-0 top-1.5 block size-2.5 -translate-x-1/2 rounded-full bg-brand"
                 />
                 <div className="flex w-[72px] shrink-0 flex-col">
-                  <span className="font-daltown text-[clamp(22px,3vw,34px)] uppercase leading-[0.9] text-brand">
+                  <span className="font-daltown text-[clamp(19px,2.65vw,30px)] uppercase leading-[0.9] text-brand">
                     {hour.time}
                   </span>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-6 text-white">
+                  <h3 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
                     {hour.title}
                   </h3>
-                  <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                  <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
                     {hour.body}
                   </p>
                 </div>
@@ -135,17 +135,17 @@ export function NightTimeline() {
               sizes="340px"
               className="aspect-[4/3] w-full"
             />
-            <h3 className="m-0 font-daltown text-[clamp(26px,4vw,44px)] uppercase leading-[0.92] text-white">
+            <h3 className="m-0 font-daltown text-[clamp(23px,3.36vw,37px)] uppercase leading-[0.92] text-white">
               {current.name}
             </h3>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
               {current.summary}
             </p>
             <div className="flex flex-col gap-0.5 border-t border-white/10 pt-4">
               <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                 {from}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[24px] font-black leading-7 text-brand">
+              <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
                 {current.price}
               </span>
               <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -154,14 +154,14 @@ export function NightTimeline() {
             </div>
             <Link
               href={`/hospitality/${current.slug}`}
-              className="sweep flex items-center self-start bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center self-start bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">{discover}</span>
             </Link>
           </aside>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

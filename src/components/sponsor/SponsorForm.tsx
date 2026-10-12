@@ -8,9 +8,9 @@ import { sponsorCopy } from "@/data/sponsor";
 import { ChipGroup } from "./ChipGroup";
 
 const FIELD =
-  "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
+  "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-[15px] leading-6 text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
 const LABEL =
-  "font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white";
+  "font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white";
 
 function Field({
   label,
@@ -69,7 +69,7 @@ export function SponsorForm() {
           <DisplayHeading align="left" reveal="clip" size="faq">
             {form.title}
           </DisplayHeading>
-          <p className="m-0 font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             {form.body}
           </p>
 
@@ -78,23 +78,23 @@ export function SponsorForm() {
             className="flex flex-col items-start gap-2 border border-white/10 bg-ink-900 p-6"
             style={{ borderRadius: "var(--radius)" }}
           >
-            <h3 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
+            <h3 className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white">
               {form.direct.title}
             </h3>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
               {form.direct.team}
             </p>
             {/* Bracketed because it is not confirmed yet — so it is not a
                 mailto: that would bounce. */}
-            <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-brand">
               {form.direct.email}
             </p>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/45">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
               {form.direct.phone}
             </p>
             <Link
               href="/contact"
-              className="btn-secondary mt-3 flex items-center border border-white/25 px-4 py-2.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
+              className="btn-secondary mt-3 flex items-center border border-white/25 px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
             >
               {form.direct.label}
             </Link>
@@ -211,7 +211,7 @@ export function SponsorForm() {
           </Field>
 
           <label
-            className="flex cursor-pointer items-start gap-3 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary"
+            className="flex cursor-pointer items-start gap-3 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary"
             htmlFor={ids.consent}
           >
             <input
@@ -235,7 +235,7 @@ export function SponsorForm() {
           <div className="flex flex-wrap items-center gap-4">
             <button
               type="submit"
-              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">
                 {sent ? "Noted" : form.submit}
@@ -243,7 +243,7 @@ export function SponsorForm() {
             </button>
             <p
               role="status"
-              className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/45"
+              className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45"
             >
               {sent ? form.sent : form.reply}
             </p>

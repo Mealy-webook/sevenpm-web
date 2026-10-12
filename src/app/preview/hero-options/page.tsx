@@ -47,10 +47,10 @@ export default function HeroOptionsIndex() {
     <main className="min-h-svh bg-bg-primary">
       <div className="shell flex flex-col gap-10 py-14">
         <div className="flex flex-col gap-2">
-          <h1 className="m-0 font-daltown text-[clamp(40px,6vw,88px)] uppercase leading-[0.9] text-white">
+          <h1 className="m-0 font-daltown text-[clamp(34px,5.11vw,75px)] uppercase leading-[0.9] text-white">
             Hero options
           </h1>
-          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-secondary">
             Six alternatives to the terminal, and the current hero first. A to D
             are built here; E and F are React Bits components (LightRays and
             GridMotion), taken from their repo as the TypeScript + Tailwind

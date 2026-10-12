@@ -21,10 +21,10 @@ export function PageBlocks({ blocks }: { blocks: PageBlock[] }) {
             <p className="m-0 w-16 shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/35 tabular-nums">
               {String(index + 1).padStart(2, "0")}
             </p>
-            <h2 className="m-0 w-full lg:max-w-[280px] lg:shrink-0 font-[family-name:var(--font-display)] text-[24px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[30px]">
+            <h2 className="m-0 w-full lg:max-w-[280px] lg:shrink-0 font-[family-name:var(--font-display)] text-[21px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[26px]">
               {block.title}
             </h2>
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
               {block.body}
             </p>
           </div>

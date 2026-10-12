@@ -86,7 +86,7 @@ export function HomeStats() {
               data-reveal="up"
               data-reveal-stagger
             >
-              <p className="m-0 flex items-baseline font-daltown text-[clamp(56px,7vw,96px)] leading-[0.8] text-white transition-colors group-hover:text-brand">
+              <p className="m-0 flex items-baseline font-daltown text-[clamp(48px,5.98vw,82px)] leading-[0.8] text-white transition-colors group-hover:text-brand">
                 {stat.prefix && <span>{stat.prefix}</span>}
                 <span
                   data-count={stat.value}
@@ -103,7 +103,7 @@ export function HomeStats() {
                 className="block h-[3px] w-10 bg-brand transition-[width] duration-500 group-hover:w-16"
               />
 
-              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary xl:text-[17px] xl:leading-[26px]">
+              <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary xl:text-[16px] xl:leading-[23px]">
                 {stat.label}
               </p>
             </div>

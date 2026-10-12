@@ -56,7 +56,7 @@ export function NewsBands({ articles }: { articles: NewsArticle[] }) {
             </span>
 
             <span className="relative z-[1] flex min-w-0 flex-1 flex-col gap-2">
-              <span className="font-daltown text-[clamp(26px,4vw,64px)] uppercase leading-[0.95] text-white transition-colors group-hover:text-brand">
+              <span className="font-daltown text-[clamp(23px,3.38vw,54px)] uppercase leading-[0.95] text-white transition-colors group-hover:text-brand">
                 {article.title}
               </span>
               <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-content-secondary">

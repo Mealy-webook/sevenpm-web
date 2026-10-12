@@ -106,11 +106,11 @@ export function OrderSummaryDialog({
           )}
 
           <div className="flex items-start justify-between gap-4">
-            <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
               {bookingCopy.orderSummary.total}
             </span>
             <span className="flex flex-col items-end">
-              <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+              <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
                 {formatMoney(totals.total)}
               </span>
             </span>

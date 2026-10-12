@@ -88,7 +88,7 @@ export function WalletPanel({
 
       {/* Transactions */}
       <div className="flex flex-col gap-6 border border-white/5 p-6">
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
           {walletCopy.transactionsTitle}
         </h3>
 
@@ -103,14 +103,14 @@ export function WalletPanel({
               height={1024}
               className="h-[138px] w-[207px] object-contain"
             />
-            <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+            <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
               {walletCopy.empty}
             </p>
           </div>
         ) : (
           groups.map((group) => (
             <div key={group.offset} className="flex flex-col">
-              <p className="m-0 pb-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-secondary">
+              <p className="m-0 pb-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-secondary">
                 {dayLabel(group.offset)}
               </p>
               <ul className="m-0 flex list-none flex-col p-0">
@@ -139,7 +139,7 @@ export function WalletPanel({
                       <div className="flex min-w-0 flex-1 flex-col border-b-[0.5px] border-white/10 py-3">
                         <div className="flex min-w-0 items-center gap-2">
                           <span className="flex min-w-0 flex-1 flex-col">
-                            <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                            <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
                               {tx.label}
                             </span>
                             <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
@@ -147,7 +147,7 @@ export function WalletPanel({
                             </span>
                           </span>
                           <span
-                            className={`whitespace-nowrap font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] ${
+                            className={`whitespace-nowrap font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] ${
                               incoming
                                 ? "text-[#22c55e]"
                                 : "text-content-primary"

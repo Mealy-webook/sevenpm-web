@@ -29,20 +29,20 @@ export function Rsvp() {
               {stamp}
             </span>
             <h2
-              className="m-0 max-w-[12ch] font-daltown text-[clamp(34px,6.5vw,96px)] uppercase leading-[0.88]"
+              className="m-0 max-w-[12ch] font-daltown text-[clamp(30px,5.55vw,82px)] uppercase leading-[0.88]"
               data-reveal="clip"
             >
               {title}
             </h2>
-            <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-[#18181b]/75">
+            <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-[#18181b]/75">
               {body}
             </p>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#18181b]">
+            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#18181b]">
               {email} · {phone}
             </p>
             <Link
               href="/contact"
-              className="link-sweep self-start font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-6 tracking-[1.56px] text-[#18181b]"
+              className="link-sweep self-start font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-6 tracking-[1.56px] text-[#18181b]"
             >
               Or talk to the team
             </Link>

@@ -159,7 +159,7 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
                view; and filling the width exactly hid the fact that anything
                follows it. 72vw leaves the first poster showing at its edge,
                which is what says the row moves. */
-            className="m-0 w-[min(403px,72vw)] shrink-0 self-center font-daltown text-[clamp(64px,10vw,152px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            className="m-0 w-[min(403px,72vw)] shrink-0 self-center font-daltown text-[clamp(54px,8.49vw,129px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
             data-reveal="clip"
           >
             {homeCopy.festivalsTitle}

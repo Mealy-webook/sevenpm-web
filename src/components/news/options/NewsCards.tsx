@@ -86,7 +86,7 @@ export function NewsCards({ articles }: { articles: NewsArticle[] }) {
                   />
                 </span>
 
-                <span className="font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px]">
+                <span className="font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px]">
                   {article.title}
                 </span>
 

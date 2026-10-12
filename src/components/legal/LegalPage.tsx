@@ -24,7 +24,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
               >
                 {doc.title}
               </h1>
-              <p className="m-0 max-w-[634px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+              <p className="m-0 max-w-[634px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
                 {doc.standfirst}
               </p>
               <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
@@ -35,13 +35,13 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
             <div className="flex max-w-[836px] flex-col gap-10">
               {doc.sections.map((section) => (
                 <section key={section.heading} className="flex flex-col gap-3">
-                  <h2 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+                  <h2 className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
                     {section.heading}
                   </h2>
                   {section.body.map((line) => (
                     <p
                       key={line}
-                      className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-7 tracking-[0.085px] text-content-secondary"
+                      className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-7 tracking-[0.085px] text-content-secondary"
                     >
                       {line}
                     </p>

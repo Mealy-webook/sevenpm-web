@@ -55,12 +55,12 @@ export function NightHero() {
           src={hospitalityCopy.heroImage}
           priority
           sizes="(min-width: 1024px) 30vw, 55vw"
-          className="justify-start text-[clamp(44px,11vw,180px)] text-white"
+          className="justify-start text-[clamp(37px,9.35vw,153px)] text-white"
         />
         </span>
 
         <p
-          className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[17px] leading-[1.75] text-white/85 sm:text-[19px]"
+          className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-white/85 sm:text-[17px]"
           data-split="lines"
         >
           {standfirst}
@@ -70,13 +70,13 @@ export function NightHero() {
           <Link
             href={primary.href}
             data-magnetic="0.2"
-            className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+            className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
           >
             <span className="relative z-10">{primary.label}</span>
           </Link>
           <Link
             href={secondary.href}
-            className="btn-secondary flex items-center border border-white/35 px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white backdrop-blur-sm transition-colors hover:border-white"
+            className="btn-secondary flex items-center border border-white/35 px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white backdrop-blur-sm transition-colors hover:border-white"
           >
             {secondary.label}
           </Link>

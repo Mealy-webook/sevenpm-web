@@ -27,7 +27,7 @@ export default function NewsTimelinePreview() {
               <DisplayHeading as="h1" align="left" reveal="clip">
                 {newsCopy.title}
               </DisplayHeading>
-              <p className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+              <p className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
                 {newsCopy.description}
               </p>
             </div>

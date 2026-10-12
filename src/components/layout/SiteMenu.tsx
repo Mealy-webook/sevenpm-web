@@ -62,7 +62,7 @@ if (!gsap.parseEase(EASE)) {
    without scrolling — the drawer scrolls, which is the right answer: the
    alternative was shrinking content's own type to fit furniture. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[38px] font-black uppercase leading-[0.8] transition-colors sm:text-[50px] xl:text-[64px]";
+  "block font-[family-name:var(--font-display)] text-[33px] font-black uppercase leading-[0.8] transition-colors sm:text-[42px] xl:text-[54px]";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -100,7 +100,7 @@ function LocaleButton({
         }`}
       >
         <Image src={icon} alt="" width={20} height={20} className="size-5" />
-        <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+        <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
           {label}
         </span>
         <Image
@@ -450,7 +450,7 @@ export function SiteMenu({
                               data-menu-sub-link
                               tabIndex={expanded ? undefined : -1}
                               onClick={onClose}
-                              className="block font-[family-name:var(--font-display)] text-[22px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
+                              className="block font-[family-name:var(--font-display)] text-[19px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[25px]"
                             >
                               {child.label}
                             </Link>
@@ -490,10 +490,10 @@ export function SiteMenu({
             }}
           >
             <div className="flex flex-col gap-1">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-bold uppercase leading-[1.13] tracking-[-0.15px] text-content-primary sm:text-[30px]">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-bold uppercase leading-[1.13] tracking-[-0.15px] text-content-primary sm:text-[26px]">
                 Be the first to know
               </h2>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
                 Subscribe to our newsletter to be the first to know about
                 concert announcements, and exclusive updates — and never miss
                 the most exciting news.
@@ -511,14 +511,14 @@ export function SiteMenu({
                 required
                 placeholder="Your email"
                 onChange={() => setSubscribed(false)}
-                className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
+                className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
               />
               {/* White, as the comp draws it — the one primary action in the
                   drawer, and the brand yellow is already spent on the open
                   group above. */}
               <button
                 type="submit"
-                className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand"
+                className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand"
               >
                 {subscribed ? "Noted" : "Subscribe"}
               </button>

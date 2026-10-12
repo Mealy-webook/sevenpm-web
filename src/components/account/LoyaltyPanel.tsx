@@ -37,7 +37,7 @@ const dayLabel = (offset: number) => {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-bold uppercase leading-8 tracking-[-0.12px] text-content-primary">
+    <h2 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-bold uppercase leading-8 tracking-[-0.12px] text-content-primary">
       {children}
     </h2>
   );
@@ -120,7 +120,7 @@ export function LoyaltyPanel() {
                 role="tab"
                 aria-selected={selected}
                 onClick={() => setFilter(chip.id)}
-                className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
+                className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors ${
                   selected
                     ? "border border-content-primary bg-white/10"
                     : "border border-white/10 bg-white/5 hover:bg-white/10"
@@ -133,7 +133,7 @@ export function LoyaltyPanel() {
         </div>
 
         {shown.length === 0 ? (
-          <p className="m-0 py-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+          <p className="m-0 py-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
             {loyaltyCopy.empty}
           </p>
         ) : (
@@ -151,7 +151,7 @@ export function LoyaltyPanel() {
                   <RowIcon src={reward.icon} />
                   <span className="flex min-w-0 flex-1 items-center gap-2">
                     <span className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                      <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
                         {reward.name}
                       </span>
                       <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
@@ -169,7 +169,7 @@ export function LoyaltyPanel() {
                         onClick={() => setPending(reward)}
                         className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 transition-colors hover:bg-white/90"
                       >
-                        <span className="flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-[#18181b]">
+                        <span className="flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-[#18181b]">
                           {loyaltyCopy.redeem}
                         </span>
                       </button>
@@ -182,7 +182,7 @@ export function LoyaltyPanel() {
                           height={16}
                           className="size-4"
                         />
-                        <span className="px-1 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white/30">
+                        <span className="px-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-white/30">
                           {loyaltyCopy.locked}
                         </span>
                       </span>
@@ -202,7 +202,7 @@ export function LoyaltyPanel() {
         <div className="flex flex-col gap-6">
           {groups.map((group) => (
             <div key={group.offset} className="flex flex-col gap-1">
-              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-secondary">
                 {dayLabel(group.offset)}
               </p>
 
@@ -227,7 +227,7 @@ export function LoyaltyPanel() {
                           className="flex w-full cursor-pointer items-center gap-2 text-left"
                         >
                           <span className="flex min-w-0 flex-1 flex-col">
-                            <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                            <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
                               {entry.label}
                             </span>
                             <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
@@ -236,7 +236,7 @@ export function LoyaltyPanel() {
                           </span>
 
                           <span
-                            className={`shrink-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] ${
+                            className={`shrink-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] ${
                               entry.kind === "earn"
                                 ? "text-[#22c55e]"
                                 : "text-content-primary"

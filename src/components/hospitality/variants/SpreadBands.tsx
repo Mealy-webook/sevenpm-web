@@ -56,7 +56,7 @@ export function SpreadBands() {
                   {String(index + 1).padStart(2, "0")} · {entry.festival} ·{" "}
                   {entry.capacity}
                 </p>
-                <h3 className="m-0 font-daltown text-[clamp(38px,8vw,118px)] uppercase leading-[0.88] text-white">
+                <h3 className="m-0 font-daltown text-[clamp(33px,6.78vw,100px)] uppercase leading-[0.88] text-white">
                   {entry.name}
                 </h3>
               </div>
@@ -64,7 +64,7 @@ export function SpreadBands() {
           </div>
 
           <div className="shell flex flex-col gap-5 border-b border-white/10 py-7 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
               {entry.summary}
             </p>
 
@@ -73,7 +73,7 @@ export function SpreadBands() {
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                   {from}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[24px] font-black leading-7 text-brand">
+                <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
                   {entry.price}
                 </span>
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -82,7 +82,7 @@ export function SpreadBands() {
               </div>
               <Link
                 href={`/hospitality/${entry.slug}`}
-                className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
               >
                 <span className="relative z-10">{discover}</span>
               </Link>
@@ -92,7 +92,7 @@ export function SpreadBands() {
       ))}
 
       <div className="shell py-7">
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

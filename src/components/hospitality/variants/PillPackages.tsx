@@ -78,7 +78,7 @@ export function PillPackages() {
                 >
                   <span
                     aria-hidden
-                    className={`flex flex-wrap items-center font-daltown text-[clamp(34px,7vw,104px)] uppercase leading-[0.9] text-white transition-colors group-hover:text-brand ${
+                    className={`flex flex-wrap items-center font-daltown text-[clamp(30px,5.92vw,88px)] uppercase leading-[0.9] text-white transition-colors group-hover:text-brand ${
                       trailing ? "justify-start" : "justify-start"
                     }`}
                   >
@@ -100,7 +100,7 @@ export function PillPackages() {
                       <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-brand">
                         {entry.festival} · {entry.capacity}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
                         {entry.summary}
                       </span>
                     </span>
@@ -110,7 +110,7 @@ export function PillPackages() {
                         <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                           {from}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[24px] font-black leading-7 text-brand">
+                        <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
                           {entry.price}
                         </span>
                         <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -118,7 +118,7 @@ export function PillPackages() {
                         </span>
                       </span>
                       <span
-                        className="flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e] transition-colors group-hover:bg-white"
+                        className="flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e] transition-colors group-hover:bg-white"
                         style={{ borderRadius: "var(--radius)" }}
                       >
                         {discover}
@@ -131,7 +131,7 @@ export function PillPackages() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

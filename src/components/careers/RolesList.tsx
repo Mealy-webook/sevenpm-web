@@ -33,7 +33,7 @@ export function RolesList({ roles }: { roles: JobRole[] }) {
               role="tab"
               aria-selected={selected}
               onClick={() => setType(selected ? null : label)}
-              className={`flex h-10 cursor-pointer items-center justify-center border p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors ${
+              className={`flex h-10 cursor-pointer items-center justify-center border p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors ${
                 selected
                   ? "border-content-primary bg-white/10"
                   : "border-white/10 bg-white/5 hover:bg-white/10"
@@ -46,7 +46,7 @@ export function RolesList({ roles }: { roles: JobRole[] }) {
       </div>
 
       {shown.length === 0 ? (
-        <p className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+        <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
           {careersCopy.empty}
         </p>
       ) : (
@@ -63,11 +63,11 @@ export function RolesList({ roles }: { roles: JobRole[] }) {
               <div className="flex min-w-0 flex-1 flex-col gap-[10px]">
                 <Link
                   href={`/careers/${role.id}`}
-                  className="font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors hover:text-brand"
+                  className="font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors hover:text-brand"
                 >
                   {role.title}
                 </Link>
-                <span className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+                <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
                   {role.location}
                 </span>
               </div>

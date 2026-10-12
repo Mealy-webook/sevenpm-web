@@ -62,7 +62,7 @@ export function ItemDetailsDialog({
             type="button"
             onClick={() => onAdd(quantity, size)}
             disabled={quantity === 0}
-            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
           >
             {bookingCopy.extras.addToCart}
           </button>
@@ -82,7 +82,7 @@ export function ItemDetailsDialog({
           </span>
         )}
 
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[0.19px] text-content-primary">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[0.19px] text-content-primary">
           {addon.name}
         </h3>
 

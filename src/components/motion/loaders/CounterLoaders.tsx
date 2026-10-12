@@ -155,7 +155,7 @@ export function LoaderSoundcheck({ run, onDone }: LoaderProps) {
             <div className="overflow-hidden">
               <span
                 data-s-num
-                className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-white"
+                className="block font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-white"
               >
                 00
               </span>
@@ -264,7 +264,7 @@ export function LoaderLineup({ run, onDone }: LoaderProps) {
             <div className="overflow-hidden">
               <span
                 data-l-num
-                className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-white"
+                className="block font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-white"
               >
                 00
               </span>
@@ -279,7 +279,7 @@ export function LoaderLineup({ run, onDone }: LoaderProps) {
                 {names.map((name) => (
                   <span
                     key={name}
-                    className="flex h-[40px] items-center justify-end truncate font-[family-name:var(--font-display)] text-[clamp(18px,2.4vw,34px)] font-bold uppercase leading-[40px] tracking-[-0.02em] text-brand"
+                    className="flex h-[40px] items-center justify-end truncate font-[family-name:var(--font-display)] text-[clamp(17px,2.12vw,30px)] font-bold uppercase leading-[34px] tracking-[-0.02em] text-brand"
                   >
                     {name}
                   </span>
@@ -397,7 +397,7 @@ export function LoaderDoors({ run, onDone }: LoaderProps) {
           </span>
           <span
             data-o-num
-            className="block font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-white"
+            className="block font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-white"
           >
             00
           </span>

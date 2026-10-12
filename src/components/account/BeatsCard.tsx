@@ -55,7 +55,7 @@ export function BeatsCard() {
       <div className="flex w-full min-w-0 shrink-0 flex-col gap-3 border border-white/5 bg-bg-tertiary p-6 lg:flex-1 lg:shrink">
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="m-0 flex items-end gap-2 font-daltown text-[48px] uppercase leading-[44px] xl:text-[64px]">
+            <p className="m-0 flex items-end gap-2 font-daltown text-[41px] uppercase leading-[37px] xl:text-[54px]">
               <TickingValue
                 value={balance}
                 format={beats}
@@ -82,7 +82,7 @@ export function BeatsCard() {
             </button>
           </div>
 
-          <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
             {next ? (
               <>
                 {loyaltyCopy.toNextLead}{" "}

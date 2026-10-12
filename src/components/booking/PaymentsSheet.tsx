@@ -185,7 +185,7 @@ export function PaymentsSheet({
             />
           </span>
           <span className="flex min-w-0 flex-1 flex-col gap-2">
-            <span className="font-daltown text-[40px] uppercase leading-[0.78] tracking-[0.4px] text-white">
+            <span className="font-daltown text-[34px] uppercase leading-[0.78] tracking-[0.4px] text-white">
               {event.name}
             </span>
             <span className="flex flex-col">
@@ -243,7 +243,7 @@ export function PaymentsSheet({
                   role="tab"
                   aria-selected={tab === id}
                   onClick={() => setTab(id)}
-                  className={`flex h-10 flex-1 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] transition-colors ${
+                  className={`flex h-10 flex-1 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] transition-colors ${
                     tab === id
                       ? "bg-white/5 font-semibold tracking-[0.19px] text-content-primary"
                       : "tracking-[0.15px] text-content-secondary hover:text-white"
@@ -258,7 +258,7 @@ export function PaymentsSheet({
               <>
                 <div className="flex items-center gap-4">
                   <span className="flex min-w-0 flex-1 flex-col gap-1">
-                    <span className="truncate font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
+                    <span className="truncate font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
                       {copy.planCount(instalments.length, formatMoney(whole))}
                     </span>
                     <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
@@ -272,7 +272,7 @@ export function PaymentsSheet({
                         setStep({ name: "pay", upto: instalments.length })
                       }
                       aria-label={copy.payAllFor(formatMoney(outstanding))}
-                      className="flex shrink-0 cursor-pointer items-center justify-center bg-brand p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-[#0b0b0e] transition-colors hover:bg-[#fff35a]"
+                      className="flex shrink-0 cursor-pointer items-center justify-center bg-brand p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-[#0b0b0e] transition-colors hover:bg-[#fff35a]"
                     >
                       <span className="px-1">{copy.payAll}</span>
                     </button>
@@ -311,11 +311,11 @@ export function PaymentsSheet({
                             height={24}
                             className="size-6 shrink-0"
                           />
-                          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
                             {formatMoney(instalment.amount)}
                           </span>
                           {paid ? (
-                            <span className="flex shrink-0 items-center justify-center bg-white/5 p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white/30">
+                            <span className="flex shrink-0 items-center justify-center bg-white/5 p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-white/30">
                               <span className="px-1">{copy.paid}</span>
                             </span>
                           ) : (
@@ -325,7 +325,7 @@ export function PaymentsSheet({
                                 setStep({ name: "pay", upto: index + 1 })
                               }
                               aria-label={copy.payFor(ordinal(index + 1))}
-                              className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-[#18181b] transition-colors hover:bg-white/90"
+                              className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-[#18181b] transition-colors hover:bg-white/90"
                             >
                               <span className="px-1">{copy.pay}</span>
                             </button>
@@ -372,7 +372,7 @@ export function PaymentsSheet({
                               className="size-5 shrink-0"
                             />
                             <span className="flex min-w-0 flex-1 flex-col">
-                              <span className="truncate font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                              <span className="truncate font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                                 {line.name}
                               </span>
                               {line.size && (
@@ -393,7 +393,7 @@ export function PaymentsSheet({
                 <span aria-hidden className="h-px w-full bg-white/10" />
 
                 <div className="flex flex-col gap-2">
-                  <p className="m-0 flex items-center justify-between gap-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px]">
+                  <p className="m-0 flex items-center justify-between gap-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px]">
                     <span className="tracking-[0.15px] text-content-secondary">
                       {summary.subtotal}
                     </span>
@@ -402,11 +402,11 @@ export function PaymentsSheet({
                     </span>
                   </p>
                   <p className="m-0 flex items-center justify-between gap-3">
-                    <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+                    <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
                       {summary.total}
                     </span>
                     <span className="flex flex-col items-end">
-                      <span className="font-[family-name:var(--font-sans)] text-[17px] font-bold leading-6 tracking-[0.085px] text-content-primary">
+                      <span className="font-[family-name:var(--font-sans)] text-[16px] font-bold leading-6 tracking-[0.085px] text-content-primary">
                         {formatMoney(totals.total)}
                       </span>
                     </span>
@@ -483,7 +483,7 @@ function PayFlow({
           <PaidMark />
           <h2
             id={titleId}
-            className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+            className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
           >
             {copy.doneTitle}
           </h2>
@@ -499,7 +499,7 @@ function PayFlow({
           <button
             type="button"
             onClick={onViewBooking}
-            className="btn-secondary flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary"
+            className="btn-secondary flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary"
           >
             {copy.viewBooking}
           </button>
@@ -508,7 +508,7 @@ function PayFlow({
             <button
               type="button"
               onClick={onAnother}
-              className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+              className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
             >
               {copy.payAnother}
             </button>
@@ -532,11 +532,11 @@ function PayFlow({
   return (
     <div className="flex flex-col gap-4">
       <section className="flex flex-col gap-3">
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
           {copy.detailsTitle}
         </h3>
         <div className="flex flex-col gap-3 border border-white/5 p-4">
-          <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px]">
+          <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px]">
             <span className="tracking-[0.15px] text-content-primary">
               {what}
             </span>
@@ -545,7 +545,7 @@ function PayFlow({
             </span>
           </p>
           {credit > 0 && (
-            <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-[#4ade80]">
+            <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#4ade80]">
               <span className="tracking-[0.15px]">{copy.walletLabel}</span>
               <span className="font-semibold tabular-nums tracking-[0.19px]">
                 −{formatMoney(credit)}
@@ -556,11 +556,11 @@ function PayFlow({
           <span aria-hidden className="h-px w-full bg-white/10" />
 
           <p className="m-0 flex items-center justify-between gap-3">
-            <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
               {bookingCopy.orderSummary.total}
             </span>
             <span className="flex flex-col items-end">
-              <span className="font-[family-name:var(--font-sans)] text-[17px] font-bold leading-6 tracking-[0.085px] tabular-nums text-content-primary">
+              <span className="font-[family-name:var(--font-sans)] text-[16px] font-bold leading-6 tracking-[0.085px] tabular-nums text-content-primary">
                 {formatMoney(charged)}
               </span>
             </span>
@@ -569,7 +569,7 @@ function PayFlow({
       </section>
 
       <section className="flex flex-col gap-3">
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
           {copy.payWith}
         </h3>
 
@@ -584,7 +584,7 @@ function PayFlow({
               className="size-6 shrink-0"
             />
             <span className="flex min-w-0 flex-1 flex-col">
-              <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+              <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                 {copy.walletLabel}
               </span>
               <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
@@ -645,7 +645,7 @@ function PayFlow({
                   className="size-6 shrink-0"
                 />
                 <span className="flex min-w-0 flex-1 flex-col gap-1">
-                  <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                     {option.label}
                   </span>
                   {isCard &&
@@ -708,7 +708,7 @@ function PayFlow({
       <button
         type="button"
         onClick={() => onPay(charged)}
-        className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+        className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
       >
         {copy.confirmAndPay(formatMoney(charged))}
       </button>

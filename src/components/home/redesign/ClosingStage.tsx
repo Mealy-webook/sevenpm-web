@@ -17,7 +17,7 @@ export function ClosingStage() {
           {title}
         </DisplayHeading>
         <p
-          className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[17px] leading-[1.6] text-content-secondary"
+          className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[16px] leading-[1.6] text-content-secondary"
           data-split="lines"
         >
           {body}
@@ -29,7 +29,7 @@ export function ClosingStage() {
           <a
             href="#newsletter"
             data-magnetic="0.25"
-            className="lift inline-flex items-center bg-brand px-8 py-5 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-none text-[#18181b] transition-colors hover:bg-white"
+            className="lift inline-flex items-center bg-brand px-8 py-5 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-none text-[#18181b] transition-colors hover:bg-white"
           >
             {cta}
           </a>

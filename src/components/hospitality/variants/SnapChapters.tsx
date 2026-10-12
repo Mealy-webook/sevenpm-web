@@ -55,11 +55,11 @@ export function SnapChapters() {
                 {entry.festival}
               </span>
 
-              <h3 className="m-0 font-daltown text-[clamp(40px,9vw,140px)] uppercase leading-[0.86] text-white">
+              <h3 className="m-0 font-daltown text-[clamp(34px,7.65vw,119px)] uppercase leading-[0.86] text-white">
                 {entry.name}
               </h3>
 
-              <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-white/80">
+              <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-white/80">
                 {entry.summary}
               </p>
 
@@ -70,7 +70,7 @@ export function SnapChapters() {
                   <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/50">
                     {hospitalityCopy.packages.from}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[24px] font-black leading-7 text-brand">
+                  <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
                     {entry.price}
                   </span>
                   <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/50">
@@ -82,14 +82,14 @@ export function SnapChapters() {
                   <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/50">
                     Capacity
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-7 text-white">
+                  <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-7 text-white">
                     {entry.capacity}
                   </span>
                 </span>
 
                 <Link
                   href={`/hospitality/${entry.slug}`}
-                  className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                  className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
                 >
                   <span className="relative z-10">
                     {hospitalityCopy.packages.discover}
@@ -102,7 +102,7 @@ export function SnapChapters() {
       ))}
 
       <div className="shell py-7">
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

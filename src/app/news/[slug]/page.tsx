@@ -56,7 +56,7 @@ export default async function ArticlePage({ params }: PageProps) {
         <article className="shell flex flex-col gap-12 py-12 xl:py-20">
           <Link
             href="/news"
-            className="news-tile group flex w-fit items-center gap-2 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
+            className="news-tile group flex w-fit items-center gap-2 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
           >
             <span
               aria-hidden
@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: PageProps) {
           </Link>
 
           <header className="flex w-full flex-col gap-4 lg:max-w-[729px]">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
               <time dateTime={article.date}>{article.dateLabel}</time> —{" "}
               {article.readingTime}
             </p>
@@ -97,7 +97,7 @@ export default async function ArticlePage({ params }: PageProps) {
           <div className="flex w-full flex-col gap-12 lg:flex-row">
             <div className="flex min-w-0 flex-col gap-12 lg:w-[836px] lg:shrink-0">
               <p
-                className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white"
+                className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white"
                 data-split="lines"
               >
                 {lead}
@@ -106,7 +106,7 @@ export default async function ArticlePage({ params }: PageProps) {
                 {rest.map((paragraph) => (
                   <p
                     key={paragraph.slice(0, 40)}
-                    className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary"
+                    className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary"
                     data-reveal="up"
                   >
                     {paragraph}
@@ -116,7 +116,7 @@ export default async function ArticlePage({ params }: PageProps) {
             </div>
 
             <aside className="flex min-w-0 flex-1 flex-col gap-6">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary">
                 Share
               </h2>
               <div className="flex flex-wrap gap-4">

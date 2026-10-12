@@ -109,7 +109,7 @@ export function KineticHero() {
         <div className="shell relative z-10 flex w-full flex-col items-center gap-4">
           <HeroHeadline />
           <p
-            className="max-w-[786px] text-center font-[family-name:var(--font-display)] text-[18px] leading-[1.6] text-content-secondary"
+            className="max-w-[786px] text-center font-[family-name:var(--font-display)] text-[17px] leading-[1.6] text-content-secondary"
             data-split="lines"
             data-reveal-delay="0.12"
           >

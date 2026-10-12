@@ -54,7 +54,7 @@ export function AccountIdentity() {
         the fold.
       */}
       <h1
-        className="m-0 flex flex-col font-daltown text-[clamp(56px,17vw,132px)] uppercase leading-[0.68] text-white lg:text-[clamp(56px,min(74cqw,calc((100svh-602px)/1.36)),240px)]"
+        className="m-0 flex flex-col font-daltown text-[clamp(48px,14.42vw,112px)] uppercase leading-[0.68] text-white lg:text-[clamp(56px,min(74cqw,calc((100svh-602px)/1.36)),240px)]"
         data-no-split
       >
         <span className="block">{first}</span>

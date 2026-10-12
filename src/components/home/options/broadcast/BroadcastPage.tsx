@@ -39,7 +39,7 @@ function Slot({
     <section id={id} className="border-t border-white/10">
       <div className="shell grid grid-cols-1 gap-8 py-14 lg:grid-cols-[168px_1fr] lg:gap-12 xl:py-20">
         <div className="flex flex-row items-baseline gap-4 lg:flex-col lg:items-start lg:gap-3">
-          <span className="font-daltown text-[32px] uppercase leading-[0.9] text-brand">
+          <span className="font-daltown text-[28px] uppercase leading-[0.9] text-brand">
             {time}
           </span>
           <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary">
@@ -107,10 +107,10 @@ export function BroadcastHero() {
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_340px] lg:items-end lg:gap-16">
           <div className="flex flex-col gap-6">
-            <span className="font-daltown text-[clamp(64px,9vw,132px)] uppercase leading-[0.82] text-white">
+            <span className="font-daltown text-[clamp(54px,7.64vw,112px)] uppercase leading-[0.82] text-white">
               19:00
             </span>
-            <h1 className="m-0 font-daltown text-[clamp(40px,6vw,92px)] uppercase leading-[0.86] text-white">
+            <h1 className="m-0 font-daltown text-[clamp(34px,5.09vw,78px)] uppercase leading-[0.86] text-white">
               {homeCopy.heroLead} {homeCopy.heroWords[0]}
               <br />
               <span className="text-brand">
@@ -118,7 +118,7 @@ export function BroadcastHero() {
               </span>
             </h1>
             <p
-              className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[15px] leading-[24px] text-content-secondary"
+              className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary"
               data-split="lines"
             >
               {homeCopy.intro}
@@ -141,7 +141,7 @@ export function BroadcastHero() {
                   </span>
                   <Link
                     href={festival.href}
-                    className="flex-1 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-primary transition-colors hover:text-brand"
+                    className="flex-1 font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-primary transition-colors hover:text-brand"
                   >
                     {festival.name}
                   </Link>
@@ -181,7 +181,7 @@ export function BroadcastSchedule() {
               <dt className="order-2 font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
                 {stat.label}
               </dt>
-              <dd className="order-1 m-0 font-daltown text-[clamp(36px,4vw,52px)] uppercase leading-[0.9] text-white">
+              <dd className="order-1 m-0 font-daltown text-[clamp(32px,3.38vw,44px)] uppercase leading-[0.9] text-white">
                 {stat.prefix}
                 {stat.year ? stat.value : stat.value.toLocaleString("en-US")}
                 {stat.suffix}
@@ -203,7 +203,7 @@ export function BroadcastSchedule() {
                 <span className="w-[56px] shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tabular-nums text-brand">
                   {19 + index}:30
                 </span>
-                <span className="flex-1 font-daltown text-[clamp(24px,3.2vw,44px)] uppercase leading-[1] text-white transition-colors group-hover:text-brand">
+                <span className="flex-1 font-daltown text-[clamp(21px,2.69vw,37px)] uppercase leading-[1] text-white transition-colors group-hover:text-brand">
                   {festival.name}
                 </span>
                 <span
@@ -227,7 +227,7 @@ export function BroadcastSchedule() {
       <Slot time="20:00" title="The house">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px] lg:gap-12">
           <div className="flex flex-col gap-6">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[clamp(18px,2vw,24px)] leading-[1.6] text-content-primary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-[clamp(17px,1.75vw,21px)] leading-[1.6] text-content-primary">
               {homeStory.body}
             </p>
             <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
@@ -285,10 +285,10 @@ export function BroadcastSchedule() {
                   {item.date}
                 </span>
                 <span className="flex flex-col gap-2">
-                  <span className="font-[family-name:var(--font-display)] text-[clamp(17px,2vw,22px)] font-bold uppercase leading-[1.25] tracking-[-0.1px] text-white transition-colors group-hover:text-brand">
+                  <span className="font-[family-name:var(--font-display)] text-[clamp(16px,1.73vw,19px)] font-bold uppercase leading-[1.25] tracking-[-0.1px] text-white transition-colors group-hover:text-brand">
                     {item.title}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[14px] leading-[22px] text-content-secondary">
+                  <span className="font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-secondary">
                     {item.excerpt}
                   </span>
                 </span>
@@ -333,10 +333,10 @@ export function BroadcastSchedule() {
       {/* 22:00 — sign-off. */}
       <Slot time="22:00" title="Sign off">
         <div className="flex flex-col gap-6 border border-white/10 bg-bg-secondary p-6 xl:p-10">
-          <h2 className="m-0 font-daltown text-[clamp(32px,5vw,64px)] uppercase leading-[0.9] text-white">
+          <h2 className="m-0 font-daltown text-[clamp(28px,4.22vw,54px)] uppercase leading-[0.9] text-white">
             {homeCopy.newsletter.title}
           </h2>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-secondary">
             {homeCopy.newsletter.body}
           </p>
           {/* No handler: this is a review page, and the live newsletter has
@@ -349,11 +349,11 @@ export function BroadcastSchedule() {
               id="broadcast-newsletter"
               type="email"
               placeholder="you@example.com"
-              className="w-full border border-white/15 bg-white/5 px-4 py-4 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-primary placeholder:text-content-secondary focus:border-brand focus:outline-none sm:max-w-[420px]"
+              className="w-full border border-white/15 bg-white/5 px-4 py-4 font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-primary placeholder:text-content-secondary focus:border-brand focus:outline-none sm:max-w-[420px]"
             />
             <button
               type="button"
-              className="flex shrink-0 items-center justify-center bg-brand px-8 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-[#18181b] transition-colors hover:bg-[#fff35a]"
+              className="flex shrink-0 items-center justify-center bg-brand px-8 py-4 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-[#18181b] transition-colors hover:bg-[#fff35a]"
             >
               {homeCopy.newsletter.cta}
             </button>

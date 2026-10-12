@@ -40,7 +40,7 @@ function Line({
   const body = (
     <>
       <span className="flex items-baseline gap-3">
-        <span className="font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-7 tracking-[0.02em] text-white sm:text-[23px]">
+        <span className="font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[0.02em] text-white sm:text-[20px]">
           {name}
         </span>
         {/* The leader. A rule that fills whatever space is left between the
@@ -50,11 +50,11 @@ function Line({
           aria-hidden
           className="mb-1.5 h-px flex-1 bg-[repeating-linear-gradient(to_right,rgba(255,255,255,0.35)_0_2px,transparent_2px_6px)]"
         />
-        <span className="shrink-0 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-7 text-brand">
+        <span className="shrink-0 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-7 text-brand">
           {price}
         </span>
       </span>
-      <span className="mt-1 block max-w-[560px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
+      <span className="mt-1 block max-w-[560px] font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-content-secondary">
         {note}
       </span>
     </>
@@ -123,12 +123,12 @@ export function CarteList() {
           </div>
 
           <div className="flex flex-col items-center gap-4 border-t border-white/25 pt-8 text-center">
-            <p className="m-0 max-w-[480px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-white/45">
+            <p className="m-0 max-w-[480px] font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-white/45">
               {hospitalityCopy.priceNote}
             </p>
             <Link
               href="#quote"
-              className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">Request a quote</span>
             </Link>

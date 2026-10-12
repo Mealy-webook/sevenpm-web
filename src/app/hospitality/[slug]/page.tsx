@@ -60,7 +60,7 @@ export default async function PackagePage({
           <div className="shell flex flex-col gap-8 pb-10 pt-6 xl:pt-10">
             <nav
               aria-label="Breadcrumb"
-              className="font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/45"
+              className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45"
             >
               <Link href="/hospitality" className="text-brand underline underline-offset-2">
                 Hospitality
@@ -81,7 +81,7 @@ export default async function PackagePage({
                   {entry.name}
                 </DisplayHeading>
                 <p
-                  className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[17px] leading-[1.7] text-content-secondary"
+                  className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary"
                   data-split="lines"
                 >
                   {entry.body}
@@ -97,7 +97,7 @@ export default async function PackagePage({
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                   {hospitalityCopy.packages.from}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[30px] font-black leading-9 text-brand">
+                <span className="font-[family-name:var(--font-display)] text-[26px] font-black leading-9 text-brand">
                   {entry.price}
                 </span>
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -105,7 +105,7 @@ export default async function PackagePage({
                 </span>
                 <Link
                   href="#quote"
-                  className="sweep mt-2 flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+                  className="sweep mt-2 flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
                 >
                   <span className="relative z-10">
                     {hospitalityCopy.cta.label}
@@ -130,7 +130,7 @@ export default async function PackagePage({
                   <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                     {spec.label}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
+                  <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white">
                     {spec.value}
                   </span>
                 </div>
@@ -149,7 +149,7 @@ export default async function PackagePage({
                 {entry.included.map((line) => (
                   <li
                     key={line}
-                    className="flex items-start gap-3 font-[family-name:var(--font-ui)] text-[16px] leading-[1.6] text-white"
+                    className="flex items-start gap-3 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-white"
                   >
                     <span aria-hidden className="mt-0.5 text-brand">
                       ✓
@@ -161,7 +161,7 @@ export default async function PackagePage({
               {entry.includedTodo ? (
                 /* The rest of the list, still to be written. Visible on
                    purpose — it is the brief. */
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-brand/80">
+                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-brand/80">
                   {entry.includedTodo}
                 </p>
               ) : null}
@@ -195,10 +195,10 @@ export default async function PackagePage({
                   className="flex flex-col gap-1 border border-white/10 bg-ink-900 p-5 transition-colors hover:border-white/35"
                   style={{ borderRadius: "var(--radius)" }}
                 >
-                  <span className="font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
+                  <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white">
                     {item.name}
                   </span>
-                  <span className="font-[family-name:var(--font-ui)] text-[14px] leading-5 text-content-secondary">
+                  <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
                     From {item.price}
                   </span>
                 </Link>

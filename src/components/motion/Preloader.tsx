@@ -370,7 +370,7 @@ export function Preloader() {
             <span
               ref={counter}
               data-pre-num
-              className="block text-center font-daltown text-[clamp(72px,18vw,220px)] uppercase leading-[0.8] tabular-nums text-[#18181b]"
+              className="block text-center font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-[#18181b]"
             >
               00
             </span>

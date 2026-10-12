@@ -294,7 +294,7 @@ export function CardDialog({
               />
             </svg>
           </span>
-          <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary">
+          <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-secondary">
             {copy.save}
           </span>
         </label>

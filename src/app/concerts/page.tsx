@@ -41,12 +41,12 @@ export default function ConcertsPage() {
                 data-reveal="up"
                 className="flex flex-col items-start gap-4 border-t border-white/10 py-10"
               >
-                <p className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-7 tracking-[-0.11px] text-white sm:text-[24px]">
+                <p className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[-0.11px] text-white sm:text-[21px]">
                   {eventsCopy.empty}
                 </p>
                 <Link
                   href="/#newsletter"
-                  className="link-sweep font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-6 tracking-[1.56px] text-brand"
+                  className="link-sweep font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-6 tracking-[1.56px] text-brand"
                 >
                   Join the newsletter
                 </Link>
@@ -66,10 +66,10 @@ export default function ConcertsPage() {
                       <span className="w-48 shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-brand">
                         {show.when}
                       </span>
-                      <span className="flex-1 font-[family-name:var(--font-display)] text-[24px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[30px]">
+                      <span className="flex-1 font-[family-name:var(--font-display)] text-[21px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[26px]">
                         {show.name}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
                         {show.venue}
                       </span>
                     </Link>

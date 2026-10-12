@@ -133,7 +133,7 @@ export function VipBoxDialog({
           <button
             type="button"
             onClick={sent ? onClose : submit}
-            className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+            className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
           >
             {sent ? vipBoxCopy.done : vipBoxCopy.submit}
           </button>
@@ -142,7 +142,7 @@ export function VipBoxDialog({
     >
       {sent ? (
         <div className="flex flex-col gap-4 px-5 py-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
             {vipBoxCopy.sentBody(sent)}
           </p>
           {/* What happens after this page, in the order it happens. */}
@@ -165,7 +165,7 @@ export function VipBoxDialog({
               wait for. */}
           <Link
             href="/account?tab=requests"
-            className="btn-secondary flex items-center justify-center self-start px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary"
+            className="btn-secondary flex items-center justify-center self-start px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary"
           >
             {vipBoxCopy.track}
           </Link>
@@ -244,7 +244,7 @@ export function VipBoxDialog({
                           : [...fields.days, day.id],
                       )
                     }
-                    className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] transition-colors ${
+                    className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] transition-colors ${
                       on
                         ? "border-content-primary bg-white/10 text-content-primary"
                         : "border-white/10 bg-white/5 text-content-secondary hover:bg-white/10"
@@ -271,7 +271,7 @@ export function VipBoxDialog({
               value={fields.notes}
               onChange={(event_) => set("notes", event_.target.value)}
               placeholder={vipBoxCopy.notesHint}
-              className="w-full resize-y border border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-white/30 focus:border-content-primary"
+              className="w-full resize-y border border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-white/30 focus:border-content-primary"
             />
           </div>
         </div>
@@ -331,7 +331,7 @@ function Field({
         autoComplete={autoComplete}
         aria-invalid={Boolean(error)}
         onChange={(event_) => onChange(event_.target.value)}
-        className={`h-12 w-full border bg-white/5 px-4 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-white/30 ${
+        className={`h-12 w-full border bg-white/5 px-4 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-white/30 ${
           error
             ? "border-[#ff6c6c]"
             : "border-white/10 focus:border-content-primary"

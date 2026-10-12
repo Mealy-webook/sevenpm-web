@@ -148,7 +148,7 @@ export function DeliveryDialog({
                       className="size-5 shrink-0"
                     />
                     <span className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary">
+                      <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
                         {item.label}
                       </span>
                       <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
@@ -200,7 +200,7 @@ export function DeliveryDialog({
                   setCity("");
                   setErrors({});
                 }}
-                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] outline-none transition-colors focus:border-content-primary ${
+                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] outline-none transition-colors focus:border-content-primary ${
                   errors.country ? "border-[#ff6c6c]" : "border-white/10"
                 } ${country ? "font-semibold text-content-primary" : "text-content-secondary"}`}
               >
@@ -225,7 +225,7 @@ export function DeliveryDialog({
                   setCity(event.target.value);
                   setErrors({});
                 }}
-                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] outline-none transition-colors focus:border-content-primary disabled:opacity-50 ${
+                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] outline-none transition-colors focus:border-content-primary disabled:opacity-50 ${
                   errors.city ? "border-[#ff6c6c]" : "border-white/10"
                 } ${city ? "font-semibold text-content-primary" : "text-content-secondary"}`}
               >

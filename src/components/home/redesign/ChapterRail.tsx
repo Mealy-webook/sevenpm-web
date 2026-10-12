@@ -55,7 +55,7 @@ export function ChapterRail({ chapters }: { chapters: ChapterRef[] }) {
             className="group flex items-center gap-3"
           >
             <span
-              className={`font-daltown text-[22px] leading-none transition-colors ${
+              className={`font-daltown text-[19px] leading-none transition-colors ${
                 on ? "text-brand" : "text-white/30 group-hover:text-white/70"
               }`}
             >

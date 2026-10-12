@@ -30,7 +30,7 @@ export function HospitalityHero() {
           {title}
         </DisplayHeading>
         <p
-          className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[17px] leading-[1.7] text-content-secondary"
+          className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary"
           data-split="lines"
           data-reveal-delay="0.1"
         >
@@ -40,13 +40,13 @@ export function HospitalityHero() {
           <Link
             href={primary.href}
             data-magnetic="0.2"
-            className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+            className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
           >
             <span className="relative z-10">{primary.label}</span>
           </Link>
           <Link
             href={secondary.href}
-            className="btn-secondary flex items-center border border-white/25 px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
+            className="btn-secondary flex items-center border border-white/25 px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
           >
             {secondary.label}
           </Link>
@@ -67,10 +67,10 @@ export function HospitalityHighlights() {
             data-reveal="up"
             className="flex flex-col gap-2 border-t-2 border-brand pt-4"
           >
-            <h2 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-6 text-white">
+            <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
               {item.title}
             </h2>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
               {item.body}
             </p>
           </div>
@@ -103,10 +103,10 @@ export function HospitalityHow() {
               <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tabular-nums text-brand">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-6 text-white">
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
                 {step.title}
               </h3>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
                 {step.body}
               </p>
             </li>
@@ -143,7 +143,7 @@ export function HospitalityFaq() {
           {items.map((item) => (
             <li key={item.q} data-reveal="up" className="border-b border-white/10">
               <details className="group">
-                <summary className="flex cursor-pointer items-center gap-3 py-5 font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer items-center gap-3 py-5 font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white [&::-webkit-details-marker]:hidden">
                   <span
                     aria-hidden
                     className="text-brand transition-transform group-open:rotate-90"
@@ -153,7 +153,7 @@ export function HospitalityFaq() {
                   {item.q}
                 </summary>
                 <div className="pb-5 pl-7">
-                  <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                  <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
                     {item.a}
                   </p>
                 </div>
@@ -178,16 +178,16 @@ export function HospitalityCta() {
           style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col gap-2">
-            <h2 className="m-0 font-daltown text-[clamp(28px,5vw,52px)] uppercase leading-[0.95]">
+            <h2 className="m-0 font-daltown text-[clamp(25px,4.23vw,44px)] uppercase leading-[0.95]">
               {title}
             </h2>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-6 text-[#18181b]/70">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-6 text-[#18181b]/70">
               {email} · {phone}
             </p>
           </div>
           <Link
             href="#quote"
-            className="flex shrink-0 items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+            className="flex shrink-0 items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
             style={{ borderRadius: "var(--radius)" }}
           >
             {label}

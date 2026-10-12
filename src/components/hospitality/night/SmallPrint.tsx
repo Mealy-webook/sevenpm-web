@@ -24,7 +24,7 @@ export function SmallPrint() {
             {stamp}
           </span>
           <h2
-            className="m-0 font-daltown text-[clamp(34px,6.5vw,104px)] uppercase leading-[0.88] text-white"
+            className="m-0 font-daltown text-[clamp(30px,5.5vw,88px)] uppercase leading-[0.88] text-white"
             data-reveal="clip"
           >
             {title}
@@ -38,10 +38,10 @@ export function SmallPrint() {
               data-reveal="up"
               className="flex flex-col gap-2 border-t border-white/12 py-6"
             >
-              <dt className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.02em] text-white">
+              <dt className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[0.02em] text-white">
                 {item.q}
               </dt>
-              <dd className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-content-secondary">
+              <dd className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.75] text-content-secondary">
                 {item.a}
               </dd>
             </div>

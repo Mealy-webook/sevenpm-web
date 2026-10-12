@@ -111,7 +111,7 @@ export function Sheet({
             {title && (
               <h2
                 id={titleId}
-                className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+                className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
               >
                 {title}
               </h2>
@@ -165,7 +165,7 @@ export function SheetPrice({
   return (
     <div className="flex flex-col gap-[2px]">
       <p className="m-0 flex items-baseline gap-1 font-[family-name:var(--font-display)]">
-        <span className="text-[17px] font-semibold leading-6 text-content-primary">
+        <span className="text-[16px] font-semibold leading-6 text-content-primary">
           {format(price)}
         </span>
         {suffix && (
@@ -262,8 +262,8 @@ export function SheetField({
             autoFocus={autoFocus}
             className={`w-full bg-transparent font-[family-name:var(--font-display)] text-content-primary caret-brand outline-none placeholder:text-content-secondary ${
               filled
-                ? "text-[15px] font-semibold leading-[22px] tracking-[0.19px]"
-                : "text-[15px] leading-[22px] tracking-[0.19px]"
+                ? "text-[14px] font-semibold leading-[19px] tracking-[0.19px]"
+                : "text-[14px] leading-[19px] tracking-[0.19px]"
             }`}
           />
         </span>
@@ -299,7 +299,7 @@ export function SheetSubmit({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+      className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
     >
       {children}
     </button>

@@ -73,7 +73,7 @@ export function HeroBoard() {
   return (
     <section className="relative flex h-svh w-full flex-col justify-center overflow-hidden bg-bg-primary px-[var(--shell-gutter)]">
       <h1
-        className="m-0 font-daltown text-[clamp(38px,6vw,96px)] uppercase leading-[0.82] tracking-[0.02em] text-white"
+        className="m-0 font-daltown text-[clamp(33px,5.12vw,82px)] uppercase leading-[0.82] tracking-[0.02em] text-white"
         data-no-split
       >
         {homeCopy.heroTitle}
@@ -109,8 +109,8 @@ export function HeroBoard() {
                     data-flap={cell.toUpperCase()}
                     className={`py-[clamp(8px,1.6vh,20px)] pr-4 font-[family-name:var(--font-display)] uppercase tabular-nums ${
                       index === 0
-                        ? "text-[clamp(18px,2.6vw,38px)] font-bold leading-tight tracking-[-0.01em] text-white"
-                        : "text-[clamp(11px,1.1vw,15px)] leading-5 tracking-[1.5px] text-content-secondary"
+                        ? "text-[clamp(17px,2.26vw,33px)] font-bold leading-tight tracking-[-0.01em] text-white"
+                        : "text-[clamp(11px,1.03vw,14px)] leading-5 tracking-[1.5px] text-content-secondary"
                     } ${index === 3 && festival.when ? "!text-brand" : ""}`}
                   >
                     {cell.toUpperCase()}
@@ -122,7 +122,7 @@ export function HeroBoard() {
         </tbody>
       </table>
 
-      <p className="m-0 mt-8 max-w-[560px] font-[family-name:var(--font-display)] text-[15px] leading-6 tracking-[0.085px] text-content-secondary">
+      <p className="m-0 mt-8 max-w-[560px] font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.085px] text-content-secondary">
         {homeCopy.intro}
       </p>
     </section>

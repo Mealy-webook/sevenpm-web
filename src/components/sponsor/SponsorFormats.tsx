@@ -17,7 +17,7 @@ export function SponsorFormats() {
             {title}
           </DisplayHeading>
           <p
-            className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary"
+            className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary"
             data-reveal="up"
           >
             {intro}
@@ -32,13 +32,13 @@ export function SponsorFormats() {
               className="flex flex-col gap-3 border border-white/10 bg-ink-900 p-7 xl:p-8"
               style={{ borderRadius: "var(--radius)" }}
             >
-              <p className="m-0 font-[family-name:var(--font-display)] text-[22px] font-black leading-7 tabular-nums text-brand">
+              <p className="m-0 font-[family-name:var(--font-display)] text-[19px] font-black leading-7 tabular-nums text-brand">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h3 className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold leading-7 text-white">
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-7 text-white">
                 {item.title}
               </h3>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
                 {item.body}
                 {item.link ? (
                   <>
@@ -61,15 +61,15 @@ export function SponsorFormats() {
             className="flex flex-col items-start gap-3 bg-brand p-7 text-[#18181b] xl:p-8"
             style={{ borderRadius: "var(--radius)" }}
           >
-            <h3 className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold leading-7">
+            <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-7">
               {tailored.title}
             </h3>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#18181b]/75">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-[#18181b]/75">
               {tailored.body}
             </p>
             <Link
               href="#partnership-form"
-              className="mt-auto flex items-center bg-[#0b0b0e] px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+              className="mt-auto flex items-center bg-[#0b0b0e] px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
               style={{ borderRadius: "var(--radius)" }}
             >
               {tailored.label}
@@ -104,10 +104,10 @@ export function SponsorHow() {
               <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tabular-nums text-white/45">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-6 text-white">
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
                 {step.title}
               </h3>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
                 {step.body}
               </p>
             </li>

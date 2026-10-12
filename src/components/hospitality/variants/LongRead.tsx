@@ -72,8 +72,8 @@ export function LongRead() {
                 <p
                   className={`m-0 font-[family-name:var(--font-ui)] text-content-secondary ${
                     index === 0
-                      ? "text-[19px] leading-[1.75] text-white/90 sm:text-[21px]"
-                      : "text-[17px] leading-[1.8]"
+                      ? "text-[17px] leading-[1.75] text-white/90 sm:text-[18px]"
+                      : "text-[16px] leading-[1.8]"
                   }`}
                 >
                   {passage.body}
@@ -97,10 +97,10 @@ export function LongRead() {
                       <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-brand">
                         {entry.festival} · {entry.capacity}
                       </span>
-                      <h3 className="m-0 font-daltown text-[clamp(24px,3.4vw,38px)] uppercase leading-[0.95] text-white">
+                      <h3 className="m-0 font-daltown text-[clamp(21px,2.95vw,33px)] uppercase leading-[0.95] text-white">
                         {entry.name}
                       </h3>
-                      <span className="font-[family-name:var(--font-display)] text-[17px] font-black leading-6 text-brand">
+                      <span className="font-[family-name:var(--font-display)] text-[16px] font-black leading-6 text-brand">
                         {from} {entry.price}
                         <span className="ml-2 font-[family-name:var(--font-ui)] text-[13px] font-normal text-white/45">
                           {entry.perUnit}
@@ -108,7 +108,7 @@ export function LongRead() {
                       </span>
                       <Link
                         href={`/hospitality/${entry.slug}`}
-                        className="link-sweep mt-1 self-start font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-6 tracking-[1.56px] text-white"
+                        className="link-sweep mt-1 self-start font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-6 tracking-[1.56px] text-white"
                       >
                         {discover}
                       </Link>
@@ -134,10 +134,10 @@ export function LongRead() {
                       href={`/hospitality/${entry.slug}`}
                       className="flex items-baseline justify-between gap-4 py-3.5"
                     >
-                      <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white">
+                      <span className="font-[family-name:var(--font-display)] text-[15px] font-bold leading-6 text-white">
                         {entry.name}
                       </span>
-                      <span className="shrink-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-content-secondary">
+                      <span className="shrink-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
                         {from} {entry.price}
                       </span>
                     </Link>
@@ -146,7 +146,7 @@ export function LongRead() {
             </ul>
           </div>
 
-          <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+          <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
             {hospitalityCopy.priceNote}
           </p>
         </div>

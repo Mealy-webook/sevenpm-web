@@ -7,9 +7,9 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { hospitalityCopy, hospitalityPackages } from "@/data/hospitality";
 
 const FIELD =
-  "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
+  "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-[15px] leading-6 text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
 const LABEL =
-  "font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white";
+  "font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white";
 
 function Field({
   label,
@@ -153,7 +153,7 @@ export function QuoteForm({
           </Field>
 
           <label
-            className="flex cursor-pointer items-start gap-3 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary"
+            className="flex cursor-pointer items-start gap-3 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary"
             htmlFor={ids.consent}
           >
             <input
@@ -177,7 +177,7 @@ export function QuoteForm({
           <div className="flex flex-wrap items-center gap-4">
             <button
               type="submit"
-              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">
                 {sent ? "Noted" : quote.submit}
@@ -185,7 +185,7 @@ export function QuoteForm({
             </button>
             <p
               role="status"
-              className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/45"
+              className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45"
             >
               {sent ? quote.sent : " "}
             </p>
@@ -208,7 +208,7 @@ export function QuoteForm({
           <DisplayHeading align="left" reveal="clip" size="faq">
             {quote.title}
           </DisplayHeading>
-          <p className="m-0 font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             {quote.body}
           </p>
         </div>

@@ -69,7 +69,7 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
                     >
                       <span
                         aria-hidden
-                        className="w-8 shrink-0 font-daltown text-[28px] leading-7 text-content-secondary transition-colors group-hover:text-brand"
+                        className="w-8 shrink-0 font-daltown text-[25px] leading-7 text-content-secondary transition-colors group-hover:text-brand"
                       >
                         {DAY.format(new Date(article.date))}
                       </span>
@@ -86,7 +86,7 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
                       </span>
 
                       <span className="flex min-w-0 flex-1 flex-col gap-1">
-                        <span className="font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-white transition-colors group-hover:text-brand lg:text-[20px] lg:leading-7">
+                        <span className="font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[-0.09px] text-white transition-colors group-hover:text-brand lg:text-[18px] lg:leading-7">
                           {article.title}
                         </span>
                         <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.5px] text-content-secondary">

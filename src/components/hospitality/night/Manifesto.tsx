@@ -23,13 +23,13 @@ export function Manifesto() {
 
         <div className="flex flex-col gap-7">
           <h2
-            className="m-0 max-w-[16ch] font-daltown text-[clamp(38px,7.5vw,118px)] uppercase leading-[0.86]"
+            className="m-0 max-w-[16ch] font-daltown text-[clamp(33px,6.36vw,100px)] uppercase leading-[0.86]"
             data-reveal="clip"
           >
             {lead}
           </h2>
           <p
-            className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[17px] leading-[1.75] text-[#18181b]/75 sm:text-[19px]"
+            className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-[#18181b]/75 sm:text-[17px]"
             data-split="lines"
           >
             {body}
@@ -46,10 +46,10 @@ export function Manifesto() {
               <span className="font-[family-name:var(--font-display)] text-[12px] font-bold leading-4 tabular-nums tracking-[3px] text-[#18181b]/55">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h3 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-black uppercase leading-7 sm:text-[24px]">
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-black uppercase leading-7 sm:text-[21px]">
                 {point.title}
               </h3>
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#18181b]/70">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-[#18181b]/70">
                 {point.body}
               </p>
             </li>

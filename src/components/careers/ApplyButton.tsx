@@ -27,7 +27,7 @@ export function ApplyButton({
         type="button"
         onClick={() => setOpen(true)}
         data-magnetic={variant === "row" ? "0.15" : undefined}
-        className={`flex shrink-0 cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand ${
+        className={`flex shrink-0 cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand ${
           variant === "block" ? "w-full" : ""
         }`}
       >

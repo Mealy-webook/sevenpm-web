@@ -26,7 +26,7 @@ import { hospitalityCopy, hospitalityPackages } from "@/data/hospitality";
  * Nothing is sent — there is no backend behind this build.
  */
 const FIELD =
-  "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
+  "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-[15px] leading-6 text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
 
 export function QuoteFirst() {
   const { quote, packages, priceNote } = hospitalityCopy;
@@ -44,11 +44,11 @@ export function QuoteFirst() {
             <DisplayHeading align="left" reveal="clip" size="faq">
               Tell us the night
             </DisplayHeading>
-            <p className="m-0 max-w-[480px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+            <p className="m-0 max-w-[480px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
               {quote.body} If you already know which space you want, say so —
               if not, leave it and we will suggest one.
             </p>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-white/45">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-white/45">
               {priceNote}
             </p>
           </div>
@@ -63,7 +63,7 @@ export function QuoteFirst() {
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
                   Festival
                 </span>
                 <select name="festival" className={FIELD}>
@@ -72,13 +72,13 @@ export function QuoteFirst() {
                 </select>
               </label>
               <label className="flex flex-col gap-2">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
                   Guests
                 </span>
                 <input name="guests" type="number" min={1} required className={FIELD} />
               </label>
               <label className="flex flex-col gap-2">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
                   Nights
                 </span>
                 <select name="nights" className={FIELD}>
@@ -88,7 +88,7 @@ export function QuoteFirst() {
                 </select>
               </label>
               <label className="flex flex-col gap-2">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
                   Space (optional)
                 </span>
                 <select name="package" className={FIELD} defaultValue="">
@@ -99,14 +99,14 @@ export function QuoteFirst() {
                 </select>
               </label>
               <label className="flex flex-col gap-2 sm:col-span-2">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
                   Work email
                 </span>
                 <input name="email" type="email" required className={FIELD} />
               </label>
             </div>
 
-            <label className="flex cursor-pointer items-start gap-3 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
+            <label className="flex cursor-pointer items-start gap-3 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary">
               <input
                 type="checkbox"
                 required
@@ -126,7 +126,7 @@ export function QuoteFirst() {
             <div className="flex flex-wrap items-center gap-4">
               <button
                 type="submit"
-                className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
               >
                 <span className="relative z-10">
                   {sent ? "Noted" : quote.submit}
@@ -134,7 +134,7 @@ export function QuoteFirst() {
               </button>
               <p
                 role="status"
-                className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/45"
+                className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45"
               >
                 {sent ? quote.sent : " "}
               </p>
@@ -160,13 +160,13 @@ export function QuoteFirst() {
                   sizes="(min-width: 1280px) 20vw, (min-width: 640px) 50vw, 100vw"
                   className="aspect-[4/3] w-full"
                 />
-                <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white transition-colors group-hover:text-brand">
+                <span className="font-[family-name:var(--font-display)] text-[15px] font-bold leading-6 text-white transition-colors group-hover:text-brand">
                   {entry.name}
                 </span>
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
                   {entry.capacity}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-5 text-brand">
+                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-brand">
                   {packages.from} {entry.price}
                 </span>
               </Link>

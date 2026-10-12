@@ -35,7 +35,7 @@ export function ExtrasStep({
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]">
+      <h1 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[34px]">
         {bookingCopy.extras.title}
       </h1>
 
@@ -49,7 +49,7 @@ export function ExtrasStep({
               role="tab"
               aria-selected={selected}
               onClick={() => setCategory(chip.id as AddonCategory)}
-              className={`flex h-10 cursor-pointer items-center px-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] transition-colors ${
+              className={`flex h-10 cursor-pointer items-center px-4 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] transition-colors ${
                 selected
                   ? "border border-content-primary bg-white/10 text-content-primary"
                   : "border-[0.5px] border-white/10 bg-white/5 text-content-primary hover:bg-white/10"
@@ -95,7 +95,7 @@ export function ExtrasStep({
                     />
                   </div>
                 </div>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-[22px] tracking-[0.16px] text-white">
+                <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-[19px] tracking-[0.16px] text-white">
                   {addon.name}
                 </p>
                 <p className="m-0 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-[14px] tracking-[0.12px] text-brand">
@@ -116,7 +116,7 @@ export function ExtrasStep({
               >
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <div className="flex items-center gap-2">
-                    <p className="m-0 truncate font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white">
+                    <p className="m-0 truncate font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-white">
                       {addon.name}
                     </p>
                     <button
@@ -135,7 +135,7 @@ export function ExtrasStep({
                     </button>
                   </div>
                   <p className="m-0 flex items-baseline gap-[2px] font-[family-name:var(--font-display)]">
-                    <span className="text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                    <span className="text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                       {formatMoney(addon.price)}
                     </span>
                     <span className="text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">

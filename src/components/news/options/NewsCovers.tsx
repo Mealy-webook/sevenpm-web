@@ -103,14 +103,14 @@ export function NewsCovers({ articles }: { articles: NewsArticle[] }) {
                   <span
                     className={`font-daltown uppercase leading-[0.95] text-white ${
                       feature
-                        ? "text-[clamp(26px,3.4vw,48px)]"
-                        : "text-[clamp(20px,2vw,28px)]"
+                        ? "text-[clamp(23px,2.9vw,41px)]"
+                        : "text-[clamp(18px,1.79vw,25px)]"
                     }`}
                   >
                     {article.title}
                   </span>
                   {feature && (
-                    <span className="max-w-[52ch] font-[family-name:var(--font-display)] text-[14px] leading-[22px] text-content-secondary">
+                    <span className="max-w-[52ch] font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-secondary">
                       {article.excerpt}
                     </span>
                   )}

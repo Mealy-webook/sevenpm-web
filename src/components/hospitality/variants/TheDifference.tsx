@@ -68,7 +68,7 @@ export function TheDifference() {
           <DisplayHeading align="left" reveal="clip" size="faq">
             The same night, twice
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             What a standing ticket gets you, and what the package does
             instead.
           </p>
@@ -85,7 +85,7 @@ export function TheDifference() {
               type="button"
               aria-pressed={i === index}
               onClick={() => setIndex(i)}
-              className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[15px] leading-5 transition-colors ${
+              className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors ${
                 i === index
                   ? "border-brand bg-brand font-semibold text-[#18181b]"
                   : "border-white/20 text-white/80 hover:border-white/50"
@@ -103,7 +103,7 @@ export function TheDifference() {
               <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-white/40">
                 Standing ticket
               </span>
-              <h3 className="m-0 font-daltown text-[clamp(24px,3.4vw,40px)] uppercase leading-[0.95] text-white/55">
+              <h3 className="m-0 font-daltown text-[clamp(21px,2.89vw,34px)] uppercase leading-[0.95] text-white/55">
                 General admission
               </h3>
             </div>
@@ -116,7 +116,7 @@ export function TheDifference() {
                   <dt className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/35">
                     {row.label}
                   </dt>
-                  <dd className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-white/55">
+                  <dd className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/55">
                     {row.general}
                   </dd>
                 </div>
@@ -140,7 +140,7 @@ export function TheDifference() {
               <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-brand">
                 {entry.festival} · hospitality
               </span>
-              <h3 className="m-0 font-daltown text-[clamp(24px,3.4vw,40px)] uppercase leading-[0.95] text-white">
+              <h3 className="m-0 font-daltown text-[clamp(21px,2.89vw,34px)] uppercase leading-[0.95] text-white">
                 {entry.name}
               </h3>
             </div>
@@ -154,7 +154,7 @@ export function TheDifference() {
                   <dt className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                     {row.label}
                   </dt>
-                  <dd className="m-0 flex items-start gap-2.5 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-white">
+                  <dd className="m-0 flex items-start gap-2.5 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white">
                     <span aria-hidden className="mt-0.5 shrink-0 text-brand">
                       ✓
                     </span>
@@ -169,7 +169,7 @@ export function TheDifference() {
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                   {from}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[22px] font-black leading-7 text-brand">
+                <span className="font-[family-name:var(--font-display)] text-[19px] font-black leading-7 text-brand">
                   {entry.price}
                 </span>
                 <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -178,7 +178,7 @@ export function TheDifference() {
               </div>
               <Link
                 href={`/hospitality/${entry.slug}`}
-                className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
               >
                 <span className="relative z-10">{discover}</span>
               </Link>
@@ -186,7 +186,7 @@ export function TheDifference() {
           </div>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

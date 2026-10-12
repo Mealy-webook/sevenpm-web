@@ -50,7 +50,7 @@ export default function AboutPage() {
             </DisplayHeading>
             <div className="grid gap-8 lg:grid-cols-12">
               <p
-                className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:col-span-7 lg:text-[28px] lg:leading-9"
+                className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:col-span-7 lg:text-[25px] lg:leading-9"
                 data-split="lines"
                 data-reveal-delay="0.1"
               >
@@ -102,13 +102,13 @@ export default function AboutPage() {
                 className="flex flex-col justify-center gap-6 lg:col-span-6"
                 data-reveal="up"
               >
-                <h2 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-white sm:text-[44px]">
+                <h2 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-white sm:text-[37px]">
                   {aboutCopy.story.title}
                 </h2>
                 {aboutCopy.story.body.map((paragraph) => (
                   <p
                     key={paragraph}
-                    className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
+                    className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary"
                   >
                     {paragraph}
                   </p>
@@ -126,14 +126,14 @@ export default function AboutPage() {
                   key={pillar.label}
                   className="lift info-tile flex flex-col gap-6 border border-ink-600 p-8"
                 >
-                  <span className="font-daltown text-[64px] leading-none text-brand">
+                  <span className="font-daltown text-[54px] leading-none text-brand">
                     0{i + 1}
                   </span>
                   <div className="flex flex-col gap-3">
-                    <h3 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white">
+                    <h3 className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white">
                       {pillar.label}
                     </h3>
-                    <p className="m-0 font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+                    <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
                       {pillar.body}
                     </p>
                   </div>
@@ -155,10 +155,10 @@ export default function AboutPage() {
         <section id="careers" className="relative py-16 xl:py-24">
           <div className="shell grid gap-12 lg:grid-cols-12">
             <div className="flex flex-col gap-6 lg:col-span-7" data-reveal="up">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-brand sm:text-[48px]">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-brand sm:text-[41px]">
                 Join the team
               </h2>
-              <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+              <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
                 We are a small, dedicated crew producing four festivals a year
                 across Morocco. If you live for live music, we want to hear from
                 you.
@@ -168,7 +168,7 @@ export default function AboutPage() {
                   href={contact.careersUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e]"
+                  className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
                   data-magnetic="0.2"
                 >
                   <span className="relative z-10">See open roles</span>
@@ -177,7 +177,7 @@ export default function AboutPage() {
                   href={contact.playlistUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="btn-secondary flex items-center px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary"
+                  className="btn-secondary flex items-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary"
                 >
                   Our playlists
                 </a>
@@ -195,7 +195,7 @@ export default function AboutPage() {
                 {contact.address.map((line) => (
                   <span
                     key={line}
-                    className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-white"
+                    className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-white"
                   >
                     {line}
                   </span>
@@ -207,7 +207,7 @@ export default function AboutPage() {
                 </span>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="link-sweep self-start font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-white transition-colors hover:text-brand"
+                  className="link-sweep self-start font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-white transition-colors hover:text-brand"
                 >
                   {contact.email}
                 </a>

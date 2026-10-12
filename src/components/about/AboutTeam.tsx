@@ -20,7 +20,7 @@ export function AboutTeam({
             {title}
           </DisplayHeading>
           <p
-            className="m-0 max-w-[480px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary"
+            className="m-0 max-w-[480px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary"
             data-reveal="up"
           >
             {body}

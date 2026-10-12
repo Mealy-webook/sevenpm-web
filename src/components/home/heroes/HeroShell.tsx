@@ -33,7 +33,7 @@ export function HeroLead({
 }) {
   return (
     <p
-      className={`m-0 max-w-[786px] text-center font-[family-name:var(--font-display)] text-[18px] leading-[1.6] ${
+      className={`m-0 max-w-[786px] text-center font-[family-name:var(--font-display)] text-[17px] leading-[1.6] ${
         tone === "ink" ? "text-[#18181b]/70" : "text-content-secondary"
       } ${className}`}
     >

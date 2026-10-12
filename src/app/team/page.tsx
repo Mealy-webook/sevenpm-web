@@ -46,7 +46,7 @@ export default function TeamPage() {
               {aboutCopy.team.title}
             </DisplayHeading>
             <p
-              className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:text-[28px] lg:leading-9"
+              className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:text-[25px] lg:leading-9"
               data-split="lines"
               data-reveal-delay="0.1"
             >
@@ -66,16 +66,16 @@ export default function TeamPage() {
             className="shell flex flex-col items-start gap-6"
             data-reveal="up"
           >
-            <h2 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-brand sm:text-[48px]">
+            <h2 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-brand sm:text-[41px]">
               Want in?
             </h2>
-            <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+            <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
               {`${jobRoles.length} roles are open across production, communications and support.`}
             </p>
             <Link
               href="/careers"
               data-magnetic="0.2"
-              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
             >
               <span className="relative z-10">See open roles</span>
             </Link>

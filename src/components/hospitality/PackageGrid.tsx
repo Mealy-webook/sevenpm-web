@@ -50,7 +50,7 @@ export function PackageGrid() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setFilter(name)}
-                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[15px] leading-5 transition-colors ${
+                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors ${
                     active
                       ? "border-brand bg-brand font-semibold text-[#18181b]"
                       : "border-white/20 text-white/80 hover:border-white/50"
@@ -102,11 +102,11 @@ export function PackageGrid() {
                   </span>
                 </div>
 
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-black leading-[1.1] text-white">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-black leading-[1.1] text-white">
                   {entry.name}
                 </h3>
 
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
                   {entry.summary}
                 </p>
 
@@ -115,7 +115,7 @@ export function PackageGrid() {
                     <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                       {from}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[24px] font-black leading-7 text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
                       {entry.price}
                     </span>
                     <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -124,7 +124,7 @@ export function PackageGrid() {
                   </div>
                   <Link
                     href={`/hospitality/${entry.slug}`}
-                    className="sweep flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                    className="sweep flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
                   >
                     <span className="relative z-10">{discover}</span>
                   </Link>
@@ -134,7 +134,7 @@ export function PackageGrid() {
           ))}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

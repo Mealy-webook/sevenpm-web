@@ -39,7 +39,7 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
 
         <Link
           href="/news"
-          className="sweep flex items-center justify-center border-[1.5px] border-text-secondary p-6 font-[family-name:var(--font-display)] text-[16px] font-semibold uppercase leading-none text-white transition-colors hover:border-white"
+          className="sweep flex items-center justify-center border-[1.5px] border-text-secondary p-6 font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-none text-white transition-colors hover:border-white"
           data-magnetic="0.2"
         >
           <span className="relative z-10">Load more</span>

@@ -47,10 +47,10 @@ export function LocationSection({ event }: { event: EventDetails }) {
                   className="size-8 shrink-0"
                 />
                 <div className="flex w-full flex-col gap-1">
-                  <p className="font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-text-primary">
+                  <p className="font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-text-primary">
                     {tile.title}
                   </p>
-                  <p className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-text-secondary">
+                  <p className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-text-secondary">
                     {tile.value}
                   </p>
                 </div>

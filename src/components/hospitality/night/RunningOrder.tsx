@@ -54,7 +54,7 @@ export function RunningOrder() {
             {stamp}
           </span>
           <h2
-            className="m-0 max-w-[14ch] font-daltown text-[clamp(34px,6.5vw,104px)] uppercase leading-[0.88] text-white"
+            className="m-0 max-w-[14ch] font-daltown text-[clamp(30px,5.5vw,88px)] uppercase leading-[0.88] text-white"
             data-reveal="clip"
           >
             {title}
@@ -70,15 +70,15 @@ export function RunningOrder() {
             >
               {/* The hour, at display size: it is the thing the page is
                   counting. */}
-              <span className="w-full shrink-0 font-daltown text-[clamp(26px,4vw,56px)] uppercase leading-[0.9] text-brand sm:w-[180px] xl:w-[240px]">
+              <span className="w-full shrink-0 font-daltown text-[clamp(23px,3.43vw,48px)] uppercase leading-[0.9] text-brand sm:w-[180px] xl:w-[240px]">
                 {hour.time}
               </span>
 
               <div className="flex flex-col gap-2">
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[20px] font-black uppercase leading-7 text-white sm:text-[24px]">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-black uppercase leading-7 text-white sm:text-[21px]">
                   {hour.title}
                 </h3>
-                <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-content-secondary">
+                <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-content-secondary">
                   {hour.body}
                 </p>
               </div>
@@ -89,7 +89,7 @@ export function RunningOrder() {
 
         {/* Read off the event rather than typed here, so the spine cannot
             drift from the festival it describes. */}
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-white/45">
           Hours follow {jazzablanca.name}&rsquo;s own session time,{" "}
           {jazzablanca.sessionTime}.
         </p>

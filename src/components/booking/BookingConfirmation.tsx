@@ -99,7 +99,7 @@ function CardShell({
       style={{ zIndex: 30 - index * 10 }}
     >
       <div className="flex flex-col gap-4">
-        <h2 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+        <h2 className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
           {title}
         </h2>
         {children}
@@ -370,7 +370,7 @@ export function BookingConfirmation({
         last ? "" : "border-b-[0.5px] border-white/10"
       }`}
     >
-      <span className="w-6 shrink-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+      <span className="w-6 shrink-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-secondary">
         {line.qty}x
       </span>
       <Image
@@ -381,7 +381,7 @@ export function BookingConfirmation({
         className="size-6 shrink-0"
       />
       <span className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-primary">
+        <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
           {line.name}
         </span>
         {line.size && (
@@ -418,13 +418,13 @@ export function BookingConfirmation({
           <div className="flex max-w-[642px] flex-col gap-1">
             <h1
               data-hero-title
-              className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]"
+              className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[34px]"
             >
               {copy.title}
             </h1>
             <p
               data-hero-body
-              className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.19px] text-content-secondary"
+              className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-secondary"
             >
               {copy.body(event.name)}
             </p>
@@ -434,7 +434,7 @@ export function BookingConfirmation({
             <Link
               data-hero-action
               href="/account"
-              className="flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+              className="flex items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
             >
               {copy.viewBooking}
             </Link>
@@ -442,7 +442,7 @@ export function BookingConfirmation({
               data-hero-action
               type="button"
               onClick={addToCalendar}
-              className="flex cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+              className="flex cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
             >
               <Image
                 src="/assets/ic-calendar-20.svg"
@@ -610,10 +610,10 @@ export function BookingConfirmation({
                   />
                 )}
                 <div className="mt-2 flex items-start justify-between gap-3 border-t-[0.5px] border-white/10 pt-3">
-                  <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                     {copy.price.total}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
                     {formatMoney(totals.total)}
                   </span>
                 </div>
@@ -629,7 +629,7 @@ export function BookingConfirmation({
         {deliverySummary && (
           <section className="shell pt-12">
             <div className="mx-auto flex max-w-[622px] flex-col gap-4">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
                 {copy.delivery.title}
               </h2>
               <div className="flex items-center gap-3 border border-white/5 px-4 py-3">
@@ -641,7 +641,7 @@ export function BookingConfirmation({
                   className="size-6 shrink-0"
                 />
                 <span className="flex min-w-0 flex-1 flex-col">
-                  <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                     {copy.delivery.method}
                   </span>
                   <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
@@ -662,7 +662,7 @@ export function BookingConfirmation({
         <section className="shell pt-16">
           <div className="mx-auto flex max-w-[622px] flex-col gap-4">
             <div className="flex flex-col gap-1">
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
                 {copy.order.title}
               </h2>
               <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
@@ -681,7 +681,7 @@ export function BookingConfirmation({
                     className="object-cover"
                   />
                 </span>
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[32px]">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-[25px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[28px]">
                   {event.name}
                 </h3>
               </div>
@@ -759,7 +759,7 @@ function PaymentPlan({
   return (
     <section className="shell pt-16">
       <div className="mx-auto flex max-w-[622px] flex-col gap-4">
-        <h2 className="m-0 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+        <h2 className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
           {copy.paymentsTitle}
         </h2>
 
@@ -789,7 +789,7 @@ function PaymentPlan({
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+              className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
             >
               {copy.makePayment}
             </button>
@@ -829,7 +829,7 @@ function Figure({ label, amount }: { label: string; amount: string }) {
       <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
         {label}
       </span>
-      <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 tabular-nums text-content-primary">
+      <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 tabular-nums text-content-primary">
         {amount}
       </span>
     </p>

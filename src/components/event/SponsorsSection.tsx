@@ -48,7 +48,7 @@ export function SponsorsSection({ event }: { event: EventDetails }) {
   return (
     <section id="sponsors" className="section-screen relative py-16 xl:py-24">
       <div className="shell flex flex-col items-center gap-8" data-reveal="up">
-        <p className="m-0 text-center font-[family-name:var(--font-display)] text-2xl font-black uppercase leading-[46px] text-brand">
+        <p className="m-0 text-center font-[family-name:var(--font-display)] text-2xl font-black uppercase leading-[39px] text-brand">
           Official sponsor
         </p>
 

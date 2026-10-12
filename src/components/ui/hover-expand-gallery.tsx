@@ -160,7 +160,7 @@ export function HoverExpandGallery({
                 {/* Label. A row below 1024px; above it a rail down the left of
                     the panel — title at the bottom, meta at the top. */}
                 <span
-                  className={`flex h-16 w-full items-center justify-between gap-3 overflow-hidden px-5 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase tracking-tight transition-colors duration-[var(--hx-t)] ease-out motion-reduce:transition-none lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-[var(--hx-rail)] lg:flex-col-reverse lg:justify-between lg:px-0 lg:py-5 ${
+                  className={`flex h-16 w-full items-center justify-between gap-3 overflow-hidden px-5 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-tight transition-colors duration-[var(--hx-t)] ease-out motion-reduce:transition-none lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-[var(--hx-rail)] lg:flex-col-reverse lg:justify-between lg:px-0 lg:py-5 ${
                     isActive ? "text-content-primary" : "text-content-secondary"
                   }`}
                 >

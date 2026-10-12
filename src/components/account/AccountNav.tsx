@@ -67,7 +67,7 @@ export function AccountNav({
                   className={`size-6 shrink-0 ${active ? "brightness-0" : ""}`}
                 />
                 <span className="flex min-w-0 flex-1 items-center gap-2 py-3">
-                  <span className="flex-1 truncate font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px]">
+                  <span className="flex-1 truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px]">
                     {item.label}
                   </span>
                   {item.trailing && (
@@ -109,7 +109,7 @@ export function AccountNav({
           height={24}
           className="size-6 shrink-0"
         />
-        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px]">
+        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px]">
           {logoutCopy.label}
         </span>
       </LogoutButton>

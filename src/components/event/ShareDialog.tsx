@@ -121,7 +121,7 @@ export function ShareDialog({
       <div className="flex flex-col gap-4 px-5 pb-5 pt-4">
         {/* Share to */}
         <section className="flex flex-col gap-2">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
             {shareCopy.targets}
           </h3>
           <ul className="m-0 flex list-none items-start gap-2 p-0">
@@ -174,7 +174,7 @@ export function ShareDialog({
         {/* OR */}
         <div className="flex items-center justify-center gap-4 py-1">
           <span aria-hidden className="h-px flex-1 bg-white/10" />
-          <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+          <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
             {shareCopy.or}
           </span>
           <span aria-hidden className="h-px flex-1 bg-white/10" />
@@ -182,7 +182,7 @@ export function ShareDialog({
 
         {/* Your link */}
         <section className="flex flex-col gap-2">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
             {shareCopy.linkLabel}
           </h3>
           <button
@@ -192,7 +192,7 @@ export function ShareDialog({
             className="flex w-full cursor-pointer items-center gap-3 border-[0.5px] border-white/10 bg-white/5 py-3 pl-4 pr-2 text-left transition-colors hover:bg-white/10"
           >
             <span className="flex h-9 min-w-0 flex-1 items-center">
-              <span className="truncate font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary">
+              <span className="truncate font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary">
                 {url}
               </span>
             </span>

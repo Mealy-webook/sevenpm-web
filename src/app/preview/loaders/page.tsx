@@ -30,10 +30,10 @@ export default function LoadersPreview() {
     <main className="min-h-svh bg-bg-primary">
       <div className="shell flex flex-col gap-10 py-14">
         <div className="flex flex-col gap-3">
-          <h1 className="m-0 font-daltown text-[clamp(40px,6vw,88px)] uppercase leading-[0.9] text-white">
+          <h1 className="m-0 font-daltown text-[clamp(34px,5.11vw,75px)] uppercase leading-[0.9] text-white">
             Loading screens
           </h1>
-          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-secondary">
             A1 to A3 are the counter you picked, each one about a festival
             rather than about loading. The four underneath are the first round,
             kept for reference. They play on load; Replay runs one again.
@@ -57,7 +57,7 @@ export default function LoadersPreview() {
                   {/* What the loader lifts off, so the reveal has something
                       to reveal. */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="font-daltown text-[clamp(28px,5vw,64px)] uppercase leading-none text-white/15">
+                    <span className="font-daltown text-[clamp(25px,4.22vw,54px)] uppercase leading-none text-white/15">
                       Festivals
                     </span>
                   </div>
@@ -66,7 +66,7 @@ export default function LoadersPreview() {
 
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 flex-col gap-1">
-                    <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold uppercase leading-[22px] tracking-[1.5px] text-white">
+                    <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-white">
                       {option.label}
                     </span>
                     <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">

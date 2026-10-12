@@ -72,7 +72,7 @@ export function PosterWall() {
                       {entry.festival}
                     </span>
 
-                    <h3 className="m-0 font-daltown text-[clamp(30px,4.6vw,52px)] uppercase leading-[0.86] text-white transition-colors group-hover:text-brand">
+                    <h3 className="m-0 font-daltown text-[clamp(26px,3.89vw,44px)] uppercase leading-[0.86] text-white transition-colors group-hover:text-brand">
                       {entry.name}
                     </h3>
 
@@ -81,7 +81,7 @@ export function PosterWall() {
                       <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.2px] text-white/70">
                         {entry.capacity}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[17px] font-black leading-6 text-brand">
+                      <span className="font-[family-name:var(--font-display)] text-[16px] font-black leading-6 text-brand">
                         {from} {entry.price}
                       </span>
                       <span className="font-[family-name:var(--font-ui)] text-[12px] leading-5 text-white/50">
@@ -95,7 +95,7 @@ export function PosterWall() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

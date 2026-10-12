@@ -61,7 +61,7 @@ export function StageView() {
           <DisplayHeading align="left" reveal="clip" size="faq">
             {title}
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             Scroll, and the view changes to whatever your party would be
             looking at.
           </p>
@@ -136,11 +136,11 @@ export function StageView() {
                   {String(index + 1).padStart(2, "0")} · {entry.festival}
                 </span>
 
-                <h3 className="m-0 font-daltown text-[clamp(30px,5vw,68px)] uppercase leading-[0.9] text-white">
+                <h3 className="m-0 font-daltown text-[clamp(26px,4.26vw,58px)] uppercase leading-[0.9] text-white">
                   {entry.name}
                 </h3>
 
-                <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+                <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
                   {entry.summary}
                 </p>
 
@@ -149,7 +149,7 @@ export function StageView() {
                     <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                       {from}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[22px] font-black leading-7 text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-[19px] font-black leading-7 text-brand">
                       {entry.price}
                     </span>
                     <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -158,7 +158,7 @@ export function StageView() {
                   </div>
                   <Link
                     href={`/hospitality/${entry.slug}`}
-                    className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                    className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
                   >
                     <span className="relative z-10">{discover}</span>
                   </Link>
@@ -169,7 +169,7 @@ export function StageView() {
           </div>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

@@ -29,12 +29,12 @@ export function Rooms() {
             {stamp}
           </span>
           <h2
-            className="m-0 max-w-[14ch] font-daltown text-[clamp(34px,6.5vw,104px)] uppercase leading-[0.88] text-white"
+            className="m-0 max-w-[14ch] font-daltown text-[clamp(30px,5.5vw,88px)] uppercase leading-[0.88] text-white"
             data-reveal="clip"
           >
             {title}
           </h2>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-content-secondary">
             {body}
           </p>
         </div>
@@ -69,11 +69,11 @@ export function Rooms() {
                     {String(index + 1).padStart(2, "0")} · {entry.festival}
                   </span>
 
-                  <h3 className="m-0 font-daltown text-[clamp(30px,5vw,72px)] uppercase leading-[0.88] text-white">
+                  <h3 className="m-0 font-daltown text-[clamp(26px,4.24vw,61px)] uppercase leading-[0.88] text-white">
                     {entry.name}
                   </h3>
 
-                  <p className="m-0 max-w-[480px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-content-secondary">
+                  <p className="m-0 max-w-[480px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-content-secondary">
                     {entry.summary}
                   </p>
 
@@ -84,7 +84,7 @@ export function Rooms() {
                       <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                         Holds
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-7 text-white">
+                      <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-7 text-white">
                         {entry.capacity}
                       </span>
                     </span>
@@ -93,7 +93,7 @@ export function Rooms() {
                       <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
                         {from}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[24px] font-black leading-7 text-brand">
+                      <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
                         {entry.price}
                       </span>
                       <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
@@ -103,7 +103,7 @@ export function Rooms() {
 
                     <Link
                       href={`/hospitality/${entry.slug}`}
-                      className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+                      className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
                     >
                       <span className="relative z-10">{discover}</span>
                     </Link>
@@ -114,7 +114,7 @@ export function Rooms() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

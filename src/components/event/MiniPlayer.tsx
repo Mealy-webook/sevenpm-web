@@ -76,7 +76,7 @@ export function MiniPlayer({
       </button>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] text-content-primary">
+        <span className="truncate font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] text-content-primary">
           {track.title}
         </span>
         <span className="truncate font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">

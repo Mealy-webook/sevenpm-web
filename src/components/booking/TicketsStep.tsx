@@ -51,7 +51,7 @@ export function TicketsStep({
        column is not height-constrained and the whole page scrolls instead. */
     <div className="flex flex-col gap-8 lg:h-full lg:min-h-0">
       <header className="flex shrink-0 flex-col gap-2">
-        <h1 className="m-0 font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[40px]">
+        <h1 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[34px]">
           {eventName}
         </h1>
         <p className="m-0 flex items-center gap-1">
@@ -99,7 +99,7 @@ export function TicketsStep({
               role="tab"
               aria-selected={selected}
               onClick={() => setFilter(chip.id)}
-              className={`flex h-10 cursor-pointer items-center px-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] transition-colors ${
+              className={`flex h-10 cursor-pointer items-center px-4 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] transition-colors ${
                 selected
                   ? "border border-content-primary bg-white/10 text-content-primary"
                   : "border-[0.5px] border-white/10 bg-white/5 text-content-primary hover:bg-white/10"
@@ -119,7 +119,7 @@ export function TicketsStep({
       >
         {groups.map((group) => (
           <section key={group.id} className="flex flex-col gap-4">
-            <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 text-white">
+            <h2 className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 text-white">
               {group.label}
             </h2>
             <ul className="m-0 flex list-none flex-col gap-3 p-0">
@@ -148,7 +148,7 @@ export function TicketsStep({
                         <span className="flex shrink-0 items-center bg-brand px-2 py-1 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[1.5px] text-[#18181b]">
                           {bookingCopy.tickets.vip}
                         </span>
-                        <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
+                        <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
                           {ticket.name}
                         </p>
                         <button
@@ -186,7 +186,7 @@ export function TicketsStep({
 
                       <div className="flex flex-wrap items-end justify-between gap-4">
                         <p className="m-0 flex items-baseline gap-1 font-[family-name:var(--font-display)]">
-                          <span className="text-[22px] font-bold leading-7 tracking-[-0.11px] text-white">
+                          <span className="text-[19px] font-bold leading-7 tracking-[-0.11px] text-white">
                             {formatMoney(ticket.price)}
                           </span>
                           <span className="text-[11px] leading-4 tracking-[0.1px] text-content-secondary">
@@ -213,7 +213,7 @@ export function TicketsStep({
                   >
                     <div className="flex min-w-0 flex-1 flex-col gap-2">
                       <div className="flex items-center gap-2">
-                        <p className="m-0 truncate font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-white">
+                        <p className="m-0 truncate font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-white">
                           {ticket.name}
                         </p>
                         <button
@@ -232,7 +232,7 @@ export function TicketsStep({
                         </button>
                       </div>
                       <p className="m-0 flex items-baseline gap-[2px] font-[family-name:var(--font-display)]">
-                        <span className="text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                        <span className="text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                           {formatMoney(ticket.price)}
                         </span>
                         <span className="text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">

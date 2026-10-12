@@ -34,10 +34,10 @@ export function AboutFestivals({ festivals }: { festivals: AboutFestival[] }) {
                 <>
                   <span className="flex items-baseline justify-between gap-6">
                     <span className="flex items-baseline gap-4">
-                      <span className="font-daltown text-[22px] leading-none text-content-secondary">
+                      <span className="font-daltown text-[19px] leading-none text-content-secondary">
                         0{i + 1}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[32px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-brand sm:text-[44px]">
+                      <span className="font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-brand sm:text-[37px]">
                         {festival.name}
                       </span>
                     </span>
@@ -45,7 +45,7 @@ export function AboutFestivals({ festivals }: { festivals: AboutFestival[] }) {
                       {festival.city}
                     </span>
                   </span>
-                  <span className="mt-4 block max-w-[560px] font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-secondary">
+                  <span className="mt-4 block max-w-[560px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
                     {festival.body}
                   </span>
                   <span className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-text-primary">

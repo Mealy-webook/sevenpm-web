@@ -65,7 +65,7 @@ function Cta({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a] disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30"
+      className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a] disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30"
     >
       {children}
     </button>
@@ -86,7 +86,7 @@ function Provider({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+      className="flex w-full cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
     >
       <Image src={icon} alt="" width={20} height={20} className="size-5" />
       {label}
@@ -127,7 +127,7 @@ function PasswordField({
         <button
           type="button"
           onClick={() => setShown((current) => !current)}
-          className="shrink-0 cursor-pointer font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
+          className="shrink-0 cursor-pointer font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
         >
           {shown ? authCopy.signUp.hide : authCopy.signUp.show}
         </button>
@@ -237,7 +237,7 @@ function CodeInput({
           maxLength={1}
           aria-label={authCopy.code.digit(index)}
           aria-invalid={invalid}
-          className={`size-11 border bg-white/5 text-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary caret-brand outline-none transition-colors focus:border-content-primary ${
+          className={`size-11 border bg-white/5 text-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary caret-brand outline-none transition-colors focus:border-content-primary ${
             invalid ? "border-[#ff6c6c]" : "border-white/10"
           }`}
         />
@@ -505,7 +505,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
               inputMode="numeric"
               autoComplete="tel"
               leading={
-                <span className="btn-secondary flex shrink-0 items-center gap-1 px-3 py-2 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary">
+                <span className="btn-secondary flex shrink-0 items-center gap-1 px-3 py-2 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
                   <Image
                     src={authCopy.signUp.flag}
                     alt=""
@@ -581,7 +581,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                 setPasswordError("");
                 setStep("reset");
               }}
-              className="cursor-pointer self-start font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
+              className="cursor-pointer self-start font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
             >
               {authCopy.signIn.forgot}
             </button>
@@ -635,7 +635,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                 setResent(true);
                 window.setTimeout(() => setResent(false), 2000);
               }}
-              className="cursor-pointer font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
+              className="cursor-pointer font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
             >
               {resent ? authCopy.code.resent : authCopy.code.resend}
             </button>

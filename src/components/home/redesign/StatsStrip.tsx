@@ -64,7 +64,7 @@ export function StatsStrip({ className = "" }: { className?: string }) {
             index > 0 ? "lg:border-l lg:border-white/10 lg:pl-8" : ""
           } ${index % 2 === 1 ? "border-l border-white/10 pl-6 lg:pl-8" : ""}`}
         >
-          <p className="m-0 flex items-baseline font-daltown text-[48px] leading-[0.8] text-white xl:text-[64px]">
+          <p className="m-0 flex items-baseline font-daltown text-[41px] leading-[0.8] text-white xl:text-[54px]">
             {stat.prefix && <span>{stat.prefix}</span>}
             <span
               data-count={stat.value}

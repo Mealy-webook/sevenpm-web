@@ -33,7 +33,7 @@ export function SponsorCases() {
             </h2>
           </div>
           <p
-            className="m-0 font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-[#56565d]"
+            className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#56565d]"
             data-reveal="up"
           >
             {intro}
@@ -69,11 +69,11 @@ export function SponsorCases() {
                   </span>
                 </div>
 
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-black leading-[1.1] text-[#18181b]">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-black leading-[1.1] text-[#18181b]">
                   {item.brand}
                 </h3>
 
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-[#56565d]">
+                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-[#56565d]">
                   <strong className="font-semibold text-[#18181b]">
                     The experience:
                   </strong>{" "}
@@ -95,7 +95,7 @@ export function SponsorCases() {
                       className="flex flex-col gap-0.5 bg-[#f2efe9] p-4"
                       style={{ borderRadius: "var(--radius)" }}
                     >
-                      <p className="m-0 font-[family-name:var(--font-display)] text-[20px] font-black leading-6 text-[#8a7a1f]">
+                      <p className="m-0 font-[family-name:var(--font-display)] text-[18px] font-black leading-6 text-[#8a7a1f]">
                         {metric.value}
                       </p>
                       <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-[#56565d]">
@@ -121,10 +121,10 @@ export function SponsorCases() {
             className="size-[88px] shrink-0 !rounded-full"
           />
           <div className="flex flex-col gap-3">
-            <blockquote className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold leading-[1.35] text-brand sm:text-[24px]">
+            <blockquote className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-[1.35] text-brand sm:text-[21px]">
               “{quote.text}”
             </blockquote>
-            <figcaption className="font-[family-name:var(--font-ui)] text-[14px] leading-5 text-white/55">
+            <figcaption className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/55">
               {quote.attribution}
             </figcaption>
           </div>

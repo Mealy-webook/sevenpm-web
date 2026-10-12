@@ -26,12 +26,12 @@ export function PaperRooms() {
 
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
           <h2
-            className="m-0 font-daltown text-[clamp(32px,5.5vw,88px)] uppercase leading-[0.88] text-[#16161a]"
+            className="m-0 font-daltown text-[clamp(28px,4.69vw,75px)] uppercase leading-[0.88] text-[#16161a]"
             data-reveal="clip"
           >
             {title}
           </h2>
-          <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-[#16161a]/65">
+          <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-[#16161a]/65">
             {note}
           </p>
         </div>
@@ -63,11 +63,11 @@ export function PaperRooms() {
                     {entry.festival}
                   </span>
 
-                  <span className="font-daltown text-[clamp(26px,4vw,58px)] uppercase leading-[0.9] text-[#16161a] transition-opacity group-hover:opacity-70">
+                  <span className="font-daltown text-[clamp(23px,3.38vw,49px)] uppercase leading-[0.9] text-[#16161a] transition-opacity group-hover:opacity-70">
                     {entry.name}
                   </span>
 
-                  <span className="max-w-[460px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-[#16161a]/65">
+                  <span className="max-w-[460px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.75] text-[#16161a]/65">
                     {entry.summary}
                   </span>
 
@@ -82,7 +82,7 @@ export function PaperRooms() {
                         <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px] text-[#16161a]/40">
                           {term.label}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#16161a]">
+                        <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#16161a]">
                           {term.value}
                         </span>
                       </span>

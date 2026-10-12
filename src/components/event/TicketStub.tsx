@@ -210,7 +210,7 @@ export function TicketStub({
           style={{ top: ROW_TITLE - 30, height: 60 }}
         >
           <span
-            className={`font-daltown whitespace-nowrap text-[72px] uppercase leading-[60px] tracking-[1.44px] ${ink}`}
+            className={`font-daltown whitespace-nowrap text-[61px] uppercase leading-[51px] tracking-[1.44px] ${ink}`}
           >
             {tier.title}
           </span>
@@ -227,7 +227,7 @@ export function TicketStub({
           {tier.priceNote ? (
             <div className="flex items-baseline whitespace-nowrap">
               <span
-                className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
+                className={`font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${ink}`}
               >
                 {tier.priceNote}
               </span>
@@ -235,18 +235,18 @@ export function TicketStub({
           ) : (
             <div className="flex items-baseline gap-1 whitespace-nowrap">
               <span
-                className={`font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] ${
+                className={`font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] ${
                   dark ? "text-white" : "text-[#18181b]"
                 }`}
               >
                 From
               </span>
               <span
-                className={`font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${ink}`}
+                className={`font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${ink}`}
               >
                 <CountUp value={tier.priceFrom} /> {tier.currency}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
                 {" / Person"}
               </span>
             </div>
@@ -290,7 +290,7 @@ export function TicketStub({
         {/* CTA. A link where there is somewhere to go, a button where the
             press opens something on this page. */}
         {(() => {
-          const look = `ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 ${
+          const look = `ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${
             dark
               ? "bg-brand text-[#0b0b0e]"
               : "border-[0.5px] border-white/10 bg-black/70 text-content-primary"

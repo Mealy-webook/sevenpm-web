@@ -28,14 +28,14 @@ export function ChipGroup({
 }) {
   return (
     <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
-      <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+      <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
         {legend}
       </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => (
           <label
             key={option}
-            className="chip relative cursor-pointer border border-white/20 px-4 py-2.5 font-[family-name:var(--font-display)] text-[15px] leading-5 text-white/80 transition-colors hover:border-white/50"
+            className="chip relative cursor-pointer border border-white/20 px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 text-white/80 transition-colors hover:border-white/50"
           >
             <input
               type={multiple ? "checkbox" : "radio"}

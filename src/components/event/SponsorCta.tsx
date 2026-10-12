@@ -34,18 +34,18 @@ export function SponsorCta() {
           <div className="flex flex-col items-center gap-4">
             <h2
               id="sponsor-cta"
-              className="m-0 text-center font-daltown text-[clamp(38px,8vw,120px)] uppercase leading-[0.73]"
+              className="m-0 text-center font-daltown text-[clamp(33px,6.8vw,102px)] uppercase leading-[0.73]"
             >
               Put your brand on stage.
             </h2>
-            <p className="m-0 max-w-[720px] text-center font-[family-name:var(--font-ui)] text-[16px] leading-[1.6] text-[#56565d]">
+            <p className="m-0 max-w-[720px] text-center font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-[#56565d]">
               Join Jazzablanca festivals and put your brand at the center of
               Morocco&rsquo;s live music scene.
             </p>
             <Link
               href="/sponsor"
               data-magnetic="0.2"
-              className="mt-2 flex items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+              className="mt-2 flex items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
             >
               Become a sponsor
             </Link>

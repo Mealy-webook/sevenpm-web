@@ -55,7 +55,7 @@ export function HowToEarnDialog({ onClose }: { onClose: () => void }) {
                   className="size-6 shrink-0"
                 />
                 <span className="flex min-w-0 flex-1 flex-col">
-                  <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
                     {item.label}
                   </span>
                   <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">

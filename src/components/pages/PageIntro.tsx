@@ -30,7 +30,7 @@ export function PageIntro({
           {title}
         </DisplayHeading>
         <p
-          className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:text-[26px] lg:leading-9"
+          className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:text-[23px] lg:leading-9"
           data-split="lines"
           data-reveal-delay="0.1"
         >

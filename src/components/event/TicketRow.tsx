@@ -32,19 +32,19 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
       <div className="flex min-w-0 flex-1 flex-col justify-center bg-bg-tertiary py-4">
         <div className="flex flex-col items-start gap-4 bg-bg-secondary p-6 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <h3 className="m-0 font-daltown text-[clamp(32px,4.2vw,72px)] uppercase leading-[0.84] tracking-[0.02em] text-content-primary">
+            <h3 className="m-0 font-daltown text-[clamp(28px,3.56vw,61px)] uppercase leading-[0.84] tracking-[0.02em] text-content-primary">
               {tier.title}
             </h3>
 
             <div className="flex flex-col gap-2">
               <p className="m-0 flex flex-wrap items-baseline gap-x-1">
-                <span className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary">
                   From
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
                   {tier.priceFrom} {tier.currency}
                 </span>
-                <span className="font-[family-name:var(--font-ui)] text-[15px] leading-[22px] tracking-[0.15px] text-content-primary">
+                <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
                   / Person
                 </span>
               </p>
@@ -64,7 +64,7 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
 
           <Link
             href={href}
-            className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 text-[#0b0b0e]"
+            className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
           >
             <span className="relative z-10">Get your ticket</span>
           </Link>

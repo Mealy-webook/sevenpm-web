@@ -39,7 +39,7 @@ export function TierLadder() {
           <DisplayHeading align="left" reveal="clip" size="faq">
             {title}
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
             Five levels, from a seat in the room to the whole festival. The
             steps show the order, not the price.
           </p>
@@ -70,7 +70,7 @@ export function TierLadder() {
                     Level {String(index + 1).padStart(2, "0")}
                   </span>
 
-                  <h3 className="m-0 font-daltown text-[clamp(20px,1.8vw,30px)] uppercase leading-[0.95] text-white">
+                  <h3 className="m-0 font-daltown text-[clamp(18px,1.56vw,26px)] uppercase leading-[0.95] text-white">
                     {entry.name}
                   </h3>
 
@@ -79,12 +79,12 @@ export function TierLadder() {
                   </span>
 
                   <div className="mt-auto flex flex-col gap-2 border-t border-white/10 pt-3">
-                    <span className="font-[family-name:var(--font-display)] text-[17px] font-black leading-6 text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-[16px] font-black leading-6 text-brand">
                       {from} {entry.price}
                     </span>
                     <Link
                       href={`/hospitality/${entry.slug}`}
-                      className="flex items-center justify-center bg-brand px-3 py-2.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-[#0b0b0e] transition-colors hover:bg-white"
+                      className="flex items-center justify-center bg-brand px-3 py-2.5 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-[#0b0b0e] transition-colors hover:bg-white"
                       style={{ borderRadius: "var(--radius)" }}
                     >
                       {discover}
@@ -108,14 +108,14 @@ export function TierLadder() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="flex flex-1 flex-col gap-0.5">
-                  <span className="font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 text-white">
+                  <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white">
                     {entry.name}
                   </span>
                   <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
                     {entry.capacity} · {entry.perUnit}
                   </span>
                 </span>
-                <span className="shrink-0 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-brand">
+                <span className="shrink-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-brand">
                   {entry.price}
                 </span>
               </Link>
@@ -124,7 +124,7 @@ export function TierLadder() {
           <li className="border-t border-white/12" />
         </ol>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>
