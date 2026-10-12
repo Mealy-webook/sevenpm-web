@@ -1210,17 +1210,19 @@ body {
 /* ---------------------------------------------------------------------------
    Corners
 
-   A small radius across the site. This reverses the square-edged rule the
-   project was built to: controls, fields, cards, media and tiles all take
-   `--radius`, so the softening is one value rather than a class on every
-   element.
+   Square, which is where this project started. A 4px radius was put across
+   the site and has now been taken back off: everything that reads `--radius`
+   — controls, fields, cards, media and tiles — goes square again by changing
+   this one value rather than by stripping a class off every element. Set it
+   back to 4px to soften the whole site again.
 
-   Left square on purpose: anything full-bleed (a section, the preloader
-   sheet, the grain) has no visible corner to round, and anything already
-   circular keeps its own radius.
+   Anything genuinely circular keeps its own radius and is unaffected: the
+   window cut through the hero's O, the pills on the hospitality rooms, the
+   avatars and the status dots are all `rounded-full`, which is a shape
+   rather than a softened corner.
    ------------------------------------------------------------------------- */
 :root {
-  --radius: 4px;
+  --radius: 0px;
 }
 
 button,
