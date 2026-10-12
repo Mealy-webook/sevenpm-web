@@ -8,7 +8,9 @@ import { ArtistsSection } from "@/components/event/ArtistsSection";
 import { FaqSection } from "@/components/event/FaqSection";
 import { GallerySection } from "@/components/event/GallerySection";
 import { HeroSection } from "@/components/event/HeroSection";
+import { HospitalitySection } from "@/components/event/HospitalitySection";
 import { LocationSection } from "@/components/event/LocationSection";
+import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { SponsorsSection } from "@/components/event/SponsorsSection";
 import { TicketsMarquee } from "@/components/event/TicketsMarquee";
 import { TicketsSection } from "@/components/event/TicketsSection";
@@ -46,11 +48,23 @@ export default async function EventDetailsPage({ params }: PageProps) {
         <HeroSection event={event} />
         <TicketsMarquee />
         <TicketsSection event={event} />
+        {/* 2549:17634 puts hospitality straight after the tickets: the
+            visitor has just seen what a standing ticket costs, which is the
+            moment a box is worth mentioning. */}
+        <HospitalitySection />
         <ArtistsSection event={event} />
-        <GallerySection event={event} />
+        {/* The comp's order from here (2542:13992): what you need to know,
+            the questions, the gallery, the partners, then the sign-up. The
+            gallery used to sit above the practicalities; a visitor deciding
+            whether to go wants the parking and the age limit before the
+            photographs. */}
         <LocationSection event={event} />
         <FaqSection event={event} />
+        <GallerySection event={event} />
         <SponsorsSection event={event} />
+        {/* 2549:17616. The page ends on the newsletter, as the homepage
+            does — the same block rather than a second one built for here. */}
+        <NewsletterSection />
       </main>
       <SiteFooter />
     </>

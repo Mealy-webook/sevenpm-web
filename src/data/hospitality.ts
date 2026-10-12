@@ -26,10 +26,12 @@ export type HospitalityPackage = {
   perUnit: string;
   photo: string;
   /**
-   * A stand-in from the existing festival library so the page can be shown
-   * before the hospitality shoot happens. Only Tanjazz VIP's is of its own
-   * festival; the rest are illustrative, which is why `photo` above keeps the
-   * brief for the picture that should replace it.
+   * The photograph. Four of the five are the real hospitality shots supplied
+   * with the event-page comp (2549:17634) — the VIP boxes, the garden party,
+   * the Terrasses d'Anfa and the corporate crowd — so those are no longer
+   * stand-ins. Tanjazz VIP has none of its own yet and borrows a Tanjazz
+   * shot from the festival library, which is at least the right festival.
+   * `photo` above keeps the brief either way.
    */
   image: string;
   /** The four spec tiles on the package page. */
@@ -63,7 +65,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[XX,XXX] MAD",
     perUnit: "per box, per night",
     photo: "Photo: VIP box with view of the stage",
-    image: "/assets/gallery-4.jpg",
+    image: "/assets/hosp-vip-box.jpg",
     plan: { x: 50, y: 32 },
     specs: [
       { label: "Capacity", value: "Up to 10 guests" },
@@ -95,7 +97,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per guest, per night",
     photo: "Photo: Garden Party VIP",
-    image: "/assets/gallery-5.jpg",
+    image: "/assets/hosp-garden-party-vip.jpg",
     plan: { x: 24, y: 62 },
     specs: [
       { label: "Capacity", value: "[Group size]" },
@@ -117,7 +119,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per guest, per night",
     photo: "Photo: Terrasses d’Anfa",
-    image: "/assets/gallery-6.jpg",
+    image: "/assets/hosp-terrasses-danfa.jpg",
     plan: { x: 76, y: 52 },
     specs: [
       { label: "Capacity", value: "[Group size]" },
@@ -140,7 +142,7 @@ export const hospitalityPackages: HospitalityPackage[] = [
     price: "[X,XXX] MAD",
     perUnit: "per pass",
     photo: "Photo: guests at the festival entrance",
-    image: "/assets/gallery-1.jpg",
+    image: "/assets/hosp-corporate-pass.jpg",
     plan: { x: 50, y: 86 },
     specs: [
       { label: "Capacity", value: "From [X] passes" },
