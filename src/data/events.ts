@@ -245,6 +245,13 @@ export const jazzablanca: EventDetails = {
     },
     { icon: "/assets/ic-showtime.svg", label: "Showtime", value: "9:30 PM" },
   ],
+  /**
+   * Two tiers, as 2542:14399 draws them: a one-day pass and a three-day
+   * pass. The weekend pass is the three-day one renamed — same price, same
+   * id, so booking links and stored carts still resolve. "All days" and the
+   * VIP box are gone with the comp; the box is sold through hospitality
+   * now, which has a page of its own.
+   */
   ticketTiers: [
     {
       id: "day",
@@ -259,34 +266,13 @@ export const jazzablanca: EventDetails = {
     {
       id: "weekend",
       kicker: "General admission",
-      title: "Weekend pass",
+      title: "3 Days pass",
       priceFrom: "100",
       currency: "MAD",
       wasPrice: "120",
       discount: "17% off",
       cta: "Get your ticket",
       featured: true,
-    },
-    {
-      id: "all-days",
-      kicker: "General admission",
-      title: "All days pass",
-      priceFrom: "500",
-      currency: "MAD",
-      wasPrice: "700",
-      discount: "29% off",
-      cta: "Get your ticket",
-    },
-    {
-      /* Not sold here: a box is quoted, not priced. See `vipBoxCopy`. */
-      id: "vip-box",
-      kicker: "VIP",
-      title: "VIP Box",
-      priceFrom: "",
-      priceNote: "Price on request",
-      currency: "MAD",
-      cta: "Register interest",
-      enquiry: true,
     },
   ],
   venue: {

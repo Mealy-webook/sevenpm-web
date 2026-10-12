@@ -82,8 +82,12 @@ export function percentOff(price: number, wasPrice: number) {
  * be three copy-pasted single days at 50 MAD apiece — the same figure for a
  * day, a weekend and the whole run.
  *
- * No VIP box: a box is quoted, not bought. The event page sends that one to
- * the enquiry form, and selling it here for 50 MAD said otherwise.
+ * No VIP box: a box is quoted, not bought. Boxes are sold through
+ * hospitality, which has a page of its own.
+ *
+ * Two tiers, matching the event page. "All days" went with the comp — it was
+ * the only pass priced in the hundreds and nothing on the page sold it any
+ * more.
  */
 export const ticketGroups: TicketGroup[] = [
   {
@@ -99,19 +103,15 @@ export const ticketGroups: TicketGroup[] = [
         lineup,
       },
       {
+        /* Renamed from "Weekend pass" with the event page (2542:14399),
+           which now sells a one-day and a three-day pass. The id is
+           unchanged so links carrying ?tier=weekend and any cart already
+           stored still resolve to it. */
         id: "weekend",
-        name: "Weekend pass",
+        name: "3 Days pass",
         price: 100,
         wasPrice: 120,
         discount: percentOff(100, 120),
-        lineup,
-      },
-      {
-        id: "all-days",
-        name: "All days pass",
-        price: 500,
-        wasPrice: 700,
-        discount: percentOff(500, 700),
         lineup,
       },
     ],

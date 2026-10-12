@@ -6,7 +6,6 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TeamGrid } from "@/components/about/TeamGrid";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { StickerPeel } from "@/components/ui/StickerPeel";
 import { aboutCopy, stats, team } from "@/data/about";
 import { jobRoles } from "@/data/careers";
 
@@ -33,17 +32,6 @@ export default function TeamPage() {
             className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1512px] xl:block"
             aria-hidden
           >
-            <StickerPeel
-              className="pointer-events-auto"
-              imageSrc="/assets/sticker-smiley.png"
-              width={150}
-              height={150}
-              initialPosition={{ x: 1180, y: 40 }}
-              peelBackHoverPct={22}
-              peelBackActivePct={34}
-              shadowIntensity={0.6}
-              lightingIntensity={0.12}
-            />
           </div>
           <div className="shell flex flex-col gap-10 pb-12 pt-6 xl:gap-12 xl:pt-16">
             <p

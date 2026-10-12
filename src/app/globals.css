@@ -1293,6 +1293,34 @@ a[href] {
   }
 }
 
+/* The landscape ticket stub on the event page (2542:14399). The comp exports
+   each end as a `Subtract` vector — a column of bites out of the card. Drawn
+   here instead so it scales with the stub and costs no asset: the bites are
+   a repeating radial gradient in the page's own background colour, which is
+   what makes them read as holes rather than as dark dots. */
+.ticket-row__edge {
+  width: 23px;
+  flex: none;
+  background:
+    radial-gradient(
+        circle at 0 11.5px,
+        var(--color-bg-primary, #0b0b0e) 11.5px,
+        transparent 12px
+      )
+      left center / 23px 23px repeat-y,
+    var(--color-bg-tertiary, #252528);
+}
+.ticket-row__edge--right {
+  background:
+    radial-gradient(
+        circle at 23px 11.5px,
+        var(--color-bg-primary, #0b0b0e) 11.5px,
+        transparent 12px
+      )
+      left center / 23px 23px repeat-y,
+    var(--color-bg-tertiary, #252528);
+}
+
 /* Hospitality passes (direction A). The stub is torn off the body by a
    column of holes punched through the card: a repeating radial gradient
    masked down a 1px line, so the perforation is one element and scales with

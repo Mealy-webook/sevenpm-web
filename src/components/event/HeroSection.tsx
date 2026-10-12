@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import type { EventDetails } from "@/data/events";
 import { ConcertLights } from "@/components/motion/ConcertLights";
 import { StagePulse } from "@/components/motion/StagePulse";
-import { StickerPeel } from "@/components/ui/StickerPeel";
 import { analyserRef } from "./DeckHost";
 import {
   loadDeck,
@@ -237,31 +236,6 @@ export function HeroSection({ event }: { event: EventDetails }) {
           style={{ maxWidth: FRAME_WIDTH, minHeight: FRAME_HEIGHT }}
           aria-hidden
         >
-          <StickerPeel
-            className="pointer-events-auto"
-            imageSrc="/assets/sticker-cassette.png"
-            width={256}
-            height={233}
-            /* Beside the title, as the comp places it. It used to sit lower,
-               which was clear of everything until the hero grew a time, a
-               venue and a schedule under the name. */
-            initialPosition={{ x: 96, y: 24 }}
-            peelBackHoverPct={22}
-            peelBackActivePct={34}
-            shadowIntensity={0.6}
-            lightingIntensity={0.12}
-          />
-          <StickerPeel
-            className="pointer-events-auto"
-            imageSrc="/assets/sticker-boombox.png"
-            width={230}
-            height={270}
-            initialPosition={{ x: 1190, y: 18 }}
-            peelBackHoverPct={22}
-            peelBackActivePct={34}
-            shadowIntensity={0.6}
-            lightingIntensity={0.12}
-          />
         </div>
       </section>
     </>

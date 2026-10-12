@@ -2,7 +2,6 @@ import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { StickerPeel } from "@/components/ui/StickerPeel";
 import { GalleryStage } from "./GalleryStage";
 
 /** Figma group 2091:49295 — the fan of polaroids. */
@@ -72,16 +71,6 @@ export function GallerySection({ event }: { event: EventDetails }) {
               </div>
             ))}
 
-            <StickerPeel
-              imageSrc="/assets/sticker-smiley.png"
-              width={159}
-              height={159}
-              initialPosition={{ x: 1197, y: 14 }}
-              peelBackHoverPct={26}
-              peelBackActivePct={38}
-              shadowIntensity={0.55}
-              lightingIntensity={0.14}
-            />
           </GalleryStage>
         </div>
       </div>

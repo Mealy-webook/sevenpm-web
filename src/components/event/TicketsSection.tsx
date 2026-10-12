@@ -5,8 +5,7 @@ import { useState } from "react";
 import type { EventDetails } from "@/data/events";
 import { VipBoxDialog } from "./VipBoxDialog";
 import { DisplayHeading } from "@/components/ui/DisplayHeading";
-import { TicketStub, stubWidth } from "./TicketStub";
-import { StickerPeel } from "@/components/ui/StickerPeel";
+import { TicketRow } from "./TicketRow";
 
 export function TicketsSection({ event }: { event: EventDetails }) {
   /* VIP boxes are not sold here — their stub opens an enquiry instead. */
@@ -19,17 +18,6 @@ export function TicketsSection({ event }: { event: EventDetails }) {
         className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1512px] xl:block z-20"
         aria-hidden
       >
-        <StickerPeel
-          className="pointer-events-auto"
-          imageSrc="/assets/sticker-guitar.png"
-          width={285}
-          height={264}
-          initialPosition={{ x: 853, y: 120 }}
-          peelBackHoverPct={22}
-          peelBackActivePct={34}
-          shadowIntensity={0.6}
-          lightingIntensity={0.12}
-        />
       </div>
 
       <div className="shell flex flex-col items-center justify-center gap-12">
@@ -40,29 +28,22 @@ export function TicketsSection({ event }: { event: EventDetails }) {
             2542:14399 no longer carries them — which is most of why this
             section lost 260px of height between comps. */}
 
-        {/* Ticket stubs — edge to edge, 393px each, wrapping below the
-         *  column width and scaling down on phones */}
+        {/* The stubs, two across as 2542:14399 draws them. Still mapped
+            over the data rather than hard-coded, but the data now carries
+            exactly the comp's two tiers. They
+            stack below `lg`, where two landscape stubs would each be too
+            narrow to hold a Daltown title and a button on one line. */}
         <div
-          className="flex w-full flex-wrap items-start justify-center"
+          className="flex w-full flex-col gap-2 lg:flex-row"
           data-reveal="up"
           data-reveal-stagger
         >
           {event.ticketTiers.map((tier) => (
-            <div
+            <TicketRow
               key={tier.id}
-              className="ticket-stub-box"
-              style={
-                { "--stub-w": `${stubWidth(tier)}px` } as React.CSSProperties
-              }
-            >
-              <div className="ticket-stub-scale">
-                <TicketStub
-                  tier={tier}
-                  href={`/events/${event.slug}/book?tier=${tier.id}`}
-                  onEnquire={() => setEnquiring(true)}
-                />
-              </div>
-            </div>
+              tier={tier}
+              href={`/events/${event.slug}/book?tier=${tier.id}`}
+            />
           ))}
         </div>
       </div>

@@ -10,7 +10,7 @@ import { GallerySection } from "@/components/event/GallerySection";
 import { HeroSection } from "@/components/event/HeroSection";
 import { HospitalitySection } from "@/components/event/HospitalitySection";
 import { LocationSection } from "@/components/event/LocationSection";
-import { NewsletterSection } from "@/components/home/NewsletterSection";
+import { SponsorCta } from "@/components/event/SponsorCta";
 import { SponsorsSection } from "@/components/event/SponsorsSection";
 import { TicketsMarquee } from "@/components/event/TicketsMarquee";
 import { TicketsSection } from "@/components/event/TicketsSection";
@@ -62,9 +62,10 @@ export default async function EventDetailsPage({ params }: PageProps) {
         <FaqSection event={event} />
         <GallerySection event={event} />
         <SponsorsSection event={event} />
-        {/* 2549:17616. The page ends on the newsletter, as the homepage
-            does — the same block rather than a second one built for here. */}
-        <NewsletterSection />
+        {/* 2549:17616. The frame is named Subscribe and is not one — it is
+            the sponsor pitch. The newsletter that was briefly here came out
+            with it. */}
+        <SponsorCta />
       </main>
       <SiteFooter />
     </>
