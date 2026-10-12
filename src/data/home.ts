@@ -313,8 +313,18 @@ export const homeCopy = {
        */
       gapBefore: 4 / 260 - 0.0105,
       gapAfter: 4 / 260 - 0.002,
-      /** Where a clip goes when there is one. Falls back to the still. */
-      video: undefined as string | undefined,
+      /**
+       * The reel, restored from `6fdedff` and re-encoded for the hole it
+       * plays in. It was cut at 1920x1080 for a full-bleed frame and was
+       * 2.9MB; the window is 455 wide at the comp's own frame, so 960 is
+       * already twice what it can show. 0.71MB at the same length.
+       *
+       * It is thirteen silent seconds cut from the site's own photographs —
+       * four slow pushes with crossfades — because there is no festival
+       * footage in the project. Swap in real footage here; the still stays
+       * as the poster either way.
+       */
+      video: "/assets/hero-reel.mp4" as string | undefined,
       poster: "/assets/hero-pill.jpg",
     },
   },
