@@ -104,6 +104,9 @@ export type SocialLink = {
 export type EventDetails = {
   slug: string;
   name: string;
+  /** The festival's lockup, where it has one. Falls back to `name` set in
+   *  Daltown for an event that does not. */
+  wordmark?: { src: string; width: number; height: number };
   /** Wordmark artwork — the Figma title is set in Daltown, a licensed
    *  display face, so it ships as artwork rather than live text. */
   intro: string;
@@ -138,9 +141,43 @@ export type EventDetails = {
 export const FAQ_HEADLINE =
   "Jazzablanca draws nearly 100,000 festival goers as 19th edition comes to a close";
 
+/**
+ * The lineup band's portraits, from 2550:20117 — the nine performer shots the
+ * comp supplies, in its own left-to-right order.
+ *
+ * They are the band's content and nothing else: the comp's lineup carries no
+ * name, stage, time or link, so these are faces rather than records. A
+ * lineup that has to answer "who, where and when" needs its own section
+ * built on `artistDays`, which this does not replace.
+ *
+ * `big` marks the 406 circles; the rest are the 200s that pair into 2x2
+ * blocks between them.
+ */
+export const lineupPortraits: { src: string; big?: boolean }[] = [
+  { src: "/assets/artist-1.jpg", big: true },
+  { src: "/assets/artist-2.jpg" },
+  { src: "/assets/artist-3.jpg" },
+  { src: "/assets/artist-4.jpg" },
+  { src: "/assets/artist-5.jpg" },
+  { src: "/assets/artist-6.jpg", big: true },
+  { src: "/assets/artist-7.jpg", big: true },
+  { src: "/assets/artist-8.jpg" },
+  { src: "/assets/artist-9.jpg" },
+];
+
 export const jazzablanca: EventDetails = {
   slug: "jazzablanca",
   name: "Jazzablanca",
+  /**
+   * The festival's own lockup, exported from 2550:19929. The hero sets the
+   * name as this rather than as Daltown: it is a logo, and the comp draws it
+   * as one. 567.409 x 110.625 at the comp's frame.
+   */
+  wordmark: {
+    src: "/assets/jazzablanca-lockup.svg",
+    width: 567.409,
+    height: 110.625,
+  },
   intro:
     "A true urban boutique festival deeply embedded in the city of Casablanca, the festival embraces the urban landscape and brings the city to life. Beyond the concerts, it is a place for sharing, discovery, and culture, designed to awaken minds and transmit a passion for music.",
   /* The next edition. It was 2026-09-18, which has now gone by — a festival

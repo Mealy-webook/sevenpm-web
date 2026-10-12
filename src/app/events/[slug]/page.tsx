@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { ArtistsSection } from "@/components/event/ArtistsSection";
+import { LineupBand } from "@/components/event/LineupBand";
 import { FaqSection } from "@/components/event/FaqSection";
 import { GallerySection } from "@/components/event/GallerySection";
 import { HeroSection } from "@/components/event/HeroSection";
@@ -52,7 +52,7 @@ export default async function EventDetailsPage({ params }: PageProps) {
             visitor has just seen what a standing ticket costs, which is the
             moment a box is worth mentioning. */}
         <HospitalitySection />
-        <ArtistsSection event={event} />
+        <LineupBand />
         {/* The comp's order from here (2542:13992): what you need to know,
             the questions, the gallery, the partners, then the sign-up. The
             gallery used to sit above the practicalities; a visitor deciding

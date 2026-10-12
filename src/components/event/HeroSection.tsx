@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
@@ -91,37 +92,78 @@ export function HeroSection({ event }: { event: EventDetails }) {
         <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-24">
           <div className="shell-pad flex w-full flex-col items-center gap-4">
             <StagePulse className="w-full">
-              <h1
-                className="display-text w-full text-center"
-                data-reveal="clip"
-              >
+            {/* The name, as the festival's own lockup (2550:19929). The comp
+                draws it as a logo, not as Daltown — so this is an image, with
+                the name carried by the heading's accessible text. */}
+            {event.wordmark ? (
+              <h1 className="m-0 w-full" data-reveal="clip">
+                <span className="sr-only">{event.name}</span>
+                <Image
+                  src={event.wordmark.src}
+                  alt=""
+                  width={event.wordmark.width}
+                  height={event.wordmark.height}
+                  priority
+                  /* 567 at the comp's 1512 frame; capped so it never runs to
+                     the gutters on a narrow screen. */
+                  className="mx-auto h-auto w-[min(567px,78vw)]"
+                />
+              </h1>
+            ) : (
+              <h1 className="display-text w-full text-center" data-reveal="clip">
                 {event.name}
               </h1>
-            </StagePulse>
-            {/* Time and place, under the name. The venue is the directions
-                link: the comp dropped the map panel further down the page and
-                underlines the venue here instead, so this is where getting
-                there now lives. */}
-            <div
-              className="flex flex-col items-center gap-2"
-              data-reveal="up"
-              data-reveal-delay="0.08"
-            >
-              <p className="m-0 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-6 tracking-[0.085px] text-brand">
-                {event.sessionTime}
-              </p>
-              <a
-                href={event.venue.directionsUrl}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="font-[family-name:var(--font-display)] text-[17px] leading-6 tracking-[0.085px] text-content-primary underline underline-offset-4 transition-colors hover:text-brand"
-              >
-                {event.venue.name}
-              </a>
-            </div>
+            )}
+          </StagePulse>
+
+          {/* The standfirst, centred on the comp's 836 measure. */}
+          <p
+            className="m-0 max-w-[836px] text-center font-[family-name:var(--font-ui)] text-[15px] leading-[22px] tracking-[0.15px] text-content-secondary"
+            data-reveal="up"
+            data-reveal-delay="0.06"
+          >
+            {event.intro}
+          </p>
+
+          {/* Gates open, last entry, showtime — moved up from the tickets
+              section, where 2542:14399 no longer carries them. Divided by
+              hairlines, which turn horizontal once the row wraps. */}
+          <ul
+            className="m-0 flex list-none flex-wrap items-center justify-center gap-x-8 gap-y-2 p-0"
+            data-reveal="up"
+            data-reveal-delay="0.1"
+          >
+            {event.schedule.map((tile, index) => (
+              <li key={tile.label} className="flex items-center gap-8">
+                {index > 0 ? (
+                  <span
+                    aria-hidden
+                    className="hidden h-[52px] w-px bg-white/15 sm:block"
+                  />
+                ) : null}
+                <span className="flex items-center gap-4 px-2 py-3">
+                  <Image
+                    src={tile.icon}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="size-8 shrink-0"
+                  />
+                  <span className="flex flex-col items-start">
+                    <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[1.5] text-text-secondary">
+                      {tile.label}
+                    </span>
+                    <span className="font-[family-name:var(--font-display)] text-[24px] font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
+                      {tile.value}
+                    </span>
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
           </div>
 
-          {/* The deck — one Figma stage at every width, scaled as a unit */}
+          {/* The deck          {/* The deck — one Figma stage at every width, scaled as a unit */}
           <div
             ref={stageRef}
             className="stage-hero relative w-full"
