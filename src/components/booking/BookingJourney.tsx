@@ -14,15 +14,10 @@ import {
 
 import { BookingConfirmation } from "./BookingConfirmation";
 import { addBooking } from "@/components/account/bookingsStore";
-import { deckAudioRef } from "@/components/event/DeckHost";
 import {
-  readDeck,
-  selectTrack as selectDeckTrack,
   setHandedOver,
   setPlaying as setDeckPlaying,
-  setResumeAt,
 } from "@/components/event/deckStore";
-import { MusicPlayer, type Track } from "@/components/ui/music-player-widget";
 import { CardDialog, type SavedCard } from "@/components/ui/CardDialog";
 import { CheckoutStep, PriceDetails } from "./CheckoutStep";
 import { HoldExpiredDialog } from "./HoldExpiredDialog";
@@ -107,54 +102,19 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
      the site is exported as static files. */
   const initialTier = useSearchParams().get("tier");
 
-  /* The event's playlist, in the shape the widget takes. */
-  const playerTracks = useMemo<Track[]>(
-    () =>
-      event.playlist
-        .filter((t) => t.audioSrc)
-        .map((t) => ({
-          title: t.title,
-          artist: t.artist,
-          cover: t.artworkUrl ?? event.poster,
-          src: t.audioSrc as string,
-        })),
-    [event.playlist, event.poster],
-  );
+  /* No player on this screen at all. The deck that follows you in is paused
+     and the floating player it would otherwise put up stands down with it,
+     so the only thing in the column is the poster.
 
-  /* One player on this screen, and it is the one in the column — the deck that
-     follows you in stops, and the floating player it would otherwise put up
-     stands down with it.
-     
-     The hand-over carries the position, so the music does not restart: the
-     deck's track and moment are read before it is paused, and the widget opens
-     there and keeps playing. Read synchronously on mount rather than through
-     the store, because the element knows the time and the store does not. */
-  /* Read once, on the first render, before anything has been paused. The
-     element knows the moment and the store does not, so this goes to the
-     element directly. */
-  const [handoff] = useState(() => {
-    const audio = deckAudioRef.current;
-    return {
-      index: readDeck().activeIndex,
-      time: audio?.currentTime ?? 0,
-      playing: audio ? !audio.paused : false,
-    };
-  });
-
-  /* Where the widget has got to, so leaving hands the position back. */
-  const position = useRef({ index: handoff.index, time: handoff.time });
-
+     Nothing needs to remember where the music got to any more. `DeckHost`
+     lives in the root layout and is never unmounted, so its <audio> keeps
+     its own `currentTime` across the journey — the position hand-off that
+     used to live here existed because the widget moved the playhead, and
+     with the widget gone there is nothing to hand back. */
   useEffect(() => {
     setDeckPlaying(false);
     setHandedOver(true);
-    return () => {
-      /* On the way out, hand the position back. The deck applies it when the
-         track is loaded — writing `currentTime` here would be thrown away by
-         the element's own load. */
-      selectDeckTrack(position.current.index);
-      setResumeAt(position.current);
-      setHandedOver(false);
-    };
+    return () => setHandedOver(false);
   }, []);
 
   const [step, setStep] = useState<StepId>("tickets");
@@ -552,20 +512,20 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
               error={agreeError}
             />
           ) : (
-            <div className="hidden w-full lg:block">
-              <MusicPlayer
-                tracks={playerTracks}
-                crossOrigin="anonymous"
-                startIndex={handoff.index}
-                startTime={handoff.time}
-                /* Only if it was already playing — pressing "Get your
-                     ticket" is not a request to start music that was off. */
-                autoPlay={handoff.playing}
-                onPosition={(at) => {
-                  position.current = at;
-                }}
+            /* The event's own poster. A music player sat here for a while
+               and has been taken back out: the column beside a checkout is
+               for confirming what you are buying, and a second transport
+               competing with the deck was never that. */
+            <span className="relative hidden aspect-square w-full overflow-hidden lg:block">
+              <Image
+                src={event.poster}
+                alt={`${event.name} poster`}
+                fill
+                sizes="405px"
+                className="object-cover"
+                priority
               />
-            </div>
+            </span>
           )}
 
           <div className="max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-40">
