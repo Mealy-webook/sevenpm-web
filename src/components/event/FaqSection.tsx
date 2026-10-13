@@ -22,7 +22,7 @@ export function FaqSection({ event }: { event: EventDetails }) {
   return (
     <section
       id="faq"
-      className="section-screen relative bg-ink-900 py-16 xl:py-24"
+      className="relative bg-ink-900 py-16 xl:py-20"
     >
       <div className="shell flex flex-col items-start gap-12 lg:flex-row">
         <div className="flex min-w-0 flex-1 flex-col justify-center">

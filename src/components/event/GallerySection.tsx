@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import type { EventDetails } from "@/data/events";
-import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { GalleryStage } from "./GalleryStage";
 
 /** Figma group 2091:49295 — the fan of polaroids. */
@@ -18,11 +17,12 @@ export function GallerySection({ event }: { event: EventDetails }) {
   return (
     <section
       id="gallery"
-      className="section-screen relative overflow-hidden bg-ink-900 py-16 xl:py-24"
+      className="relative overflow-hidden bg-ink-900 py-16 xl:py-20"
     >
-      <div className="shell flex flex-col items-start gap-12">
-        <DisplayHeading reveal="clip">Gallery</DisplayHeading>
-
+      {/* 2556:21233 is the fan on its own — 80px of padding either side of a
+          1294 × 579 group and no heading, the same way the homepage gallery
+          carries none. The photographs say what they are. */}
+      <div className="shell flex flex-col items-start">
         <div className="stage-gallery relative w-full">
           <GalleryStage width={STAGE_WIDTH} height={STAGE_HEIGHT}>
             {/* Three layers on purpose: the outer box is positioned and owned

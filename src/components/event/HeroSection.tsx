@@ -18,10 +18,11 @@ import {
 import { ShareButton } from "./ShareButton";
 import { VinylCarousel } from "./VinylCarousel";
 
-/* Authored against the 1512 × 1076 Figma hero (node 2091:56451). The deck
- * and the stickers keep their Figma coordinates; the deck stage is scaled as a
- * unit rather than reflowed, and clips at the viewport edges on the way down
- * so the centre record stays centred.
+/* Authored against the 1512 × 1046 Figma hero (node 2556:20996). The deck
+ * keeps its Figma coordinates; the stage is scaled as a unit rather than
+ * reflowed, and clips at the viewport edges on the way down so the centre
+ * record stays centred. The sticker layer that used to sit over it went out
+ * with the stickers themselves.
  *
  * The deck's <audio> element is not here — it lives in `DeckHost`, mounted in
  * the root layout, so the music survives the walk into the booking journey.
@@ -37,7 +38,6 @@ import { VinylCarousel } from "./VinylCarousel";
  * sleeve are the invitation. Once it has started, the deck's own analyser
  * drives the rig, so the light is the track rather than a stand-in for it. */
 const FRAME_WIDTH = 1512;
-const FRAME_HEIGHT = 1052;
 const STAGE_HEIGHT = 612;
 
 export function HeroSection({ event }: { event: EventDetails }) {
@@ -80,11 +80,15 @@ export function HeroSection({ event }: { event: EventDetails }) {
       {/* Clipped on one axis only: the deck bleeds past the viewport edges and
           must be cut there, but the lighting rig reaches up over the header to
           the top of the page and must not be. */}
-      <section className="section-screen relative z-0 [overflow-x:clip]">
+      <section className="section-screen relative z-0 py-10 [overflow-x:clip]">
         <ConcertLights scrim="even" />
 
-        <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12 pb-24">
-          <div className="shell-pad flex w-full flex-col items-center gap-4">
+        {/* 2556:20996: 40px of padding, the 838 text block, a 48px gap, the
+            deck. The block is one column now — the name, the standfirst and
+            the three times on a 24px rhythm — where the comp used to float
+            the times beside the deck. */}
+        <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12">
+          <div className="shell-pad flex w-full flex-col items-center gap-6">
             <StagePulse className="w-full">
             {/* The name, as the festival's own lockup (2550:19929). The comp
                 draws it as a logo, not as Daltown — so this is an image, with
@@ -112,7 +116,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
           {/* The standfirst, centred on the comp's 836 measure. */}
           <p
-            className="m-0 max-w-[836px] text-center font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary"
+            className="m-0 max-w-[838px] text-center font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary"
             data-reveal="up"
             data-reveal-delay="0.06"
           >
@@ -132,7 +136,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
                 {index > 0 ? (
                   <span
                     aria-hidden
-                    className="hidden h-[52px] w-px bg-white/15 sm:block"
+                    className="hidden h-[76px] w-px bg-white/15 sm:block"
                   />
                 ) : null}
                 <span className="flex items-center gap-4 px-2 py-3">
@@ -157,7 +161,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
           </ul>
           </div>
 
-          {/* The deck          {/* The deck — one Figma stage at every width, scaled as a unit */}
+          {/* The deck — one Figma stage at every width, scaled as a unit */}
           <div
             ref={stageRef}
             className="stage-hero relative w-full"
@@ -198,15 +202,6 @@ export function HeroSection({ event }: { event: EventDetails }) {
           </div>
         </div>
 
-        {/* Stickers, pinned to the 1512 × 1076 frame. The layer itself lets
-         *  clicks through so it can sit over the deck; only the stickers are
-         *  interactive. */}
-        <div
-          className="pointer-events-none absolute inset-0 mx-auto hidden xl:block z-20"
-          style={{ maxWidth: FRAME_WIDTH, minHeight: FRAME_HEIGHT }}
-          aria-hidden
-        >
-        </div>
       </section>
     </>
   );
