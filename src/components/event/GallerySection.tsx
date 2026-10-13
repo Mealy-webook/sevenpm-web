@@ -70,7 +70,6 @@ export function GallerySection({ event }: { event: EventDetails }) {
                 </div>
               </div>
             ))}
-
           </GalleryStage>
         </div>
       </div>

@@ -15,7 +15,6 @@ import {
   togglePlaying,
   useDeck,
 } from "./deckStore";
-import { ShareButton } from "./ShareButton";
 import { VinylCarousel } from "./VinylCarousel";
 
 /* Authored against the 1512 × 1046 Figma hero (node 2556:20996). The deck
@@ -90,75 +89,78 @@ export function HeroSection({ event }: { event: EventDetails }) {
         <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12">
           <div className="shell-pad flex w-full flex-col items-center gap-6">
             <StagePulse className="w-full">
-            {/* The name, as the festival's own lockup (2550:19929). The comp
+              {/* The name, as the festival's own lockup (2550:19929). The comp
                 draws it as a logo, not as Daltown — so this is an image, with
                 the name carried by the heading's accessible text. */}
-            {event.wordmark ? (
-              <h1 className="m-0 w-full" data-reveal="clip">
-                <span className="sr-only">{event.name}</span>
-                <Image
-                  src={event.wordmark.src}
-                  alt=""
-                  width={event.wordmark.width}
-                  height={event.wordmark.height}
-                  priority
-                  /* 567 at the comp's 1512 frame; capped so it never runs to
+              {event.wordmark ? (
+                <h1 className="m-0 w-full" data-reveal="clip">
+                  <span className="sr-only">{event.name}</span>
+                  <Image
+                    src={event.wordmark.src}
+                    alt=""
+                    width={event.wordmark.width}
+                    height={event.wordmark.height}
+                    priority
+                    /* 567 at the comp's 1512 frame; capped so it never runs to
                      the gutters on a narrow screen. */
-                  className="mx-auto h-auto w-[min(567px,78vw)]"
-                />
-              </h1>
-            ) : (
-              <h1 className="display-text w-full text-center" data-reveal="clip">
-                {event.name}
-              </h1>
-            )}
-          </StagePulse>
+                    className="mx-auto h-auto w-[min(567px,78vw)]"
+                  />
+                </h1>
+              ) : (
+                <h1
+                  className="display-text w-full text-center"
+                  data-reveal="clip"
+                >
+                  {event.name}
+                </h1>
+              )}
+            </StagePulse>
 
-          {/* The standfirst, centred on the comp's 836 measure. */}
-          <p
-            className="m-0 max-w-[838px] text-center font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary"
-            data-reveal="up"
-            data-reveal-delay="0.06"
-          >
-            {event.intro}
-          </p>
+            {/* The standfirst, centred on the comp's 838 measure. */}
+            <p
+              className="m-0 max-w-[838px] text-center font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary"
+              data-reveal="up"
+              data-reveal-delay="0.06"
+            >
+              {event.intro}
+            </p>
 
-          {/* Gates open, last entry, showtime — moved up from the tickets
+            {/* Gates open, last entry, showtime — moved up from the tickets
               section, where 2542:14399 no longer carries them. Divided by
               hairlines, which turn horizontal once the row wraps. */}
-          <ul
-            className="m-0 flex list-none flex-wrap items-center justify-center gap-x-8 gap-y-2 p-0"
-            data-reveal="up"
-            data-reveal-delay="0.1"
-          >
-            {event.schedule.map((tile, index) => (
-              <li key={tile.label} className="flex items-center gap-8">
-                {index > 0 ? (
-                  <span
-                    aria-hidden
-                    className="hidden h-[76px] w-px bg-white/15 sm:block"
-                  />
-                ) : null}
-                <span className="flex items-center gap-4 px-2 py-3">
-                  <Image
-                    src={tile.icon}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="size-8 shrink-0"
-                  />
-                  <span className="flex flex-col items-start">
-                    <span className="font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
-                      {tile.label}
-                    </span>
-                    <span className="font-[family-name:var(--font-display)] text-[21px] font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
-                      {tile.value}
+            <ul
+              className="m-0 flex list-none flex-wrap items-center justify-center gap-x-8 gap-y-2 p-0"
+              data-reveal="up"
+              data-reveal-delay="0.1"
+            >
+              {event.schedule.map((tile, index) => (
+                <li key={tile.label} className="flex items-center gap-8">
+                  {index > 0 ? (
+                    <span
+                      aria-hidden
+                      className="hidden h-[76px] w-px bg-white/15 sm:block"
+                    />
+                  ) : null}
+                  <span className="flex items-center gap-4 px-2 py-3">
+                    <Image
+                      src={tile.icon}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="size-8 shrink-0"
+                    />
+                    <span className="flex flex-col items-start">
+                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
+                        {tile.label}
+                      </span>
+                      <span className="font-[family-name:var(--font-display)] text-[21px] font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
+                        {tile.value}
+                      </span>
                     </span>
                   </span>
-                </span>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* The deck — one Figma stage at every width, scaled as a unit */}
@@ -195,13 +197,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
               />
             </div>
           </div>
-
-          {/* Below the deck, where 2393:16345 puts it. */}
-          <div data-reveal="up" data-reveal-delay="0.1">
-            <ShareButton eventName={event.name} />
-          </div>
         </div>
-
       </section>
     </>
   );

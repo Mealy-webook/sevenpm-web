@@ -12,7 +12,6 @@ import { HospitalitySection } from "@/components/event/HospitalitySection";
 import { LocationSection } from "@/components/event/LocationSection";
 import { SponsorCta } from "@/components/event/SponsorCta";
 import { SponsorsSection } from "@/components/event/SponsorsSection";
-import { TicketsMarquee } from "@/components/event/TicketsMarquee";
 import { TicketsSection } from "@/components/event/TicketsSection";
 import { events, getEvent } from "@/data/events";
 
@@ -46,7 +45,6 @@ export default async function EventDetailsPage({ params }: PageProps) {
       <SiteHeader />
       <main>
         <HeroSection event={event} />
-        <TicketsMarquee />
         <TicketsSection event={event} />
         {/* 2549:17634 puts hospitality straight after the tickets: the
             visitor has just seen what a standing ticket costs, which is the
