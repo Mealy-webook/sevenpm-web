@@ -229,17 +229,14 @@ export const homePillars = [
  */
 
 /**
- * The homepage row, in the comp's own left-to-right order (2482:25040). The
- * `festivals` array is left alone because `FestivalsStage`, which the two
- * homepage preview routes still use, features whichever sits in the middle
- * of it — and only that one has an audio preview.
+ * Upcoming events — the homepage row and `/events` both read this. Only
+ * Jazzablanca and Tanjazz are on, by request: Village Casa Anfa and Casa
+ * Anfa Latina are off the programme (their entries stay in `festivals`, so
+ * putting one back is a line here). The `festivals` array itself is left
+ * alone because `FestivalsStage`, which the two homepage preview routes
+ * still use, features whichever sits in the middle of it.
  */
-export const festivalsRowOrder = [
-  "jazzablanca",
-  "tanjazz",
-  "village-casa-anfa",
-  "casa-anfa-latina",
-];
+export const festivalsRowOrder = ["jazzablanca", "tanjazz"];
 
 /**
  * The two polaroids in the hero (Figma 2490:26516 and 2490:26519), the

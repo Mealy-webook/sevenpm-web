@@ -19,12 +19,11 @@ export const metadata: Metadata = {
  *
  * The festivals are the ones in `data/home.ts`, in the row's own order, drawn
  * as upright cards rather than the homepage's scrubbed row: this is an index,
- * and an index should sit still and be read. Two of the four have no date on
- * their artwork and say so instead of guessing one.
+ * and an index should sit still and be read. Two are on: Jazzablanca and
+ * Tanjazz.
  *
- * Only a festival with a real event page is a link. The other three are
- * cards without a destination, which is the truth — there is nothing behind
- * them yet — and is better than a link to `#`.
+ * Only a festival with a real event page is a link. Tanjazz has none yet, so
+ * its card has no destination — the truth, and better than a link to `#`.
  */
 export default function EventsPage() {
   const ordered = festivalsRowOrder
