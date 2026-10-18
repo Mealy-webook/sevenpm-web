@@ -10,10 +10,8 @@ import { footerCopy } from "@/data/events";
  * Three things, centred: the oversized wordmark, one row of the menu, and
  * the copyright beside the WBK credit.
  *
- * It runs its own list (`FOOTER_LINKS`), not the drawer's. The two comps
- * disagree on purpose: the footer names the pages that sell — upcoming
- * events, concerts, sponsorship, hospitality — and the drawer names Team,
- * which the footer does not.
+ * The row is the drawer's five entries (`FOOTER_LINKS` is derived from
+ * `MENU_LINKS`), by request — it used to carry the comp's own eight.
  *
  * No nested festivals and no social links. Both were here and neither is in
  * the comp; a footer that re-states the drawer's hierarchy is repeating it
