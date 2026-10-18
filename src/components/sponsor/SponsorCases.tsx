@@ -1,10 +1,18 @@
+import Image from "next/image";
+
 import { PhotoSlot } from "@/components/pages/PhotoSlot";
 import { sponsorCopy } from "@/data/sponsor";
 
 /**
- * Case studies. The one light section on the page, as the mockup draws it —
- * the argument changes from "what we offer" to "what we did", and the page
- * changes colour with it.
+ * Case studies. The mockup draws this as the page's one light band; the
+ * page is all black by request, so the cases sit on the dark ground with
+ * the rest, picked out by their photographs and the yellow tags instead.
+ *
+ * Each case now leads with a photograph — a festival picture standing in
+ * for the partner's own until that shoot lands (the brief stays in
+ * `photo`) — and the brand set in Daltown, so the three read as stories
+ * rather than as forms. The heading takes the site's one section-title
+ * size; it was the 260 display face and ran to four lines.
  */
 export function SponsorCases() {
   const { eyebrow, title, intro, items, quote } = sponsorCopy.caseStudies;
@@ -12,13 +20,13 @@ export function SponsorCases() {
   return (
     <section
       id="case-studies"
-      className="relative scroll-mt-24 bg-[#f2efe9] py-14 text-[#18181b] xl:py-20"
+      className="relative scroll-mt-24 py-16 text-white xl:py-20"
     >
       <div className="shell flex flex-col gap-10">
         <div className="grid gap-6 lg:grid-cols-[1fr_minmax(0,420px)] lg:items-end">
           <div className="flex flex-col gap-4">
             <p
-              className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-[#8a7a1f]"
+              className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand"
               data-reveal="up"
             >
               {eyebrow}
@@ -26,14 +34,14 @@ export function SponsorCases() {
             {/* Not `DisplayHeading`: that one is hard-coded white, and this
                 section is the page's light band. */}
             <h2
-              className="display-text m-0 text-left !text-[#18181b]"
+              className="section-title max-w-[16ch] text-white"
               data-reveal="clip"
             >
               {title}
             </h2>
           </div>
           <p
-            className="m-0 font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#56565d]"
+            className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary"
             data-reveal="up"
           >
             {intro}
@@ -45,36 +53,40 @@ export function SponsorCases() {
             <article
               key={item.brand}
               data-reveal="up"
-              className="flex flex-col overflow-hidden bg-white"
-              style={{ borderRadius: "var(--radius)" }}
+              className="group flex flex-col overflow-hidden border border-white/10 bg-bg-secondary"
             >
-              <PhotoSlot
-                caption={item.photo}
-                rounded={false}
-                className="min-h-[170px] w-full"
-              />
+              <span className="relative block aspect-[4/3] w-full overflow-hidden bg-[#18181b]">
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 410px, 100vw"
+                  className="object-cover transition-[scale] duration-700 ease-out group-hover:scale-105"
+                />
+                <span className="absolute bottom-0 left-0 bg-[#18181b] px-3 py-1.5 font-[family-name:var(--font-display)] text-[11px] font-semibold uppercase tracking-[0.1em] text-white/70">
+                  Stand-in photo
+                </span>
+              </span>
               <div className="flex flex-1 flex-col gap-4 p-6">
                 <div className="flex flex-wrap gap-2">
                   <span
-                    className="bg-[#18181b] px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-5 text-brand"
+                    className="bg-brand px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-5 text-[#0b0b0e]"
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {item.kind}
                   </span>
                   <span
-                    className="bg-[#18181b]/8 px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-5 text-[#18181b]"
+                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-5 text-content-primary"
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {item.festival}
                   </span>
                 </div>
 
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-black leading-[1.1] text-[#18181b]">
-                  {item.brand}
-                </h3>
+                <h3 className="card-title text-white">{item.brand}</h3>
 
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-[#56565d]">
-                  <strong className="font-semibold text-[#18181b]">
+                <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+                  <strong className="font-semibold text-white">
                     The experience:
                   </strong>{" "}
                   {item.experience}
@@ -83,7 +95,7 @@ export function SponsorCases() {
                       {" "}
                       {/* The brief for this card, still to be written. Kept
                           visible and tinted, exactly as the mockup marks it. */}
-                      <span className="text-[#8a7a1f]">{item.todo}</span>
+                      <span className="text-brand/80">{item.todo}</span>
                     </>
                   ) : null}
                 </p>
@@ -92,13 +104,13 @@ export function SponsorCases() {
                   {item.metrics.map((metric) => (
                     <div
                       key={metric.note}
-                      className="flex flex-col gap-0.5 bg-[#f2efe9] p-4"
+                      className="flex flex-col gap-0.5 bg-bg-tertiary p-4"
                       style={{ borderRadius: "var(--radius)" }}
                     >
-                      <p className="m-0 font-[family-name:var(--font-display)] text-[18px] font-black leading-6 text-[#8a7a1f]">
+                      <p className="m-0 font-daltown text-[34px] leading-[0.9] text-brand">
                         {metric.value}
                       </p>
-                      <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-[#56565d]">
+                      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
                         {metric.note}
                       </p>
                     </div>
@@ -113,7 +125,7 @@ export function SponsorCases() {
             quote rather than a fourth card. */}
         <figure
           data-reveal="up"
-          className="m-0 flex flex-col items-start gap-5 bg-[#18181b] p-8 sm:flex-row sm:items-center sm:gap-8 xl:p-10"
+          className="m-0 flex flex-col items-start gap-5 border-l-4 border-brand bg-bg-secondary p-8 sm:flex-row sm:items-center sm:gap-8 xl:p-10"
           style={{ borderRadius: "var(--radius)" }}
         >
           <PhotoSlot

@@ -32,6 +32,9 @@ export type CaseStudy = {
   kind: string;
   festival: string;
   photo: string;
+  /** The festival photograph standing in for the case's own, until the
+      partner shoot lands. `photo` keeps the brief. */
+  image: string;
   /** Lead sentence, bolded as "The experience:" on the card. */
   experience: string;
   /** The brief still to be written, shown in the mockup's yellow. */
@@ -42,6 +45,8 @@ export type CaseStudy = {
 export type SponsorFormat = {
   title: string;
   body: string;
+  /** The picture the format list shows while this format is chosen. */
+  image: string;
   link?: { label: string; href: string };
 };
 
@@ -56,6 +61,9 @@ export const sponsorCopy = {
   intro:
     "Every year, [XX,000] festivalgoers experience our festivals in Casablanca and Tangier. Together, we design brand spaces and experiences people live, not just logos they see.",
   heroPhoto: "Photo: crowd in front of the main stage, Anfa Park",
+  /* The Casa Anfa stage over a full crowd — a brand's name on a stage, which
+     is the pitch in one picture. From the festival library. */
+  heroImage: "/assets/gallery-2.jpg",
   primary: { label: "Get the partnership deck", href: "#partnership-form" },
   secondary: { label: "See case studies", href: "#case-studies" },
 
@@ -94,6 +102,7 @@ export const sponsorCopy = {
   audience: {
     eyebrow: "Our audience",
     title: "Who you will reach",
+    image: "/assets/gallery-3.jpg",
     cards: [
       { label: "Age", value: "[XX–XX]", note: "[Main age group]" },
       { label: "Cities", value: "[XX%]", note: "[from outside Casablanca]" },
@@ -117,6 +126,7 @@ export const sponsorCopy = {
         kind: "Stage naming",
         festival: "Jazzablanca",
         photo: "Photo: Casa Anfa stage during a concert",
+        image: "/assets/gallery-4.jpg",
         experience:
           "the brand gives its name to one of the festival stages, the Casa Anfa stage.",
         todo: "[Describe the programme and the stage branding]",
@@ -130,6 +140,7 @@ export const sponsorCopy = {
         kind: "Official partner",
         festival: "Jazzablanca",
         photo: "Photo: BYD vehicles on the festival site",
+        image: "/assets/hosp-garden-party-vip.jpg",
         experience: "official car of the festival.",
         todo: "[Describe the activation: artist shuttles, display, test drives…]",
         metrics: [
@@ -142,6 +153,7 @@ export const sponsorCopy = {
         kind: "Telecom sponsor",
         festival: "Jazzablanca",
         photo: "Photo: Orange activation in the Village",
+        image: "/assets/gallery-6.jpg",
         experience: "official telecom sponsor.",
         todo: "[Describe the activation: customer offer, SMS, charging, connected area…]",
         metrics: [
@@ -164,23 +176,28 @@ export const sponsorCopy = {
     items: [
       {
         title: "Stage naming",
+        image: "/assets/gallery-1.jpg",
         body: "Your name on a stage, in the programme, on ticketing and in every artist announcement.",
       },
       {
         title: "Brand zone",
+        image: "/assets/hosp-terrasses-danfa.jpg",
         body: "A dedicated space in the Village, a chill zone or the Terrasses d’Anfa: tasting, games, photo, charging.",
       },
       {
         title: "VIP hospitality",
+        image: "/assets/hosp-vip-box.jpg",
         body: "VIP boxes and Garden Party to host your clients and teams.",
         link: { label: "See hospitality packages", href: "/hospitality" },
       },
       {
         title: "Digital activation",
+        image: "/assets/gallery-3.jpg",
         body: "Offers for our festivalgoers: newsletter, social media, ticketing and loyalty programme.",
       },
       {
         title: "Official partner",
+        image: "/assets/hosp-corporate-pass.jpg",
         body: "Category exclusivity: banking, automotive, telecom, drinks, transport, hotels.",
       },
     ] satisfies SponsorFormat[],
