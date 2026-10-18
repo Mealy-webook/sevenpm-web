@@ -149,7 +149,9 @@ export function HeroScrollReveal({ children }: { children: React.ReactNode }) {
 
   return (
     <div ref={track} className="hero-track relative">
-      <div ref={screen} className="hero-screen relative overflow-hidden">
+      {/* Not overflow-hidden: the animated ground reaches up behind the
+          header, and clipping here cut that band flat. */}
+      <div ref={screen} className="hero-screen relative">
         {children}
 
         <div
