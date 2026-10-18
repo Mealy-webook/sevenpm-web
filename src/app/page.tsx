@@ -62,12 +62,13 @@ export default function Home() {
             press come first, the company second. */}
         <HomeStory />
 
-        {/* The kinetic band and mission/vision/values, below the about block
-            by request. Both belong to the company rather than to the
+        {/* Mission/vision/values, then the kinetic band, below the about
+            block by request. Both belong to the company rather than to the
             programme, so they read as a continuation of the story above them
-            instead of interrupting the run from the festivals to the news. */}
-        <HomeMarquee />
+            instead of interrupting the run from the festivals to the news.
+            The band closes the company run, under the pillars, by request. */}
         <HomePillars />
+        <HomeMarquee />
 
         <NewsletterSection />
       </main>
