@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 
@@ -281,7 +282,13 @@ export function SiteMenu({
 
   if (!open) return null;
 
-  return (
+  /* Rendered on <body>, not where the header mounts it. Once the page
+     scrolls the header takes a backdrop-filter (and a transform when it
+     hides), and either makes it the containing block for `position:
+     fixed` — so the full-screen menu was being squeezed into the header's
+     own strip everywhere but the top of the page. `Sheet` portals for the
+     same reason. */
+  return createPortal(
     <div
       ref={root}
       role="dialog"
@@ -611,6 +618,7 @@ export function SiteMenu({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
