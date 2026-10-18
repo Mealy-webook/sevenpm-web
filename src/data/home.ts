@@ -214,7 +214,7 @@ export const homeStory = {
 
 /**
  * Mission / Vision / Values — Figma 2467:24548. The comp repeats the Vision
- * text under Values; left as drawn rather than invented.
+ * text under Values; Values now carries its own line, supplied by Ahmed.
  */
 export const homePillars = [
   {
@@ -227,7 +227,7 @@ export const homePillars = [
   },
   {
     title: "Values",
-    body: "Create a cultural business model that allows the best artists in the world to be presented in Morocco and showcases young Moroccan talent.",
+    body: "Encouraging diversity and promoting social inclusion in partnership with committed businesses and our communities to make culture accessible to all.",
   },
 ];
 

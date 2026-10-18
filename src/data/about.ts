@@ -28,7 +28,7 @@ export const aboutCopy = {
     },
     {
       label: "Values",
-      body: "Encourage diversity and foster social inclusion, in partnership with committed companies and with our communities, to make culture accessible to all.",
+      body: "Encouraging diversity and promoting social inclusion in partnership with committed businesses and our communities to make culture accessible to all.",
     },
   ],
   team: {
