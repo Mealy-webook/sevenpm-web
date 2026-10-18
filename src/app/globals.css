@@ -2152,3 +2152,17 @@ html[data-intro-seen] .preloader {
     transition: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Lineup — stacking acts (LineupSection). Desktop with motion only.
+   ------------------------------------------------------------------------- */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .lineup-stack-item {
+    position: sticky;
+    top: var(--stack-top, 112px);
+  }
+  .lineup-stack-face {
+    transition: filter 0.2s linear;
+    will-change: transform;
+  }
+}

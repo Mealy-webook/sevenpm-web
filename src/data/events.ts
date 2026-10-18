@@ -141,30 +141,6 @@ export type EventDetails = {
 export const FAQ_HEADLINE =
   "Jazzablanca draws nearly 100,000 festival goers as 19th edition comes to a close";
 
-/**
- * The lineup band's portraits, from 2550:20117 — the nine performer shots the
- * comp supplies, in its own left-to-right order.
- *
- * They are the band's content and nothing else: the comp's lineup carries no
- * name, stage, time or link, so these are faces rather than records. A
- * lineup that has to answer "who, where and when" needs its own section
- * built on `artistDays`, which this does not replace.
- *
- * `big` marks the 406 circles; the rest are the 200s that pair into 2x2
- * blocks between them.
- */
-export const lineupPortraits: { src: string; big?: boolean }[] = [
-  { src: "/assets/artist-1.jpg", big: true },
-  { src: "/assets/artist-2.jpg" },
-  { src: "/assets/artist-3.jpg" },
-  { src: "/assets/artist-4.jpg" },
-  { src: "/assets/artist-5.jpg" },
-  { src: "/assets/artist-6.jpg", big: true },
-  { src: "/assets/artist-7.jpg", big: true },
-  { src: "/assets/artist-8.jpg" },
-  { src: "/assets/artist-9.jpg" },
-];
-
 export const jazzablanca: EventDetails = {
   slug: "jazzablanca",
   name: "Jazzablanca",
