@@ -5,6 +5,13 @@ import { useState } from "react";
 import { lineup, runningOrder } from "@/data/lineup";
 import { ActLinks, ActPhoto, DayTabs, HeadlinerTag, LineupHead, StageTime } from "./shared";
 
+/* The strip fills the row whatever the night's size: 3, 4 or 5 supports. */
+const COLS: Record<number, string> = {
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+  5: "lg:grid-cols-5",
+};
+
 /**
  * N · Top of the bill — the headliner first, at full width.
  *
@@ -14,13 +21,6 @@ import { ActLinks, ActPhoto, DayTabs, HeadlinerTag, LineupHead, StageTime } from
  * as a strip of smaller cards in playing order. It is the most promotional
  * of the directions — closest to how the festival announces a night.
  */
-/* The strip fills the row whatever the night's size: 3, 4 or 5 supports. */
-const COLS: Record<number, string> = {
-  3: "lg:grid-cols-3",
-  4: "lg:grid-cols-4",
-  5: "lg:grid-cols-5",
-};
-
 export function LineupBill() {
   const [dayId, setDayId] = useState(lineup[0].id);
   const day = lineup.find((d) => d.id === dayId) ?? lineup[0];
