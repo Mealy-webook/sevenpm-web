@@ -9,6 +9,12 @@ import { UpcomingFeature } from "@/components/home/upcoming/UpcomingFeature";
 import { UpcomingTickets } from "@/components/home/upcoming/UpcomingTickets";
 import { UpcomingWall } from "@/components/home/upcoming/UpcomingWall";
 import { UpcomingYear } from "@/components/home/upcoming/UpcomingYear";
+import { UpcomingLockup } from "@/components/home/upcoming/UpcomingLockup";
+import { UpcomingDeck } from "@/components/home/upcoming/UpcomingDeck";
+import { UpcomingStack } from "@/components/home/upcoming/UpcomingStack";
+import { UpcomingPostcards } from "@/components/home/upcoming/UpcomingPostcards";
+import { UpcomingBands } from "@/components/home/upcoming/UpcomingBands";
+import { UpcomingPrint } from "@/components/home/upcoming/UpcomingPrint";
 import { festivals } from "@/data/home";
 
 export const metadata: Metadata = {
@@ -52,10 +58,46 @@ const OPTIONS = [
     note: "The year as a ruler, each festival hung over its own dates.",
     node: <UpcomingYear />,
   },
+  {
+    key: "g",
+    label: "G · Lockup",
+    note: "The names at full display size; hover a line and its poster follows the cursor.",
+    node: <UpcomingLockup />,
+  },
+  {
+    key: "h",
+    label: "H · Deck",
+    note: "One turntable. Pick a sleeve and its record drops onto the platter.",
+    node: <UpcomingDeck />,
+  },
+  {
+    key: "i",
+    label: "I · Stack",
+    note: "The posters as a pile, the app's Discover deck. Tap the one behind to bring it up.",
+    node: <UpcomingStack />,
+  },
+  {
+    key: "j",
+    label: "J · Postcards",
+    note: "Poster on the front; hover turns it over to dates, city and edition as an address.",
+    node: <UpcomingPostcards />,
+  },
+  {
+    key: "k",
+    label: "K · Bands",
+    note: "A moving band per festival, yellow one way, dark the other, with the card pinned on top.",
+    node: <UpcomingBands />,
+  },
+  {
+    key: "l",
+    label: "L · Print",
+    note: "One taped yellow bill typeset for both — SEVENPM presents, two names between rules.",
+    node: <UpcomingPrint />,
+  },
 ];
 
 /**
- * Upcoming events, six directions for two festivals, one under the other so
+ * Upcoming events, twelve directions for two festivals, one under the other so
  * they can be compared in a single scroll. A is what the homepage runs now.
  * Preview furniture — goes when a direction is chosen.
  */

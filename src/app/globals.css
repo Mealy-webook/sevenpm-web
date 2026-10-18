@@ -2061,3 +2061,94 @@ html[data-intro-seen] .preloader {
     animation: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Upcoming events — preview directions H, I, J, K
+   ------------------------------------------------------------------------- */
+/* H: the record drops onto the platter and turns. */
+.deck-drop {
+  animation: deck-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes deck-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-14%) scale(0.9);
+  }
+}
+.deck-spin {
+  animation: bill-spin 4s linear infinite;
+}
+/* H, I: the details change with the record. */
+.deck-fade {
+  animation: deck-fade 0.5s ease both;
+}
+@keyframes deck-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* J: the postcard turns over on hover or focus; below lg the back sits
+   under the front instead. */
+@media (min-width: 1024px) {
+  .postcard {
+    perspective: 1600px;
+  }
+  .postcard-inner {
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .postcard:hover .postcard-inner,
+  .postcard:focus-within .postcard-inner {
+    transform: rotateY(180deg);
+  }
+  .postcard-face {
+    backface-visibility: hidden;
+  }
+  .postcard-back {
+    transform: rotateY(180deg);
+  }
+}
+@media (max-width: 1023.98px) {
+  .postcard-inner {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .postcard-face {
+    position: relative;
+    inset: auto;
+  }
+  .postcard-face:first-child {
+    aspect-ratio: 1;
+  }
+}
+
+/* K: the name on a loop; hovering slows it to readable. */
+.band-track {
+  animation: band-run 28s linear infinite;
+}
+.band-reverse {
+  animation-direction: reverse;
+}
+.band:hover .band-track {
+  animation-duration: 90s;
+}
+@keyframes band-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-drop,
+  .deck-spin,
+  .deck-fade,
+  .band-track {
+    animation: none;
+  }
+  .postcard-inner {
+    transition: none;
+  }
+}
