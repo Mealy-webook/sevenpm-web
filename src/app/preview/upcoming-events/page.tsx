@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { FestivalsRow } from "@/components/home/FestivalsRow";
+import { UpcomingDoubleBill } from "@/components/home/upcoming/UpcomingDoubleBill";
 import { UpcomingBoard } from "@/components/home/upcoming/UpcomingBoard";
 import { UpcomingFeature } from "@/components/home/upcoming/UpcomingFeature";
 import { UpcomingTickets } from "@/components/home/upcoming/UpcomingTickets";
@@ -25,8 +25,8 @@ const OPTIONS = [
   {
     key: "a",
     label: "A · Double bill",
-    note: "Live on the homepage. Two panels tinted by their posters; hover widens one and pulls its record out.",
-    node: <FestivalsRow festivals={festivals} />,
+    note: "Two panels tinted by their posters; hover widens one and pulls its record out. (The homepage is back on the vinyl row, by request.)",
+    node: <UpcomingDoubleBill festivals={festivals} />,
   },
   {
     key: "b",

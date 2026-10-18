@@ -1,0 +1,214 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import VinylAlbumCard from "@/components/ui/great-ui-vinyl-album-card";
+import type { Festival } from "@/data/home";
+import { festivalsRowOrder, homeCopy } from "@/data/home";
+
+/**
+ * "Our iconic festivals" — Figma 2482:25025.
+ *
+ * The comp replaces the perspective poster stage with a plain row: the title
+ * at Daltown 152/118 on a 403 measure, then the artwork. With the two
+ * festivals now on the programme (Jazzablanca and Tanjazz — `festivalsRowOrder`)
+ * the row fits a desktop frame and holds still; on a narrower screen it
+ * overhangs and moves, as below.
+ *
+ * So it moves with the page: the section pins and the track scrubs sideways
+ * over exactly the distance it overhangs, then releases into the band below.
+ * Vertical scrolling is the only input, which is what makes it work on a
+ * trackpad, a wheel and a touch screen alike.
+ *
+ * Below `lg`, and whenever reduced motion is asked for, the pin is off and
+ * the row is an ordinary horizontal scroller — a pinned section on a phone
+ * hijacks the one gesture the reader has.
+ *
+ * The covers are square and each one is a sleeve with a record behind it
+ * (`VinylAlbumCard`): hovering slides the record out and opens the caption
+ * underneath. One card is active at a time, held here rather than in each
+ * card, so two records are never half-out at once. The caption's height is
+ * reserved whether or not it is showing, so the row does not jump.
+ *
+ * Whichever card is active keeps its colour and the rest drop to
+ * luminosity, which is the treatment the poster stage always used. With
+ * nothing hovered they all stay in colour.
+ *
+ * Everything after the active card slides right by exactly the record's
+ * travel, on the record's own spring, so the record opens into clear space
+ * rather than over its neighbour. It is a transform, not a layout change,
+ * so the track keeps its measured width and the scrub distance stays put.
+ * The last card has nothing after it to move: its record opens into the
+ * page gutter, and at the very end of the scrub the screen edge trims it.
+ *
+ * The artwork is the comp's own, re-cropped square from the bitmaps behind
+ * it; the old perspective exports are not reused.
+ *
+ * Restored by request after a brief turn as "the double bill", which lives
+ * on as option A at `/preview/upcoming-events`.
+ *
+ * The spacebar audio preview the old stage carried does not come with it —
+ * the comp draws no control for it and no hint. `FestivalsStage` still has
+ * it, and the two homepage preview routes still use that.
+ */
+
+const CARD = 404;
+const CAPTION = 64;
+/**
+ * How far the record travels out of its sleeve — the same ratio the card
+ * uses. Everything after the active card moves by exactly this, so the
+ * record opens into clear space instead of over its neighbour.
+ */
+const PUSH = CARD * 0.486;
+/** The record's spring, so the neighbours move with it rather than after it. */
+const PUSH_SPRING = {
+  type: "spring" as const,
+  stiffness: 80,
+  damping: 15,
+  mass: 1,
+};
+
+export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
+  const section = useRef<HTMLElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  const cards = festivalsRowOrder
+    .map((id) => festivals.find((f) => f.id === id))
+    .filter((f): f is Festival => Boolean(f?.card));
+  const activeIndex = cards.findIndex((f) => f.id === activeId);
+
+  useEffect(() => {
+    const sectionEl = section.current;
+    const viewportEl = viewport.current;
+    const trackEl = track.current;
+    if (!sectionEl || !viewportEl || !trackEl) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add(
+        {
+          pinned:
+            "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+        },
+        () => {
+          /* How far the row overhangs the screen: the viewport's own
+             scrollable distance, which counts the gutters, so the last
+             cover ends level with the column instead of past it. Read at
+             refresh rather than once, so a resize re-measures instead of
+             scrubbing to a stale distance. */
+          const overhang = () =>
+            Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
+
+          /* GSAP owns the x while it is pinned, so the native scroller has
+             to be off — two mechanisms on one axis fight each other. */
+          viewportEl.style.overflowX = "hidden";
+
+          const tween = gsap.to(trackEl, {
+            x: () => -overhang(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionEl,
+              start: "top top",
+              end: () => `+=${overhang()}`,
+              pin: true,
+              scrub: 0.6,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          return () => {
+            tween.scrollTrigger?.kill();
+            tween.kill();
+            viewportEl.style.overflowX = "";
+            gsap.set(trackEl, { x: 0 });
+          };
+        },
+      );
+    }, sectionEl);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={section}
+      id="festivals"
+      aria-labelledby="festivals-title"
+      /* Full-screen only where the row is pinned and scrubbed. On a phone
+         it is a plain swipe, and a viewport-tall section there spent the
+         whole screen on the heading with every poster off to the right. */
+      className="relative flex flex-col justify-center py-16 lg:min-h-svh xl:py-20"
+    >
+      <div
+        ref={viewport}
+        /* The gutter is padding rather than a margin so the title lines up
+           with the column and the last cover can still reach the edge. */
+        className="w-full overflow-x-auto px-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <div ref={track} className="flex w-max items-start gap-8">
+          <h2
+            id="festivals-title"
+            /* 403 is the comp's column. At that fixed width the heading itself
+               ran off a phone, so the section title had to be swiped into
+               view; and filling the width exactly hid the fact that anything
+               follows it. 72vw leaves the first poster showing at its edge,
+               which is what says the row moves. */
+            className="m-0 w-[min(403px,72vw)] shrink-0 self-center font-daltown text-[clamp(54px,8.49vw,129px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            data-reveal="clip"
+          >
+            {homeCopy.festivalsTitle}
+          </h2>
+
+          {cards.map((festival, index) => {
+            const active = activeId === festival.id;
+            /* Only what sits after the active card needs to move: the
+               record comes out to the right. */
+            const pushed = activeIndex !== -1 && index > activeIndex;
+            return (
+              <motion.div
+                key={festival.id}
+                className="shrink-0"
+                style={{ zIndex: active ? 30 : 10 }}
+                animate={{ x: pushed ? PUSH : 0 }}
+                transition={PUSH_SPRING}
+              >
+                <Link
+                  href={festival.href}
+                  aria-label={festival.name}
+                  className="block"
+                >
+                  <VinylAlbumCard
+                    coverImage={festival.card as string}
+                    title={festival.name}
+                    meta={festival.when}
+                    size={CARD}
+                    captionHeight={CAPTION}
+                    active={active}
+                    /* Colour belongs to whichever card you are on. With
+                       nothing hovered they all keep it — a row of grey
+                       posters is not a resting state, it is a row that
+                       looks broken. */
+                    dimmed={activeIndex !== -1 && !active}
+                    onActiveChange={(next) =>
+                      setActiveId(next ? festival.id : null)
+                    }
+                    sizes={`${CARD}px`}
+                  />
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

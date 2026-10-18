@@ -88,12 +88,20 @@ export function NewsletterSection() {
             </button>
           </div>
 
-          {/* Said in place, so the button's press has an answer. */}
+          {/* Said in place, so the button's press has an answer. Takes no
+              room until there is something to say, so the sheet hugs the
+              form — the line used to be reserved, which left 37px of empty
+              yellow under the button. It stays in the DOM (visually hidden)
+              so screen readers still hear it arrive. */}
           <p
             role="status"
-            className="m-0 mt-3 text-center font-[family-name:var(--font-display)] text-[13px] leading-5 text-[#18181b]/70"
+            className={
+              sent
+                ? "m-0 mt-3 text-center font-[family-name:var(--font-display)] text-[13px] leading-5 text-[#18181b]/70"
+                : "sr-only"
+            }
           >
-            {sent ? "Thanks — nothing is sent from this prototype." : " "}
+            {sent ? "Thanks — nothing is sent from this prototype." : ""}
           </p>
         </div>
       </div>

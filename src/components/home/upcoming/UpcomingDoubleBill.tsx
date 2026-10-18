@@ -5,7 +5,7 @@ import type { Festival } from "@/data/home";
 import { festivalsRowOrder, homeCopy } from "@/data/home";
 
 /**
- * Upcoming events — the double bill.
+ * A · Double bill — upcoming events as two poster-tinted panels.
  *
  * The section used to be a row built for four or more: a pinned track that
  * scrubbed sideways past posters running off the page. With two festivals
@@ -26,7 +26,7 @@ import { festivalsRowOrder, homeCopy } from "@/data/home";
  * Below `lg` the panels stack and nothing widens — there is no hover on a
  * phone, and a panel that grows on tap would hide the other one.
  */
-export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
+export function UpcomingDoubleBill({ festivals }: { festivals: Festival[] }) {
   const bill = festivalsRowOrder
     .map((id) => festivals.find((f) => f.id === id))
     .filter((f): f is Festival => Boolean(f?.card));
@@ -35,14 +35,14 @@ export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
 
   return (
     <section
-      id="festivals"
-      aria-labelledby="festivals-title"
+      id="up-double"
+      aria-labelledby="up-double-title"
       className="relative py-16 xl:py-20"
     >
       <div className="shell flex flex-col gap-8 xl:gap-12">
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
           <h2
-            id="festivals-title"
+            id="up-double-title"
             className="section-title text-white"
             data-reveal="clip"
           >
