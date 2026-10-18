@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { hospitalityCopy, hospitalityPackages } from "@/data/hospitality";
+import { ScrollRail } from "./ScrollRail";
 
 /**
  * Hospitality packages on the event page, from Figma 2612:5506.
@@ -83,8 +84,10 @@ export function HospitalitySection({ festival }: { festival: string }) {
 
         {/* The rail. It runs to the screen edge rather than stopping at the
             shell, which is what the comp draws — so the gutter is padding
-            inside the scroller and the overflow is negative margin. */}
-        <div className="-mr-[var(--shell-gutter)] min-w-0 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            inside the scroller and the overflow is negative margin. On
+            desktop the page's scroll slides it, so all four packages come
+            past without a sideways swipe; on a phone it is swiped. */}
+        <ScrollRail className="-mr-[var(--shell-gutter)] min-w-0 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <ul className="m-0 flex list-none gap-8 p-0">
             {packages.map((entry) => (
               <li
@@ -139,7 +142,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
               </li>
             ))}
           </ul>
-        </div>
+        </ScrollRail>
       </div>
     </section>
   );
