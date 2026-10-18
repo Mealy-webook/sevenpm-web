@@ -2,6 +2,7 @@ import { StageMeter } from "@/components/motion/StageMeter";
 import { HeroTerminal } from "@/components/home/HeroTerminal";
 import { HeroPill } from "@/components/home/HeroPill";
 import { HeroScrollReveal } from "@/components/home/HeroScrollReveal";
+import { HeroWordCycle } from "@/components/home/HeroWordCycle";
 
 import { homeCopy } from "@/data/home";
 
@@ -63,8 +64,10 @@ export function HomeHero() {
               <span className="block">{heroCut.after}</span>
             </span>
 
-            {/* MUSIC. */}
-            <span className="block">{heroCut.second}</span>
+            {/* MUSIC, turning to LIFE and back. */}
+            <span className="block">
+              <HeroWordCycle words={heroCut.cycle} />
+            </span>
           </div>
         </div>
 

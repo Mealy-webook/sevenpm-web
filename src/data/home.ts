@@ -299,6 +299,10 @@ export const homeCopy = {
     before: "M",
     after: "RE",
     second: "Music",
+    /* The second line turns between these — the brand line, "More music,
+       more life", said a half at a time (HeroWordCycle). The first is the
+       one shown at rest and for reduced motion. */
+    cycle: ["Music", "Life"],
     pill: {
       src: "/assets/hero-pill.jpg",
       alt: "",
