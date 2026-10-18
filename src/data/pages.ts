@@ -25,8 +25,6 @@ export type ContactChannel = {
   note: string;
   /** TODO(content): real addresses. Empty renders as "to be confirmed". */
   email?: string;
-  /** The photo behind its tile — illustrative, from the site's own library. */
-  image: string;
 };
 
 /* ------------------------------------------------------------------ */
@@ -149,41 +147,29 @@ export const contactCopy = {
   channels: <ContactChannel[]>[
     {
       label: "General",
-      image: "/assets/gallery-2.jpg",
       note: "Anything that does not fit the lines below.",
     },
     {
       label: "Tickets and bookings",
-      image: "/assets/gallery-4.jpg",
       note: "Orders, refunds, name changes and anything to do with a booking you have already made.",
     },
     {
       label: "Partnerships",
-      image: "/assets/hosp-corporate-pass.jpg",
       note: "Sponsorship, brand activations and media partnerships.",
     },
     {
       label: "Hospitality",
-      image: "/assets/hosp-vip-box.jpg",
       note: "VIP boxes, corporate guests and groups.",
     },
     {
       label: "Press",
-      image: "/assets/gallery-6.jpg",
       note: "Accreditation, interviews and image requests.",
     },
     {
       label: "Artists and bookings",
-      image: "/assets/gallery-5.jpg",
       note: "Submissions and agent enquiries for the festivals and the concert programme.",
     },
   ],
-  /** The tiles' heading and the form's topic question. */
-  lines: {
-    title: "Pick your line",
-    body: "Six inboxes, each read by the people who can answer. Choose one and the form below is addressed to it.",
-    write: "Write to us",
-  },
   where: {
     title: "Where we are",
     city: "Casablanca, Morocco",

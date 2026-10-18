@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 /**
  * `/contact`. No comp — the menu asked for it, and the redesign asked for
  * more than text. It opens on the title beside two taped polaroids, then
- * the six lines as photo tiles (picking one addresses the form), then the
- * form beside where we are, how fast we answer and the social links.
+ * the form (addressed to one of the six lines by its topic chips) beside
+ * where we are, how fast we answer and the social links.
  * Copy is in `data/pages.ts`.
  */
 export default function ContactPage() {
