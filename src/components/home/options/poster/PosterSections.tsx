@@ -29,7 +29,7 @@ function Slug({
   children: React.ReactNode;
 }) {
   return (
-    <p className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary">
+    <p className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-content-secondary">
       <span className="text-brand">{number}</span>
       {children}
       <span aria-hidden className="h-px flex-1 bg-white/15" />
@@ -47,12 +47,12 @@ export function PosterStats() {
             key={stat.label}
             className={`${styles.wall} flex flex-col gap-2 px-6 py-10`}
           >
-            <span className="font-daltown text-[clamp(37px,4.22vw,54px)] uppercase leading-[0.9] text-white">
+            <span className="display-s font-daltown uppercase text-white">
               {stat.prefix}
               {stat.year ? stat.value : stat.value.toLocaleString("en-US")}
               {stat.suffix}
             </span>
-            <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
               {stat.label}
             </span>
           </div>
@@ -95,7 +95,7 @@ export function PosterWall() {
                     className="object-cover"
                   />
                 </Link>
-                <span className="font-daltown text-[clamp(18px,1.79vw,25px)] uppercase leading-[1] text-white">
+                <span className="display-xs font-daltown uppercase text-white">
                   {festival.name}
                 </span>
               </li>
@@ -123,7 +123,7 @@ export function PosterStory() {
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div className="flex flex-col gap-8">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-[1.7] text-content-primary [&>span:first-child]:float-left [&>span:first-child]:mr-3 [&>span:first-child]:font-daltown [&>span:first-child]:text-[61px] [&>span:first-child]:leading-[0.8] [&>span:first-child]:text-brand">
+            <p className="card-title m-0 font-[family-name:var(--font-display)] text-content-primary [&>span:first-child]:float-left [&>span:first-child]:mr-3 [&>span:first-child]:font-daltown [&>span:first-child]: [&>span:first-child]: [&>span:first-child]:text-brand">
               <span>{cap}</span>
               {body}
             </p>
@@ -135,7 +135,7 @@ export function PosterStory() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="flex items-center gap-2 border border-white/15 px-4 py-2 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.3px] text-content-primary transition-colors hover:bg-white/5"
+                    className="flex items-center gap-2 border border-white/15 px-4 py-2 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.3px] text-content-primary transition-colors hover:bg-white/5"
                   >
                     <Image
                       src={social.icon}
@@ -195,16 +195,16 @@ export function PosterClippings() {
                   index === 1 ? "rotate-[1.5deg]" : "-rotate-1"
                 }`}
               >
-                <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-[#0b0b0e]/55">
+                <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-[#0b0b0e]/55">
                   {item.date}
                 </span>
-                <span className="font-daltown text-[23px] uppercase leading-[0.95]">
+                <span className="display-xs font-daltown uppercase">
                   {item.title}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-[18px] text-[#0b0b0e]/70">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-[#0b0b0e]/70">
                   {item.excerpt}
                 </span>
-                <span className="mt-auto border-t border-[#0b0b0e]/25 pt-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase tracking-[2px]">
+                <span className="mt-auto border-t border-[#0b0b0e]/25 pt-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px]">
                   Read it
                 </span>
               </Link>
@@ -273,10 +273,10 @@ export function PosterCoupon() {
           <div
             className={`${styles.cut} flex flex-col gap-6 p-8 text-[#0b0b0e] xl:p-12`}
           >
-            <h2 className="m-0 font-daltown text-[clamp(32px,5.08vw,61px)] uppercase leading-[0.9]">
+            <h2 className="card-title m-0 font-daltown uppercase">
               {homeCopy.newsletter.title}
             </h2>
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#0b0b0e]/80">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-display)] text-body text-[#0b0b0e]/80">
               {homeCopy.newsletter.body}
             </p>
 
@@ -291,11 +291,11 @@ export function PosterCoupon() {
                 type="email"
                 required
                 placeholder="you@example.com"
-                className="w-full border-2 border-[#0b0b0e]/30 bg-transparent px-4 py-4 font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#0b0b0e] placeholder:text-[#0b0b0e]/45 focus:border-[#0b0b0e] focus:outline-none sm:max-w-[420px]"
+                className="w-full border-2 border-[#0b0b0e]/30 bg-transparent px-4 py-4 font-[family-name:var(--font-display)] text-body text-[#0b0b0e] placeholder:text-[#0b0b0e]/45 focus:border-[#0b0b0e] focus:outline-none sm:max-w-[420px]"
               />
               <button
                 type="submit"
-                className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-8 py-4 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-[#f4f1e8] transition-colors hover:bg-[#0b0b0e]/85"
+                className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-8 py-4 font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.5px] text-[#f4f1e8] transition-colors hover:bg-[#0b0b0e]/85"
               >
                 {homeCopy.newsletter.cta}
               </button>

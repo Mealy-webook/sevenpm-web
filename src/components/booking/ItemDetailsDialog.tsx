@@ -62,7 +62,7 @@ export function ItemDetailsDialog({
             type="button"
             onClick={() => onAdd(quantity, size)}
             disabled={quantity === 0}
-            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
           >
             {bookingCopy.extras.addToCart}
           </button>
@@ -82,13 +82,13 @@ export function ItemDetailsDialog({
           </span>
         )}
 
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[0.19px] text-content-primary">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[0.19px] text-content-primary">
           {addon.name}
         </h3>
 
         {addon.sizes && (
           <div className="flex flex-col gap-2">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
               {bookingCopy.extras.size}
             </p>
             <div
@@ -105,11 +105,11 @@ export function ItemDetailsDialog({
                     role="radio"
                     aria-checked={selected}
                     onClick={() => setSize(option)}
-                    className={`flex h-9 min-w-[44px] cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] transition-colors ${
-                      selected
-                        ? "border border-content-primary bg-white/10 text-content-primary"
-                        : "border-[0.5px] border-white/10 bg-white/5 text-content-primary hover:bg-white/10"
-                    }`}
+                    className={`flex h-9 min-w-[44px] cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-body-s font-semibold transition-colors ${
+ selected
+ ? "border border-content-primary bg-white/10 text-content-primary"
+ : "border-[0.5px] border-white/10 bg-white/5 text-content-primary hover:bg-white/10"
+ }`}
                   >
                     {option}
                   </button>

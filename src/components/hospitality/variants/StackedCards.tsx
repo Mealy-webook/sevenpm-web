@@ -33,7 +33,7 @@ export function StackedCards() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-10">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
@@ -63,17 +63,17 @@ export function StackedCards() {
                 />
 
                 <div className="flex flex-1 flex-col gap-4 p-6 xl:p-10">
-                  <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+                  <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
                     {String(index + 1).padStart(2, "0")} /{" "}
                     {String(hospitalityPackages.length).padStart(2, "0")} ·{" "}
                     {entry.festival}
                   </span>
 
-                  <h3 className="m-0 font-daltown text-[clamp(25px,3.74vw,51px)] uppercase leading-[0.9] text-white">
+                  <h3 className="display-s m-0 font-daltown uppercase text-white">
                     {entry.name}
                   </h3>
 
-                  <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                  <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
                     {entry.summary}
                   </p>
 
@@ -83,10 +83,10 @@ export function StackedCards() {
                         key={spec.label}
                         className="flex flex-col gap-0.5 border-t border-white/10 py-2.5"
                       >
-                        <dt className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                        <dt className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
                           {spec.label}
                         </dt>
-                        <dd className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                        <dd className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-white">
                           {spec.value}
                         </dd>
                       </div>
@@ -95,19 +95,19 @@ export function StackedCards() {
 
                   <div className="mt-auto flex flex-wrap items-end gap-6 border-t border-white/10 pt-5">
                     <div className="flex flex-col gap-0.5">
-                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                      <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                         {from}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[19px] font-black leading-7 text-brand">
+                      <span className="font-[family-name:var(--font-display)] text-title-body font-black text-brand">
                         {entry.price}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                      <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                         {entry.perUnit}
                       </span>
                     </div>
                     <Link
                       href={`/hospitality/${entry.slug}`}
-                      className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                      className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
                     >
                       <span className="relative z-10">{discover}</span>
                     </Link>
@@ -122,7 +122,7 @@ export function StackedCards() {
           ))}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

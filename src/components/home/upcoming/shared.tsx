@@ -23,7 +23,7 @@ export function SectionHead({ id }: { id: string }) {
         {homeCopy.festivalsTitle}
       </h2>
       <p
-        className="m-0 font-[family-name:var(--font-display)] text-[13px] uppercase leading-5 tracking-[0.12em] text-text-secondary"
+        className="m-0 font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary"
         data-reveal="up"
       >
         {String(bill.length).padStart(2, "0")} festivals · {cities.join(" · ")}
@@ -50,7 +50,7 @@ export function Cta({
     return (
       <Link
         href={festival.href}
-        className={`sweep inline-flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] after:!bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${className}`}
+        className={`sweep inline-flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e] after:!bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${className}`}
       >
         <span className="relative z-10">Get tickets</span>
       </Link>
@@ -62,7 +62,7 @@ export function Cta({
       : "border-white/15 bg-white/5 text-text-secondary";
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center border px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${quiet} ${className}`}
+      className={`inline-flex shrink-0 items-center justify-center border px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold ${quiet} ${className}`}
     >
       Tickets soon
     </span>

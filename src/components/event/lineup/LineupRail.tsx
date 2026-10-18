@@ -39,7 +39,7 @@ export function LineupRail() {
                   <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40" />
 
                   <div className="absolute inset-x-0 top-0 flex items-start justify-between p-4">
-                    <span className="font-daltown text-[40px] leading-none text-brand">{a.start}</span>
+                    <span className="display-xs font-daltown leading-none text-brand">{a.start}</span>
                     {a.headliner ? <HeadlinerTag /> : null}
                   </div>
 
@@ -47,18 +47,18 @@ export function LineupRail() {
                     className={`absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 transition-[background-color,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? "bg-bg-primary/95" : "translate-y-[calc(100%-132px)]"}`}
                   >
                     <h3 className="card-title text-white">{a.name}</h3>
-                    <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.1em] text-text-primary">
+                    <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-text-primary">
                       {a.stage} · to {a.end}
                     </span>
                     <button
                       type="button"
                       onClick={() => setOpen(on ? null : a.id)}
                       aria-expanded={on}
-                      className="w-fit font-[family-name:var(--font-display)] text-[13px] font-semibold text-brand underline underline-offset-4"
+                      className="w-fit font-[family-name:var(--font-display)] text-body-s font-semibold text-brand underline underline-offset-4"
                     >
                       {on ? "Close" : "About"}
                     </button>
-                    <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+                    <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                       {a.bio}
                     </p>
                     <ActLinks act={a} />

@@ -44,7 +44,7 @@ export default async function RolePage({ params }: PageProps) {
 
   const list = (title: string, items: string[]) => (
     <section className="flex flex-col gap-4">
-      <h2 className="m-0 font-[family-name:var(--font-display)] text-[23px] font-bold uppercase leading-[30px] tracking-[-0.13px] text-white sm:text-[25px]">
+      <h2 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.13px] text-white sm:text-title-screen">
         {title}
       </h2>
       <ul
@@ -55,7 +55,7 @@ export default async function RolePage({ params }: PageProps) {
         {items.map((item) => (
           <li
             key={item}
-            className="flex gap-3 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary"
+            className="flex gap-3 font-[family-name:var(--font-display)] text-body-l text-content-secondary"
           >
             <span aria-hidden>·</span>
             {item}
@@ -85,7 +85,7 @@ export default async function RolePage({ params }: PageProps) {
               className="flex w-full shrink-0 flex-col gap-6 border border-white/5 bg-bg-secondary p-6 lg:sticky lg:top-28 lg:w-[403px]"
               data-reveal="up"
             >
-              <h2 className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+              <h2 className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary">
                 {copy.summary}
               </h2>
 
@@ -99,10 +99,10 @@ export default async function RolePage({ params }: PageProps) {
                         : ""
                     }`}
                   >
-                    <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
+                    <span className="font-[family-name:var(--font-display)] text-body-l text-content-secondary">
                       {fact.label}
                     </span>
-                    <span className="text-right font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-white">
+                    <span className="text-right font-[family-name:var(--font-display)] text-body-l text-white">
                       {fact.value}
                     </span>
                   </div>

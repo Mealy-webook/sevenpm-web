@@ -43,10 +43,10 @@ export function LineupIndex() {
                     aria-pressed={on}
                     className="group flex w-full items-baseline justify-between gap-6 py-4 text-left"
                   >
-                    <span className={`font-daltown text-[clamp(48px,6vw,92px)] uppercase leading-[0.85] transition-colors duration-200 ${on ? "text-brand" : "text-white/35 group-hover:text-white"}`}>
+                    <span className={`display-m font-daltown uppercase transition-colors duration-200 ${on ? "text-brand" : "text-white/35 group-hover:text-white"}`}>
                       {a.name}
                     </span>
-                    <span className={`shrink-0 font-[family-name:var(--font-display)] text-[15px] font-semibold ${on ? "text-brand" : "text-text-secondary"}`}>
+                    <span className={`shrink-0 font-[family-name:var(--font-display)] text-body font-semibold ${on ? "text-brand" : "text-text-secondary"}`}>
                       {a.start} · {a.stage}
                     </span>
                   </button>
@@ -62,7 +62,7 @@ export function LineupIndex() {
               {picked.headliner ? <HeadlinerTag /> : null}
             </div>
             <StageTime act={picked} className="text-brand" />
-            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
               {picked.bio}
             </p>
             <ActLinks act={picked} />

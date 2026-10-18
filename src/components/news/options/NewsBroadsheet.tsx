@@ -43,11 +43,11 @@ export function NewsBroadsheet({ articles }: { articles: NewsArticle[] }) {
               role="tab"
               aria-selected={selected}
               onClick={() => setCategory(label)}
-              className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.3px] transition-colors ${
-                selected
-                  ? "border-content-primary bg-white/10 text-white"
-                  : "border-white/10 bg-white/5 text-content-secondary hover:text-white"
-              }`}
+              className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.3px] transition-colors ${
+ selected
+ ? "border-content-primary bg-white/10 text-white"
+ : "border-white/10 bg-white/5 text-content-secondary hover:text-white"
+ }`}
             >
               {label}
             </button>
@@ -72,18 +72,18 @@ export function NewsBroadsheet({ articles }: { articles: NewsArticle[] }) {
           </span>
 
           <span className="flex min-w-0 flex-1 flex-col gap-4">
-            <span className="flex items-center gap-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-brand">
+            <span className="flex items-center gap-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-brand">
               {lead.category}
               <span aria-hidden className="h-px flex-1 bg-white/15" />
               <span className="text-content-secondary">{lead.dateLabel}</span>
             </span>
-            <span className="font-daltown text-[clamp(28px,3.71vw,54px)] uppercase leading-[0.92] text-white transition-colors group-hover:text-brand">
+            <span className="display-s font-daltown uppercase text-white transition-colors group-hover:text-brand">
               {lead.title}
             </span>
-            <span className="font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+            <span className="font-[family-name:var(--font-display)] text-body text-content-secondary">
               {lead.excerpt}
             </span>
-            <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-content-secondary">
+            <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-content-secondary">
               {lead.readingTime}
             </span>
           </span>
@@ -99,15 +99,15 @@ export function NewsBroadsheet({ articles }: { articles: NewsArticle[] }) {
             >
               <span
                 aria-hidden
-                className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-bold leading-6 tracking-[1px] text-content-secondary"
+                className="shrink-0 font-[family-name:var(--font-display)] text-body-s font-bold text-content-secondary"
               >
                 {String(index + 2).padStart(2, "0")}
               </span>
               <span className="flex min-w-0 flex-1 flex-col gap-2">
-                <span className="font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-7 tracking-[-0.1px] text-white transition-colors group-hover:text-brand">
+                <span className="font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.1px] text-white transition-colors group-hover:text-brand">
                   {article.title}
                 </span>
-                <span className="flex flex-wrap items-center gap-x-3 font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.5px] text-content-secondary">
+                <span className="flex flex-wrap items-center gap-x-3 font-[family-name:var(--font-display)] text-caption uppercase tracking-[1.5px] text-content-secondary">
                   {article.category}
                   <span aria-hidden className="size-[3px] bg-white/30" />
                   {article.dateLabel}

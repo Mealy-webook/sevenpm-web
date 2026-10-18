@@ -57,7 +57,7 @@ export function LineupTimeline() {
               {hours.map((m) => (
                 <span
                   key={m}
-                  className="absolute top-0 -translate-x-1/2 font-[family-name:var(--font-display)] text-[12px] tracking-[0.08em] text-text-secondary"
+                  className="absolute top-0 -translate-x-1/2 font-[family-name:var(--font-display)] text-caption text-text-secondary"
                   style={{ left: pct(m) }}
                 >
                   {label(m)}
@@ -67,7 +67,7 @@ export function LineupTimeline() {
 
             {LINEUP_STAGES.map((stage) => (
               <div key={stage} className="flex border-t border-white/10">
-                <span className="flex w-[140px] shrink-0 items-center font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.08em] text-text-primary">
+                <span className="flex w-[140px] shrink-0 items-center font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.08em] text-text-primary">
                   {stage}
                 </span>
                 <div className="relative h-[112px] flex-1">
@@ -91,8 +91,8 @@ export function LineupTimeline() {
                         >
                           <ActPhoto act={a} sizes="88px" className="aspect-square h-full shrink-0" />
                           <span className="flex min-w-0 flex-col justify-center gap-1 pr-3">
-                            <span className="truncate font-daltown text-[26px] uppercase leading-[22px]">{a.name}</span>
-                            <span className="font-[family-name:var(--font-display)] text-[12px] font-medium opacity-75">
+                            <span className="display-xs truncate font-daltown uppercase">{a.name}</span>
+                            <span className="font-[family-name:var(--font-display)] text-caption font-medium opacity-75">
                               {a.start} – {a.end}
                             </span>
                           </span>
@@ -113,7 +113,7 @@ export function LineupTimeline() {
             {picked.headliner ? <HeadlinerTag /> : null}
             <h3 className="card-title text-white">{picked.name}</h3>
             <StageTime act={picked} className="text-brand" />
-            <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+            <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
               {picked.bio}
             </p>
             <ActLinks act={picked} />

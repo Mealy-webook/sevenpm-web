@@ -73,14 +73,14 @@ export function PaymentsPanel({
             height={16}
             className="size-4"
           />
-          <span className="px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+          <span className="px-1 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
             {copy.addCard}
           </span>
         </button>
       </div>
 
       {cards.length === 0 ? (
-        <p className="m-0 py-6 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+        <p className="m-0 py-6 font-[family-name:var(--font-display)] text-body text-content-secondary">
           {copy.empty}
         </p>
       ) : (
@@ -101,7 +101,7 @@ export function PaymentsPanel({
         </ul>
       )}
 
-      <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+      <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
         {copy.note}
       </p>
 

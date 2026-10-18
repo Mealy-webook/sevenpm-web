@@ -24,13 +24,13 @@ export function HeroSplit() {
     <section className="relative grid h-svh w-full grid-cols-1 items-stretch overflow-hidden bg-bg-primary lg:grid-cols-[1fr_minmax(0,38%)]">
       <div className="flex min-w-0 flex-col justify-center gap-7 px-[var(--shell-gutter)] py-14">
         <h1
-          className="m-0 font-daltown text-[clamp(48px,11.08vw,162px)] uppercase leading-[0.76] tracking-[0.01em] text-white"
+          className="section-title m-0 font-daltown uppercase text-white"
           data-no-split
         >
           {homeCopy.heroTitle}
         </h1>
 
-        <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[16px] leading-7 tracking-[0.085px] text-content-secondary">
+        <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-body-l text-content-secondary">
           {homeCopy.intro}
         </p>
 
@@ -41,10 +41,10 @@ export function HeroSplit() {
               key={festival.id}
               className="flex items-baseline justify-between gap-4 border-b border-white/12 py-3"
             >
-              <dt className="font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-5 tracking-[0.5px] text-white">
+              <dt className="font-[family-name:var(--font-display)] text-body font-bold uppercase tracking-[0.5px] text-white">
                 {festival.name}
               </dt>
-              <dd className="m-0 shrink-0 font-[family-name:var(--font-display)] text-[13px] uppercase leading-5 tracking-[1.2px] text-content-secondary">
+              <dd className="m-0 shrink-0 font-[family-name:var(--font-display)] text-body-s uppercase tracking-[1.2px] text-content-secondary">
                 {festival.when ?? festival.city}
               </dd>
             </div>

@@ -43,11 +43,11 @@ export function NewsCards({ articles }: { articles: NewsArticle[] }) {
               onClick={() => setCategory(label)}
               /* The tabs sit on the drawer, so they read as tabs: attached
                  along the bottom, not floating chips. */
-              className={`flex h-9 cursor-pointer items-center px-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[1.5px] transition-colors ${
-                selected
-                  ? "bg-[#f2efe6] text-[#18181b]"
-                  : "bg-white/5 text-content-secondary hover:bg-white/10"
-              }`}
+              className={`flex h-9 cursor-pointer items-center px-4 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[1.5px] transition-colors ${
+ selected
+ ? "bg-[#f2efe6] text-[#18181b]"
+ : "bg-white/5 text-content-secondary hover:bg-white/10"
+ }`}
             >
               {label}
             </button>
@@ -65,12 +65,12 @@ export function NewsCards({ articles }: { articles: NewsArticle[] }) {
                 className={`news-card-filed flex h-full flex-col gap-4 bg-[#f2efe6] p-4 text-[#18181b] ${tilt[index % tilt.length]}`}
               >
                 <span className="flex items-start justify-between gap-3">
-                  <span className="bg-[#18181b] px-2 py-1 font-[family-name:var(--font-display)] text-[10px] font-bold uppercase leading-3 tracking-[1.5px] text-[#f2efe6]">
+                  <span className="bg-[#18181b] px-2 py-1 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[1.5px] text-[#f2efe6]">
                     {article.category}
                   </span>
                   <span
                     aria-hidden
-                    className="flex shrink-0 items-center border-2 border-[#18181b]/25 px-2 py-1 font-[family-name:var(--font-display)] text-[10px] font-bold uppercase leading-3 tracking-[1px] text-[#18181b]/55"
+                    className="flex shrink-0 items-center border-2 border-[#18181b]/25 px-2 py-1 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[1px] text-[#18181b]/55"
                   >
                     {article.dateLabel}
                   </span>
@@ -86,15 +86,15 @@ export function NewsCards({ articles }: { articles: NewsArticle[] }) {
                   />
                 </span>
 
-                <span className="font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px]">
+                <span className="font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px]">
                   {article.title}
                 </span>
 
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 text-[#18181b]/70">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-[#18181b]/70">
                   {article.excerpt}
                 </span>
 
-                <span className="mt-auto flex items-center justify-between border-t border-[#18181b]/20 pt-3 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase tracking-[1.5px]">
+                <span className="mt-auto flex items-center justify-between border-t border-[#18181b]/20 pt-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[1.5px]">
                   Read it
                   <span className="text-[#18181b]/50">
                     {article.readingTime}

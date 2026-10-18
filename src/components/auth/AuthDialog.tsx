@@ -65,7 +65,7 @@ function Cta({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a] disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30"
+      className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-[#fff35a] disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30"
     >
       {children}
     </button>
@@ -86,7 +86,7 @@ function Provider({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+      className="flex w-full cursor-pointer items-center justify-center gap-2 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90"
     >
       <Image src={icon} alt="" width={20} height={20} className="size-5" />
       {label}
@@ -127,7 +127,7 @@ function PasswordField({
         <button
           type="button"
           onClick={() => setShown((current) => !current)}
-          className="shrink-0 cursor-pointer font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
+          className="shrink-0 cursor-pointer font-[family-name:var(--font-display)] text-body font-semibold text-content-primary transition-colors hover:text-brand"
         >
           {shown ? authCopy.signUp.hide : authCopy.signUp.show}
         </button>
@@ -141,7 +141,7 @@ function PasswordMeter({ value }: { value: string }) {
   const { score, label } = passwordStrength(value);
   return (
     <div className="flex flex-col gap-2">
-      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+      <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
         {authCopy.signUp.strength}
       </p>
       <div className="flex items-center gap-2">
@@ -156,7 +156,7 @@ function PasswordMeter({ value }: { value: string }) {
           ))}
         </span>
         {label && (
-          <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold leading-4 tracking-[0.12px] text-brand">
+          <span className="font-[family-name:var(--font-display)] text-caption font-semibold text-brand">
             {label}
           </span>
         )}
@@ -167,9 +167,9 @@ function PasswordMeter({ value }: { value: string }) {
           return (
             <li
               key={rule.id}
-              className={`flex items-center gap-2 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
-                met ? "text-[#4ade80]" : "text-[#ff6c6c]"
-              }`}
+              className={`flex items-center gap-2 font-[family-name:var(--font-display)] text-caption ${
+ met ? "text-[#4ade80]" : "text-[#ff6c6c]"
+ }`}
             >
               <svg viewBox="0 0 16 16" className="size-3 shrink-0" fill="none">
                 {met ? (
@@ -237,9 +237,9 @@ function CodeInput({
           maxLength={1}
           aria-label={authCopy.code.digit(index)}
           aria-invalid={invalid}
-          className={`size-11 border bg-white/5 text-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary caret-brand outline-none transition-colors focus:border-content-primary ${
-            invalid ? "border-[#ff6c6c]" : "border-white/10"
-          }`}
+          className={`size-11 border bg-white/5 text-center font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary caret-brand outline-none transition-colors focus:border-content-primary ${
+ invalid ? "border-[#ff6c6c]" : "border-white/10"
+ }`}
         />
       ))}
     </div>
@@ -414,7 +414,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                       onClick={() =>
                         setEmail(`${email.split("@")[0]}${domain}`)
                       }
-                      className="btn-secondary flex cursor-pointer items-center px-3 py-2 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-primary"
+                      className="btn-secondary flex cursor-pointer items-center px-3 py-2 font-[family-name:var(--font-display)] text-body-s text-content-primary"
                     >
                       {domain}
                     </button>
@@ -426,7 +426,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                 <button
                   type="button"
                   onClick={() => setEmail(suggestion)}
-                  className="cursor-pointer text-left font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-brand"
+                  className="cursor-pointer text-left font-[family-name:var(--font-display)] text-caption text-brand"
                 >
                   {authCopy.welcome.suggestion(suggestion)}
                 </button>
@@ -443,7 +443,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
 
             <div className="flex items-center gap-4">
               <span className="h-px flex-1 bg-white/10" />
-              <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                 {authCopy.welcome.or}
               </span>
               <span className="h-px flex-1 bg-white/10" />
@@ -505,7 +505,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
               inputMode="numeric"
               autoComplete="tel"
               leading={
-                <span className="btn-secondary flex shrink-0 items-center gap-1 px-3 py-2 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                <span className="btn-secondary flex shrink-0 items-center gap-1 px-3 py-2 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                   <Image
                     src={authCopy.signUp.flag}
                     alt=""
@@ -545,7 +545,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
               label={authCopy.signUp.partners}
             />
 
-            <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            <p className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-content-secondary">
               {/* The legal pages don't exist yet, so this stays plain text. */}
               {authCopy.signUp.terms}{" "}
               <span className="text-content-primary underline">
@@ -581,7 +581,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                 setPasswordError("");
                 setStep("reset");
               }}
-              className="cursor-pointer self-start font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
+              className="cursor-pointer self-start font-[family-name:var(--font-display)] text-body font-semibold text-content-primary transition-colors hover:text-brand"
             >
               {authCopy.signIn.forgot}
             </button>
@@ -621,12 +621,12 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
             {codeError && (
               <p
                 role="alert"
-                className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#ff6c6c]"
+                className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-[#ff6c6c]"
               >
                 {codeError}
               </p>
             )}
-            <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            <p className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-content-secondary">
               {authCopy.code.demo}
             </p>
             <button
@@ -635,7 +635,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
                 setResent(true);
                 window.setTimeout(() => setResent(false), 2000);
               }}
-              className="cursor-pointer font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors hover:text-brand"
+              className="cursor-pointer font-[family-name:var(--font-display)] text-body font-semibold text-content-primary transition-colors hover:text-brand"
             >
               {resent ? authCopy.code.resent : authCopy.code.resend}
             </button>
@@ -677,7 +677,7 @@ export function AuthDialog({ onClose }: { onClose: () => void }) {
           </>
         )}
 
-        <p className="m-0 text-center font-[family-name:var(--font-display)] text-[11px] leading-4 tracking-[0.11px] text-content-secondary">
+        <p className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-content-secondary">
           {authCopy.note}
         </p>
       </div>
@@ -718,7 +718,7 @@ function Consent({
           <path d="M2 8.5 6 12.5 14 3.5" stroke="#18181b" strokeWidth="2.5" />
         </svg>
       </span>
-      <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+      <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
         {label}
       </span>
     </label>

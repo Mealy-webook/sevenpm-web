@@ -25,7 +25,7 @@ export function ActionButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="btn-secondary shrink-0 cursor-pointer p-1.5 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+      className="btn-secondary shrink-0 cursor-pointer p-1.5 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary"
     >
       <span className="flex h-4 items-center justify-center px-1">
         {children}
@@ -57,7 +57,7 @@ export function AccountCard({
       <div className="flex min-h-6 items-center justify-between gap-4">
         <h3
           id={titleId}
-          className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary"
+          className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px] text-content-primary"
         >
           {title}
         </h3>
@@ -98,11 +98,11 @@ export function AccountRow({
         </span>
       )}
       <span className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+        <span className="truncate font-[family-name:var(--font-display)] text-body text-content-primary">
           {label}
         </span>
         {value && (
-          <span className="truncate font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <span className="truncate font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {value}
           </span>
         )}

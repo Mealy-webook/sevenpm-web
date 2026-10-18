@@ -20,11 +20,11 @@ export function SmallPrint() {
     <section className="relative py-16 xl:py-24">
       <div className="shell flex flex-col gap-11">
         <div className="flex flex-col gap-5">
-          <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+          <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
             {stamp}
           </span>
           <h2
-            className="m-0 font-daltown text-[clamp(30px,5.5vw,88px)] uppercase leading-[0.88] text-white"
+            className="display-m m-0 font-daltown uppercase text-white"
             data-reveal="clip"
           >
             {title}
@@ -38,10 +38,10 @@ export function SmallPrint() {
               data-reveal="up"
               className="flex flex-col gap-2 border-t border-white/12 py-6"
             >
-              <dt className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[0.02em] text-white">
+              <dt className="m-0 font-[family-name:var(--font-display)] text-body-l font-bold uppercase tracking-[0.02em] text-white">
                 {item.q}
               </dt>
-              <dd className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.75] text-content-secondary">
+              <dd className="m-0 font-[family-name:var(--font-ui)] text-body text-content-secondary">
                 {item.a}
               </dd>
             </div>

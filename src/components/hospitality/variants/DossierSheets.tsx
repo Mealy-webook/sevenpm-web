@@ -29,7 +29,7 @@ export function DossierSheets() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-12">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
@@ -65,15 +65,15 @@ export function DossierSheets() {
 
                 <div className="grid gap-8 lg:grid-cols-[1fr_minmax(0,300px)] lg:gap-12">
                   <div className="flex flex-col gap-5">
-                    <p className="m-0 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/55">
+                    <p className="m-0 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#18181b]/55">
                       {entry.festival} · Business package
                     </p>
 
-                    <h3 className="m-0 font-daltown text-[clamp(28px,4.66vw,61px)] uppercase leading-[0.9]">
+                    <h3 className="card-title m-0 font-daltown uppercase">
                       {entry.name}
                     </h3>
 
-                    <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#18181b]/75">
+                    <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-body text-[#18181b]/75">
                       {entry.summary}
                     </p>
 
@@ -88,10 +88,10 @@ export function DossierSheets() {
                           key={spec.label}
                           className="flex items-baseline justify-between gap-4 border-b border-[#18181b]/20 py-2.5"
                         >
-                          <dt className="m-0 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[1.56px] text-[#18181b]/55">
+                          <dt className="m-0 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[1.56px] text-[#18181b]/55">
                             {spec.label}
                           </dt>
-                          <dd className="m-0 text-right font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5">
+                          <dd className="m-0 text-right font-[family-name:var(--font-display)] text-body font-semibold">
                             {spec.value}
                           </dd>
                         </div>
@@ -100,19 +100,19 @@ export function DossierSheets() {
 
                     <div className="mt-2 flex flex-wrap items-end gap-6">
                       <div className="flex flex-col gap-0.5">
-                        <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-[#18181b]/55">
+                        <span className="font-[family-name:var(--font-ui)] text-body-s text-[#18181b]/55">
                           {from}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[23px] font-black leading-8">
+                        <span className="font-[family-name:var(--font-display)] text-title-section font-black">
                           {entry.price}
                         </span>
-                        <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-[#18181b]/55">
+                        <span className="font-[family-name:var(--font-ui)] text-body-s text-[#18181b]/55">
                           {entry.perUnit}
                         </span>
                       </div>
                       <Link
                         href={`/hospitality/${entry.slug}`}
-                        className="flex items-center bg-[#0b0b0e] px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+                        className="flex items-center bg-[#0b0b0e] px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-white transition-colors hover:bg-[#0b0b0e]/85"
                         style={{ borderRadius: "var(--radius)" }}
                       >
                         {discover}
@@ -136,7 +136,7 @@ export function DossierSheets() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

@@ -33,7 +33,7 @@ export function SponsorFormats() {
             </h2>
           </div>
           <p
-            className="m-0 max-w-[460px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary"
+            className="m-0 max-w-[460px] font-[family-name:var(--font-display)] text-body text-content-secondary"
             data-reveal="up"
           >
             {intro}
@@ -54,16 +54,16 @@ export function SponsorFormats() {
                     aria-expanded={on}
                     className="group flex w-full items-baseline gap-6 py-5 text-left"
                   >
-                    <span className={`font-[family-name:var(--font-display)] text-[14px] font-semibold tabular-nums transition-colors ${on ? "text-brand" : "text-white/40"}`}>
+                    <span className={`font-[family-name:var(--font-display)] text-body font-semibold tabular-nums transition-colors ${on ? "text-brand" : "text-white/40"}`}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className={`font-daltown text-[clamp(44px,4.4vw,72px)] uppercase leading-[0.85] transition-colors duration-200 ${on ? "text-white" : "text-white/35 group-hover:text-white/70"}`}>
+                    <span className={`card-title font-daltown uppercase transition-colors duration-200 ${on ? "text-white" : "text-white/35 group-hover:text-white/70"}`}>
                       {item.title}
                     </span>
                   </button>
                   <div className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                     <div className="overflow-hidden">
-                      <p className="m-0 max-w-[52ch] pb-6 pl-[44px] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+                      <p className="m-0 max-w-[52ch] pb-6 pl-[44px] font-[family-name:var(--font-display)] text-body text-content-secondary">
                         {item.body}
                         {item.link ? (
                           <>
@@ -83,14 +83,14 @@ export function SponsorFormats() {
             {/* The invitation, as the list's last line. */}
             <li className="flex flex-col gap-4 bg-brand p-6 text-[#0b0b0e] sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-col gap-1">
-                <h3 className="m-0 font-daltown text-[40px] uppercase leading-[0.9]">{tailored.title}</h3>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-5 text-black/70">
+                <h3 className="display-xs m-0 font-daltown uppercase">{tailored.title}</h3>
+                <p className="m-0 font-[family-name:var(--font-display)] text-body text-black/70">
                   {tailored.body}
                 </p>
               </div>
               <Link
                 href="#partnership-form"
-                className="flex shrink-0 items-center bg-[#0b0b0e] px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+                className="flex shrink-0 items-center bg-[#0b0b0e] px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-white transition-colors hover:bg-[#0b0b0e]/85"
               >
                 {tailored.label} →
               </Link>
@@ -111,8 +111,8 @@ export function SponsorFormats() {
             ))}
             <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <span className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
-              <span className="font-daltown text-[44px] uppercase leading-[0.9] text-white">{current.title}</span>
-              <span className="font-daltown text-[64px] leading-none text-brand">
+              <span className="display-xs font-daltown uppercase text-white">{current.title}</span>
+              <span className="card-title font-daltown leading-none text-brand">
                 {String(open + 1).padStart(2, "0")}
               </span>
             </span>
@@ -143,11 +143,11 @@ export function SponsorHow() {
           <span aria-hidden className="absolute left-0 right-0 top-[44px] hidden h-px bg-white/15 xl:block" />
           {steps.map((step, index) => (
             <li key={step.title} data-reveal="up" className="relative flex flex-col gap-4">
-              <span className="relative z-10 flex size-[88px] items-center justify-center bg-brand font-daltown text-[56px] leading-none text-[#0b0b0e]">
+              <span className="display-s relative z-10 flex size-[88px] items-center justify-center bg-brand font-daltown leading-none text-[#0b0b0e]">
                 {index + 1}
               </span>
               <h3 className="card-title text-white">{step.title}</h3>
-              <p className="m-0 max-w-[30ch] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+              <p className="m-0 max-w-[30ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
                 {step.body}
               </p>
             </li>

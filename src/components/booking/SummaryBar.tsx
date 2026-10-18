@@ -59,7 +59,7 @@ export function SummaryBar({
       <div className="flex w-full flex-col items-start gap-4 lg:flex-row lg:items-center">
         <div className="flex w-full min-w-0 flex-row items-baseline justify-between gap-3 lg:flex-1 lg:flex-col lg:items-stretch lg:justify-start">
           {empty ? (
-            <p className="m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-secondary">
+            <p className="m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-body font-semibold text-content-secondary">
               {bookingCopy.summaryBar.empty}
             </p>
           ) : (
@@ -70,7 +70,7 @@ export function SummaryBar({
                 aria-label={bookingCopy.summaryBar.open}
                 className="flex min-w-0 max-w-full shrink cursor-pointer items-center gap-2 self-baseline transition-opacity hover:opacity-80 lg:self-start"
               >
-                <span className="truncate whitespace-nowrap font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                <span className="truncate whitespace-nowrap font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                   {parts.join(", ")}
                 </span>
                 <Image
@@ -82,13 +82,13 @@ export function SummaryBar({
                 />
               </button>
               <p className="m-0 flex shrink-0 items-baseline gap-1 whitespace-nowrap">
-                <span className="font-[family-name:var(--font-sans)] text-[13px] leading-5 text-content-secondary">
+                <span className="font-[family-name:var(--font-sans)] text-body-s text-content-secondary">
                   {bookingCopy.summaryBar.total}
                 </span>
                 <TickingValue
                   value={totals.total}
                   format={formatMoney}
-                  className="font-[family-name:var(--font-sans)] text-[17px] font-medium leading-7 text-content-primary"
+                  className="font-[family-name:var(--font-sans)] text-body-l font-medium text-content-primary"
                 />
               </p>
             </>
@@ -99,11 +99,11 @@ export function SummaryBar({
           type="button"
           onClick={onAction}
           disabled={empty || busy}
-          className={`flex w-full shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap px-5 py-4 lg:w-auto font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 transition-colors disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30 ${
-            pay
-              ? "bg-brand text-[#18181b] hover:bg-[#fff35a]"
-              : "bg-white text-[#18181b] hover:bg-white/90"
-          }`}
+          className={`flex w-full shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap px-5 py-4 lg:w-auto font-[family-name:var(--font-display)] text-body-l font-semibold transition-colors disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/30 ${
+ pay
+ ? "bg-brand text-[#18181b] hover:bg-[#fff35a]"
+ : "bg-white text-[#18181b] hover:bg-white/90"
+ }`}
         >
           {pay && !empty && (
             <Image

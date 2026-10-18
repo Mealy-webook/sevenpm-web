@@ -39,7 +39,7 @@ export function PackageRail() {
       <div className="shell flex flex-col gap-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
               {eyebrow}
             </p>
             <DisplayHeading align="left" reveal="clip" size="faq">
@@ -48,7 +48,7 @@ export function PackageRail() {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tabular-nums text-white/45">
+            <span className="font-[family-name:var(--font-display)] text-body-s font-semibold tabular-nums text-white/45">
               {String(at + 1).padStart(2, "0")} /{" "}
               {String(hospitalityPackages.length).padStart(2, "0")}
             </span>
@@ -62,7 +62,7 @@ export function PackageRail() {
                 className="flex size-11 items-center justify-center border border-white/20 text-white transition-colors hover:border-white/60"
                 style={{ borderRadius: "var(--radius)" }}
               >
-                <span className="block text-[17px] leading-none">
+                <span className="block text-body-l leading-none">
                   {direction === -1 ? "‹" : "›"}
                 </span>
               </button>
@@ -104,33 +104,33 @@ export function PackageRail() {
             />
 
             <div className="relative -mt-[42%] flex flex-col gap-3 p-6 xl:p-7">
-              <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+              <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
                 {entry.festival} · {entry.capacity}
               </span>
 
-              <h3 className="m-0 font-daltown text-[clamp(25px,3.39vw,39px)] uppercase leading-[0.9] text-white">
+              <h3 className="display-xs m-0 font-daltown uppercase text-white">
                 {entry.name}
               </h3>
 
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-body text-content-secondary">
                 {entry.summary}
               </p>
 
               <div className="mt-2 flex flex-wrap items-end justify-between gap-4 border-t border-white/15 pt-4">
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                  <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                     {from}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[19px] font-black leading-7 text-brand">
+                  <span className="font-[family-name:var(--font-display)] text-title-body font-black text-brand">
                     {entry.price}
                   </span>
-                  <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                  <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                     {entry.perUnit}
                   </span>
                 </div>
                 <Link
                   href={`/hospitality/${entry.slug}`}
-                  className="sweep flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                  className="sweep flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
                 >
                   <span className="relative z-10">{discover}</span>
                 </Link>
@@ -141,7 +141,7 @@ export function PackageRail() {
       </div>
 
       <div className="shell mt-4">
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

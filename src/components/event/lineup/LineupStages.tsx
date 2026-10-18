@@ -32,8 +32,8 @@ export function LineupStages() {
             return (
               <div key={stage} className="flex flex-col">
                 <div className="flex items-baseline justify-between border-b-2 border-brand pb-3">
-                  <h3 className="m-0 font-daltown text-[44px] uppercase leading-none text-white">{stage}</h3>
-                  <span className="font-[family-name:var(--font-display)] text-[13px] text-text-secondary">
+                  <h3 className="display-xs m-0 font-daltown uppercase leading-none text-white">{stage}</h3>
+                  <span className="font-[family-name:var(--font-display)] text-body-s text-text-secondary">
                     {here.length} sets
                   </span>
                 </div>
@@ -42,14 +42,14 @@ export function LineupStages() {
                     <li key={a.id} className="grid grid-cols-[96px_1fr] gap-4 border-b border-white/10 py-4 xl:grid-cols-[120px_1fr] xl:gap-5">
                       <ActPhoto act={a} sizes="120px" className="aspect-square w-full" />
                       <div className="flex min-w-0 flex-col gap-1.5">
-                        <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold text-brand">
+                        <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-brand">
                           {a.start} – {a.end}
                         </span>
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-daltown text-[34px] uppercase leading-[30px] text-white">{a.name}</span>
+                          <span className="display-xs font-daltown uppercase text-white">{a.name}</span>
                           {a.headliner ? <HeadlinerTag /> : null}
                         </div>
-                        <p className="m-0 line-clamp-2 font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-secondary">
+                        <p className="m-0 line-clamp-2 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                           {a.bio}
                         </p>
                         <ActLinks act={a} compact />

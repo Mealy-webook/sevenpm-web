@@ -66,7 +66,7 @@ export function ProgressPie({ fraction }: { fraction: number }) {
 export function PayLaterHint({ most }: { most: number }) {
   const copy = bookingCopy.checkout.payLater;
   return (
-    <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+    <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
       {most >= 2 ? copy.hint(most) : copy.tooSoon}
     </span>
   );
@@ -96,7 +96,7 @@ export function PayLaterPlan({
 
   return (
     <div className="flex flex-col gap-6 border border-white/5 border-t-0 p-4">
-      <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+      <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
         {copy.choose}
       </p>
 
@@ -123,11 +123,11 @@ export function PayLaterPlan({
               role="radio"
               aria-checked={selected}
               onClick={() => onCount(option)}
-              className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] transition-colors ${
-                selected
-                  ? "border border-content-primary bg-white/10 text-content-primary"
-                  : "border border-white/10 bg-white/5 text-content-primary hover:bg-white/10"
-              }`}
+              className={`flex h-10 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-body font-semibold transition-colors ${
+ selected
+ ? "border border-content-primary bg-white/10 text-content-primary"
+ : "border border-white/10 bg-white/5 text-content-primary hover:bg-white/10"
+ }`}
             >
               <span className="px-1">
                 {even
@@ -155,10 +155,10 @@ export function PayLaterPlan({
               {/* Filled to what is paid off once this payment clears. */}
               <ProgressPie fraction={(index + 1) / plan.length} />
               <span className="flex flex-col items-center gap-1">
-                <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                   {formatMoney(instalment.amount)}
                 </span>
-                <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                   {index === 0 ? copy.today : formatDueShort(instalment.due)}
                 </span>
               </span>
@@ -167,7 +167,7 @@ export function PayLaterPlan({
         ))}
       </ol>
 
-      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+      <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
         {copy.heldTickets}
       </p>
     </div>

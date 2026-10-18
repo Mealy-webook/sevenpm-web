@@ -47,7 +47,7 @@ export function UpcomingTickets() {
 
                 {/* The body */}
                 <div className="flex flex-1 flex-col justify-between gap-6 p-6 xl:p-7">
-                  <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-4 tracking-[0.14em] text-black/55">
+                  <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.14em] text-black/55">
                     <span>Admit one</span>
                     <span>No. {String(i + 1).padStart(2, "0")}</span>
                   </div>
@@ -65,10 +65,10 @@ export function UpcomingTickets() {
                           key={k}
                           className="flex items-baseline justify-between gap-4 border-b border-black/15 py-2.5"
                         >
-                          <dt className="font-[family-name:var(--font-display)] text-[12px] uppercase tracking-[0.12em] text-black/50">
+                          <dt className="font-[family-name:var(--font-display)] text-caption uppercase tracking-[0.12em] text-black/50">
                             {k}
                           </dt>
-                          <dd className="m-0 font-[family-name:var(--font-display)] text-[15px] font-medium leading-[22px]">
+                          <dd className="m-0 font-[family-name:var(--font-display)] text-body font-medium">
                             {v}
                           </dd>
                         </div>

@@ -70,7 +70,7 @@ export function TopUpDialog({
         closeLabel={copy.close}
       >
         <div className="flex flex-col gap-4 px-5 pb-5 pt-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
             {copy.doneBody(money(done, currency))}
           </p>
           <SheetSubmit onClick={onClose}>{copy.done}</SheetSubmit>
@@ -118,9 +118,9 @@ export function TopUpDialog({
             }
           />
           <p
-            className={`m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
-              belowMinimum ? "text-[#ff6c6c]" : "text-content-secondary"
-            }`}
+            className={`m-0 font-[family-name:var(--font-display)] text-caption ${
+ belowMinimum ? "text-[#ff6c6c]" : "text-content-secondary"
+ }`}
           >
             {copy.minimumHint(money(copy.minimum, currency))}
           </p>
@@ -131,7 +131,7 @@ export function TopUpDialog({
                 key={step}
                 type="button"
                 onClick={() => setAmount(String(value + step))}
-                className="btn-secondary flex cursor-pointer items-center justify-center px-4 py-[10px] font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+                className="btn-secondary flex cursor-pointer items-center justify-center px-4 py-[10px] font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary"
               >
                 {copy.quickLabel(money(step, currency))}
               </button>
@@ -140,7 +140,7 @@ export function TopUpDialog({
         </div>
 
         <div className="flex flex-col gap-3 border-t-[0.5px] border-white/10 pt-4">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-body font-bold uppercase tracking-[0.19px] text-white">
             {copy.payWith}
           </h3>
 
@@ -173,12 +173,12 @@ export function TopUpDialog({
                     className="size-6 shrink-0"
                   />
                   <span className="flex min-w-0 flex-1 flex-col gap-1">
-                    <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
+                    <span className="font-[family-name:var(--font-display)] text-body text-content-primary">
                       {option.label}
                     </span>
                     {isCard &&
                       (card ? (
-                        <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                        <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                           **** {card.last4}
                         </span>
                       ) : (
@@ -227,7 +227,7 @@ export function TopUpDialog({
                   height={16}
                   className="size-4"
                 />
-                <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body text-content-primary">
                   {copy.addCard}
                 </span>
               </button>

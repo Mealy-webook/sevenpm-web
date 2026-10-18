@@ -39,15 +39,15 @@ export function UpcomingFeature() {
             </span>
             <div className="flex flex-1 flex-col justify-between gap-6">
               <div className="flex flex-col gap-4">
-                <span className="w-fit bg-brand px-3 py-1.5 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-[#0b0b0e]">
+                <span className="w-fit bg-brand px-3 py-1.5 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-[#0b0b0e]">
                   Next up · {lead.edition}
                 </span>
                 <h3 className="card-title text-white">{lead.name}</h3>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[15px] font-medium leading-[22px] text-text-primary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-body font-medium text-text-primary">
                   {[lead.when, lead.city].filter(Boolean).join(" · ")}
                 </p>
                 {intro ? (
-                  <p className="m-0 line-clamp-4 font-[family-name:var(--font-ui)] text-[14px] leading-[21px] text-text-secondary">
+                  <p className="m-0 line-clamp-4 font-[family-name:var(--font-ui)] text-body text-text-secondary">
                     {intro}
                   </p>
                 ) : null}
@@ -63,7 +63,7 @@ export function UpcomingFeature() {
               data-reveal="up"
               className="group flex flex-col gap-5 border border-white/10 p-6 xl:p-8"
             >
-              <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-text-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-text-secondary">
                 Then · {f.edition}
               </span>
               <span className="relative block aspect-square w-full overflow-hidden">
@@ -77,7 +77,7 @@ export function UpcomingFeature() {
               </span>
               <div className="flex flex-col gap-1">
                 <h3 className="card-title text-white">{f.name}</h3>
-                <span className="font-[family-name:var(--font-display)] text-[14px] leading-5 text-text-secondary">
+                <span className="font-[family-name:var(--font-display)] text-body text-text-secondary">
                   {[f.when, f.city].filter(Boolean).join(" · ")}
                 </span>
               </div>

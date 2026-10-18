@@ -53,7 +53,7 @@ export function LineupFaces() {
                   >
                     <Image src={a.photo} alt="" fill sizes="240px" className="object-cover" />
                   </button>
-                  <span className={`font-[family-name:var(--font-display)] text-[13px] font-semibold ${on ? "text-brand" : "text-text-secondary"}`}>
+                  <span className={`font-[family-name:var(--font-display)] text-body-s font-semibold ${on ? "text-brand" : "text-text-secondary"}`}>
                     {a.start}
                   </span>
                 </li>
@@ -65,13 +65,13 @@ export function LineupFaces() {
         <article key={picked.id} className="deck-fade grid grid-cols-1 items-center gap-6 border-t border-white/10 pt-8 lg:grid-cols-[1fr_auto] lg:gap-12">
           <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center gap-3">
-              <h3 className="m-0 font-daltown text-[clamp(56px,7vw,112px)] uppercase leading-[0.85] text-white">
+              <h3 className="section-title m-0 font-daltown uppercase text-white">
                 {picked.name}
               </h3>
               {picked.headliner ? <HeadlinerTag /> : null}
             </div>
             <StageTime act={picked} className="text-brand" />
-            <p className="m-0 max-w-[62ch] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+            <p className="m-0 max-w-[62ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
               {picked.bio}
             </p>
           </div>

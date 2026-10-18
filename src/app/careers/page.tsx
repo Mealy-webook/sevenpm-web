@@ -31,7 +31,7 @@ export default function CareersPage() {
                 {careersCopy.title}
               </DisplayHeading>
               <p
-                className="m-0 max-w-[838px] text-center font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white"
+                className="m-0 max-w-[838px] text-center font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white"
                 data-split="lines"
                 data-reveal-delay="0.1"
               >
@@ -55,7 +55,7 @@ export default function CareersPage() {
 
             <div className="flex w-full flex-col gap-12">
               <h2
-                className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[1.1] tracking-[-0.02em] text-white sm:text-[32px]"
+                className="m-0 font-[family-name:var(--font-display)] text-title-screen font-black uppercase tracking-[-0.02em] text-white sm:text-title-screen"
                 data-reveal="up"
               >
                 {careersCopy.openRolesTitle}

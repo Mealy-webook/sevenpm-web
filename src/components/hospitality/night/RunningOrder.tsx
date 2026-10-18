@@ -50,11 +50,11 @@ export function RunningOrder() {
     <section className="relative border-t border-white/10 bg-ink-900 py-16 xl:py-24">
       <div className="shell flex flex-col gap-11">
         <div className="flex flex-col gap-5">
-          <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+          <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
             {stamp}
           </span>
           <h2
-            className="m-0 max-w-[14ch] font-daltown text-[clamp(30px,5.5vw,88px)] uppercase leading-[0.88] text-white"
+            className="display-m m-0 max-w-[14ch] font-daltown uppercase text-white"
             data-reveal="clip"
           >
             {title}
@@ -70,15 +70,15 @@ export function RunningOrder() {
             >
               {/* The hour, at display size: it is the thing the page is
                   counting. */}
-              <span className="w-full shrink-0 font-daltown text-[clamp(23px,3.43vw,48px)] uppercase leading-[0.9] text-brand sm:w-[180px] xl:w-[240px]">
+              <span className="display-s w-full shrink-0 font-daltown uppercase text-brand sm:w-[180px] xl:w-[240px]">
                 {hour.time}
               </span>
 
               <div className="flex flex-col gap-2">
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[18px] font-black uppercase leading-7 text-white sm:text-[21px]">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-title-body font-black uppercase text-white sm:text-title-section">
                   {hour.title}
                 </h3>
-                <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-content-secondary">
+                <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
                   {hour.body}
                 </p>
               </div>
@@ -89,7 +89,7 @@ export function RunningOrder() {
 
         {/* Read off the event rather than typed here, so the spine cannot
             drift from the festival it describes. */}
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           Hours follow {jazzablanca.name}&rsquo;s own session time,{" "}
           {jazzablanca.sessionTime}.
         </p>

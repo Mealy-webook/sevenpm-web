@@ -37,7 +37,7 @@ export function NightHero() {
 
       {/* The clock, top right, where a ticket prints its time. */}
       <span className="shell absolute inset-x-0 top-7 flex justify-end">
-        <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+        <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
           {stamp}
         </span>
       </span>
@@ -60,7 +60,7 @@ export function NightHero() {
         </span>
 
         <p
-          className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-white/85 sm:text-[17px]"
+          className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-body-l text-white/85 sm:text-body-l"
           data-split="lines"
         >
           {standfirst}
@@ -70,13 +70,13 @@ export function NightHero() {
           <Link
             href={primary.href}
             data-magnetic="0.2"
-            className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e]"
+            className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
           >
             <span className="relative z-10">{primary.label}</span>
           </Link>
           <Link
             href={secondary.href}
-            className="btn-secondary flex items-center border border-white/35 px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white backdrop-blur-sm transition-colors hover:border-white"
+            className="btn-secondary flex items-center border border-white/35 px-5 py-4 font-[family-name:var(--font-display)] text-body font-semibold text-white backdrop-blur-sm transition-colors hover:border-white"
           >
             {secondary.label}
           </Link>

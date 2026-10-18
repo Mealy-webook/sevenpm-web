@@ -40,10 +40,10 @@ export function LineupRunningOrder() {
             >
               {/* When */}
               <div className="flex flex-col justify-center">
-                <span className="font-daltown text-[44px] leading-[36px] text-brand lg:text-[56px] lg:leading-[46px]">
+                <span className="display-s font-daltown text-brand">
                   {a.start}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 text-text-secondary">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-text-secondary">
                   to {a.end}
                 </span>
               </div>
@@ -56,10 +56,10 @@ export function LineupRunningOrder() {
                   <h3 className="card-title text-white">{a.name}</h3>
                   {a.headliner ? <HeadlinerTag /> : null}
                 </div>
-                <span className="font-[family-name:var(--font-display)] text-[13px] font-medium uppercase tracking-[0.08em] text-text-primary">
+                <span className="font-[family-name:var(--font-display)] text-body-s font-medium uppercase tracking-[0.08em] text-text-primary">
                   {a.stage}
                 </span>
-                <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+                <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
                   {a.bio}
                 </p>
               </div>

@@ -6,7 +6,7 @@ import { sponsorCopy } from "@/data/sponsor";
 /* Shared bits ------------------------------------------------------- */
 
 const EYEBROW =
-  "m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand";
+  "m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand";
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -55,7 +55,7 @@ export function SponsorHero() {
         </h1>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <p
-            className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[17px] leading-[26px] text-content-primary"
+            className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-body-l text-content-primary"
             data-reveal="up"
           >
             {intro}
@@ -64,13 +64,13 @@ export function SponsorHero() {
             <Link
               href={primary.href}
               data-magnetic="0.2"
-              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-[#0b0b0e] after:!bg-white"
+              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e] after:!bg-white"
             >
               <span className="relative z-10">{primary.label}</span>
             </Link>
             <Link
               href={secondary.href}
-              className="btn-secondary flex items-center border border-white/25 px-5 py-4 font-[family-name:var(--font-display)] text-[15px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
+              className="btn-secondary flex items-center border border-white/25 px-5 py-4 font-[family-name:var(--font-display)] text-body font-semibold text-white transition-colors hover:border-white/60"
             >
               {secondary.label}
             </Link>
@@ -81,10 +81,10 @@ export function SponsorHero() {
       {/* They trust us, running past. Names only until each brand approves
           its logo — see `trustedBy` in the data. */}
       <div className="relative flex items-center gap-6 overflow-hidden bg-brand py-4 text-[#0b0b0e]">
-        <span className="relative z-10 shrink-0 bg-brand pl-[var(--shell-gutter)] pr-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase tracking-[0.16em]">
+        <span className="relative z-10 shrink-0 bg-brand pl-[var(--shell-gutter)] pr-4 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[0.16em]">
           {trustedBy.title}
         </span>
-        <div aria-hidden className="band-track flex w-max shrink-0 gap-10 whitespace-nowrap font-daltown text-[34px] uppercase leading-none">
+        <div aria-hidden className="display-xs band-track flex w-max shrink-0 gap-10 whitespace-nowrap font-daltown uppercase leading-none">
           {run.map((brand, i) => (
             <span key={i} className="flex items-center gap-10">
               {brand}
@@ -120,13 +120,13 @@ export function SponsorStats() {
             className="flex flex-col gap-3 border-t-2 border-brand pt-5"
           >
             <p
-              className={`m-0 font-daltown text-[clamp(64px,6.4vw,104px)] uppercase leading-[0.85] ${
-                stat.accent ? "text-brand" : "text-white"
-              }`}
+              className={`section-title m-0 font-daltown uppercase ${
+ stat.accent ? "text-brand" : "text-white"
+ }`}
             >
               {stat.value}
             </p>
-            <p className="m-0 max-w-[26ch] font-[family-name:var(--font-display)] text-[14px] leading-5 text-content-secondary">
+            <p className="m-0 max-w-[26ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
               {stat.note}
             </p>
           </div>
@@ -147,7 +147,7 @@ export function SponsorTrust() {
   return (
     <section className="relative">
       <div className="shell">
-        <p className="m-0 border-l-2 border-brand/60 pl-4 font-[family-name:var(--font-display)] text-[13px] leading-5 text-white/40">
+        <p className="m-0 border-l-2 border-brand/60 pl-4 font-[family-name:var(--font-display)] text-body-s text-white/40">
           {note}
         </p>
       </div>
@@ -189,16 +189,16 @@ export function SponsorAudience() {
                 key={card.label}
                 className="flex flex-col gap-2 bg-black/55 p-6 backdrop-blur-md"
               >
-                <p className="m-0 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.14em] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.14em] text-content-secondary">
                   {card.label}
                 </p>
                 <p /* No `uppercase`: these are values, not headings, and the
                        mockup's "[XXk]" has a lowercase k that carries meaning. */
-                  className="m-0 font-daltown text-[56px] leading-[0.9] text-brand"
+                  className="display-s m-0 font-daltown text-brand"
                 >
                   {card.value}
                 </p>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 text-white/60">
+                <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-white/60">
                   {card.note}
                 </p>
               </div>

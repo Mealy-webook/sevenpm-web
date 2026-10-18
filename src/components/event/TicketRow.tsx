@@ -38,23 +38,23 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
 
             <div className="flex flex-col gap-2">
               <p className="m-0 flex flex-wrap items-baseline gap-x-1">
-                <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body-l text-content-primary">
                   From
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
                   {tier.priceFrom} {tier.currency}
                 </span>
-                <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+                <span className="font-[family-name:var(--font-ui)] text-body text-content-primary">
                   / Person
                 </span>
               </p>
 
               {tier.wasPrice && off ? (
                 <p className="m-0 flex items-center gap-1">
-                  <span className="font-[family-name:var(--font-ui)] text-[10px] leading-[14px] tracking-[0.1px] text-content-primary line-through">
+                  <span className="font-[family-name:var(--font-ui)] text-caption text-content-primary line-through">
                     {tier.wasPrice} {tier.currency}
                   </span>
-                  <span className="font-[family-name:var(--font-ui)] text-[10px] leading-[14px] tracking-[0.1px] text-[#22c55e]">
+                  <span className="font-[family-name:var(--font-ui)] text-caption text-[#22c55e]">
                     {off}
                   </span>
                 </p>
@@ -64,7 +64,7 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
 
           <Link
             href={href}
-            className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+            className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
           >
             <span className="relative z-10">Get your ticket</span>
           </Link>

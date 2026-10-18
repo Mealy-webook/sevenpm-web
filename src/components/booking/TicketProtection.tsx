@@ -73,7 +73,7 @@ export function TicketProtectionRow({
         <span className="flex items-center gap-1">
           <span
             id={labelId}
-            className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary"
+            className="font-[family-name:var(--font-display)] text-body text-content-primary"
           >
             {copy.label}
           </span>
@@ -92,7 +92,7 @@ export function TicketProtectionRow({
             />
           </button>
         </span>
-        <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+        <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
           {copy.description}
         </span>
       </span>
@@ -141,7 +141,7 @@ export function ProtectionInfoDialog({ onClose }: { onClose: () => void }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90"
           >
             {copy.gotIt}
           </button>
@@ -151,12 +151,12 @@ export function ProtectionInfoDialog({ onClose }: { onClose: () => void }) {
       <div className="flex flex-col gap-4 px-5 py-4">
         <div className="flex flex-col items-center gap-4">
           <Shield />
-          <p className="m-0 text-center font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <p className="m-0 text-center font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {copy.intro}
           </p>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+        <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
           {copy.coveredTitle}
         </p>
 
@@ -173,13 +173,13 @@ export function ProtectionInfoDialog({ onClose }: { onClose: () => void }) {
               {/* The rule is on the content, not the row, so it starts
                   after the icon — as the comp draws it. */}
               <span className="flex min-w-0 flex-1 flex-col border-b-[0.5px] border-white/10 py-3">
-                <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body text-content-primary">
                   {reason.title}
                 </span>
                 {reason.detail.map((line) => (
                   <span
                     key={line}
-                    className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary"
+                    className="font-[family-name:var(--font-display)] text-body-s text-content-secondary"
                   >
                     {line}
                   </span>
@@ -220,14 +220,14 @@ export function SkipProtectionDialog({
           <button
             type="button"
             onClick={onKeep}
-            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90"
           >
             {copy.keep}
           </button>
           <button
             type="button"
             onClick={onProceed}
-            className="flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary transition-colors hover:text-white"
+            className="flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary transition-colors hover:text-white"
           >
             {copy.proceed}
           </button>
@@ -239,11 +239,11 @@ export function SkipProtectionDialog({
         <div className="flex flex-col gap-1">
           <h2
             id={headingId}
-            className="m-0 text-center font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+            className="m-0 text-center font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary"
           >
             {copy.skipTitle}
           </h2>
-          <p className="m-0 text-center font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <p className="m-0 text-center font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {copy.skipBody}
           </p>
         </div>

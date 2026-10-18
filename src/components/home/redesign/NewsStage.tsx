@@ -49,13 +49,13 @@ export function NewsStage({ items }: { items: NewsItem[] }) {
               )}
             </span>
             <span className="flex flex-col gap-3">
-              <time className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-5 tracking-[1.2px] text-brand">
+              <time className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[1.2px] text-brand">
                 {lead.date}
               </time>
-              <span className="font-[family-name:var(--font-display)] text-[23px] font-black uppercase leading-[1.1] tracking-[-0.3px] text-white transition-colors group-hover:text-brand xl:text-[32px]">
+              <span className="font-[family-name:var(--font-display)] text-title-section font-black uppercase tracking-[-0.3px] text-white transition-colors group-hover:text-brand xl:text-title-screen">
                 {lead.title}
               </span>
-              <span className="max-w-[640px] font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.15px] text-content-secondary">
+              <span className="max-w-[640px] font-[family-name:var(--font-display)] text-body text-content-secondary">
                 {lead.excerpt}
               </span>
             </span>
@@ -74,13 +74,13 @@ export function NewsStage({ items }: { items: NewsItem[] }) {
                     data-reveal-delay={0.08 * index}
                     className="news-row group flex flex-col gap-3 py-7"
                   >
-                    <time className="font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.12px] text-content-secondary">
+                    <time className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                       {item.date}
                     </time>
-                    <span className="font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors group-hover:text-brand xl:text-[19px]">
+                    <span className="font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white transition-colors group-hover:text-brand xl:text-title-body">
                       {item.title}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.15px] text-content-secondary">
+                    <span className="font-[family-name:var(--font-display)] text-body text-content-secondary">
                       {item.excerpt}
                     </span>
                   </Link>
@@ -89,7 +89,7 @@ export function NewsStage({ items }: { items: NewsItem[] }) {
             </ul>
             <Link
               href="/news"
-              className="sweep flex items-center justify-center self-start border-[1.5px] border-text-secondary px-8 py-5 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-none text-white transition-colors hover:border-white"
+              className="sweep flex items-center justify-center self-start border-[1.5px] border-text-secondary px-8 py-5 font-[family-name:var(--font-display)] text-body font-semibold uppercase leading-none text-white transition-colors hover:border-white"
               data-magnetic="0.2"
               data-reveal="up"
             >

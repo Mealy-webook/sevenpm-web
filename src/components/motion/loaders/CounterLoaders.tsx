@@ -155,14 +155,14 @@ export function LoaderSoundcheck({ run, onDone }: LoaderProps) {
             <div className="overflow-hidden">
               <span
                 data-s-num
-                className="block font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-white"
+                className="display-text block font-daltown uppercase tabular-nums text-white"
               >
                 00
               </span>
             </div>
             <span
               data-s-meta
-              className="pb-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+              className="pb-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-content-secondary"
             >
               Soundcheck
             </span>
@@ -185,7 +185,7 @@ export function LoaderSoundcheck({ run, onDone }: LoaderProps) {
 
           <span
             data-s-meta
-            className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+            className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-content-secondary"
           >
             Levels · stage · doors
           </span>
@@ -264,7 +264,7 @@ export function LoaderLineup({ run, onDone }: LoaderProps) {
             <div className="overflow-hidden">
               <span
                 data-l-num
-                className="block font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-white"
+                className="display-text block font-daltown uppercase tabular-nums text-white"
               >
                 00
               </span>
@@ -391,13 +391,13 @@ export function LoaderDoors({ run, onDone }: LoaderProps) {
         <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center gap-4">
           <span
             data-o-meta
-            className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-white/70"
+            className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-white/70"
           >
             Doors open in
           </span>
           <span
             data-o-num
-            className="block font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-white"
+            className="display-text block font-daltown uppercase tabular-nums text-white"
           >
             00
           </span>

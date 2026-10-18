@@ -55,9 +55,9 @@ export function ChapterRail({ chapters }: { chapters: ChapterRef[] }) {
             className="group flex items-center gap-3"
           >
             <span
-              className={`font-daltown text-[19px] leading-none transition-colors ${
-                on ? "text-brand" : "text-white/30 group-hover:text-white/70"
-              }`}
+              className={`display-xs font-daltown leading-none transition-colors ${
+ on ? "text-brand" : "text-white/30 group-hover:text-white/70"
+ }`}
             >
               {chapter.number}
             </span>
@@ -67,11 +67,11 @@ export function ChapterRail({ chapters }: { chapters: ChapterRef[] }) {
               }`}
             />
             <span
-              className={`font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[1.2px] transition-all ${
-                on
-                  ? "translate-x-0 text-white opacity-100"
-                  : "-translate-x-1 text-white/50 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
-              }`}
+              className={`font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[1.2px] transition-all ${
+ on
+ ? "translate-x-0 text-white opacity-100"
+ : "-translate-x-1 text-white/50 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+ }`}
             >
               {chapter.title}
             </span>

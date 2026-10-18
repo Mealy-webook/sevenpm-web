@@ -30,13 +30,13 @@ export function UpcomingPrint() {
           />
 
           <div className="flex flex-col items-center gap-2 text-center">
-            <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.2em]">
+            <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.2em]">
               SEVENPM presents
             </span>
             <h2 id="up-print" className="section-title">
               Upcoming events
             </h2>
-            <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.2em] text-black/60">
+            <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.2em] text-black/60">
               {cities.join(" · ")}
             </span>
           </div>
@@ -52,7 +52,7 @@ export function UpcomingPrint() {
                 </span>
                 <div className="flex flex-col gap-1">
                   <h3 className="card-title">{f.name}</h3>
-                  <span className="font-[family-name:var(--font-display)] text-[15px] font-medium leading-[22px]">
+                  <span className="font-[family-name:var(--font-display)] text-body font-medium">
                     {f.when} · {f.city} · {f.edition}
                   </span>
                 </div>

@@ -47,18 +47,18 @@ export function UpcomingDeck() {
           {/* What is on, and what else */}
           <div className="flex flex-col gap-8">
             <div key={f.id} className="deck-fade flex flex-col gap-4">
-              <span className="w-fit bg-brand px-3 py-1.5 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-[#0b0b0e]">
+              <span className="w-fit bg-brand px-3 py-1.5 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-[#0b0b0e]">
                 Now on the deck · {f.edition}
               </span>
               <h3 className="card-title text-white">{f.name}</h3>
-              <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-text-secondary">
+              <p className="m-0 font-[family-name:var(--font-display)] text-body text-text-secondary">
                 {[f.when, f.city].filter(Boolean).join(" · ")}
               </p>
               <Cta festival={f} className="w-fit" />
             </div>
 
             <div className="flex flex-col gap-3">
-              <span className="font-[family-name:var(--font-display)] text-[12px] uppercase tracking-[0.12em] text-text-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption uppercase tracking-[0.12em] text-text-secondary">
                 Choose a record
               </span>
               <div className="flex gap-4">

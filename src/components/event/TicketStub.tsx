@@ -182,9 +182,9 @@ export function TicketStub({
             className="size-4"
           />
           <span
-            className={`font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[0.12px] ${
-              dark ? "text-white" : "text-[#56565d]"
-            }`}
+            className={`font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[0.12px] ${
+ dark ? "text-white" : "text-[#56565d]"
+ }`}
           >
             {tier.kicker}
           </span>
@@ -210,7 +210,7 @@ export function TicketStub({
           style={{ top: ROW_TITLE - 30, height: 60 }}
         >
           <span
-            className={`font-daltown whitespace-nowrap text-[61px] uppercase leading-[51px] tracking-[1.44px] ${ink}`}
+            className={`card-title font-daltown whitespace-nowrap uppercase ${ink}`}
           >
             {tier.title}
           </span>
@@ -227,7 +227,7 @@ export function TicketStub({
           {tier.priceNote ? (
             <div className="flex items-baseline whitespace-nowrap">
               <span
-                className={`font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${ink}`}
+                className={`font-[family-name:var(--font-display)] text-body-l font-semibold ${ink}`}
               >
                 {tier.priceNote}
               </span>
@@ -235,18 +235,18 @@ export function TicketStub({
           ) : (
             <div className="flex items-baseline gap-1 whitespace-nowrap">
               <span
-                className={`font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] ${
-                  dark ? "text-white" : "text-[#18181b]"
-                }`}
+                className={`font-[family-name:var(--font-display)] text-body-l ${
+ dark ? "text-white" : "text-[#18181b]"
+ }`}
               >
                 From
               </span>
               <span
-                className={`font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${ink}`}
+                className={`font-[family-name:var(--font-display)] text-body-l font-semibold ${ink}`}
               >
                 <CountUp value={tier.priceFrom} /> {tier.currency}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-body text-content-secondary">
                 {" / Person"}
               </span>
             </div>
@@ -255,7 +255,7 @@ export function TicketStub({
             <div className="flex h-2 items-center gap-1 whitespace-nowrap">
               {tier.wasPrice &&
                 (dark ? (
-                  <span className="font-[family-name:var(--font-display)] text-[12px] font-bold leading-4 tracking-[0.12px] text-content-secondary">
+                  <span className="font-[family-name:var(--font-display)] text-caption font-bold text-content-secondary">
                     {tier.wasPrice} {tier.currency}
                   </span>
                 ) : (
@@ -267,7 +267,7 @@ export function TicketStub({
                       height={8}
                       className="size-2"
                     />
-                    <s className="font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] text-content-secondary">
+                    <s className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                       {tier.wasPrice}
                     </s>
                   </span>
@@ -275,10 +275,10 @@ export function TicketStub({
               {tier.discount && (
                 <span
                   className={`font-[family-name:var(--font-display)] text-[#22c55e] ${
-                    dark
-                      ? "text-[12px] font-bold leading-4 tracking-[0.12px]"
-                      : "text-[10px] leading-[14px] tracking-[0.1px]"
-                  }`}
+ dark
+ ? "text-caption font-bold "
+ : "text-caption "
+ }`}
                 >
                   {tier.discount}
                 </span>
@@ -290,11 +290,11 @@ export function TicketStub({
         {/* CTA. A link where there is somewhere to go, a button where the
             press opens something on this page. */}
         {(() => {
-          const look = `ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 ${
-            dark
-              ? "bg-brand text-[#0b0b0e]"
-              : "border-[0.5px] border-white/10 bg-black/70 text-content-primary"
-          }`;
+          const look = `ticket-cta absolute flex items-center justify-center font-[family-name:var(--font-display)] text-body-l font-semibold ${
+ dark
+ ? "bg-brand text-[#0b0b0e]"
+ : "border-[0.5px] border-white/10 bg-black/70 text-content-primary"
+ }`;
           const box = {
             left: (paper.cardLength - CTA_WIDTH) / 2,
             top: ROW_CTA - CTA_HEIGHT / 2,

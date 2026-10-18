@@ -183,10 +183,10 @@ export function LineupSection() {
                   onClick={() => setDayId(d.id)}
                   className={`border px-4 py-[11px] text-left text-content-primary transition-colors duration-200 ${on ? "border-content-primary bg-white/10" : "border-white/10 bg-white/5 hover:border-white/30"}`}
                 >
-                  <span className="block font-[family-name:var(--font-display)] text-[12px] leading-[22px] tracking-[0.12px]">
+                  <span className="block font-[family-name:var(--font-display)] text-caption">
                     Day {i + 1}
                   </span>
-                  <span className="block font-[family-name:var(--font-display)] text-[15px] font-semibold leading-[22px] tracking-[0.1875px]">
+                  <span className="block font-[family-name:var(--font-display)] text-body font-semibold">
                     {chipDate(d.label)}
                   </span>
                 </button>
@@ -222,7 +222,7 @@ export function LineupSection() {
                     aria-hidden
                     className="block size-5 bg-brand sm:size-6"
                   />
-                  <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 tracking-[-0.09px] text-white sm:text-[18px]">
+                  <span className="font-[family-name:var(--font-display)] text-body-l font-bold text-white sm:text-title-body">
                     {act.start}
                   </span>
                   <span aria-hidden className="w-px flex-1 bg-white/10" />
@@ -255,15 +255,15 @@ function ActCard({ act }: { act: LineupAct }) {
 
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-4">
         <div className="flex flex-col gap-1">
-          <h3 className="m-0 font-daltown text-[calc(56px*var(--display-scale))] uppercase leading-[calc(40px*var(--display-scale))] tracking-[0.02em] text-white">
+          <h3 className="display-s m-0 font-daltown uppercase text-white">
             {act.name}
           </h3>
-          <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-brand">
+          <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-brand">
             {twelve(act.start)} - {twelve(act.end)}
             <span className="text-content-secondary"> · {act.stage}</span>
           </span>
         </div>
-        <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+        <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
           {act.bio}
         </p>
         <span aria-hidden className="block h-px w-full bg-white/10" />

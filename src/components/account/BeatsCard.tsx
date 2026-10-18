@@ -55,7 +55,7 @@ export function BeatsCard() {
       <div className="flex w-full min-w-0 shrink-0 flex-col gap-3 border border-white/5 bg-bg-tertiary p-6 lg:flex-1 lg:shrink">
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="m-0 flex items-end gap-2 font-daltown text-[41px] uppercase leading-[37px] xl:text-[54px]">
+            <p className="display-s m-0 flex items-end gap-2 font-daltown uppercase">
               <TickingValue
                 value={balance}
                 format={beats}
@@ -76,13 +76,13 @@ export function BeatsCard() {
                 height={16}
                 className="size-4"
               />
-              <span className="px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+              <span className="px-1 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
                 {loyaltyCopy.howTo}
               </span>
             </button>
           </div>
 
-          <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
             {next ? (
               <>
                 {loyaltyCopy.toNextLead}{" "}
@@ -139,11 +139,11 @@ export function BeatsCard() {
                     />
                   </span>
                   <span
-                    className={`whitespace-nowrap font-[family-name:var(--font-display)] text-[12px] font-bold leading-4 tracking-[0.12px] ${
-                      current
-                        ? "text-content-primary"
-                        : "text-content-secondary"
-                    }`}
+                    className={`whitespace-nowrap font-[family-name:var(--font-display)] text-caption font-bold ${
+ current
+ ? "text-content-primary"
+ : "text-content-secondary"
+ }`}
                   >
                     {item.name}
                   </span>

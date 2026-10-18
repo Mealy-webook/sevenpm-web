@@ -79,11 +79,11 @@ export function VenuePayDialog({
           <button
             type="button"
             onClick={empty ? onTopUp : onClose}
-            className={`flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 transition-colors ${
-              empty
-                ? "bg-brand text-[#18181b] hover:bg-[#fff35a]"
-                : "bg-white text-[#18181b] hover:bg-white/90"
-            }`}
+            className={`flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold transition-colors ${
+ empty
+ ? "bg-brand text-[#18181b] hover:bg-[#fff35a]"
+ : "bg-white text-[#18181b] hover:bg-white/90"
+ }`}
           >
             {empty ? copy.topUp : copy.done}
           </button>
@@ -92,12 +92,12 @@ export function VenuePayDialog({
     >
       <div className="flex flex-col items-center gap-4 px-5 py-4">
         {empty ? (
-          <p className="m-0 text-center font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-secondary">
+          <p className="m-0 text-center font-[family-name:var(--font-display)] text-body text-content-secondary">
             {copy.lowBody}
           </p>
         ) : (
           <>
-            <p className="m-0 text-center font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            <p className="m-0 text-center font-[family-name:var(--font-display)] text-body-s text-content-secondary">
               {copy.payIntro}
             </p>
 
@@ -129,22 +129,22 @@ export function VenuePayDialog({
             </div>
 
             <div className="flex flex-col items-center gap-1">
-              <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.2px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption uppercase tracking-[1.2px] text-content-secondary">
                 {copy.codeLabel}
               </span>
-              <span className="font-daltown text-[25px] uppercase leading-none tabular-nums text-white">
+              <span className="display-xs font-daltown uppercase leading-none tabular-nums text-white">
                 {sevenpmCard.masked}
               </span>
             </div>
 
             {/* The question at the till. */}
-            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-brand">
               {copy.available(formatAmount(balance, currency).replace("+", ""))}
             </p>
           </>
         )}
 
-        <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+        <p className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-content-secondary">
           {copy.demoNote}
         </p>
       </div>

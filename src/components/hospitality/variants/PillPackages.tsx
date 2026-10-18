@@ -34,7 +34,7 @@ export function PillPackages() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-12">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
@@ -78,9 +78,9 @@ export function PillPackages() {
                 >
                   <span
                     aria-hidden
-                    className={`flex flex-wrap items-center font-daltown text-[clamp(30px,5.92vw,88px)] uppercase leading-[0.9] text-white transition-colors group-hover:text-brand ${
-                      trailing ? "justify-start" : "justify-start"
-                    }`}
+                    className={`display-m flex flex-wrap items-center font-daltown uppercase text-white transition-colors group-hover:text-brand ${
+ trailing ? "justify-start" : "justify-start"
+ }`}
                   >
                     {trailing ? (
                       <>
@@ -97,28 +97,28 @@ export function PillPackages() {
 
                   <span className="flex flex-col gap-4 border-t border-white/10 pt-5 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
                     <span className="flex max-w-[560px] flex-col gap-2">
-                      <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-brand">
+                      <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
                         {entry.festival} · {entry.capacity}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-body text-content-secondary">
                         {entry.summary}
                       </span>
                     </span>
 
                     <span className="flex shrink-0 items-end gap-6">
                       <span className="flex flex-col gap-0.5">
-                        <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                        <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                           {from}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
+                        <span className="font-[family-name:var(--font-display)] text-title-section font-black text-brand">
                           {entry.price}
                         </span>
-                        <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                        <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                           {entry.perUnit}
                         </span>
                       </span>
                       <span
-                        className="flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e] transition-colors group-hover:bg-white"
+                        className="flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e] transition-colors group-hover:bg-white"
                         style={{ borderRadius: "var(--radius)" }}
                       >
                         {discover}
@@ -131,7 +131,7 @@ export function PillPackages() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

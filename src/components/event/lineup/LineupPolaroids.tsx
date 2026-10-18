@@ -44,10 +44,10 @@ export function LineupPolaroids() {
                 >
                   <ActPhoto act={a} sizes="200px" className="aspect-square w-full" />
                   <span className="flex flex-col gap-0.5 px-1 py-3">
-                    <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold tabular-nums text-black/55">
+                    <span className="font-[family-name:var(--font-display)] text-caption font-semibold tabular-nums text-black/55">
                       {a.start} · {a.stage}
                     </span>
-                    <span className="font-daltown text-[30px] uppercase leading-[26px]">{a.name}</span>
+                    <span className="display-xs font-daltown uppercase">{a.name}</span>
                   </span>
                 </button>
               </li>
@@ -61,7 +61,7 @@ export function LineupPolaroids() {
             {picked.headliner ? <HeadlinerTag /> : null}
           </div>
           <StageTime act={picked} className="text-brand" />
-          <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
             {picked.bio}
           </p>
           <div className="flex justify-center">

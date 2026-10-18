@@ -58,15 +58,15 @@ export default function EventsPage() {
                       />
                     ) : null}
                   </span>
-                  <span className="mt-4 block font-[family-name:var(--font-display)] text-[19px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white">
+                  <span className="mt-4 block font-[family-name:var(--font-display)] text-title-body font-black uppercase tracking-[-0.01em] text-white">
                     {festival.name}
                   </span>
-                  <span className="mt-1 block font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary">
+                  <span className="mt-1 block font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                     {[festival.when, festival.city]
                       .filter(Boolean)
                       .join(" · ") || "Dates to be announced"}
                   </span>
-                  <span className="mt-2 block font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-brand">
+                  <span className="mt-2 block font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
                     {live ? "Tickets on sale" : "Announced soon"}
                   </span>
                 </>
@@ -93,15 +93,15 @@ export default function EventsPage() {
         {/* The concert strand, pointed at rather than repeated. */}
         <section className="relative py-8 xl:py-12">
           <div className="shell flex flex-col items-start gap-4 border-t border-white/10 pt-10">
-            <h2 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[26px]">
+            <h2 className="m-0 font-[family-name:var(--font-display)] text-title-section font-black uppercase tracking-[-0.01em] text-white sm:text-title-screen">
               {concertsCopy.title}
             </h2>
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
               {concertsCopy.intro}
             </p>
             <Link
               href="/concerts"
-              className="link-sweep font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-6 tracking-[1.56px] text-brand"
+              className="link-sweep font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.56px] text-brand"
             >
               See the concert programme
             </Link>

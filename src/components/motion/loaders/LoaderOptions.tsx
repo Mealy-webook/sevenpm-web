@@ -112,7 +112,7 @@ export function LoaderCounter({ run, onDone }: LoaderProps) {
           <div className="overflow-hidden">
             <span
               data-c-num
-              className="block font-daltown text-[clamp(82px,18.7vw,238px)] uppercase leading-[0.8] tabular-nums text-white"
+              className="display-text block font-daltown uppercase tabular-nums text-white"
             >
               00
             </span>
@@ -177,7 +177,7 @@ export function LoaderWordmark({ run, onDone }: LoaderProps) {
               >
                 <span
                   data-w-letter
-                  className="block font-daltown text-[clamp(41px,9.35vw,119px)] uppercase leading-[0.85] text-white"
+                  className="section-title block font-daltown uppercase text-white"
                 >
                   {letter}
                 </span>
@@ -330,7 +330,7 @@ export function LoaderCurtain({ run, onDone }: LoaderProps) {
         />
         <span
           data-d-mark
-          className="absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2 font-daltown text-[clamp(34px,6.77vw,88px)] uppercase leading-none text-[#0b0b0e]"
+          className="display-m absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2 font-daltown uppercase leading-none text-[#0b0b0e]"
         >
           Sevenpm
         </span>

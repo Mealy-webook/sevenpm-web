@@ -91,7 +91,7 @@ function DueTag({
 
   return (
     <span
-      className={`flex shrink-0 items-center gap-0.5 px-1.5 py-[1px] font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] ${tone}`}
+      className={`flex shrink-0 items-center gap-0.5 px-1.5 py-[1px] font-[family-name:var(--font-display)] text-caption ${tone}`}
     >
       <Image
         src="/assets/ic-calendar-12.svg"
@@ -185,18 +185,18 @@ export function PaymentsSheet({
             />
           </span>
           <span className="flex min-w-0 flex-1 flex-col gap-2">
-            <span className="font-daltown text-[34px] uppercase leading-[0.78] tracking-[0.4px] text-white">
+            <span className="display-xs font-daltown uppercase text-white">
               {event.name}
             </span>
             <span className="flex flex-col">
-              <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-brand">
+              <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-brand">
                 {event.time}
               </span>
               <a
                 href={event.venueUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-white underline transition-colors hover:text-brand"
+                className="font-[family-name:var(--font-display)] text-body-s font-semibold text-white underline transition-colors hover:text-brand"
               >
                 {event.venue}
               </a>
@@ -243,11 +243,11 @@ export function PaymentsSheet({
                   role="tab"
                   aria-selected={tab === id}
                   onClick={() => setTab(id)}
-                  className={`flex h-10 flex-1 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] transition-colors ${
-                    tab === id
-                      ? "bg-white/5 font-semibold tracking-[0.19px] text-content-primary"
-                      : "tracking-[0.15px] text-content-secondary hover:text-white"
-                  }`}
+                  className={`flex h-10 flex-1 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-body transition-colors ${
+ tab === id
+ ? "bg-white/5 font-semibold text-content-primary"
+ : " text-content-secondary hover:text-white"
+ }`}
                 >
                   {label}
                 </button>
@@ -258,10 +258,10 @@ export function PaymentsSheet({
               <>
                 <div className="flex items-center gap-4">
                   <span className="flex min-w-0 flex-1 flex-col gap-1">
-                    <span className="truncate font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
+                    <span className="truncate font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px] text-content-primary">
                       {copy.planCount(instalments.length, formatMoney(whole))}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                    <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                       {copy.planTotal(formatMoney(whole))}
                     </span>
                   </span>
@@ -272,7 +272,7 @@ export function PaymentsSheet({
                         setStep({ name: "pay", upto: instalments.length })
                       }
                       aria-label={copy.payAllFor(formatMoney(outstanding))}
-                      className="flex shrink-0 cursor-pointer items-center justify-center bg-brand p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-[#0b0b0e] transition-colors hover:bg-[#fff35a]"
+                      className="flex shrink-0 cursor-pointer items-center justify-center bg-brand p-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e] transition-colors hover:bg-[#fff35a]"
                     >
                       <span className="px-1">{copy.payAll}</span>
                     </button>
@@ -291,7 +291,7 @@ export function PaymentsSheet({
                         className="flex flex-col justify-center gap-3 border border-white/10 bg-white/5 p-4"
                       >
                         <span className="flex items-center gap-2">
-                          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-primary">
+                          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-body-s text-content-primary">
                             {copy.nth(ordinal(index + 1))}
                           </span>
                           <DueTag
@@ -311,11 +311,11 @@ export function PaymentsSheet({
                             height={24}
                             className="size-6 shrink-0"
                           />
-                          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+                          <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-body text-content-primary">
                             {formatMoney(instalment.amount)}
                           </span>
                           {paid ? (
-                            <span className="flex shrink-0 items-center justify-center bg-white/5 p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-white/30">
+                            <span className="flex shrink-0 items-center justify-center bg-white/5 p-3 font-[family-name:var(--font-display)] text-body font-semibold text-white/30">
                               <span className="px-1">{copy.paid}</span>
                             </span>
                           ) : (
@@ -325,7 +325,7 @@ export function PaymentsSheet({
                                 setStep({ name: "pay", upto: index + 1 })
                               }
                               aria-label={copy.payFor(ordinal(index + 1))}
-                              className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-[#18181b] transition-colors hover:bg-white/90"
+                              className="flex shrink-0 cursor-pointer items-center justify-center bg-white p-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#18181b] transition-colors hover:bg-white/90"
                             >
                               <span className="px-1">{copy.pay}</span>
                             </button>
@@ -336,7 +336,7 @@ export function PaymentsSheet({
                   })}
                 </ul>
 
-                <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
                   {settled ? copy.allPaid : copy.payNowNote}
                 </p>
               </>
@@ -352,7 +352,7 @@ export function PaymentsSheet({
                   .filter(([, lines]) => lines.length > 0)
                   .map(([heading, lines]) => (
                     <div key={heading} className="flex flex-col gap-2">
-                      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                      <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                         {heading}
                       </p>
                       <ul className="m-0 flex list-none flex-col p-0">
@@ -361,7 +361,7 @@ export function PaymentsSheet({
                             key={line.key}
                             className="flex items-center gap-3 border-b-[0.5px] border-white/10 py-2 last:border-b-0"
                           >
-                            <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                            <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                               {line.qty}x
                             </span>
                             <Image
@@ -372,16 +372,16 @@ export function PaymentsSheet({
                               className="size-5 shrink-0"
                             />
                             <span className="flex min-w-0 flex-1 flex-col">
-                              <span className="truncate font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                              <span className="truncate font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                                 {line.name}
                               </span>
                               {line.size && (
-                                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                                <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                                   {summary.size(line.size)}
                                 </span>
                               )}
                             </span>
-                            <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+                            <span className="shrink-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
                               {formatMoney(line.amount)}
                             </span>
                           </li>
@@ -393,7 +393,7 @@ export function PaymentsSheet({
                 <span aria-hidden className="h-px w-full bg-white/10" />
 
                 <div className="flex flex-col gap-2">
-                  <p className="m-0 flex items-center justify-between gap-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px]">
+                  <p className="m-0 flex items-center justify-between gap-3 font-[family-name:var(--font-display)] text-body">
                     <span className="tracking-[0.15px] text-content-secondary">
                       {summary.subtotal}
                     </span>
@@ -402,11 +402,11 @@ export function PaymentsSheet({
                     </span>
                   </p>
                   <p className="m-0 flex items-center justify-between gap-3">
-                    <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+                    <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
                       {summary.total}
                     </span>
                     <span className="flex flex-col items-end">
-                      <span className="font-[family-name:var(--font-sans)] text-[16px] font-bold leading-6 tracking-[0.085px] text-content-primary">
+                      <span className="font-[family-name:var(--font-sans)] text-body-l font-bold text-content-primary">
                         {formatMoney(totals.total)}
                       </span>
                     </span>
@@ -483,11 +483,11 @@ function PayFlow({
           <PaidMark />
           <h2
             id={titleId}
-            className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+            className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary"
           >
             {copy.doneTitle}
           </h2>
-          <p className="m-0 max-w-[280px] font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <p className="m-0 max-w-[280px] font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {copy.doneBody(formatMoney(step.amount))}
             {leftAfter > 0 && nextDue
               ? copy.doneNext(formatDue(nextDue))
@@ -499,7 +499,7 @@ function PayFlow({
           <button
             type="button"
             onClick={onViewBooking}
-            className="btn-secondary flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary"
+            className="btn-secondary flex w-full cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary"
           >
             {copy.viewBooking}
           </button>
@@ -508,7 +508,7 @@ function PayFlow({
             <button
               type="button"
               onClick={onAnother}
-              className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+              className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-[#fff35a]"
             >
               {copy.payAnother}
             </button>
@@ -532,11 +532,11 @@ function PayFlow({
   return (
     <div className="flex flex-col gap-4">
       <section className="flex flex-col gap-3">
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-body font-bold uppercase tracking-[0.19px] text-white">
           {copy.detailsTitle}
         </h3>
         <div className="flex flex-col gap-3 border border-white/5 p-4">
-          <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px]">
+          <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-body">
             <span className="tracking-[0.15px] text-content-primary">
               {what}
             </span>
@@ -545,7 +545,7 @@ function PayFlow({
             </span>
           </p>
           {credit > 0 && (
-            <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#4ade80]">
+            <p className="m-0 flex items-baseline justify-between gap-3 font-[family-name:var(--font-display)] text-body text-[#4ade80]">
               <span className="tracking-[0.15px]">{copy.walletLabel}</span>
               <span className="font-semibold tabular-nums tracking-[0.19px]">
                 −{formatMoney(credit)}
@@ -556,11 +556,11 @@ function PayFlow({
           <span aria-hidden className="h-px w-full bg-white/10" />
 
           <p className="m-0 flex items-center justify-between gap-3">
-            <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
               {bookingCopy.orderSummary.total}
             </span>
             <span className="flex flex-col items-end">
-              <span className="font-[family-name:var(--font-sans)] text-[16px] font-bold leading-6 tracking-[0.085px] tabular-nums text-content-primary">
+              <span className="font-[family-name:var(--font-sans)] text-body-l font-bold tabular-nums text-content-primary">
                 {formatMoney(charged)}
               </span>
             </span>
@@ -569,7 +569,7 @@ function PayFlow({
       </section>
 
       <section className="flex flex-col gap-3">
-        <h3 className="m-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.19px] text-white">
+        <h3 className="m-0 font-[family-name:var(--font-display)] text-body font-bold uppercase tracking-[0.19px] text-white">
           {copy.payWith}
         </h3>
 
@@ -584,10 +584,10 @@ function PayFlow({
               className="size-6 shrink-0"
             />
             <span className="flex min-w-0 flex-1 flex-col">
-              <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+              <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                 {copy.walletLabel}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                 {formatMoney(bookingConfig.walletCredit)}
               </span>
             </span>
@@ -645,12 +645,12 @@ function PayFlow({
                   className="size-6 shrink-0"
                 />
                 <span className="flex min-w-0 flex-1 flex-col gap-1">
-                  <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                     {option.label}
                   </span>
                   {isCard &&
                     (card ? (
-                      <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                      <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                         **** {card.last4}
                       </span>
                     ) : (
@@ -699,7 +699,7 @@ function PayFlow({
             height={16}
             className="size-4"
           />
-          <span className="px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+          <span className="px-1 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
             {copy.addCard}
           </span>
         </button>
@@ -708,12 +708,12 @@ function PayFlow({
       <button
         type="button"
         onClick={() => onPay(charged)}
-        className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+        className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-[#fff35a]"
       >
         {copy.confirmAndPay(formatMoney(charged))}
       </button>
 
-      <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+      <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
         {copy.payNowNote}
       </p>
     </div>

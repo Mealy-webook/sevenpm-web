@@ -37,19 +37,19 @@ export function HomeStory() {
             /* `pb` because the reveal masks to this element's box, and at
                0.78 leading the glyphs stand taller than it — the descenders
                were being cut off along the bottom of the wipe. */
-            className="m-0 pb-[0.1em] font-daltown text-[clamp(54px,8.49vw,129px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            className="section-title m-0 pb-[0.1em] font-daltown uppercase text-white"
             data-reveal="clip"
           >
             {homeStoryHeading}
           </h2>
           <p
-            className="m-0 font-[family-name:var(--font-display)] text-[clamp(18px,1.91vw,26px)] font-bold uppercase leading-[1.14] tracking-[-0.15px] text-white"
+            className="m-0 font-[family-name:var(--font-display)] text-title-section xl:text-title-screen font-bold uppercase leading-[1.14] tracking-[-0.15px] text-white"
             data-split="lines"
           >
             {homeStoryStatement}
           </p>
           <p
-            className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary"
+            className="m-0 font-[family-name:var(--font-display)] text-body-l text-content-secondary"
             data-reveal="up"
           >
             {homeStoryLines[1]}

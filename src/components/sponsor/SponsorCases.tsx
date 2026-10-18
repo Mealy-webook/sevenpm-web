@@ -26,7 +26,7 @@ export function SponsorCases() {
         <div className="grid gap-6 lg:grid-cols-[1fr_minmax(0,420px)] lg:items-end">
           <div className="flex flex-col gap-4">
             <p
-              className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand"
+              className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand"
               data-reveal="up"
             >
               {eyebrow}
@@ -41,7 +41,7 @@ export function SponsorCases() {
             </h2>
           </div>
           <p
-            className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary"
+            className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary"
             data-reveal="up"
           >
             {intro}
@@ -63,20 +63,20 @@ export function SponsorCases() {
                   sizes="(min-width: 1024px) 410px, 100vw"
                   className="object-cover transition-[scale] duration-700 ease-out group-hover:scale-105"
                 />
-                <span className="absolute bottom-0 left-0 bg-[#18181b] px-3 py-1.5 font-[family-name:var(--font-display)] text-[11px] font-semibold uppercase tracking-[0.1em] text-white/70">
+                <span className="absolute bottom-0 left-0 bg-[#18181b] px-3 py-1.5 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-white/70">
                   Stand-in photo
                 </span>
               </span>
               <div className="flex flex-1 flex-col gap-4 p-6">
                 <div className="flex flex-wrap gap-2">
                   <span
-                    className="bg-brand px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-5 text-[#0b0b0e]"
+                    className="bg-brand px-3 py-1 font-[family-name:var(--font-display)] text-caption font-bold text-[#0b0b0e]"
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {item.kind}
                   </span>
                   <span
-                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-bold leading-5 text-content-primary"
+                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-caption font-bold text-content-primary"
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {item.festival}
@@ -85,7 +85,7 @@ export function SponsorCases() {
 
                 <h3 className="card-title text-white">{item.brand}</h3>
 
-                <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                   <strong className="font-semibold text-white">
                     The experience:
                   </strong>{" "}
@@ -107,10 +107,10 @@ export function SponsorCases() {
                       className="flex flex-col gap-0.5 bg-bg-tertiary p-4"
                       style={{ borderRadius: "var(--radius)" }}
                     >
-                      <p className="m-0 font-daltown text-[34px] leading-[0.9] text-brand">
+                      <p className="display-xs m-0 font-daltown text-brand">
                         {metric.value}
                       </p>
-                      <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
+                      <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                         {metric.note}
                       </p>
                     </div>
@@ -133,10 +133,10 @@ export function SponsorCases() {
             className="size-[88px] shrink-0 !rounded-full"
           />
           <div className="flex flex-col gap-3">
-            <blockquote className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold leading-[1.35] text-brand sm:text-[21px]">
+            <blockquote className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold text-brand sm:text-title-section">
               “{quote.text}”
             </blockquote>
-            <figcaption className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/55">
+            <figcaption className="font-[family-name:var(--font-ui)] text-body-s text-white/55">
               {quote.attribution}
             </figcaption>
           </div>

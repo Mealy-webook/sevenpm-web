@@ -50,7 +50,7 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
       <div className="flex flex-col gap-10">
         {groups.map((group) => (
           <section key={group.month} className="flex flex-col gap-2">
-            <h2 className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+            <h2 className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
               {group.month}
               <span aria-hidden className="h-px flex-1 bg-white/15" />
             </h2>
@@ -69,7 +69,7 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
                     >
                       <span
                         aria-hidden
-                        className="w-8 shrink-0 font-daltown text-[25px] leading-7 text-content-secondary transition-colors group-hover:text-brand"
+                        className="display-xs w-8 shrink-0 font-daltown text-content-secondary transition-colors group-hover:text-brand"
                       >
                         {DAY.format(new Date(article.date))}
                       </span>
@@ -86,10 +86,10 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
                       </span>
 
                       <span className="flex min-w-0 flex-1 flex-col gap-1">
-                        <span className="font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[-0.09px] text-white transition-colors group-hover:text-brand lg:text-[18px] lg:leading-7">
+                        <span className="font-[family-name:var(--font-display)] text-body-l font-bold uppercase tracking-[-0.09px] text-white transition-colors group-hover:text-brand lg:text-title-body">
                           {article.title}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[12px] uppercase leading-4 tracking-[1.5px] text-content-secondary">
+                        <span className="font-[family-name:var(--font-display)] text-caption uppercase tracking-[1.5px] text-content-secondary">
                           {article.category} · {article.readingTime}
                         </span>
                       </span>
@@ -121,7 +121,7 @@ export function NewsTimeline({ articles }: { articles: NewsArticle[] }) {
             </span>
           ))}
         </div>
-        <p className="m-0 mt-4 font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
+        <p className="m-0 mt-4 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
           {articles[active]?.excerpt}
         </p>
       </div>

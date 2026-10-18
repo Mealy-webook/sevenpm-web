@@ -165,7 +165,7 @@ export default async function Page({
             <li key={o.key}>
               <a
                 href={`#option-${o.key}`}
-                className="btn-secondary block whitespace-nowrap px-4 py-2 font-[family-name:var(--font-display)] text-[13px] font-medium text-text-primary"
+                className="btn-secondary block whitespace-nowrap px-4 py-2 font-[family-name:var(--font-display)] text-body-s font-medium text-text-primary"
               >
                 {o.label}
               </a>
@@ -175,7 +175,7 @@ export default async function Page({
       </nav>
       <main>
         <div className="shell pt-10">
-          <p className="m-0 border border-white/15 bg-bg-secondary p-4 font-[family-name:var(--font-display)] text-[14px] leading-5 text-text-secondary">
+          <p className="m-0 border border-white/15 bg-bg-secondary p-4 font-[family-name:var(--font-display)] text-body text-text-secondary">
             <span className="font-semibold text-brand">Provisional bill.</span>{" "}
             Names, bios, stages and times are placeholders shaped like a real
             programme — three days of 5, 6 and 4 acts on two stages, with
@@ -186,7 +186,7 @@ export default async function Page({
         {shown.map((o) => (
           <div key={o.key} id={`option-${o.key}`} className="scroll-mt-28">
             <div className="shell pt-16">
-              <p className="m-0 border-t border-brand/60 pt-4 font-[family-name:var(--font-display)] text-[14px] leading-5 text-text-secondary">
+              <p className="m-0 border-t border-brand/60 pt-4 font-[family-name:var(--font-display)] text-body text-text-secondary">
                 <span className="mr-3 font-semibold text-brand">{o.label}</span>
                 {o.note}
               </p>

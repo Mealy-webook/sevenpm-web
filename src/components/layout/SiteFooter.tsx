@@ -48,7 +48,7 @@ export function SiteFooter() {
             <Link
               key={entry.label}
               href={entry.href}
-              className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase leading-[1.2] tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
+              className="link-sweep whitespace-nowrap font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[1.56px] text-text-primary transition-colors hover:text-brand"
             >
               {entry.label}
             </Link>
@@ -57,11 +57,11 @@ export function SiteFooter() {
 
         {/* The copyright and the credit on one line, 24 apart. */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          <p className="m-0 text-center font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
+          <p className="m-0 text-center font-[family-name:var(--font-ui)] text-body-s text-text-secondary">
             © {year} SEVENPM. All rights reserved.
           </p>
 
-          <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-content-primary">
+          <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-body-s text-content-primary">
             {footerCopy.poweredBy}
             <Image
               src="/assets/wbk-logo.svg"

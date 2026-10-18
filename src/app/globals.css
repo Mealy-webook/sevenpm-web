@@ -39,6 +39,32 @@
   --font-sans: var(--font-figtree), system-ui, sans-serif;
   --font-ui: var(--font-inter), system-ui, sans-serif;
   --font-headline: var(--font-daltown), var(--font-roboto), sans-serif;
+
+  /* Type scale — from the SevenPM — Web Figma file's library text styles,
+     with the site's graduated reduction applied once (x0.92 for 14–19px,
+     x0.88 for 20–39px, 13px and under untouched; line heights move only
+     above 20px). These are the only body and title sizes: hard-coded
+     text-[Npx] values were swept onto them. Daltown has its own steps below
+     (.section-title, .card-title, .display-m/-s/-xs, .display-text). */
+  --text-caption: 12px; /* labels, tags, fine print — the floor */
+  --text-caption--line-height: 16px;
+  --text-body-s: 13px; /* Body-S 13/20 */
+  --text-body-s--line-height: 20px;
+  --text-body: 14px; /* Body-Default 15/22 */
+  --text-body--line-height: 22px;
+  --text-body-l: 16px; /* Body-L 17/24 */
+  --text-body-l--line-height: 24px;
+  --text-title-body: 17px; /* Title Body 18/24 */
+  --text-title-body--line-height: 24px;
+  --text-title-section: 19px; /* Title Section 22/28 */
+  --text-title-section--line-height: 25px;
+  --text-title-screen: 26px; /* Title Screen 30/34 */
+  --text-title-screen--line-height: 30px;
+  /* The menu comp's 40px Roboto Black entries (2556:20635) — the one large
+     Roboto size the comps draw outside the library. Menu, About and Team
+     headings and the page CTA take it from sm up. */
+  --text-title-display: 34px;
+  --text-title-display--line-height: 36px;
 }
 
 html {
@@ -187,6 +213,28 @@ body {
   line-height: calc(60px * var(--display-scale));
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+
+
+/* The Daltown steps between the card title and the smallest label, from
+   the comps' own sizes (80/60, 56/40, 34/24). Same scale as the titles
+   above, so every display size moves together. */
+.display-m {
+  font-size: calc(80px * var(--display-scale));
+  line-height: calc(60px * var(--display-scale));
+  letter-spacing: 0.02em;
+}
+.display-s {
+  font-size: calc(56px * var(--display-scale));
+  line-height: calc(40px * var(--display-scale));
+  letter-spacing: 0.02em;
+}
+/* The smallest step does not shrink on phones: at 34px it is already a
+   label, and halving it would make it unreadable. */
+.display-xs {
+  font-size: calc(34px * var(--display-trim));
+  line-height: calc(26px * var(--display-trim));
+  letter-spacing: 0.02em;
 }
 
 .display-text {

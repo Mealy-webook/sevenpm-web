@@ -49,10 +49,10 @@ export function DayTabs({
             onClick={() => onChange(d.id)}
             className={`flex flex-col items-start border px-4 py-2.5 text-left transition-colors duration-200 ${on ? "border-brand bg-brand text-[#0b0b0e]" : "border-white/15 text-text-primary hover:border-white/40"}`}
           >
-            <span className="font-[family-name:var(--font-display)] text-[11px] font-semibold uppercase leading-4 tracking-[0.12em] opacity-70">
+            <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.12em] opacity-70">
               Day {i + 1}
             </span>
-            <span className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-5">
+            <span className="font-[family-name:var(--font-display)] text-body font-semibold">
               {d.label}
             </span>
           </button>
@@ -72,7 +72,7 @@ export function StageTime({
 }) {
   return (
     <span
-      className={`font-[family-name:var(--font-display)] text-[13px] font-medium uppercase leading-5 tracking-[0.08em] ${className}`}
+      className={`font-[family-name:var(--font-display)] text-body-s font-medium uppercase tracking-[0.08em] ${className}`}
     >
       {act.stage} · {act.start} – {act.end}
     </span>
@@ -101,7 +101,7 @@ export function ActLinks({
           target="_blank"
           rel="noreferrer"
           aria-label={`${act.name} on ${l.label}`}
-          className={`btn-secondary inline-flex items-center gap-2 font-[family-name:var(--font-display)] text-[13px] font-semibold text-text-primary ${compact ? "size-10 justify-center" : "h-10 px-3"}`}
+          className={`btn-secondary inline-flex items-center gap-2 font-[family-name:var(--font-display)] text-body-s font-semibold text-text-primary ${compact ? "size-10 justify-center" : "h-10 px-3"}`}
         >
           <Image src={l.icon} alt="" width={18} height={18} className="size-[18px]" />
           {compact ? null : l.label}
@@ -146,7 +146,7 @@ export function ActPhoto({
 
 export function HeadlinerTag() {
   return (
-    <span className="w-fit bg-brand px-2 py-1 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-3 tracking-[0.1em] text-[#0b0b0e]">
+    <span className="w-fit bg-brand px-2 py-1 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[0.1em] text-[#0b0b0e]">
       Headliner
     </span>
   );

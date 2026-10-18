@@ -32,7 +32,7 @@ export function PackageIndex() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-10">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
@@ -54,18 +54,18 @@ export function PackageIndex() {
                   >
                     <span className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                       <span
-                        className={`font-daltown text-[clamp(28px,4.7vw,65px)] uppercase leading-[0.9] transition-colors ${
-                          on ? "text-brand" : "text-white"
-                        }`}
+                        className={`card-title font-daltown uppercase transition-colors ${
+ on ? "text-brand" : "text-white"
+ }`}
                       >
                         {entry.name}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 text-white/70">
+                      <span className="font-[family-name:var(--font-display)] text-body-l font-bold text-white/70">
                         {from} {entry.price}
                       </span>
                     </span>
 
-                    <span className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-ui)] text-[13px] leading-6 text-content-secondary">
+                    <span className="flex flex-wrap items-center gap-x-4 gap-y-1 font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                       <span className="text-brand">{entry.festival}</span>
                       <span aria-hidden className="text-white/25">
                         ·
@@ -80,9 +80,9 @@ export function PackageIndex() {
                     {/* The summary belongs to the row the eye is on. On a
                         phone there is no hover, so every row keeps its own. */}
                     <span
-                      className={`max-w-[560px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary lg:transition-opacity ${
-                        on ? "lg:opacity-100" : "lg:opacity-40"
-                      }`}
+                      className={`max-w-[560px] font-[family-name:var(--font-ui)] text-body text-content-secondary lg:transition-opacity ${
+ on ? "lg:opacity-100" : "lg:opacity-40"
+ }`}
                     >
                       {entry.summary}
                     </span>
@@ -105,14 +105,14 @@ export function PackageIndex() {
                 sizes="420px"
                 className="aspect-[3/4] w-full"
               />
-              <p className="m-0 mt-4 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-white/45">
+              <p className="m-0 mt-4 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-white/45">
                 {current.name}
               </p>
             </div>
           </div>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

@@ -55,11 +55,11 @@ function SelectRow({
       )}
       <span className="flex min-w-0 flex-1 items-center gap-2 py-3">
         <span className="flex min-w-0 flex-1 flex-col">
-          <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+          <span className="truncate font-[family-name:var(--font-display)] text-body text-content-primary">
             {label}
           </span>
           {description && (
-            <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
               {description}
             </span>
           )}
@@ -160,7 +160,7 @@ export function LocaleGroups({
         aria-label="Language"
         className="flex w-full flex-col gap-2"
       >
-        <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+        <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
           Choose a language
         </p>
         {LANGUAGES.map((item) => (
@@ -178,7 +178,7 @@ export function LocaleGroups({
         aria-label="Currency"
         className="flex w-full flex-col gap-2"
       >
-        <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+        <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
           Choose a Currency
         </p>
         {CURRENCIES.map((item) => (

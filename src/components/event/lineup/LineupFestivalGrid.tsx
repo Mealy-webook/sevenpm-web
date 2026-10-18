@@ -25,7 +25,7 @@ export function LineupFestivalGrid() {
     <section aria-labelledby="lu-grid" className="relative py-16 xl:py-20">
       <div className="shell flex flex-col gap-8 xl:gap-12">
         <LineupHead id="lu-grid">
-          <span className="font-[family-name:var(--font-display)] text-[13px] uppercase tracking-[0.12em] text-text-secondary">
+          <span className="font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary">
             {lineup.length} nights · {all.length} acts
           </span>
         </LineupHead>
@@ -34,10 +34,10 @@ export function LineupFestivalGrid() {
           {lineup.map((day, i) => (
             <li key={day.id} className="grid grid-cols-1 items-center gap-4 border-t border-white/10 py-5 md:grid-cols-[150px_1fr] md:gap-6">
               <div className="flex flex-col">
-                <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.12em] text-text-secondary">
+                <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.12em] text-text-secondary">
                   Night {i + 1}
                 </span>
-                <span className="font-daltown text-[40px] uppercase leading-none text-white">{day.label}</span>
+                <span className="display-xs font-daltown uppercase leading-none text-white">{day.label}</span>
               </div>
               <ul className="m-0 flex list-none flex-wrap items-end gap-3 p-0 sm:gap-4">
                 {runningOrder(day).map((a) => {
@@ -54,7 +54,7 @@ export function LineupFestivalGrid() {
                         <span className={`relative block overflow-hidden rounded-full transition-[filter,box-shadow] duration-300 ${a.headliner ? "size-24 sm:size-28" : "size-16 sm:size-20"} ${on ? "ring-4 ring-brand ring-offset-2 ring-offset-bg-primary" : "grayscale group-hover:grayscale-0"}`}>
                           <Image src={a.photo} alt="" fill sizes="112px" className="object-cover" />
                         </span>
-                        <span className={`font-[family-name:var(--font-display)] text-[12px] font-semibold tabular-nums ${on ? "text-brand" : "text-text-secondary"}`}>
+                        <span className={`font-[family-name:var(--font-display)] text-caption font-semibold tabular-nums ${on ? "text-brand" : "text-text-secondary"}`}>
                           {a.start}
                         </span>
                       </button>
@@ -74,7 +74,7 @@ export function LineupFestivalGrid() {
               {picked.headliner ? <HeadlinerTag /> : null}
             </div>
             <StageTime act={picked} className="text-brand" />
-            <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+            <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
               {picked.bio}
             </p>
             <ActLinks act={picked} />

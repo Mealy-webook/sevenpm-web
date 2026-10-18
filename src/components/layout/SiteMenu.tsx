@@ -63,7 +63,7 @@ if (!gsap.parseEase(EASE)) {
    without scrolling — the drawer scrolls, which is the right answer: the
    alternative was shrinking content's own type to fit furniture. */
 const ENTRY_TYPE =
-  "block font-[family-name:var(--font-display)] text-[30px] font-black uppercase leading-[1.1] tracking-[-1px] transition-colors sm:text-[36px] xl:text-[40px]";
+  "block font-[family-name:var(--font-display)] text-title-screen font-black uppercase tracking-[-1px] transition-colors sm:text-title-display";
 
 /**
  * One of the two locale buttons: icon, code, chevron, and its list hanging
@@ -101,7 +101,7 @@ function LocaleButton({
         }`}
       >
         <Image src={icon} alt="" width={20} height={20} className="size-5" />
-        <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+        <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
           {label}
         </span>
         <Image
@@ -468,7 +468,7 @@ export function SiteMenu({
                               data-menu-sub-link
                               tabIndex={expanded ? undefined : -1}
                               onClick={onClose}
-                              className="block font-[family-name:var(--font-display)] text-[22px] uppercase leading-[0.8] tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-[28px]"
+                              className="block font-[family-name:var(--font-display)] text-title-section uppercase tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-title-screen"
                             >
                               {child.label}
                             </Link>
@@ -497,10 +497,10 @@ export function SiteMenu({
             {/* Put your brand on stage. */}
             <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
               <div className="flex min-w-0 flex-1 flex-col">
-                <p className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.11px] text-content-primary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
                   Put your brand on stage.
                 </p>
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[20px] tracking-[0.15px] text-[#56565d]">
+                <p className="m-0 font-[family-name:var(--font-ui)] text-body text-[#56565d]">
                   Join SEVENPM festivals and put your brand at the center of
                   Morocco&rsquo;s live music scene.
                 </p>
@@ -508,7 +508,7 @@ export function SiteMenu({
               <Link
                 href="/sponsor"
                 onClick={onClose}
-                className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+                className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
               >
                 <span className="relative z-10">Become a sponsor</span>
               </Link>
@@ -523,10 +523,10 @@ export function SiteMenu({
               }}
             >
               <div className="flex flex-col gap-1">
-                <h2 className="m-0 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.11px] text-content-primary">
+                <h2 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
                   Be the first to know
                 </h2>
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[20px] tracking-[0.15px] text-[#56565d]">
+                <p className="m-0 font-[family-name:var(--font-ui)] text-body text-[#56565d]">
                   Subscribe to our newsletter to be the first to know about
                   concert announcements, and exclusive updates — and never miss
                   the most exciting news.
@@ -544,11 +544,11 @@ export function SiteMenu({
                   required
                   placeholder="Your email"
                   onChange={() => setSubscribed(false)}
-                  className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
+                  className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-body-l text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-brand"
+                  className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-brand"
                 >
                   {subscribed ? "Noted" : "Subscribe"}
                 </button>
@@ -556,7 +556,7 @@ export function SiteMenu({
 
               <p
                 role="status"
-                className="m-0 min-h-4 font-[family-name:var(--font-display)] text-[12px] leading-4 text-white/45"
+                className="m-0 min-h-4 font-[family-name:var(--font-display)] text-caption text-white/45"
               >
                 {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
               </p>
@@ -566,7 +566,7 @@ export function SiteMenu({
                 bordered tiles, after three changes that each removed them
                 from somewhere. TikTok is new; the written list never had it. */}
             <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
-              <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-[20px] font-bold uppercase leading-[26px] tracking-[-0.11px] text-content-primary">
+              <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
                 Follow us
               </p>
               <ul className="m-0 flex list-none flex-wrap items-center gap-4 p-0">
@@ -601,10 +601,10 @@ export function SiteMenu({
               data-menu-meta
               className="flex flex-wrap items-center gap-x-4 gap-y-2"
             >
-              <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
+              <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-text-secondary">
                 © {year} SEVENPM. All rights reserved.
               </p>
-              <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-content-primary">
+              <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-ui)] text-body-s text-content-primary">
                 Powered by
                 <Image
                   src="/assets/wbk-logo.svg"

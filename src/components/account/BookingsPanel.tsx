@@ -112,11 +112,11 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
               role="tab"
               aria-selected={selected}
               onClick={() => select(tab.id)}
-              className={`flex h-10 cursor-pointer items-center justify-center gap-2 border p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary transition-colors ${
-                selected
-                  ? "border-content-primary bg-white/10"
-                  : "border-white/10 bg-white/5 hover:bg-white/10"
-              }`}
+              className={`flex h-10 cursor-pointer items-center justify-center gap-2 border p-3 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary transition-colors ${
+ selected
+ ? "border-content-primary bg-white/10"
+ : "border-white/10 bg-white/5 hover:bg-white/10"
+ }`}
             >
               <span className="px-1">{tab.label}</span>
             </button>
@@ -137,7 +137,7 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                 height={233}
                 className="h-auto w-[156px]"
               />
-              <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+              <p className="m-0 w-full text-center font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary">
                 {bookingsCopy.empty}
               </p>
             </div>
@@ -185,7 +185,7 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                             />
                           </Link>
                           {/* Over the artwork, bottom right: what you bought. */}
-                          <span className="pointer-events-none absolute bottom-3 right-3 bg-bg-primary px-1.5 py-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                          <span className="pointer-events-none absolute bottom-3 right-3 bg-bg-primary px-1.5 py-1 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                             {contents}
                           </span>
                         </div>
@@ -208,7 +208,7 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                               height={16}
                               className="size-4 shrink-0"
                             />
-                            <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-[#ff7f29]">
+                            <span className="font-[family-name:var(--font-display)] text-body font-semibold text-[#ff7f29]">
                               {bookingsCopy.pending}
                             </span>
                           </span>
@@ -216,7 +216,7 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                       </div>
 
                       <div className="flex flex-col gap-1">
-                        <h3 className="m-0 truncate font-daltown text-[48px] uppercase leading-[36px] tracking-[0.56px] text-white">
+                        <h3 className="display-s m-0 truncate font-daltown uppercase text-white">
                           <Link
                             href={`/events/${booking.eventSlug}`}
                             className="transition-colors hover:text-brand"
@@ -226,7 +226,7 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                         </h3>
                         <time
                           dateTime={booking.startsAt}
-                          className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-brand"
+                          className="font-[family-name:var(--font-display)] text-body font-semibold text-brand"
                         >
                           {dateFormat.format(new Date(booking.startsAt))}
                         </time>
@@ -235,12 +235,12 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                             href={booking.venueUrl}
                             target="_blank"
                             rel="noreferrer noopener"
-                            className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary underline decoration-solid transition-colors hover:text-white"
+                            className="font-[family-name:var(--font-display)] text-body text-content-secondary underline decoration-solid transition-colors hover:text-white"
                           >
                             {booking.venue}
                           </a>
                         ) : (
-                          <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary underline decoration-solid">
+                          <span className="font-[family-name:var(--font-display)] text-body text-content-secondary underline decoration-solid">
                             {booking.venue}
                           </span>
                         )}
@@ -252,13 +252,13 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                       <div className="flex flex-col justify-center border-t border-solid border-white/5 p-4">
                         <div className="flex items-center gap-2">
                           <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
-                            <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                            <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                               {bookingsCopy.instalments(
                                 paid,
                                 booking.payment.instalments,
                               )}
                             </span>
-                            <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+                            <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
                               {(nextDue?.amount ?? 0).toFixed(2)}{" "}
                               {walletCurrency}
                             </span>
@@ -270,7 +270,7 @@ export function BookingsPanel({ now = new Date() }: { now?: Date }) {
                             type="button"
                             onClick={() => setPaying(booking)}
                             disabled={!nextDue}
-                            className="flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 whitespace-nowrap bg-brand px-5 py-4 text-center font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] transition-opacity hover:opacity-90 disabled:cursor-default disabled:opacity-40"
+                            className="flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 whitespace-nowrap bg-brand px-5 py-4 text-center font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e] transition-opacity hover:opacity-90 disabled:cursor-default disabled:opacity-40"
                           >
                             {nextDue ? bookingsCopy.pay : bookingsCopy.settled}
                           </button>

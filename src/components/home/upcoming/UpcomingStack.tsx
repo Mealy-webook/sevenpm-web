@@ -53,13 +53,13 @@ export function UpcomingStack() {
           </div>
 
           <div key={f.id} className="deck-fade flex flex-col gap-5">
-            <span className="font-[family-name:var(--font-display)] text-[13px] uppercase tracking-[0.12em] text-text-secondary">
+            <span className="font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary">
               {String(top + 1).padStart(2, "0")} / {String(bill.length).padStart(2, "0")} · {f.edition}
             </span>
-            <h3 className="m-0 font-daltown text-[clamp(64px,8vw,128px)] uppercase leading-[0.8] text-white">
+            <h3 className="section-title m-0 font-daltown uppercase text-white">
               {f.name}
             </h3>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-6 text-text-primary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-l text-text-primary">
               {[f.when, f.city].filter(Boolean).join(" · ")}
             </p>
             <div className="flex flex-wrap items-center gap-4">
@@ -67,7 +67,7 @@ export function UpcomingStack() {
               <button
                 type="button"
                 onClick={next}
-                className="btn-secondary px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-text-primary"
+                className="btn-secondary px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-text-primary"
               >
                 Next festival →
               </button>

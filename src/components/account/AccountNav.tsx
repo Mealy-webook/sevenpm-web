@@ -67,14 +67,14 @@ export function AccountNav({
                   className={`size-6 shrink-0 ${active ? "brightness-0" : ""}`}
                 />
                 <span className="flex min-w-0 flex-1 items-center gap-2 py-3">
-                  <span className="flex-1 truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px]">
+                  <span className="flex-1 truncate font-[family-name:var(--font-display)] text-body">
                     {item.label}
                   </span>
                   {item.trailing && (
                     <span
-                      className={`font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] ${
-                        active ? "text-[#18181b]" : "text-content-primary"
-                      }`}
+                      className={`font-[family-name:var(--font-display)] text-body-s font-semibold ${
+ active ? "text-[#18181b]" : "text-content-primary"
+ }`}
                     >
                       {item.trailing}
                     </span>
@@ -83,11 +83,11 @@ export function AccountNav({
                     // On the yellow row the comp uses a black pill; off it,
                     // that pill would vanish into the page.
                     <span
-                      className={`flex size-5 items-center justify-center font-[family-name:var(--font-display)] text-[12px] font-semibold leading-none ${
-                        active
-                          ? "bg-[#0b0b0e] text-white"
-                          : "bg-white/10 text-content-primary"
-                      }`}
+                      className={`flex size-5 items-center justify-center font-[family-name:var(--font-display)] text-caption font-semibold leading-none ${
+ active
+ ? "bg-[#0b0b0e] text-white"
+ : "bg-white/10 text-content-primary"
+ }`}
                     >
                       {count}
                     </span>
@@ -109,7 +109,7 @@ export function AccountNav({
           height={24}
           className="size-6 shrink-0"
         />
-        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px]">
+        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-body">
           {logoutCopy.label}
         </span>
       </LogoutButton>

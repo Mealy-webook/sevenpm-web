@@ -44,18 +44,18 @@ export function LineupMosaic() {
               <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent transition-colors duration-300 group-hover:bg-black/60 group-focus-within:bg-black/60" />
               <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-5">
                 <div className="flex items-center gap-3">
-                  <span className="font-daltown text-[30px] leading-none text-brand">{a.start}</span>
+                  <span className="display-xs font-daltown leading-none text-brand">{a.start}</span>
                   {a.headliner ? <HeadlinerTag /> : null}
                 </div>
-                <span className={`font-daltown uppercase leading-[0.85] text-white ${a.headliner ? "text-[clamp(56px,6vw,96px)]" : "text-[38px]"}`}>
+                <span className={`font-daltown uppercase text-white ${a.headliner ? "display-m" : "display-xs"}`}>
                   {a.name}
                 </span>
                 <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 group-hover:grid-rows-[1fr] group-focus-within:grid-rows-[1fr]">
                   <div className="flex flex-col gap-3 overflow-hidden">
-                    <span className="pt-1 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.1em] text-text-primary">
+                    <span className="pt-1 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-text-primary">
                       {a.stage} · to {a.end}
                     </span>
-                    <p className="m-0 line-clamp-3 font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-primary">
+                    <p className="m-0 line-clamp-3 font-[family-name:var(--font-display)] text-body-s text-content-primary">
                       {a.bio}
                     </p>
                     <ActLinks act={a} />

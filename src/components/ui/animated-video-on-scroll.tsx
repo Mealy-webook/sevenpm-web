@@ -232,7 +232,7 @@ export const HeroButton = React.forwardRef<
       whileTap={{ scale: 0.985 }}
       ref={ref}
       className={cn(
-        "group relative flex w-fit cursor-pointer items-center border border-brand bg-brand/10 px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-white transition-colors hover:bg-brand hover:text-[#18181b]",
+        "group relative flex w-fit cursor-pointer items-center border border-brand bg-brand/10 px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.5px] text-white transition-colors hover:bg-brand hover:text-[#18181b]",
         className,
       )}
       {...props}

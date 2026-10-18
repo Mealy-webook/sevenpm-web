@@ -15,7 +15,7 @@ import { bookingCopy, formatMoney } from "@/data/booking";
 function Line({ line }: { line: PricedLine }) {
   return (
     <li className="flex items-center gap-2 py-[6px]">
-      <span className="w-6 shrink-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+      <span className="w-6 shrink-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
         {line.qty}x
       </span>
       <Image
@@ -26,16 +26,16 @@ function Line({ line }: { line: PricedLine }) {
         className="size-4 shrink-0"
       />
       <span className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+        <span className="truncate font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
           {line.name}
         </span>
         {line.size && (
-          <span className="font-[family-name:var(--font-display)] text-[11px] leading-4 tracking-[0.11px] text-content-secondary">
+          <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
             {bookingCopy.orderSummary.size(line.size)}
           </span>
         )}
       </span>
-      <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+      <span className="shrink-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
         {formatMoney(line.amount)}
       </span>
     </li>
@@ -62,7 +62,7 @@ export function OrderSummaryDialog({
       <div className="flex flex-col px-5 pb-5 pt-4">
         {totals.ticketLines.length > 0 && (
           <section className="flex flex-col gap-1">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
               {bookingCopy.orderSummary.tickets(totals.ticketCount)}
             </p>
             <ul className="m-0 flex list-none flex-col p-0">
@@ -75,7 +75,7 @@ export function OrderSummaryDialog({
 
         {totals.addonLines.length > 0 && (
           <section className="mt-4 flex flex-col gap-1 border-t-[0.5px] border-dashed border-white/15 pt-4">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
               {bookingCopy.orderSummary.addons(totals.addonCount)}
             </p>
             <ul className="m-0 flex list-none flex-col p-0">
@@ -87,7 +87,7 @@ export function OrderSummaryDialog({
         )}
 
         <div className="mt-4 flex flex-col gap-2 border-t-[0.5px] border-dashed border-white/15 pt-4">
-          <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px]">
+          <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-body-s">
             <span className="text-content-secondary">
               {bookingCopy.orderSummary.subtotal}
             </span>
@@ -97,7 +97,7 @@ export function OrderSummaryDialog({
           </div>
 
           {totals.wallet > 0 && (
-            <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#4ade80]">
+            <div className="flex items-center justify-between gap-4 font-[family-name:var(--font-display)] text-body-s text-[#4ade80]">
               <span>{bookingCopy.orderSummary.wallet}</span>
               <span className="font-semibold">
                 −{formatMoney(totals.wallet)}
@@ -106,11 +106,11 @@ export function OrderSummaryDialog({
           )}
 
           <div className="flex items-start justify-between gap-4">
-            <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
               {bookingCopy.orderSummary.total}
             </span>
             <span className="flex flex-col items-end">
-              <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+              <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
                 {formatMoney(totals.total)}
               </span>
             </span>

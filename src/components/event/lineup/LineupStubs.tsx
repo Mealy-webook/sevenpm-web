@@ -36,16 +36,16 @@ export function LineupStubs() {
               </span>
 
               <div className="flex min-w-0 flex-1 flex-col gap-3 p-5">
-                <div className={`flex items-center justify-between gap-3 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.12em] ${a.headliner ? "text-black/60" : "text-text-secondary"}`}>
+                <div className={`flex items-center justify-between gap-3 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.12em] ${a.headliner ? "text-black/60" : "text-text-secondary"}`}>
                   <span>{a.stage}</span>
                   {a.headliner ? <span>Headliner</span> : null}
                 </div>
                 <div className="flex items-baseline gap-3">
-                  <span className={`font-daltown text-[40px] leading-none ${a.headliner ? "" : "text-brand"}`}>{a.start}</span>
-                  <span className={`font-[family-name:var(--font-display)] text-[13px] ${a.headliner ? "text-black/60" : "text-text-secondary"}`}>to {a.end}</span>
+                  <span className={`display-xs font-daltown leading-none ${a.headliner ? "" : "text-brand"}`}>{a.start}</span>
+                  <span className={`font-[family-name:var(--font-display)] text-body-s ${a.headliner ? "text-black/60" : "text-text-secondary"}`}>to {a.end}</span>
                 </div>
                 <h3 className="card-title">{a.name}</h3>
-                <p className={`m-0 line-clamp-3 font-[family-name:var(--font-display)] text-[13px] leading-[19px] ${a.headliner ? "text-black/70" : "text-content-secondary"}`}>
+                <p className={`m-0 line-clamp-3 font-[family-name:var(--font-display)] text-body-s ${a.headliner ? "text-black/70" : "text-content-secondary"}`}>
                   {a.bio}
                 </p>
                 <div className={a.headliner ? "[&_a]:!border-black/20 [&_a]:!bg-black/10 [&_a]:!text-[#0b0b0e] [&_img]:invert" : ""}>

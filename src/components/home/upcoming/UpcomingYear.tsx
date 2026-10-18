@@ -76,7 +76,7 @@ export function UpcomingYear() {
               {MONTHS.map((m, i) => (
                 <li
                   key={i}
-                  className="border-l border-white/10 pt-3 pl-2 font-[family-name:var(--font-display)] text-[12px] uppercase tracking-[0.12em] text-text-secondary first:border-l-0"
+                  className="border-l border-white/10 pt-3 pl-2 font-[family-name:var(--font-display)] text-caption uppercase tracking-[0.12em] text-text-secondary first:border-l-0"
                 >
                   {m}
                 </li>
@@ -85,13 +85,13 @@ export function UpcomingYear() {
             {placed.map(({ f, mid }) => (
               <span
                 key={f.id}
-                className="absolute top-9 -translate-x-1/2 whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-medium text-text-primary"
+                className="absolute top-9 -translate-x-1/2 whitespace-nowrap font-[family-name:var(--font-display)] text-body-s font-medium text-text-primary"
                 style={{ left: `${mid * 100}%` }}
               >
                 {f.when} · {f.city}
               </span>
             ))}
-            <span className="absolute -top-12 right-0 font-daltown text-[32px] leading-none text-white/20">
+            <span className="display-xs absolute -top-12 right-0 font-daltown leading-none text-white/20">
               {year}
             </span>
           </div>
@@ -112,7 +112,7 @@ export function UpcomingYear() {
                 />
               </span>
               <h3 className="card-title text-white">{f.name}</h3>
-              <span className="font-[family-name:var(--font-display)] text-[14px] text-text-secondary">
+              <span className="font-[family-name:var(--font-display)] text-body text-text-secondary">
                 {[f.when, f.city].filter(Boolean).join(" · ")}
               </span>
               <Cta festival={f} className="w-full" />

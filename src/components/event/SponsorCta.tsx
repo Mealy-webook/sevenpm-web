@@ -38,14 +38,14 @@ export function SponsorCta() {
             >
               Put your brand on stage.
             </h2>
-            <p className="m-0 max-w-[720px] text-center font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-[#56565d]">
+            <p className="m-0 max-w-[720px] text-center font-[family-name:var(--font-ui)] text-body text-[#56565d]">
               Join Jazzablanca festivals and put your brand at the center of
               Morocco&rsquo;s live music scene.
             </p>
             <Link
               href="/sponsor"
               data-magnetic="0.2"
-              className="mt-2 flex items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+              className="mt-2 flex items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-white transition-colors hover:bg-[#0b0b0e]/85"
             >
               Become a sponsor
             </Link>

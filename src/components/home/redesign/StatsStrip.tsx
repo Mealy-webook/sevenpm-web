@@ -64,7 +64,7 @@ export function StatsStrip({ className = "" }: { className?: string }) {
             index > 0 ? "lg:border-l lg:border-white/10 lg:pl-8" : ""
           } ${index % 2 === 1 ? "border-l border-white/10 pl-6 lg:pl-8" : ""}`}
         >
-          <p className="m-0 flex items-baseline font-daltown text-[41px] leading-[0.8] text-white xl:text-[54px]">
+          <p className="display-s m-0 flex items-baseline font-daltown text-white">
             {stat.prefix && <span>{stat.prefix}</span>}
             <span
               data-count={stat.value}
@@ -75,7 +75,7 @@ export function StatsStrip({ className = "" }: { className?: string }) {
             </span>
             {stat.suffix && <span>{stat.suffix}</span>}
           </p>
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.3px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.3px] text-content-secondary">
             {stat.label}
           </p>
         </div>

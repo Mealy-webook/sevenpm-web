@@ -41,12 +41,12 @@ export default function ConcertsPage() {
                 data-reveal="up"
                 className="flex flex-col items-start gap-4 border-t border-white/10 py-10"
               >
-                <p className="m-0 font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[-0.11px] text-white sm:text-[21px]">
+                <p className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white sm:text-title-section">
                   {eventsCopy.empty}
                 </p>
                 <Link
                   href="/#newsletter"
-                  className="link-sweep font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-6 tracking-[1.56px] text-brand"
+                  className="link-sweep font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.56px] text-brand"
                 >
                   Join the newsletter
                 </Link>
@@ -63,13 +63,13 @@ export default function ConcertsPage() {
                       href={show.href}
                       className="flex flex-col gap-1 py-6 md:flex-row md:items-baseline md:gap-8"
                     >
-                      <span className="w-48 shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.56px] text-brand">
+                      <span className="w-48 shrink-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
                         {show.when}
                       </span>
-                      <span className="flex-1 font-[family-name:var(--font-display)] text-[21px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[26px]">
+                      <span className="flex-1 font-[family-name:var(--font-display)] text-title-section font-black uppercase tracking-[-0.01em] text-white sm:text-title-screen">
                         {show.name}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[1.6] text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-body text-content-secondary">
                         {show.venue}
                       </span>
                     </Link>

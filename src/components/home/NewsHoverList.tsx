@@ -155,7 +155,7 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
             >
               <span
                 aria-hidden
-                className="news-index font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-none tracking-[-0.15px] text-content-secondary sm:text-[18px] lg:text-[21px]"
+                className="news-index font-[family-name:var(--font-display)] text-body font-bold uppercase leading-none tracking-[-0.15px] text-content-secondary sm:text-title-body lg:text-title-section"
               >
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -163,11 +163,11 @@ export function NewsHoverList({ items }: { items: NewsItem[] }) {
               {/* 30/34 at the top end, which is the comp's size. The effect's
                   own brief asked for 44 and it read as a shout next to the
                   rest of the page. */}
-              <span className="news-headline min-w-0 font-[family-name:var(--font-display)] text-[clamp(13px,1.82vw,26px)] font-bold uppercase leading-[1.15] tracking-[-0.15px] text-content-primary">
+              <span className="news-headline min-w-0 font-[family-name:var(--font-display)] text-body-s sm:text-title-section xl:text-title-screen font-bold uppercase leading-[1.15] tracking-[-0.15px] text-content-primary">
                 {item.title}
               </span>
 
-              <time className="news-date whitespace-nowrap font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.085px] text-content-secondary sm:text-[14px] sm:leading-6 lg:text-[16px]">
+              <time className="news-date whitespace-nowrap font-[family-name:var(--font-display)] text-caption text-content-secondary sm:text-body lg:text-body-l">
                 {item.date}
               </time>
 

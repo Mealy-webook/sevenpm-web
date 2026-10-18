@@ -73,7 +73,7 @@ export function StoryStage() {
             Since 2018
           </DisplayHeading>
           <p
-            className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-[1.45] tracking-[0.1px] text-white xl:text-[21px]"
+            className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[0.1px] text-white xl:text-title-section"
             data-split="lines"
           >
             {homeStory.body}

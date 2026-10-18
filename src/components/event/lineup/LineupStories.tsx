@@ -46,19 +46,19 @@ export function LineupStories() {
               {/* tap halves */}
               <button type="button" aria-label="Previous act" onClick={() => go(-1)} className="absolute inset-y-0 left-0 w-1/3" />
               <button type="button" aria-label="Next act" onClick={() => go(1)} className="absolute inset-y-0 right-0 w-2/3" />
-              <span className="pointer-events-none absolute left-4 top-4 bg-black/70 px-3 py-1.5 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.1em] text-white">
+              <span className="pointer-events-none absolute left-4 top-4 bg-black/70 px-3 py-1.5 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-white">
                 {idx + 1} / {acts.length}
               </span>
             </div>
             <div className="flex flex-col justify-between gap-8 p-6 xl:p-10">
               <div className="flex flex-col gap-4">
-                <span className="font-daltown text-[clamp(56px,6vw,96px)] leading-[0.85] text-brand">{a.start}</span>
+                <span className="display-m font-daltown text-brand">{a.start}</span>
                 <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="m-0 font-daltown text-[clamp(56px,6vw,96px)] uppercase leading-[0.85] text-white">{a.name}</h3>
+                  <h3 className="display-m m-0 font-daltown uppercase text-white">{a.name}</h3>
                   {a.headliner ? <HeadlinerTag /> : null}
                 </div>
                 <StageTime act={a} className="text-text-primary" />
-                <p className="m-0 max-w-[52ch] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+                <p className="m-0 max-w-[52ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
                   {a.bio}
                 </p>
                 <ActLinks act={a} />
@@ -68,7 +68,7 @@ export function LineupStories() {
                   type="button"
                   onClick={() => go(-1)}
                   disabled={idx === 0}
-                  className="btn-secondary px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold text-text-primary disabled:opacity-40"
+                  className="btn-secondary px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-text-primary disabled:opacity-40"
                 >
                   ← Previous
                 </button>
@@ -76,7 +76,7 @@ export function LineupStories() {
                   type="button"
                   onClick={() => go(1)}
                   disabled={idx === acts.length - 1}
-                  className="sweep bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[15px] font-semibold text-[#0b0b0e] after:!bg-white disabled:opacity-40"
+                  className="sweep bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e] after:!bg-white disabled:opacity-40"
                 >
                   <span className="relative z-10">
                     Next{acts[idx + 1] ? ` · ${acts[idx + 1].start}` : ""} →

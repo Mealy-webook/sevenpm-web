@@ -45,7 +45,7 @@ export function LineupLive() {
         </LineupHead>
 
         <label className="flex flex-col gap-2 border border-dashed border-white/20 p-4 sm:flex-row sm:items-center sm:gap-6">
-          <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.12em] text-text-secondary">
+          <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.12em] text-text-secondary">
             Preview the night at <span className="text-brand">{fmt(now)}</span>
           </span>
           <input
@@ -65,7 +65,7 @@ export function LineupLive() {
             const nxt = nextAt(stage);
             return (
               <div key={stage} className="flex flex-col gap-4 bg-bg-secondary p-5 xl:p-6">
-                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.14em] text-text-primary">
+                <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.14em] text-text-primary">
                   {stage}
                 </span>
                 {cur ? (
@@ -73,7 +73,7 @@ export function LineupLive() {
                 ) : nxt ? (
                   <Now act={nxt} label={now < first ? "First up" : "Next, after the break"} now={now} />
                 ) : (
-                  <p className="m-0 py-10 font-[family-name:var(--font-display)] text-[15px] text-text-secondary">
+                  <p className="m-0 py-10 font-[family-name:var(--font-display)] text-body text-text-secondary">
                     Nothing more on this stage tonight.
                   </p>
                 )}
@@ -81,10 +81,10 @@ export function LineupLive() {
                   <div className="flex items-center gap-4 border-t border-white/10 pt-4">
                     <ActPhoto act={nxt} sizes="64px" className="aspect-square w-16 shrink-0" />
                     <div className="flex flex-col">
-                      <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.12em] text-text-secondary">
+                      <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.12em] text-text-secondary">
                         Up next · {nxt.start}
                       </span>
-                      <span className="font-daltown text-[30px] uppercase leading-[28px] text-white">{nxt.name}</span>
+                      <span className="display-xs font-daltown uppercase text-white">{nxt.name}</span>
                     </div>
                   </div>
                 ) : null}
@@ -95,12 +95,12 @@ export function LineupLive() {
 
         {later.length ? (
           <div className="flex flex-col gap-3">
-            <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.14em] text-text-secondary">
+            <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.14em] text-text-secondary">
               Later tonight
             </span>
             <ul className="m-0 flex list-none flex-wrap gap-x-8 gap-y-2 p-0">
               {later.map((a) => (
-                <li key={a.id} className="font-[family-name:var(--font-display)] text-[15px] text-text-primary">
+                <li key={a.id} className="font-[family-name:var(--font-display)] text-body text-text-primary">
                   <span className="text-brand">{a.start}</span> {a.name} · {a.stage}
                 </li>
               ))}
@@ -120,7 +120,7 @@ function Now({ act, label, now }: { act: LineupAct; label: string; now: number }
     <article className="grid grid-cols-[120px_1fr] gap-5 sm:grid-cols-[180px_1fr]">
       <ActPhoto act={act} sizes="180px" className="aspect-square w-full" />
       <div className="flex min-w-0 flex-col gap-2">
-        <span className="flex items-center gap-2 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase tracking-[0.12em] text-brand">
+        <span className="flex items-center gap-2 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[0.12em] text-brand">
           {label === "On now" ? <span className="size-2 animate-pulse rounded-full bg-brand" /> : null}
           {label}
         </span>
@@ -128,7 +128,7 @@ function Now({ act, label, now }: { act: LineupAct; label: string; now: number }
           <h3 className="card-title text-white">{act.name}</h3>
           {act.headliner ? <HeadlinerTag /> : null}
         </div>
-        <span className="font-[family-name:var(--font-display)] text-[13px] text-text-secondary">
+        <span className="font-[family-name:var(--font-display)] text-body-s text-text-secondary">
           {act.start} – {act.end}
         </span>
         {label === "On now" ? (
@@ -136,7 +136,7 @@ function Now({ act, label, now }: { act: LineupAct; label: string; now: number }
             <span className="block h-full bg-brand" style={{ width: `${progress * 100}%` }} />
           </span>
         ) : null}
-        <p className="m-0 line-clamp-3 font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-secondary">
+        <p className="m-0 line-clamp-3 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
           {act.bio}
         </p>
         <ActLinks act={act} compact />

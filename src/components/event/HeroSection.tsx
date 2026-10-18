@@ -118,7 +118,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
 
             {/* The standfirst, centred on the comp's 838 measure. */}
             <p
-              className="m-0 max-w-[838px] text-center font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary"
+              className="m-0 max-w-[838px] text-center font-[family-name:var(--font-ui)] text-body text-content-secondary"
               data-reveal="up"
               data-reveal-delay="0.06"
             >
@@ -150,10 +150,10 @@ export function HeroSection({ event }: { event: EventDetails }) {
                       className="size-8 shrink-0"
                     />
                     <span className="flex flex-col items-start">
-                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-[1.5] text-text-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-body-s text-text-secondary">
                         {tile.label}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[21px] font-semibold leading-[1.22] tracking-[-0.12px] text-text-primary">
+                      <span className="font-[family-name:var(--font-display)] text-title-section font-semibold text-text-primary">
                         {tile.value}
                       </span>
                     </span>

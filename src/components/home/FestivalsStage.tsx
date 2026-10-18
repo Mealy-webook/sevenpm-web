@@ -209,12 +209,12 @@ export function FestivalsStage({ festivals }: { festivals: Festival[] }) {
       {/* Title + hint */}
       <div className="flex w-full flex-col items-center gap-7" data-reveal="up">
         <div className="flex h-[34px] items-center justify-center">
-          <span className="font-[family-name:var(--font-display)] text-[21px] font-black uppercase tracking-[0.12em] text-white">
+          <span className="font-[family-name:var(--font-display)] text-title-section font-black uppercase tracking-[0.12em] text-white">
             {shown?.name}
           </span>
         </div>
         <p
-          className="text-center font-[family-name:var(--font-display)] text-[13px] font-light uppercase leading-[1.1] text-text-secondary"
+          className="text-center font-[family-name:var(--font-display)] text-body-s font-light uppercase text-text-secondary"
           aria-live="polite"
         >
           {listening ? (

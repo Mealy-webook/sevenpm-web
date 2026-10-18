@@ -35,7 +35,7 @@ export default function TeamPage() {
           </div>
           <div className="shell flex flex-col gap-10 pb-12 pt-6 xl:gap-12 xl:pt-16">
             <p
-              className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-brand"
+              className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand"
               data-reveal="up"
             >
               {founded
@@ -46,7 +46,7 @@ export default function TeamPage() {
               {aboutCopy.team.title}
             </DisplayHeading>
             <p
-              className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:text-[25px] lg:leading-9"
+              className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white lg:text-title-screen"
               data-split="lines"
               data-reveal-delay="0.1"
             >
@@ -66,16 +66,16 @@ export default function TeamPage() {
             className="shell flex flex-col items-start gap-6"
             data-reveal="up"
           >
-            <h2 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-brand sm:text-[41px]">
+            <h2 className="m-0 font-[family-name:var(--font-display)] text-title-screen font-black uppercase tracking-[-0.02em] text-brand sm:text-title-display">
               Want in?
             </h2>
-            <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
+            <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-body-l text-content-secondary">
               {`${jobRoles.length} roles are open across production, communications and support.`}
             </p>
             <Link
               href="/careers"
               data-magnetic="0.2"
-              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
             >
               <span className="relative z-10">See open roles</span>
             </Link>

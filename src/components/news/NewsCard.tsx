@@ -43,18 +43,18 @@ export function NewsCard({
       <span className="flex flex-col gap-2">
         <time
           dateTime={article.date}
-          className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary"
+          className="font-[family-name:var(--font-display)] text-body-l text-content-secondary"
         >
           {article.dateLabel}
         </time>
         {/* Two lines, ellipsised — the comp clips every headline at the same
             depth so a row of tiles keeps one baseline. */}
-        <span className="line-clamp-2 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-white transition-colors group-hover:text-brand">
+        <span className="line-clamp-2 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white transition-colors group-hover:text-brand">
           {article.title}
         </span>
       </span>
 
-      <span className="mt-auto flex items-center gap-2 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary transition-colors group-hover:text-brand">
+      <span className="mt-auto flex items-center gap-2 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary transition-colors group-hover:text-brand">
         {newsCopy.readMore}
         <span aria-hidden className="news-tile-arrow" />
       </span>

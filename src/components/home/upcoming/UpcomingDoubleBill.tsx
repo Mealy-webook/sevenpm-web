@@ -49,7 +49,7 @@ export function UpcomingDoubleBill({ festivals }: { festivals: Festival[] }) {
             {homeCopy.festivalsTitle}
           </h2>
           <p
-            className="m-0 font-[family-name:var(--font-display)] text-[13px] uppercase leading-5 tracking-[0.12em] text-text-secondary"
+            className="m-0 font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary"
             data-reveal="up"
           >
             {String(bill.length).padStart(2, "0")} festivals ·{" "}
@@ -101,11 +101,11 @@ function BillPanel({ festival, index }: { festival: Festival; index: number }) {
       <div className="pointer-events-none relative z-10 flex w-full flex-col justify-between gap-6 p-6 xl:p-8">
         {/* The billing line. */}
         <div className="flex items-start justify-between gap-4">
-          <span className="font-daltown text-[40px] leading-[32px] text-brand">
+          <span className="display-xs font-daltown text-brand">
             {String(index + 1).padStart(2, "0")}
           </span>
           {festival.edition ? (
-            <span className="border border-white/15 bg-black/30 px-3 py-1.5 font-[family-name:var(--font-display)] text-[12px] font-medium uppercase leading-4 tracking-[0.1em] text-text-primary">
+            <span className="border border-white/15 bg-black/30 px-3 py-1.5 font-[family-name:var(--font-display)] text-caption font-medium uppercase tracking-[0.1em] text-text-primary">
               {festival.edition}
             </span>
           ) : null}
@@ -146,19 +146,19 @@ function BillPanel({ festival, index }: { festival: Festival; index: number }) {
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
           <div className="flex min-w-0 flex-col gap-2">
             <h3 className="card-title text-white">{festival.name}</h3>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-text-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body text-text-secondary">
               {[festival.when, festival.city].filter(Boolean).join(" · ")}
             </p>
           </div>
           {live ? (
             <Link
               href={festival.href}
-              className="sweep pointer-events-auto shrink-0 bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] after:!bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="sweep pointer-events-auto shrink-0 bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e] after:!bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
             >
               <span className="relative z-10">Get tickets</span>
             </Link>
           ) : (
-            <span className="shrink-0 border border-white/15 bg-white/5 px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-text-secondary">
+            <span className="shrink-0 border border-white/15 bg-white/5 px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-text-secondary">
               Tickets soon
             </span>
           )}

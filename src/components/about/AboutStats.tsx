@@ -57,7 +57,7 @@ export function AboutStats({ stats }: { stats: Stat[] }) {
           key={stat.label}
           className="flex flex-col gap-3 border-b border-border-tertiary px-2 py-8 lg:border-b-0 lg:border-r lg:last:border-r-0 lg:px-6 lg:py-12"
         >
-          <p className="m-0 flex items-baseline gap-1 font-daltown text-[48px] leading-[0.9] text-white sm:text-[61px] xl:text-[82px]">
+          <p className="display-m m-0 flex items-baseline gap-1 font-daltown text-white">
             {stat.prefix}
             <span
               data-count={stat.value}
@@ -67,7 +67,7 @@ export function AboutStats({ stats }: { stats: Stat[] }) {
             </span>
             {stat.suffix && <span className="text-brand">{stat.suffix}</span>}
           </p>
-          <p className="m-0 max-w-[220px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+          <p className="m-0 max-w-[220px] font-[family-name:var(--font-display)] text-body text-content-secondary">
             {stat.label}
           </p>
         </div>

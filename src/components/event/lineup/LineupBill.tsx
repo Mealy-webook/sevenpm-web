@@ -40,11 +40,11 @@ export function LineupBill() {
             <ActPhoto act={top} sizes="(min-width: 1024px) 636px, 100vw" className="aspect-square w-full lg:aspect-auto lg:h-full" />
             <div className="flex flex-col justify-end gap-4 p-6 xl:p-10">
               <HeadlinerTag />
-              <h3 className="m-0 font-daltown text-[clamp(72px,9vw,150px)] uppercase leading-[0.82] text-white">
+              <h3 className="section-title m-0 font-daltown uppercase text-white">
                 {top.name}
               </h3>
               <StageTime act={top} className="text-brand" />
-              <p className="m-0 max-w-[52ch] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+              <p className="m-0 max-w-[52ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
                 {top.bio}
               </p>
               <ActLinks act={top} />
@@ -55,11 +55,11 @@ export function LineupBill() {
             {rest.map((a) => (
               <li key={a.id} className="flex flex-col gap-3 bg-bg-secondary p-3">
                 <ActPhoto act={a} sizes="240px" className="aspect-square w-full" />
-                <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.08em] text-brand">
+                <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.08em] text-brand">
                   {a.start} · {a.stage}
                 </span>
-                <span className="font-daltown text-[30px] uppercase leading-[26px] text-white">{a.name}</span>
-                <p className="m-0 line-clamp-2 font-[family-name:var(--font-display)] text-[12px] leading-[17px] text-content-secondary">
+                <span className="display-xs font-daltown uppercase text-white">{a.name}</span>
+                <p className="m-0 line-clamp-2 font-[family-name:var(--font-display)] text-caption text-content-secondary">
                   {a.bio}
                 </p>
                 <div className="mt-auto">

@@ -369,13 +369,13 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
                     onClick={() => done && setStep(item.id as StepId)}
                     disabled={!done}
                     aria-current={current ? "step" : undefined}
-                    className={`whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] transition-colors ${
-                      current
-                        ? "text-white"
-                        : done
-                          ? "cursor-pointer text-content-secondary hover:text-white"
-                          : "text-white/30"
-                    }`}
+                    className={`whitespace-nowrap font-[family-name:var(--font-display)] text-body-s font-semibold transition-colors ${
+ current
+ ? "text-white"
+ : done
+ ? "cursor-pointer text-content-secondary hover:text-white"
+ : "text-white/30"
+ }`}
                   >
                     {index + 1}. {item.label}
                   </button>
@@ -387,9 +387,9 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
 
         <div className="flex shrink-0 items-center gap-3 sm:gap-4">
           <p
-            className={`m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] ${
-              seconds <= 60 ? "text-[#ff6c6c]" : "text-content-primary"
-            }`}
+            className={`m-0 whitespace-nowrap font-[family-name:var(--font-display)] text-body-s font-semibold ${
+ seconds <= 60 ? "text-[#ff6c6c]" : "text-content-primary"
+ }`}
           >
             {bookingCopy.chrome.timer(clock(seconds))}
           </p>
@@ -549,7 +549,7 @@ export function BookingJourney({ event }: { event: BookingEvent }) {
           </div>
 
           {step === "checkout" && (
-            <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-5 tracking-[0.12px] text-content-secondary max-lg:hidden">
+            <p className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-content-secondary max-lg:hidden">
               {bookingCopy.checkout.terms}{" "}
               <Link
                 href="/terms"

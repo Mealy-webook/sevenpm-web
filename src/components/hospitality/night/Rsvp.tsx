@@ -25,24 +25,24 @@ export function Rsvp() {
           style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col gap-5">
-            <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/55">
+            <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#18181b]/55">
               {stamp}
             </span>
             <h2
-              className="m-0 max-w-[12ch] font-daltown text-[clamp(30px,5.55vw,82px)] uppercase leading-[0.88]"
+              className="display-m m-0 max-w-[12ch] font-daltown uppercase"
               data-reveal="clip"
             >
               {title}
             </h2>
-            <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-[#18181b]/75">
+            <p className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-body text-[#18181b]/75">
               {body}
             </p>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#18181b]">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-[#18181b]">
               {email} · {phone}
             </p>
             <Link
               href="/contact"
-              className="link-sweep self-start font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-6 tracking-[1.56px] text-[#18181b]"
+              className="link-sweep self-start font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-[#18181b]"
             >
               Or talk to the team
             </Link>

@@ -31,7 +31,7 @@ export function PackageAccordion() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
@@ -58,27 +58,27 @@ export function PackageAccordion() {
                   >
                     <span
                       aria-hidden
-                      className={`font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tabular-nums transition-colors ${
-                        on ? "text-brand" : "text-white/35"
-                      }`}
+                      className={`font-[family-name:var(--font-display)] text-body-s font-semibold tabular-nums transition-colors ${
+ on ? "text-brand" : "text-white/35"
+ }`}
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>
 
                     <span className="flex flex-1 flex-wrap items-baseline gap-x-5 gap-y-1">
                       <span
-                        className={`font-daltown text-[clamp(21px,3.03vw,37px)] uppercase leading-[0.92] transition-colors ${
-                          on ? "text-brand" : "text-white"
-                        }`}
+                        className={`display-xs font-daltown uppercase transition-colors ${
+ on ? "text-brand" : "text-white"
+ }`}
                       >
                         {entry.name}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-6 text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                         {entry.festival} · {entry.capacity}
                       </span>
                     </span>
 
-                    <span className="hidden shrink-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white/70 sm:block">
+                    <span className="hidden shrink-0 font-[family-name:var(--font-display)] text-body font-semibold text-white/70 sm:block">
                       {from} {entry.price}
                     </span>
 
@@ -115,7 +115,7 @@ export function PackageAccordion() {
                       />
 
                       <div className="flex flex-col gap-5">
-                        <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                        <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
                           {entry.body}
                         </p>
 
@@ -125,10 +125,10 @@ export function PackageAccordion() {
                               key={spec.label}
                               className="flex flex-col gap-0.5 border-t border-white/10 py-2.5"
                             >
-                              <dt className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                              <dt className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
                                 {spec.label}
                               </dt>
-                              <dd className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 text-white">
+                              <dd className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-white">
                                 {spec.value}
                               </dd>
                             </div>
@@ -140,7 +140,7 @@ export function PackageAccordion() {
                             {entry.included.map((line) => (
                               <li
                                 key={line}
-                                className="flex items-start gap-3 font-[family-name:var(--font-ui)] text-[14px] leading-6 text-white"
+                                className="flex items-start gap-3 font-[family-name:var(--font-ui)] text-body text-white"
                               >
                                 <span aria-hidden className="text-brand">
                                   ✓
@@ -152,23 +152,23 @@ export function PackageAccordion() {
                         ) : null}
 
                         {entry.includedTodo ? (
-                          <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-brand/75">
+                          <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-brand/75">
                             {entry.includedTodo}
                           </p>
                         ) : null}
 
                         <div className="flex flex-wrap items-end gap-5">
                           <div className="flex flex-col gap-0.5 sm:hidden">
-                            <span className="font-[family-name:var(--font-display)] text-[18px] font-black leading-7 text-brand">
+                            <span className="font-[family-name:var(--font-display)] text-title-body font-black text-brand">
                               {from} {entry.price}
                             </span>
-                            <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                            <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                               {entry.perUnit}
                             </span>
                           </div>
                           <Link
                             href={`/hospitality/${entry.slug}`}
-                            className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                            className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
                           >
                             <span className="relative z-10">{discover}</span>
                           </Link>
@@ -183,7 +183,7 @@ export function PackageAccordion() {
           <li className="border-t border-white/12" />
         </ul>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

@@ -39,8 +39,8 @@ export function LineupCards() {
                   className={`w-full ${a.headliner ? "aspect-[2/1]" : "aspect-[4/3]"} [&_img]:transition-[scale] [&_img]:duration-700 group-hover:[&_img]:scale-[1.5]`}
                 />
                 <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-black/85 to-transparent px-5 pb-4 pt-10">
-                  <span className="font-daltown text-[34px] leading-none text-brand">{a.start}</span>
-                  <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.1em] text-white">
+                  <span className="display-xs font-daltown leading-none text-brand">{a.start}</span>
+                  <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-white">
                     {a.stage} · to {a.end}
                   </span>
                 </span>
@@ -48,7 +48,7 @@ export function LineupCards() {
               <div className="flex flex-1 flex-col gap-3 p-5 xl:p-6">
                 {a.headliner ? <HeadlinerTag /> : null}
                 <h3 className="card-title text-white">{a.name}</h3>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                   {a.bio}
                 </p>
                 <div className="mt-auto pt-2">

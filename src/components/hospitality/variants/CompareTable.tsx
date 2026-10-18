@@ -53,7 +53,7 @@ export function CompareTable() {
       <div className="shell flex flex-col gap-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
               {eyebrow}
             </p>
             <DisplayHeading align="left" reveal="clip" size="faq">
@@ -74,11 +74,11 @@ export function CompareTable() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setFilter(name)}
-                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors ${
-                    active
-                      ? "border-brand bg-brand font-semibold text-[#18181b]"
-                      : "border-white/20 text-white/80 hover:border-white/50"
-                  }`}
+                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-body transition-colors ${
+ active
+ ? "border-brand bg-brand font-semibold text-[#18181b]"
+ : "border-white/20 text-white/80 hover:border-white/50"
+ }`}
                 >
                   {name}
                 </button>
@@ -98,16 +98,16 @@ export function CompareTable() {
             <thead>
               <tr>
                 <th scope="col" className={`${head} w-[190px]`}>
-                  <span className="text-[12px] font-bold uppercase leading-4 tracking-[1.56px] text-white/45">
+                  <span className="text-caption font-bold uppercase tracking-[1.56px] text-white/45">
                     Package
                   </span>
                 </th>
                 {shown.map((entry) => (
                   <th key={entry.slug} scope="col" className={head}>
-                    <span className="block font-daltown text-[23px] uppercase leading-[0.95] text-white">
+                    <span className="display-xs block font-daltown uppercase text-white">
                       {entry.name}
                     </span>
-                    <span className="mt-1 block text-[12px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+                    <span className="mt-1 block text-caption font-semibold uppercase tracking-[1.56px] text-brand">
                       {entry.festival}
                     </span>
                   </th>
@@ -115,7 +115,7 @@ export function CompareTable() {
               </tr>
             </thead>
 
-            <tbody className="font-[family-name:var(--font-ui)] text-[14px] leading-[1.6]">
+            <tbody className="font-[family-name:var(--font-ui)] text-body">
               <tr>
                 <th scope="row" className={`${cell} font-semibold text-white/45`}>
                   Capacity
@@ -133,10 +133,10 @@ export function CompareTable() {
                 </th>
                 {shown.map((entry) => (
                   <td key={entry.slug} className={cell}>
-                    <span className="block font-[family-name:var(--font-display)] text-[18px] font-black leading-6 text-brand">
+                    <span className="block font-[family-name:var(--font-display)] text-title-body font-black text-brand">
                       {from} {entry.price}
                     </span>
-                    <span className="block text-[13px] leading-5 text-white/45">
+                    <span className="block text-body-s text-white/45">
                       {entry.perUnit}
                     </span>
                   </td>
@@ -176,7 +176,7 @@ export function CompareTable() {
                   <td key={entry.slug} className="px-4 py-5">
                     <Link
                       href={`/hospitality/${entry.slug}`}
-                      className="sweep inline-flex items-center bg-brand px-4 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                      className="sweep inline-flex items-center bg-brand px-4 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
                     >
                       <span className="relative z-10">{discover}</span>
                     </Link>
@@ -187,7 +187,7 @@ export function CompareTable() {
           </table>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

@@ -76,7 +76,7 @@ export function Concierge() {
   const rest = ranked.slice(1);
 
   const choice =
-    "border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors";
+    "border px-4 py-2.5 font-[family-name:var(--font-display)] text-body transition-colors";
   const on = "border-brand bg-brand font-semibold text-[#18181b]";
   const off = "border-white/20 text-white/80 hover:border-white/50";
 
@@ -84,13 +84,13 @@ export function Concierge() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-9">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
             Tell us the night
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
             Three questions and we will tell you which package fits, rather
             than leaving you to compare five.
           </p>
@@ -98,7 +98,7 @@ export function Concierge() {
 
         <div className="flex flex-col gap-6">
           <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
-            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
+            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-white">
               Which festival?
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -117,7 +117,7 @@ export function Concierge() {
           </fieldset>
 
           <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
-            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
+            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-white">
               How many guests?
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -136,7 +136,7 @@ export function Concierge() {
           </fieldset>
 
           <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
-            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
+            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-white">
               How many nights?
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -173,37 +173,37 @@ export function Concierge() {
                 className="h-[200px] w-full shrink-0 lg:h-auto lg:w-[360px]"
               />
               <div className="flex flex-1 flex-col gap-4 p-6 xl:p-8">
-                <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+                <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
                   Our recommendation
                 </span>
-                <h3 className="m-0 font-daltown text-[clamp(26px,4.25vw,51px)] uppercase leading-[0.9] text-white">
+                <h3 className="display-s m-0 font-daltown uppercase text-white">
                   {best.name}
                 </h3>
-                <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+                <p className="m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
                   {best.summary}
                 </p>
                 <div className="mt-auto flex flex-wrap items-end gap-6 border-t border-white/10 pt-5">
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                    <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                       {from}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-title-section font-black text-brand">
                       {best.price}
                     </span>
-                    <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                    <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                       {best.perUnit} · {best.capacity}
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     <Link
                       href={`/hospitality/${best.slug}`}
-                      className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                      className="sweep flex items-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
                     >
                       <span className="relative z-10">{discover}</span>
                     </Link>
                     <Link
                       href="#quote"
-                      className="btn-secondary flex items-center border border-white/25 px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-white transition-colors hover:border-white/60"
+                      className="btn-secondary flex items-center border border-white/25 px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-white transition-colors hover:border-white/60"
                     >
                       Request a quote
                     </Link>
@@ -215,7 +215,7 @@ export function Concierge() {
 
           {rest.length ? (
             <div className="flex flex-col gap-3">
-              <p className="m-0 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-white/45">
+              <p className="m-0 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-white/45">
                 Also available
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -226,10 +226,10 @@ export function Concierge() {
                     className="flex flex-col gap-1 border border-white/10 p-4 transition-colors hover:border-white/35"
                     style={{ borderRadius: "var(--radius)" }}
                   >
-                    <span className="font-[family-name:var(--font-display)] text-[15px] font-bold leading-6 text-white">
+                    <span className="font-[family-name:var(--font-display)] text-body font-bold text-white">
                       {entry.name}
                     </span>
-                    <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
+                    <span className="font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                       {from} {entry.price} · {entry.capacity}
                     </span>
                   </Link>
@@ -239,7 +239,7 @@ export function Concierge() {
           ) : null}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

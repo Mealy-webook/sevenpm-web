@@ -16,7 +16,7 @@ import { bookingConfig, bookingCopy, formatMoney } from "@/data/booking";
  */
 
 const SECTION =
-  "m-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.19px] text-white";
+  "m-0 font-[family-name:var(--font-display)] text-body font-bold uppercase tracking-[0.19px] text-white";
 
 const ROW = "flex w-full items-center gap-3 border border-white/5 px-4";
 
@@ -37,7 +37,7 @@ function SmallButton({
       aria-label={label}
       className="btn-secondary flex shrink-0 cursor-pointer items-center justify-center p-1.5"
     >
-      <span className="flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-4 tracking-[0.16px] text-content-primary">
+      <span className="flex h-4 items-center px-1 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
         {children}
       </span>
     </button>
@@ -116,7 +116,7 @@ export function CheckoutStep({
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="m-0 font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-10 tracking-[-0.5px] text-white sm:text-[34px]">
+      <h1 className="m-0 font-[family-name:var(--font-display)] text-title-screen font-black uppercase tracking-[-0.5px] text-white sm:text-title-screen">
         {copy.title}
       </h1>
 
@@ -132,10 +132,10 @@ export function CheckoutStep({
               className="size-6 shrink-0"
             />
             <span className="flex min-w-0 flex-1 flex-col">
-              <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+              <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                 {copy.deliveryMethod}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                 {deliverySummary ?? copy.deliveryHint}
               </span>
             </span>
@@ -144,7 +144,7 @@ export function CheckoutStep({
             </SmallButton>
           </div>
         ) : (
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {copy.deliveryNone}
           </p>
         )}
@@ -168,10 +168,10 @@ export function CheckoutStep({
             className="size-6 shrink-0"
           />
           <span className="flex min-w-0 flex-1 flex-col">
-            <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
               {copy.wallet}
             </span>
-            <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
               {formatMoney(bookingConfig.walletCredit)}
             </span>
           </span>
@@ -228,12 +228,12 @@ export function CheckoutStep({
                   className="size-6 shrink-0"
                 />
                 <span className="flex min-w-0 flex-1 flex-col gap-1">
-                  <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                     {option.label}
                   </span>
                   {isCard &&
                     (card ? (
-                      <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                      <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                         **** {card.last4}
                       </span>
                     ) : (
@@ -282,7 +282,7 @@ export function CheckoutStep({
                 className="size-6 shrink-0"
               />
               <span className="flex min-w-0 flex-1 flex-col gap-1">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                   {later.label}
                 </span>
                 <PayLaterHint most={mostInstalments} />
@@ -313,7 +313,7 @@ export function CheckoutStep({
               height={16}
               className="size-4"
             />
-            <span className="px-1 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+            <span className="px-1 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
               {copy.addCard}
             </span>
           </button>
@@ -333,10 +333,10 @@ export function CheckoutStep({
           {promo ? (
             <>
               <span className="flex min-w-0 flex-1 flex-col">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                   {promo.code}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#4ade80]">
+                <span className="font-[family-name:var(--font-display)] text-caption text-[#4ade80]">
                   {copy.promoSaved(formatMoney(promo.off))}
                 </span>
               </span>
@@ -357,7 +357,7 @@ export function CheckoutStep({
             </>
           ) : (
             <>
-              <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+              <span className="min-w-0 flex-1 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                 {copy.promo}
               </span>
               <SmallButton onClick={onAddPromo}>{copy.add}</SmallButton>
@@ -398,7 +398,7 @@ export function PriceDetails({
   return (
     <div className="flex flex-col bg-bg-secondary">
       <div className="flex flex-col gap-4 p-4">
-        <h2 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-primary">
+        <h2 className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px] text-content-primary">
           {copy.priceDetails}
         </h2>
 
@@ -440,11 +440,11 @@ export function PriceDetails({
           <span aria-hidden className="h-px w-full bg-white/10" />
 
           <div className="flex items-center justify-between gap-2">
-            <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary">
               {summary.total}
             </span>
             <span className="flex flex-col items-end gap-[3px]">
-              <span className="font-[family-name:var(--font-sans)] text-[16px] font-bold leading-6 tracking-[0.085px] text-content-primary">
+              <span className="font-[family-name:var(--font-sans)] text-body-l font-bold text-content-primary">
                 {formatMoney(dueToday)}
               </span>
             </span>
@@ -483,14 +483,14 @@ export function PriceDetails({
                 />
               )}
             </span>
-            <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+            <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
               {copy.agreement}
             </span>
           </label>
           {error && (
             <p
               role="alert"
-              className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#ff6c6c]"
+              className="m-0 font-[family-name:var(--font-display)] text-body-s text-[#ff6c6c]"
             >
               {error}
             </p>
@@ -500,7 +500,7 @@ export function PriceDetails({
 
       {/* What the booking earns, on the card's own foot. The same figure the
           confirmation pays out. */}
-      <p className="m-0 flex items-center justify-center bg-[#0f3e21] p-2 text-center font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+      <p className="m-0 flex items-center justify-center bg-[#0f3e21] p-2 text-center font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
         {copy.earnBanner(bookingCopy.confirmation.earnedBeats)}
       </p>
     </div>
@@ -519,7 +519,7 @@ function PriceLine({
   positive?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-2 font-[family-name:var(--font-display)] text-[14px] leading-[19px]">
+    <div className="flex items-center justify-between gap-2 font-[family-name:var(--font-display)] text-body">
       <span
         className={`tracking-[0.15px] ${positive ? "text-[#4ade80]" : "text-content-primary"}`}
       >

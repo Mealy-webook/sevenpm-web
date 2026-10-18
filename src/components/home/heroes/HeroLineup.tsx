@@ -44,10 +44,10 @@ export function HeroLineup() {
               onBlur={() => setLive(null)}
               className="news-row relative flex items-baseline justify-between gap-6 px-[var(--shell-gutter)] py-[clamp(10px,2.2vh,26px)]"
             >
-              <span className="news-headline font-daltown text-[clamp(26px,5.92vw,88px)] uppercase leading-[0.86] tracking-[0.01em] text-white">
+              <span className="display-m news-headline font-daltown uppercase text-white">
                 {festival.name}
               </span>
-              <span className="news-date shrink-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[1.5px] text-content-secondary">
+              <span className="news-date shrink-0 font-[family-name:var(--font-display)] text-body-s font-bold uppercase tracking-[1.5px] text-content-secondary">
                 {festival.when ?? festival.city}
               </span>
             </Link>

@@ -46,13 +46,13 @@ export function NightBuilder() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-9">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
             Build your night
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
             Choose the space, then what goes in it. We quote on what you
             build.
           </p>
@@ -62,7 +62,7 @@ export function NightBuilder() {
           <div className="flex flex-col gap-9">
             {/* Step one: the space. */}
             <div className="flex flex-col gap-4">
-              <h3 className="m-0 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-white/45">
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-white/45">
                 01 · The space
               </h3>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -82,16 +82,16 @@ export function NightBuilder() {
                       style={{ borderRadius: "var(--radius)" }}
                     >
                       <span
-                        className={`font-[family-name:var(--font-display)] text-[16px] font-bold leading-6 ${
-                          on ? "text-brand" : "text-white"
-                        }`}
+                        className={`font-[family-name:var(--font-display)] text-body-l font-bold ${
+ on ? "text-brand" : "text-white"
+ }`}
                       >
                         {entry.name}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                         {entry.festival} · {entry.capacity}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white/70">
+                      <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-white/70">
                         {from} {entry.price}
                       </span>
                     </button>
@@ -102,7 +102,7 @@ export function NightBuilder() {
 
             {/* Step two: what goes in it. */}
             <div className="flex flex-col gap-4">
-              <h3 className="m-0 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-white/45">
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-white/45">
                 02 · What goes in it
               </h3>
               <ul className="m-0 flex list-none flex-col p-0">
@@ -120,17 +120,17 @@ export function NightBuilder() {
                         <span className="flex flex-1 flex-col gap-0.5">
                           <span className="flex flex-wrap items-baseline justify-between gap-3">
                             <span
-                              className={`font-[family-name:var(--font-display)] text-[15px] font-bold leading-6 ${
-                                on ? "text-brand" : "text-white"
-                              }`}
+                              className={`font-[family-name:var(--font-display)] text-body font-bold ${
+ on ? "text-brand" : "text-white"
+ }`}
                             >
                               {extra.label}
                             </span>
-                            <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white/55">
+                            <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-white/55">
                               {extra.price}
                             </span>
                           </span>
-                          <span className="font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary">
+                          <span className="font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                             {extra.note}
                           </span>
                         </span>
@@ -157,17 +157,17 @@ export function NightBuilder() {
                 className="aspect-[3/2] w-full"
               />
 
-              <h3 className="m-0 font-daltown text-[clamp(21px,3.04vw,33px)] uppercase leading-[0.92] text-white">
+              <h3 className="display-xs m-0 font-daltown uppercase text-white">
                 {space.name}
               </h3>
 
               {/* Announced: the docket changes without the page moving. */}
               <dl aria-live="polite" className="m-0 flex flex-col">
                 <div className="flex items-baseline justify-between gap-4 border-t border-white/10 py-2.5">
-                  <dt className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/50">
+                  <dt className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/50">
                     Space
                   </dt>
-                  <dd className="m-0 text-right font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
+                  <dd className="m-0 text-right font-[family-name:var(--font-display)] text-body-s font-semibold text-white">
                     {space.price}
                   </dd>
                 </div>
@@ -178,10 +178,10 @@ export function NightBuilder() {
                       key={extra.id}
                       className="flex items-baseline justify-between gap-4 border-t border-white/10 py-2.5"
                     >
-                      <dt className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/50">
+                      <dt className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/50">
                         {extra.label}
                       </dt>
-                      <dd className="m-0 text-right font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white">
+                      <dd className="m-0 text-right font-[family-name:var(--font-display)] text-body-s font-semibold text-white">
                         {extra.price}
                       </dd>
                     </div>
@@ -191,14 +191,14 @@ export function NightBuilder() {
               {/* Why there is no total. Said on the page, not just in the
                   source: a docket that stops short of a number needs to
                   explain itself. */}
-              <p className="m-0 border-t border-white/10 pt-4 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+              <p className="m-0 border-t border-white/10 pt-4 font-[family-name:var(--font-ui)] text-body-s text-white/45">
                 Prices are indicative and confirmed on the quote — so this
                 docket lists what you have chosen rather than totalling it.
               </p>
 
               <Link
                 href="#quote"
-                className="sweep flex items-center justify-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                className="sweep flex items-center justify-center bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
               >
                 <span className="relative z-10">Quote this night</span>
               </Link>

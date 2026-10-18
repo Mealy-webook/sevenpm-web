@@ -42,11 +42,11 @@ export function UpcomingLockup() {
               className="relative flex flex-col gap-4 border-t border-white/10 py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-8"
             >
               <div className="flex items-baseline gap-4">
-                <span className="font-[family-name:var(--font-display)] text-[13px] uppercase tracking-[0.12em] text-text-secondary">
+                <span className="font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3
-                  className={`m-0 font-daltown text-[clamp(64px,11vw,176px)] uppercase leading-[0.8] tracking-[0.01em] transition-colors duration-300 ${active && active !== f.id ? "text-white/25" : "text-white"}`}
+                  className={`section-title m-0 font-daltown uppercase transition-colors duration-300 ${active && active !== f.id ? "text-white/25" : "text-white"}`}
                 >
                   {f.name}
                 </h3>
@@ -56,7 +56,7 @@ export function UpcomingLockup() {
                 <span className="relative block size-24 shrink-0 overflow-hidden lg:hidden">
                   <Image src={f.card as string} alt="" fill sizes="96px" className="object-cover" />
                 </span>
-                <span className="flex flex-col font-[family-name:var(--font-display)] text-[15px] leading-[22px] lg:text-right">
+                <span className="flex flex-col font-[family-name:var(--font-display)] text-body lg:text-right">
                   <span className="text-text-primary">{f.when}</span>
                   <span className="text-text-secondary">
                     {f.city} · {f.edition}

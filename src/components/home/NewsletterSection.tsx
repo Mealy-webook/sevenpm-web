@@ -63,7 +63,7 @@ export function NewsletterSection() {
               aria-hidden
               className="block h-px w-full max-w-[609px] bg-[#18181b]/35"
             />
-            <p className="m-0 max-w-[636px] text-center font-[family-name:var(--font-ui)] text-[15px] leading-[1.6] text-[#56565d]">
+            <p className="m-0 max-w-[636px] text-center font-[family-name:var(--font-ui)] text-body text-[#56565d]">
               {body}
             </p>
           </div>
@@ -77,12 +77,12 @@ export function NewsletterSection() {
               type="email"
               placeholder="you@example.com"
               onChange={() => setSent(false)}
-              className="w-full max-w-[350px] border-[0.5px] border-[#18181b] bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-[#18181b] placeholder:text-[#18181b]/55 focus:outline-none focus:ring-2 focus:ring-[#18181b]"
+              className="w-full max-w-[350px] border-[0.5px] border-[#18181b] bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-body-l text-[#18181b] placeholder:text-[#18181b]/55 focus:outline-none focus:ring-2 focus:ring-[#18181b]"
             />
             <button
               type="button"
               onClick={() => setSent(true)}
-              className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white transition-colors hover:bg-[#0b0b0e]/85"
+              className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-white transition-colors hover:bg-[#0b0b0e]/85"
             >
               {sent ? "Noted" : cta}
             </button>
@@ -97,7 +97,7 @@ export function NewsletterSection() {
             role="status"
             className={
               sent
-                ? "m-0 mt-3 text-center font-[family-name:var(--font-display)] text-[13px] leading-5 text-[#18181b]/70"
+                ? "m-0 mt-3 text-center font-[family-name:var(--font-display)] text-body-s text-[#18181b]/70"
                 : "sr-only"
             }
           >

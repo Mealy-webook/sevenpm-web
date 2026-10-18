@@ -18,13 +18,13 @@ export function PageBlocks({ blocks }: { blocks: PageBlock[] }) {
             data-reveal="up"
             className="flex flex-col gap-4 border-t border-white/10 py-8 lg:flex-row lg:gap-12 xl:py-10"
           >
-            <p className="m-0 w-16 shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/35 tabular-nums">
+            <p className="m-0 w-16 shrink-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-white/35 tabular-nums">
               {String(index + 1).padStart(2, "0")}
             </p>
-            <h2 className="m-0 w-full lg:max-w-[280px] lg:shrink-0 font-[family-name:var(--font-display)] text-[21px] font-black uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-[26px]">
+            <h2 className="m-0 w-full lg:max-w-[280px] lg:shrink-0 font-[family-name:var(--font-display)] text-title-section font-black uppercase tracking-[-0.01em] text-white sm:text-title-screen">
               {block.title}
             </h2>
-            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+            <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
               {block.body}
             </p>
           </div>

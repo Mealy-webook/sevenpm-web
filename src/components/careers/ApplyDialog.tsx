@@ -71,7 +71,7 @@ function Field({
         {leading}
         <span className="flex h-9 min-w-0 flex-1 flex-col justify-center">
           {filled && (
-            <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-primary">
+            <span className="font-[family-name:var(--font-display)] text-caption text-content-primary">
               {label}
             </span>
           )}
@@ -86,10 +86,10 @@ function Field({
             aria-invalid={Boolean(error)}
             aria-describedby={error ? `${id}-error` : undefined}
             className={`w-full bg-transparent font-[family-name:var(--font-display)] text-content-primary outline-none placeholder:text-content-primary ${
-              filled
-                ? "text-[14px] font-semibold leading-[19px] tracking-[0.19px]"
-                : "text-[16px] leading-6 tracking-[0.085px]"
-            }`}
+ filled
+ ? "text-body font-semibold "
+ : "text-body-l "
+ }`}
           />
         </span>
         {trailing}
@@ -98,7 +98,7 @@ function Field({
         <p
           id={`${id}-error`}
           role="alert"
-          className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-[#ff6c6c]"
+          className="m-0 font-[family-name:var(--font-display)] text-body-s text-[#ff6c6c]"
         >
           {error}
         </p>
@@ -204,7 +204,7 @@ export function ApplyDialog({
         <div className="flex items-start gap-2 px-5 pt-5 backdrop-blur-[32px]">
           <h2
             id={`${baseId}-title`}
-            className="m-0 flex-1 truncate font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+            className="m-0 flex-1 truncate font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary"
           >
             {applyCopy.title}: {role.title}
           </h2>
@@ -227,16 +227,16 @@ export function ApplyDialog({
 
         {sent ? (
           <div className="flex flex-col gap-4 px-5 py-6">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-brand">
               {applyCopy.sentTitle}
             </p>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
               {applyCopy.sentBody}
             </p>
             <button
               type="button"
               onClick={onClose}
-              className="flex cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+              className="flex cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
             >
               {applyCopy.done}
             </button>
@@ -281,7 +281,7 @@ export function ApplyDialog({
                 type="tel"
                 autoComplete="tel"
                 leading={
-                  <span className="btn-secondary flex shrink-0 items-center gap-1 p-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+                  <span className="btn-secondary flex shrink-0 items-center gap-1 p-3 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
                     <Image
                       src="/assets/ic-phone-16.svg"
                       alt=""
@@ -321,10 +321,10 @@ export function ApplyDialog({
                   value={values.years}
                   onChange={(e) => set("years")(e.target.value)}
                   className={`h-[60px] w-full appearance-none border-[0.5px] border-white/10 bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] outline-none transition-colors focus:border-content-primary ${
-                    values.years
-                      ? "text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary"
-                      : "text-[16px] leading-6 tracking-[0.085px] text-content-primary"
-                  }`}
+ values.years
+ ? "text-body font-semibold text-content-primary"
+ : "text-body-l text-content-primary"
+ }`}
                 >
                   <option value="">{applyCopy.fields.years}</option>
                   {applyCopy.yearOptions.map((option) => (
@@ -340,11 +340,11 @@ export function ApplyDialog({
             <div className="flex flex-col items-center gap-2 px-5 pb-5 pt-2">
               <button
                 type="submit"
-                className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] transition-colors hover:bg-[#fff35a]"
+                className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e] transition-colors hover:bg-[#fff35a]"
               >
                 {applyCopy.submit}
               </button>
-              <p className="m-0 text-center font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              <p className="m-0 text-center font-[family-name:var(--font-display)] text-caption text-content-secondary">
                 {applyCopy.note}
               </p>
             </div>

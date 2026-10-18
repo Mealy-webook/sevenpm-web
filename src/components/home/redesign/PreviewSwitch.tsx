@@ -31,11 +31,11 @@ export function PreviewSwitch() {
             key={option.href}
             href={option.href}
             aria-current={active ? "page" : undefined}
-            className={`whitespace-nowrap px-3 py-2 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[1.2px] transition-colors ${
-              active
-                ? "bg-brand text-[#18181b]"
-                : "text-content-secondary hover:text-white"
-            }`}
+            className={`whitespace-nowrap px-3 py-2 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[1.2px] transition-colors ${
+ active
+ ? "bg-brand text-[#18181b]"
+ : "text-content-secondary hover:text-white"
+ }`}
           >
             {option.label}
           </Link>

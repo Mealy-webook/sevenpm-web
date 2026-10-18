@@ -63,7 +63,7 @@ export function PhotoSlot({
       aria-label={caption}
       className={`photo-slot grid place-items-center bg-ink-900 px-6 text-center ${shape}`}
     >
-      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/35">
+      <span className="font-[family-name:var(--font-ui)] text-body-s text-white/35">
         [{caption}]
       </span>
     </div>

@@ -37,12 +37,12 @@ export function LineupAccordion() {
                   aria-expanded={on}
                   className="grid w-full grid-cols-[72px_1fr_auto] items-center gap-4 py-5 text-left sm:grid-cols-[110px_1fr_200px_24px] sm:gap-8"
                 >
-                  <span className="font-daltown text-[34px] leading-none text-brand">{a.start}</span>
+                  <span className="display-xs font-daltown leading-none text-brand">{a.start}</span>
                   <span className="flex min-w-0 items-center gap-3">
-                    <span className="truncate font-daltown text-[clamp(32px,3.6vw,52px)] uppercase leading-none text-white">{a.name}</span>
+                    <span className="display-s truncate font-daltown uppercase leading-none text-white">{a.name}</span>
                     {a.headliner ? <HeadlinerTag /> : null}
                   </span>
-                  <span className="hidden font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.1em] text-text-secondary sm:block">
+                  <span className="hidden font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.1em] text-text-secondary sm:block">
                     {a.stage}
                   </span>
                   <span
@@ -56,10 +56,10 @@ export function LineupAccordion() {
                       <span className="hidden sm:block" />
                       <ActPhoto act={a} sizes="200px" className="aspect-square w-full max-w-[200px]" />
                       <div className="flex flex-col gap-3">
-                        <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.1em] text-text-primary">
+                        <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.1em] text-text-primary">
                           {a.stage} · {a.start} – {a.end}
                         </span>
-                        <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+                        <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
                           {a.bio}
                         </p>
                         <ActLinks act={a} />

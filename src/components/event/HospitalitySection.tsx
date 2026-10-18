@@ -52,7 +52,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
             >
               Hospitality packages
             </h2>
-            <p className="m-0 max-w-[403px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+            <p className="m-0 max-w-[403px] font-[family-name:var(--font-display)] text-body text-content-secondary">
               {hospitalityCopy.intro}
             </p>
           </div>
@@ -73,7 +73,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
                 />
                 <div className="flex min-w-0 flex-col gap-2">
                   <h3 className="card-title text-white">{item.title}</h3>
-                  <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+                  <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                     {item.body}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
                       <h3 className="card-title text-white">
                         {entry.name}
                       </h3>
-                      <p className="m-0 font-[family-name:var(--font-ui)] text-[12px] font-bold uppercase leading-4 tracking-[0.12px] text-content-secondary">
+                      <p className="m-0 font-[family-name:var(--font-ui)] text-caption font-bold uppercase tracking-[0.12px] text-content-secondary">
                         {entry.summary}
                       </p>
                     </div>
@@ -119,20 +119,20 @@ export function HospitalitySection({ festival }: { festival: string }) {
 
                     <div className="mt-auto flex flex-col gap-6">
                       <p className="m-0 flex flex-wrap items-baseline gap-x-1 gap-y-0.5">
-                        <span className="font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-primary">
+                        <span className="font-[family-name:var(--font-display)] text-body-l text-content-primary">
                           {from}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-white">
+                        <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-white">
                           {entry.price}
                         </span>
-                        <span className="font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+                        <span className="font-[family-name:var(--font-ui)] text-body text-content-secondary">
                           / {entry.perUnit}
                         </span>
                       </p>
 
                       <Link
                         href={`/hospitality/${entry.slug}`}
-                        className="sweep flex w-full items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+                        className="sweep flex w-full items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
                       >
                         <span className="relative z-10">Request a quote</span>
                       </Link>

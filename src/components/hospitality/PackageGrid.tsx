@@ -27,7 +27,7 @@ export function PackageGrid() {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4">
             <p
-              className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand"
+              className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand"
               data-reveal="up"
             >
               {eyebrow}
@@ -50,11 +50,11 @@ export function PackageGrid() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setFilter(name)}
-                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors ${
-                    active
-                      ? "border-brand bg-brand font-semibold text-[#18181b]"
-                      : "border-white/20 text-white/80 hover:border-white/50"
-                  }`}
+                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-body transition-colors ${
+ active
+ ? "border-brand bg-brand font-semibold text-[#18181b]"
+ : "border-white/20 text-white/80 hover:border-white/50"
+ }`}
                 >
                   {name}
                 </button>
@@ -89,42 +89,42 @@ export function PackageGrid() {
               <div className="flex flex-1 flex-col gap-4 p-6 xl:p-7">
                 <div className="flex flex-wrap gap-2">
                   <span
-                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-5 text-white"
+                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-caption font-semibold text-white"
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {entry.festival}
                   </span>
                   <span
-                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-5 text-white/70"
+                    className="bg-white/10 px-3 py-1 font-[family-name:var(--font-display)] text-caption font-semibold text-white/70"
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {entry.capacity}
                   </span>
                 </div>
 
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[21px] font-black leading-[1.1] text-white">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-title-section font-black text-white">
                   {entry.name}
                 </h3>
 
-                <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-ui)] text-body text-content-secondary">
                   {entry.summary}
                 </p>
 
                 <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-5">
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                    <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                       {from}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[21px] font-black leading-7 text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-title-section font-black text-brand">
                       {entry.price}
                     </span>
-                    <span className="font-[family-name:var(--font-ui)] text-[13px] leading-5 text-white/45">
+                    <span className="font-[family-name:var(--font-ui)] text-body-s text-white/45">
                       {entry.perUnit}
                     </span>
                   </div>
                   <Link
                     href={`/hospitality/${entry.slug}`}
-                    className="sweep flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+                    className="sweep flex items-center bg-brand px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
                   >
                     <span className="relative z-10">{discover}</span>
                   </Link>
@@ -134,7 +134,7 @@ export function PackageGrid() {
           ))}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

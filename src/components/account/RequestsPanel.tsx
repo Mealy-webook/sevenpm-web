@@ -40,7 +40,7 @@ const TONE: Record<BoxRequest["status"], string> = {
 /** A line of the row's metadata: 16px icon, 13/20 secondary text. */
 function Meta({ icon, children }: { icon: string; children: React.ReactNode }) {
   return (
-    <span className="flex w-full items-center gap-1 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+    <span className="flex w-full items-center gap-1 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
       <Image
         src={icon}
         alt=""
@@ -67,10 +67,10 @@ export function RequestsPanel({
           the comp carries no second one. */}
       {heading && (
         <div className="flex flex-col gap-2">
-          <h1 className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary">
+          <h1 className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary">
             {requestsCopy.title}
           </h1>
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {requestsCopy.intro}
           </p>
         </div>
@@ -78,12 +78,12 @@ export function RequestsPanel({
 
       {requests.length === 0 ? (
         <div className="flex flex-col items-start gap-4 border border-white/5 p-6">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
             {requestsCopy.empty}
           </p>
           <Link
             href="/#festivals"
-            className="btn-secondary flex items-center justify-center px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary"
+            className="btn-secondary flex items-center justify-center px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary"
           >
             {requestsCopy.emptyAction}
           </Link>
@@ -109,7 +109,7 @@ export function RequestsPanel({
 
               <div className="flex min-w-0 flex-1 flex-col items-start gap-3">
                 <span
-                  className={`flex items-center gap-[2px] px-[6px] py-[2px] font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px] ${TONE[request.status]}`}
+                  className={`flex items-center gap-[2px] px-[6px] py-[2px] font-[family-name:var(--font-display)] text-caption ${TONE[request.status]}`}
                 >
                   {(request.status === "quoted" ||
                     request.status === "accepted") && (
@@ -124,7 +124,7 @@ export function RequestsPanel({
                   {requestsCopy.statuses[request.status]}
                 </span>
 
-                <h3 className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-white">
+                <h3 className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px] text-white">
                   <Link
                     href={`/events/${request.eventSlug}`}
                     className="transition-colors hover:text-brand"
@@ -158,22 +158,22 @@ export function RequestsPanel({
                 {request.quote !== undefined &&
                 request.status !== "declined" ? (
                   <p className="m-0 flex flex-col gap-1">
-                    <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] tabular-nums text-content-primary">
+                    <span className="font-[family-name:var(--font-display)] text-body font-semibold tabular-nums text-content-primary">
                       {formatMoney(request.quote)}
                     </span>
                     {request.quoteNote && (
-                      <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                      <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                         {request.quoteNote}
                       </span>
                     )}
                   </p>
                 ) : (
-                  <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                  <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                     {requestsCopy.says[request.status]}
                   </p>
                 )}
 
-                <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                   {requestsCopy.reference} {request.reference}
                 </span>
               </div>
@@ -190,7 +190,7 @@ export function RequestsPanel({
                         onClick={() =>
                           setRequestStatus(request.reference, "declined")
                         }
-                        className="flex cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary transition-colors hover:text-white"
+                        className="flex cursor-pointer items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary transition-colors hover:text-white"
                       >
                         {requestsCopy.decline}
                       </button>
@@ -199,7 +199,7 @@ export function RequestsPanel({
                         onClick={() =>
                           setRequestStatus(request.reference, "accepted")
                         }
-                        className="flex cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+                        className="flex cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90"
                       >
                         {requestsCopy.accept}
                       </button>
@@ -210,7 +210,7 @@ export function RequestsPanel({
                       onClick={() =>
                         setRequestStatus(request.reference, "paid")
                       }
-                      className="flex cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90"
+                      className="flex cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90"
                     >
                       {requestsCopy.pay}
                     </button>

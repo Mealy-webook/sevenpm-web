@@ -349,13 +349,13 @@ export function Preloader() {
       <div className="flex items-center justify-between">
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-[#18181b]/70"
+          className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-[#18181b]/70"
         >
           More music
         </span>
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-[#18181b]/70"
+          className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-[#18181b]/70"
         >
           More life
         </span>
@@ -370,7 +370,7 @@ export function Preloader() {
             <span
               ref={counter}
               data-pre-num
-              className="block text-center font-daltown text-[clamp(61px,15.3vw,187px)] uppercase leading-[0.8] tabular-nums text-[#18181b]"
+              className="display-text block text-center font-daltown uppercase tabular-nums text-[#18181b]"
             >
               00
             </span>
@@ -393,13 +393,13 @@ export function Preloader() {
       <div className="flex items-center justify-between">
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
+          className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#18181b]/70"
         >
           Levels · stage · doors
         </span>
         <span
           data-pre-meta
-          className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-[#18181b]/70"
+          className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#18181b]/70"
         >
           Casablanca
         </span>

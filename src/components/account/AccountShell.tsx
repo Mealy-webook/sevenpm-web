@@ -78,7 +78,7 @@ export function AccountShell({
                   {detail && (
                     <Link
                       href="/account"
-                      className="flex w-fit items-center gap-2 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary transition-colors hover:text-white lg:hidden"
+                      className="flex w-fit items-center gap-2 font-[family-name:var(--font-display)] text-body text-content-secondary transition-colors hover:text-white lg:hidden"
                     >
                       <Image
                         src="/assets/ic-arrow-left-20.svg"

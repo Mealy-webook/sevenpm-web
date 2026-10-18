@@ -39,11 +39,11 @@ function Row({
         className="size-6 shrink-0"
       />
       <span className="flex min-w-0 flex-1 items-center gap-2 py-3">
-        <span className="flex-1 truncate text-left font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+        <span className="flex-1 truncate text-left font-[family-name:var(--font-display)] text-body text-content-primary">
           {label}
         </span>
         {trailing && (
-          <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+          <span className="font-[family-name:var(--font-display)] text-body text-content-secondary">
             {trailing}
           </span>
         )}
@@ -108,10 +108,10 @@ export function AccountMenu({
           />
         </span>
         <span className="flex min-w-0 flex-1 flex-col py-3">
-          <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+          <span className="truncate font-[family-name:var(--font-display)] text-body text-content-primary">
             {user.name}
           </span>
-          <span className="truncate font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <span className="truncate font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {user.email}
           </span>
         </span>
@@ -120,7 +120,7 @@ export function AccountMenu({
       <Link
         href="/account#profile"
         role="menuitem"
-        className="btn-secondary flex w-full items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary"
+        className="btn-secondary flex w-full items-center justify-center px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary"
       >
         View profile
       </Link>
@@ -146,7 +146,7 @@ export function AccountMenu({
           height={24}
           className="size-6 shrink-0"
         />
-        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+        <span className="flex-1 py-3 text-left font-[family-name:var(--font-display)] text-body text-content-primary">
           {logoutCopy.label}
         </span>
       </LogoutButton>

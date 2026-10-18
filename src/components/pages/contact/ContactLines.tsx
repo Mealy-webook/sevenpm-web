@@ -28,7 +28,7 @@ export function ContactLines() {
                 <h2 id="contact-form" className="card-title text-white">
                   {form.title}
                 </h2>
-                <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-content-secondary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                   {form.body}
                 </p>
               </div>
@@ -39,17 +39,17 @@ export function ContactLines() {
             <aside className="flex flex-col gap-4" data-reveal="up">
               <div className="relative rotate-1 bg-brand p-6 text-[#0b0b0e]">
                 <span aria-hidden className="pointer-events-none absolute left-1/2 top-0 block h-[22px] w-[104px] -translate-x-1/2 -translate-y-1/2 -rotate-3 bg-[rgba(217,217,217,0.45)]" />
-                <p className="m-0 font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.14em] text-black/60">
+                <p className="m-0 font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.14em] text-black/60">
                   {where.title}
                 </p>
-                <p className="m-0 mt-1 font-daltown text-[44px] uppercase leading-[0.9]">{where.city}</p>
-                <p className="m-0 mt-4 border-t border-black/20 pt-4 font-[family-name:var(--font-display)] text-[14px] font-medium leading-5">
+                <p className="display-xs m-0 mt-1 font-daltown uppercase">{where.city}</p>
+                <p className="m-0 mt-4 border-t border-black/20 pt-4 font-[family-name:var(--font-display)] text-body font-medium">
                   {form.body}
                 </p>
               </div>
 
               <div className="flex flex-col gap-4 border border-white/10 bg-bg-secondary p-6">
-                <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.12em] text-text-secondary">
+                <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.12em] text-text-secondary">
                   {where.follow}
                 </p>
                 <ul className="m-0 flex list-none flex-wrap gap-3 p-0">

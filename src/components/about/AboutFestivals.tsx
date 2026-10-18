@@ -34,21 +34,21 @@ export function AboutFestivals({ festivals }: { festivals: AboutFestival[] }) {
                 <>
                   <span className="flex items-baseline justify-between gap-6">
                     <span className="flex items-baseline gap-4">
-                      <span className="font-daltown text-[19px] leading-none text-content-secondary">
+                      <span className="display-xs font-daltown leading-none text-content-secondary">
                         0{i + 1}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[28px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-brand sm:text-[37px]">
+                      <span className="font-[family-name:var(--font-display)] text-title-screen font-black uppercase tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-brand sm:text-title-display">
                         {festival.name}
                       </span>
                     </span>
-                    <span className="hidden whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-content-secondary sm:block">
+                    <span className="hidden whitespace-nowrap font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-content-secondary sm:block">
                       {festival.city}
                     </span>
                   </span>
-                  <span className="mt-4 block max-w-[560px] font-[family-name:var(--font-display)] text-[16px] leading-6 tracking-[0.085px] text-content-secondary">
+                  <span className="mt-4 block max-w-[560px] font-[family-name:var(--font-display)] text-body-l text-content-secondary">
                     {festival.body}
                   </span>
-                  <span className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-text-primary">
+                  <span className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-text-primary">
                     {festival.since && (
                       <span className="text-brand">{festival.since}</span>
                     )}
@@ -73,7 +73,7 @@ export function AboutFestivals({ festivals }: { festivals: AboutFestival[] }) {
                   ) : (
                     <div>{inner}</div>
                   )}
-                  <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px]">
+                  <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px]">
                     {festival.website && (
                       <a
                         href={festival.website}

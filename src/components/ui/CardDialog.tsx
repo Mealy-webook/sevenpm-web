@@ -266,7 +266,7 @@ export function CardDialog({
         />
 
         {showNote && (
-          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
             {copy.note}
           </p>
         )}
@@ -294,7 +294,7 @@ export function CardDialog({
               />
             </svg>
           </span>
-          <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-secondary">
+          <span className="font-[family-name:var(--font-display)] text-body text-content-secondary">
             {copy.save}
           </span>
         </label>

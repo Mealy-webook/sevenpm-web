@@ -183,7 +183,7 @@ function BeatsChip() {
         /* Daltown runs small for its point size — it is a condensed display
            face — so this sits well above the 17px the buttons beside it use
            in order to read at the same weight. */
-        className="beats-chip btn-secondary flex h-[52px] items-center gap-1 pl-3 pr-3.5 font-daltown text-[30px] uppercase leading-6"
+        className="display-xs beats-chip btn-secondary flex h-[52px] items-center gap-1 pl-3 pr-3.5 font-daltown uppercase"
       >
         <span className="relative text-white">
           <Odometer value={display} duration={0.62} />
@@ -206,7 +206,7 @@ function BeatsChip() {
         ref={banner}
         role="status"
         data-open={earned !== null}
-        className="beats-banner absolute right-0 top-[calc(100%+10px)] z-10 flex items-center gap-2 whitespace-nowrap bg-[#0f3e21] py-2 pl-3 pr-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+        className="beats-banner absolute right-0 top-[calc(100%+10px)] z-10 flex items-center gap-2 whitespace-nowrap bg-[#0f3e21] py-2 pl-3 pr-2 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary"
       >
         {earned !== null && (
           <>
@@ -414,11 +414,11 @@ export function SiteHeader({
                   aria-controls={accountId}
                   aria-label={`${account.name} — account`}
                   onClick={() => toggle("account")}
-                  className={`flex size-[52px] shrink-0 cursor-pointer items-center justify-center border-[0.5px] border-white/10 font-daltown text-[30px] uppercase leading-6 text-white transition-colors ${
-                    popover === "account"
-                      ? "bg-brand/20"
-                      : "bg-brand/10 hover:bg-brand/20"
-                  }`}
+                  className={`display-xs flex size-[52px] shrink-0 cursor-pointer items-center justify-center border-[0.5px] border-white/10 font-daltown uppercase text-white transition-colors ${
+ popover === "account"
+ ? "bg-brand/20"
+ : "bg-brand/10 hover:bg-brand/20"
+ }`}
                 >
                   {initials}
                 </button>
@@ -427,7 +427,7 @@ export function SiteHeader({
               <button
                 type="button"
                 onClick={() => setAuthOpen(true)}
-                className="flex h-[52px] cursor-pointer items-center px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-content-primary transition-colors hover:text-brand"
+                className="flex h-[52px] cursor-pointer items-center px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary transition-colors hover:text-brand"
               >
                 {authCopy.open}
               </button>

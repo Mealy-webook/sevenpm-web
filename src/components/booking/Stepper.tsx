@@ -63,7 +63,7 @@ export function Stepper({
           height={16}
           className="size-4"
         />
-        <span className="px-1 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary">
+        <span className="px-1 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
           {addLabel}
         </span>
       </button>
@@ -98,7 +98,7 @@ export function Stepper({
         <Odometer
           value={value}
           max={bookingConfig.maxPerLine}
-          className="min-w-5 font-[family-name:var(--font-display)] text-[14px] font-semibold tracking-[0.19px] text-content-primary"
+          className="min-w-5 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary"
         />
       </span>
       <button

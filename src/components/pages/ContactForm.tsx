@@ -31,9 +31,9 @@ export function ContactForm({
   const [sent, setSent] = useState(false);
 
   const field =
-    "w-full border-[0.5px] border-white/25 bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-[16px] leading-6 text-white placeholder:text-white/35 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
+    "w-full border-[0.5px] border-white/25 bg-transparent px-4 py-3 font-[family-name:var(--font-display)] text-body-l text-white placeholder:text-white/35 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
   const label =
-    "font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-white/60";
+    "font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-white/60";
 
   return (
     <form
@@ -60,7 +60,7 @@ export function ContactForm({
                   onTopic(c.label);
                   setSent(false);
                 }}
-                className={`border px-3 py-2 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-5 transition-colors duration-200 ${on ? "border-brand bg-brand text-[#0b0b0e]" : "border-white/15 bg-white/5 text-content-primary hover:border-white/40"}`}
+                className={`border px-3 py-2 font-[family-name:var(--font-display)] text-body font-semibold transition-colors duration-200 ${on ? "border-brand bg-brand text-[#0b0b0e]" : "border-white/15 bg-white/5 text-content-primary hover:border-white/40"}`}
               >
                 {c.label}
               </button>
@@ -116,7 +116,7 @@ export function ContactForm({
       <div className="flex flex-wrap items-center gap-4">
         <button
           type="submit"
-          className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e]"
+          className="sweep flex items-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
         >
           <span className="relative z-10">
             {sent ? "Noted" : `${form.label} · ${topic}`}
@@ -126,7 +126,7 @@ export function ContactForm({
           role="status"
           className={
             sent
-              ? "m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 text-white/55"
+              ? "m-0 font-[family-name:var(--font-display)] text-body-s text-white/55"
               : "sr-only"
           }
         >

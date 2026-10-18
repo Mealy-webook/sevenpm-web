@@ -26,7 +26,7 @@ export function PosterWall() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-10">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
@@ -68,23 +68,23 @@ export function PosterWall() {
                   />
 
                   <div className="relative mt-auto flex flex-col gap-3 p-5 xl:p-6">
-                    <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+                    <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
                       {entry.festival}
                     </span>
 
-                    <h3 className="m-0 font-daltown text-[clamp(26px,3.89vw,44px)] uppercase leading-[0.86] text-white transition-colors group-hover:text-brand">
+                    <h3 className="display-xs m-0 font-daltown uppercase text-white transition-colors group-hover:text-brand">
                       {entry.name}
                     </h3>
 
                     {/* The bill along the foot, ruled like a poster's. */}
                     <div className="flex flex-col gap-1 border-t border-white/25 pt-3">
-                      <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.2px] text-white/70">
+                      <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.2px] text-white/70">
                         {entry.capacity}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[16px] font-black leading-6 text-brand">
+                      <span className="font-[family-name:var(--font-display)] text-body-l font-black text-brand">
                         {from} {entry.price}
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[12px] leading-5 text-white/50">
+                      <span className="font-[family-name:var(--font-ui)] text-caption text-white/50">
                         {entry.perUnit}
                       </span>
                     </div>
@@ -95,7 +95,7 @@ export function PosterWall() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

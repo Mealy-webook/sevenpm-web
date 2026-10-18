@@ -111,13 +111,13 @@ export function Sheet({
             {title && (
               <h2
                 id={titleId}
-                className="m-0 font-[family-name:var(--font-display)] text-[19px] font-bold uppercase leading-7 tracking-[-0.11px] text-content-primary"
+                className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-content-primary"
               >
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
                 {subtitle}
               </p>
             )}
@@ -165,17 +165,17 @@ export function SheetPrice({
   return (
     <div className="flex flex-col gap-[2px]">
       <p className="m-0 flex items-baseline gap-1 font-[family-name:var(--font-display)]">
-        <span className="text-[16px] font-semibold leading-6 text-content-primary">
+        <span className="text-body-l font-semibold text-content-primary">
           {format(price)}
         </span>
         {suffix && (
-          <span className="text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <span className="text-body-s text-content-secondary">
             {suffix}
           </span>
         )}
       </p>
       {(wasPrice !== undefined || discount) && (
-        <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-display)] text-[10px] leading-[14px] tracking-[0.1px]">
+        <p className="m-0 flex items-center gap-2 font-[family-name:var(--font-display)] text-caption">
           {wasPrice !== undefined && (
             <span className="text-content-secondary line-through">
               {wasPrice}
@@ -239,9 +239,9 @@ export function SheetField({
         <span className="flex h-9 min-w-0 flex-1 flex-col justify-center">
           {filled && (
             <span
-              className={`font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] ${
-                error ? "text-[#ff6c6c]" : "text-content-secondary"
-              }`}
+              className={`font-[family-name:var(--font-display)] text-caption ${
+ error ? "text-[#ff6c6c]" : "text-content-secondary"
+ }`}
             >
               {label}
             </span>
@@ -261,10 +261,10 @@ export function SheetField({
             disabled={disabled}
             autoFocus={autoFocus}
             className={`w-full bg-transparent font-[family-name:var(--font-display)] text-content-primary caret-brand outline-none placeholder:text-content-secondary ${
-              filled
-                ? "text-[14px] font-semibold leading-[19px] tracking-[0.19px]"
-                : "text-[14px] leading-[19px] tracking-[0.19px]"
-            }`}
+ filled
+ ? "text-body font-semibold "
+ : "text-body "
+ }`}
           />
         </span>
         {trailing}
@@ -273,7 +273,7 @@ export function SheetField({
         <p
           id={`${id}-error`}
           role="alert"
-          className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#ff6c6c]"
+          className="m-0 font-[family-name:var(--font-display)] text-caption text-[#ff6c6c]"
         >
           {error}
         </p>
@@ -299,7 +299,7 @@ export function SheetSubmit({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+      className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
     >
       {children}
     </button>

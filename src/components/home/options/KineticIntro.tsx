@@ -226,7 +226,7 @@ export function KineticIntro() {
             <p
               key={beat.word}
               data-beat-copy
-              className="col-start-1 row-start-1 m-0 font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.085px] text-content-secondary sm:text-[16px] sm:leading-7"
+              className="col-start-1 row-start-1 m-0 font-[family-name:var(--font-display)] text-body text-content-secondary sm:text-body-l"
             >
               {beat.copy}
             </p>

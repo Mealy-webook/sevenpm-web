@@ -34,13 +34,13 @@ export function FloorPlan() {
     <section id="packages" className="relative scroll-mt-24 py-14 xl:py-20">
       <div className="shell flex flex-col gap-10">
         <div className="flex flex-col gap-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
             {eyebrow}
           </p>
           <DisplayHeading align="left" reveal="clip" size="faq">
             {title}
           </DisplayHeading>
-          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-content-secondary">
+          <p className="m-0 max-w-[620px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
             Where your party actually stands. Pick a position on the site and
             the package that holds it comes up beside the plan.
           </p>
@@ -76,7 +76,7 @@ export function FloorPlan() {
             />
             <span
               aria-hidden
-              className="absolute left-1/2 top-[15.5%] -translate-x-1/2 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-brand/80"
+              className="absolute left-1/2 top-[15.5%] -translate-x-1/2 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand/80"
             >
               Main stage
             </span>
@@ -95,11 +95,11 @@ export function FloorPlan() {
                   style={{ left: `${entry.plan!.x}%`, top: `${entry.plan!.y}%` }}
                 >
                   <span
-                    className={`flex items-center gap-2 border px-3 py-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 transition-colors ${
-                      on
-                        ? "border-brand bg-brand text-[#18181b]"
-                        : "border-white/25 bg-[#0b0b0e]/85 text-white hover:border-white/60"
-                    }`}
+                    className={`flex items-center gap-2 border px-3 py-2 font-[family-name:var(--font-display)] text-body-s font-semibold transition-colors ${
+ on
+ ? "border-brand bg-brand text-[#18181b]"
+ : "border-white/25 bg-[#0b0b0e]/85 text-white hover:border-white/60"
+ }`}
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     <span
@@ -141,17 +141,17 @@ export function FloorPlan() {
                     >
                       <span className="flex items-baseline justify-between gap-4">
                         <span
-                          className={`font-[family-name:var(--font-display)] text-[17px] font-bold leading-6 transition-colors ${
-                            on ? "text-brand" : "text-white"
-                          }`}
+                          className={`font-[family-name:var(--font-display)] text-title-body font-bold transition-colors ${
+ on ? "text-brand" : "text-white"
+ }`}
                         >
                           {entry.name}
                         </span>
-                        <span className="shrink-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 text-white/60">
+                        <span className="shrink-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-white/60">
                           {from} {entry.price}
                         </span>
                       </span>
-                      <span className="font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-content-secondary">
+                      <span className="font-[family-name:var(--font-ui)] text-body-s text-content-secondary">
                         {entry.capacity} · {entry.perUnit}
                       </span>
                     </Link>
@@ -163,7 +163,7 @@ export function FloorPlan() {
 
             <Link
               href={`/hospitality/${current.slug}`}
-              className="sweep flex items-center self-start bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#0b0b0e]"
+              className="sweep flex items-center self-start bg-brand px-5 py-3.5 font-[family-name:var(--font-display)] text-body font-semibold text-[#0b0b0e]"
             >
               <span className="relative z-10">
                 {discover} {current.name}
@@ -172,7 +172,7 @@ export function FloorPlan() {
           </div>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote} The plan is schematic.
         </p>
       </div>

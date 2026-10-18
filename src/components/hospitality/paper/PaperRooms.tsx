@@ -31,7 +31,7 @@ export function PaperRooms() {
           >
             {title}
           </h2>
-          <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-[#16161a]/65">
+          <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-body text-[#16161a]/65">
             {note}
           </p>
         </div>
@@ -44,7 +44,7 @@ export function PaperRooms() {
                 className="paper-rule group grid gap-5 py-8 sm:grid-cols-[52px_minmax(0,210px)_1fr] sm:gap-8 xl:py-10"
               >
                 {/* The plate number. */}
-                <span className="font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tabular-nums tracking-[2px] text-[#16161a]/40">
+                <span className="font-[family-name:var(--font-display)] text-body-s font-bold uppercase tabular-nums tracking-[2px] text-[#16161a]/40">
                   {String(index + 1).padStart(2, "0")}
                 </span>
 
@@ -59,7 +59,7 @@ export function PaperRooms() {
                 </span>
 
                 <span className="flex flex-col gap-3">
-                  <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-[#16161a]/45">
+                  <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#16161a]/45">
                     {entry.festival}
                   </span>
 
@@ -67,7 +67,7 @@ export function PaperRooms() {
                     {entry.name}
                   </span>
 
-                  <span className="max-w-[460px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.75] text-[#16161a]/65">
+                  <span className="max-w-[460px] font-[family-name:var(--font-ui)] text-body text-[#16161a]/65">
                     {entry.summary}
                   </span>
 
@@ -79,10 +79,10 @@ export function PaperRooms() {
                       { label: "Per", value: entry.perUnit },
                     ].map((term) => (
                       <span key={term.label} className="flex flex-col gap-0.5">
-                        <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px] text-[#16161a]/40">
+                        <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-[#16161a]/40">
                           {term.label}
                         </span>
-                        <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-[#16161a]">
+                        <span className="font-[family-name:var(--font-display)] text-body font-semibold text-[#16161a]">
                           {term.value}
                         </span>
                       </span>

@@ -66,7 +66,7 @@ export function HomeStats() {
       <div className="shell flex flex-col gap-8">
         <p
           id="numbers-title"
-          className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px] text-content-secondary"
+          className="m-0 flex items-center gap-4 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-content-secondary"
         >
           <span className="text-brand">SEVENPM</span>
           in numbers
@@ -86,7 +86,7 @@ export function HomeStats() {
               data-reveal="up"
               data-reveal-stagger
             >
-              <p className="m-0 flex items-baseline font-daltown text-[clamp(48px,5.98vw,82px)] leading-[0.8] text-white transition-colors group-hover:text-brand">
+              <p className="display-m m-0 flex items-baseline font-daltown text-white transition-colors group-hover:text-brand">
                 {stat.prefix && <span>{stat.prefix}</span>}
                 <span
                   data-count={stat.value}
@@ -103,7 +103,7 @@ export function HomeStats() {
                 className="block h-[3px] w-10 bg-brand transition-[width] duration-500 group-hover:w-16"
               />
 
-              <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary xl:text-[16px] xl:leading-[23px]">
+              <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary xl:text-body-l">
                 {stat.label}
               </p>
             </div>

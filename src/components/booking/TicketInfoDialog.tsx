@@ -59,7 +59,7 @@ export function TicketInfoDialog({
             type="button"
             onClick={() => onAdd(quantity)}
             disabled={quantity === 0}
-            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+            className="flex w-full cursor-pointer items-center justify-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
           >
             {bookingCopy.ticketInfo.addToCart}
           </button>
@@ -67,7 +67,7 @@ export function TicketInfoDialog({
       }
     >
       <div className="flex flex-col gap-2 px-5 pb-4 pt-4">
-        <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+        <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
           {bookingCopy.ticketInfo.lineup}
         </p>
         <ul
@@ -91,10 +91,10 @@ export function TicketInfoDialog({
                 />
               </span>
               <span className="flex min-w-0 flex-1 flex-col border-b-[0.5px] border-white/10 pb-2">
-                <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+                <span className="truncate font-[family-name:var(--font-display)] text-body text-content-primary">
                   {slot.name}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                   {slot.time}
                 </span>
               </span>

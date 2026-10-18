@@ -76,10 +76,10 @@ export function MiniPlayer({
       </button>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] text-content-primary">
+        <span className="truncate font-[family-name:var(--font-display)] text-body font-semibold text-content-primary">
           {track.title}
         </span>
-        <span className="truncate font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
+        <span className="truncate font-[family-name:var(--font-display)] text-body-s text-content-secondary">
           {track.artist}
         </span>
       </div>

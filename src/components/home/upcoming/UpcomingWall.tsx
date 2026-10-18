@@ -57,7 +57,7 @@ export function UpcomingWall() {
                   <div className="mt-4 flex flex-wrap items-end justify-between gap-4 bg-bg-secondary p-5">
                     <div className="flex flex-col gap-1">
                       <h3 className="card-title text-white">{f.name}</h3>
-                      <span className="font-[family-name:var(--font-display)] text-[14px] leading-5 text-text-secondary">
+                      <span className="font-[family-name:var(--font-display)] text-body text-text-secondary">
                         {[f.when, f.city].filter(Boolean).join(" · ")}
                       </span>
                     </div>

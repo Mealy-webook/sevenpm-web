@@ -31,7 +31,7 @@ export function HomePillars() {
             <h2 className="section-title  text-white">
               {pillar.title}
             </h2>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[17px] font-bold uppercase leading-6 tracking-[-0.09px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px] text-content-secondary">
               {pillar.body}
             </p>
           </div>

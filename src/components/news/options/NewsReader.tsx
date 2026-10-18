@@ -43,18 +43,18 @@ export function NewsReader({ articles }: { articles: NewsArticle[] }) {
                     : "text-content-secondary hover:text-white"
                 }`}
               >
-                <span className="flex w-full items-center gap-3 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px]">
+                <span className="flex w-full items-center gap-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px]">
                   <span className={selected ? "text-brand" : ""}>
                     {article.category}
                   </span>
                   <span aria-hidden className="h-px flex-1 bg-white/10" />
                   {article.dateLabel}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[-0.09px]">
+                <span className="font-[family-name:var(--font-display)] text-body-l font-bold uppercase tracking-[-0.09px]">
                   {article.title}
                 </span>
                 {/* No pane on a phone, so the summary rides in the list. */}
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary lg:hidden">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary lg:hidden">
                   {article.excerpt}
                 </span>
               </button>
@@ -78,18 +78,18 @@ export function NewsReader({ articles }: { articles: NewsArticle[] }) {
             />
           </span>
 
-          <h2 className="m-0 font-daltown text-[clamp(26px,2.88vw,44px)] uppercase leading-[0.95] text-white">
+          <h2 className="display-xs m-0 font-daltown uppercase text-white">
             {open.title}
           </h2>
 
-          <p className="m-0 font-[family-name:var(--font-display)] text-[16px] leading-7 text-content-primary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-l text-content-primary">
             {open.excerpt}
           </p>
 
           {open.body.slice(1, 3).map((paragraph) => (
             <p
               key={paragraph.slice(0, 32)}
-              className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-7 text-content-secondary"
+              className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary"
             >
               {paragraph}
             </p>
@@ -97,7 +97,7 @@ export function NewsReader({ articles }: { articles: NewsArticle[] }) {
 
           <Link
             href={`/news/${open.slug}`}
-            className="flex w-fit items-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-[#18181b] transition-colors hover:bg-brand"
+            className="flex w-fit items-center bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.5px] text-[#18181b] transition-colors hover:bg-brand"
           >
             Read the full story
           </Link>

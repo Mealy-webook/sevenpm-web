@@ -45,8 +45,8 @@ export function LineupTracklist() {
             <div key={picked.id} className="deck-fade relative aspect-square w-full overflow-hidden bg-brand shadow-[0_30px_70px_rgba(0,0,0,0.6)]">
               <Image src={picked.photo} alt={`${picked.name}, official photo`} fill sizes="420px" className="scale-[1.42] object-cover" />
               <span className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/85 to-transparent p-4 pt-12">
-                <span className="font-daltown text-[44px] uppercase leading-none text-white">{day.label}</span>
-                <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.12em] text-brand">
+                <span className="display-xs font-daltown uppercase leading-none text-white">{day.label}</span>
+                <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.12em] text-brand">
                   {track(acts.indexOf(picked))}
                 </span>
               </span>
@@ -60,7 +60,7 @@ export function LineupTracklist() {
                 return (
                   <li key={a.id} className={i === half ? "mt-6 border-t border-white/25 pt-6" : ""}>
                     {i === 0 || i === half ? (
-                      <span className="mb-2 block font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.14em] text-text-secondary">
+                      <span className="mb-2 block font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.14em] text-text-secondary">
                         Side {i === 0 ? "A" : "B"}
                       </span>
                     ) : null}
@@ -70,9 +70,9 @@ export function LineupTracklist() {
                       aria-pressed={on}
                       className={`grid w-full grid-cols-[40px_1fr_auto] items-baseline gap-4 border-b border-white/10 py-3 text-left transition-colors ${on ? "text-brand" : "text-white hover:text-brand"}`}
                     >
-                      <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold opacity-70">{track(i)}</span>
-                      <span className="min-w-0 truncate font-daltown text-[34px] uppercase leading-none">{a.name}</span>
-                      <span className="font-[family-name:var(--font-display)] text-[13px] tabular-nums opacity-80">
+                      <span className="font-[family-name:var(--font-display)] text-body-s font-semibold opacity-70">{track(i)}</span>
+                      <span className="display-xs min-w-0 truncate font-daltown uppercase leading-none">{a.name}</span>
+                      <span className="font-[family-name:var(--font-display)] text-body-s tabular-nums opacity-80">
                         {a.start} · {dur(a.start, a.end)} min
                       </span>
                     </button>
@@ -87,7 +87,7 @@ export function LineupTracklist() {
                 {picked.headliner ? <HeadlinerTag /> : null}
               </div>
               <StageTime act={picked} className="text-brand" />
-              <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+              <p className="m-0 max-w-[60ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
                 {picked.bio}
               </p>
               <ActLinks act={picked} />

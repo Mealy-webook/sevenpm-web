@@ -41,11 +41,11 @@ export function NewsCovers({ articles }: { articles: NewsArticle[] }) {
               role="tab"
               aria-selected={selected}
               onClick={() => setCategory(label)}
-              className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-5 tracking-[1.3px] transition-colors ${
-                selected
-                  ? "border-brand bg-brand text-[#18181b]"
-                  : "border-white/10 bg-white/5 text-content-secondary hover:text-white"
-              }`}
+              className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.3px] transition-colors ${
+ selected
+ ? "border-brand bg-brand text-[#18181b]"
+ : "border-white/10 bg-white/5 text-content-secondary hover:text-white"
+ }`}
             >
               {label}
             </button>
@@ -92,25 +92,25 @@ export function NewsCovers({ articles }: { articles: NewsArticle[] }) {
                   className="absolute inset-x-0 bottom-0 block h-2/3 bg-[linear-gradient(to_top,rgba(11,11,14,0.92),transparent)]"
                 />
 
-                <span className="absolute left-4 top-4 z-[1] flex items-center bg-[#0b0b0e]/70 px-2 py-1 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[1.5px] text-brand">
+                <span className="absolute left-4 top-4 z-[1] flex items-center bg-[#0b0b0e]/70 px-2 py-1 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[1.5px] text-brand">
                   {article.dateLabel}
                 </span>
 
                 <span className="absolute inset-x-4 bottom-4 z-[1] flex flex-col gap-2">
-                  <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px] text-brand">
+                  <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-brand">
                     {article.category}
                   </span>
                   <span
-                    className={`font-daltown uppercase leading-[0.95] text-white ${
-                      feature
-                        ? "text-[clamp(23px,2.9vw,41px)]"
-                        : "text-[clamp(18px,1.79vw,25px)]"
-                    }`}
+                    className={`display-xs font-daltown uppercase text-white ${
+ feature
+ ? ""
+ : ""
+ }`}
                   >
                     {article.title}
                   </span>
                   {feature && (
-                    <span className="max-w-[52ch] font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-secondary">
+                    <span className="max-w-[52ch] font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                       {article.excerpt}
                     </span>
                   )}

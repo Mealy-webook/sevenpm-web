@@ -34,7 +34,7 @@ export function HowToEarnDialog({ onClose }: { onClose: () => void }) {
       <div className="flex flex-col gap-5 px-5 pt-4">
         {/* Ways to earn */}
         <section className="flex flex-col gap-1">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[0.16px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-body-s font-bold uppercase tracking-[0.16px] text-content-primary">
             {loyaltyHowTo.earnTitle}
           </h3>
           <ul className="m-0 flex list-none flex-col p-0">
@@ -55,10 +55,10 @@ export function HowToEarnDialog({ onClose }: { onClose: () => void }) {
                   className="size-6 shrink-0"
                 />
                 <span className="flex min-w-0 flex-1 flex-col">
-                  <span className="font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-primary">
+                  <span className="font-[family-name:var(--font-display)] text-body text-content-primary">
                     {item.label}
                   </span>
-                  <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                  <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                     {item.detail}
                   </span>
                 </span>
@@ -69,10 +69,10 @@ export function HowToEarnDialog({ onClose }: { onClose: () => void }) {
 
         {/* Memberships */}
         <section className="flex flex-col gap-2 border-t-[0.5px] border-white/10 pt-4">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[0.16px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-body-s font-bold uppercase tracking-[0.16px] text-content-primary">
             {loyaltyHowTo.membershipTitle}
           </h3>
-          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
             {loyaltyHowTo.membershipBody}
           </p>
           <ul className="m-0 flex list-none flex-wrap gap-2 p-0 pt-1">
@@ -81,10 +81,10 @@ export function HowToEarnDialog({ onClose }: { onClose: () => void }) {
                 key={tier.id}
                 className="flex items-baseline gap-2 border border-white/10 bg-white/5 px-3 py-2"
               >
-                <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+                <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
                   {tier.name}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[11px] leading-4 tracking-[0.11px] text-brand">
+                <span className="font-[family-name:var(--font-display)] text-caption text-brand">
                   {tier.threshold.toLocaleString("en-US")}+
                 </span>
               </li>
@@ -94,10 +94,10 @@ export function HowToEarnDialog({ onClose }: { onClose: () => void }) {
 
         {/* Expiry */}
         <section className="flex flex-col gap-2 border-t-[0.5px] border-white/10 pt-4">
-          <h3 className="m-0 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[0.16px] text-content-primary">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-body-s font-bold uppercase tracking-[0.16px] text-content-primary">
             {loyaltyHowTo.expiryTitle}
           </h3>
-          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
             {loyaltyHowTo.expiryBody}
           </p>
         </section>

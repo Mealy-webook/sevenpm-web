@@ -22,16 +22,16 @@ export function TeamGrid({ members }: { members: TeamMember[] }) {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[16px] font-bold uppercase leading-6 tracking-[-0.02em] text-white">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-l font-bold uppercase tracking-[-0.02em] text-white">
               {member.name}
             </p>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
               {member.role}
             </p>
             {member.email && (
               <a
                 href={`mailto:${member.email}`}
-                className="link-sweep mt-1 self-start font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary transition-colors hover:text-brand"
+                className="link-sweep mt-1 self-start font-[family-name:var(--font-display)] text-body-s text-content-secondary transition-colors hover:text-brand"
               >
                 {member.email}
               </a>

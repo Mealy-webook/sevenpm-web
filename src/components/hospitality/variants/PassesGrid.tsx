@@ -33,7 +33,7 @@ export function PassesGrid() {
       <div className="shell flex flex-col gap-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-4 tracking-[1.56px] text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand">
               {eyebrow}
             </p>
             <DisplayHeading align="left" reveal="clip" size="faq">
@@ -54,11 +54,11 @@ export function PassesGrid() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setFilter(name)}
-                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-[14px] leading-5 transition-colors ${
-                    active
-                      ? "border-brand bg-brand font-semibold text-[#18181b]"
-                      : "border-white/20 text-white/80 hover:border-white/50"
-                  }`}
+                  className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-body transition-colors ${
+ active
+ ? "border-brand bg-brand font-semibold text-[#18181b]"
+ : "border-white/20 text-white/80 hover:border-white/50"
+ }`}
                 >
                   {name}
                 </button>
@@ -93,9 +93,9 @@ export function PassesGrid() {
                     {[entry.festival, entry.capacity].map((pill) => (
                       <span
                         key={pill}
-                        className={`px-3 py-1 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-5 ${
-                          lead ? "bg-[#18181b]/10" : "bg-white/10"
-                        }`}
+                        className={`px-3 py-1 font-[family-name:var(--font-display)] text-caption font-semibold ${
+ lead ? "bg-[#18181b]/10" : "bg-white/10"
+ }`}
                         style={{ borderRadius: "var(--radius)" }}
                       >
                         {pill}
@@ -103,14 +103,14 @@ export function PassesGrid() {
                     ))}
                   </div>
 
-                  <h3 className="m-0 font-daltown text-[clamp(25px,3.38vw,44px)] uppercase leading-[0.92]">
+                  <h3 className="display-xs m-0 font-daltown uppercase">
                     {entry.name}
                   </h3>
 
                   <p
-                    className={`m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-[14px] leading-[1.7] ${
-                      lead ? "text-[#18181b]/70" : "text-content-secondary"
-                    }`}
+                    className={`m-0 max-w-[520px] font-[family-name:var(--font-ui)] text-body ${
+ lead ? "text-[#18181b]/70" : "text-content-secondary"
+ }`}
                   >
                     {entry.summary}
                   </p>
@@ -124,23 +124,23 @@ export function PassesGrid() {
                 >
                   <div className="flex flex-col gap-0.5">
                     <span
-                      className={`font-[family-name:var(--font-ui)] text-[13px] leading-5 ${
-                        lead ? "text-[#18181b]/60" : "text-white/45"
-                      }`}
+                      className={`font-[family-name:var(--font-ui)] text-body-s ${
+ lead ? "text-[#18181b]/60" : "text-white/45"
+ }`}
                     >
                       {from}
                     </span>
                     <span
-                      className={`font-[family-name:var(--font-display)] text-[21px] font-black leading-7 ${
-                        lead ? "text-[#18181b]" : "text-brand"
-                      }`}
+                      className={`font-[family-name:var(--font-display)] text-title-section font-black ${
+ lead ? "text-[#18181b]" : "text-brand"
+ }`}
                     >
                       {entry.price}
                     </span>
                     <span
-                      className={`font-[family-name:var(--font-ui)] text-[13px] leading-5 ${
-                        lead ? "text-[#18181b]/60" : "text-white/45"
-                      }`}
+                      className={`font-[family-name:var(--font-ui)] text-body-s ${
+ lead ? "text-[#18181b]/60" : "text-white/45"
+ }`}
                     >
                       {entry.perUnit}
                     </span>
@@ -148,11 +148,11 @@ export function PassesGrid() {
 
                   <Link
                     href={`/hospitality/${entry.slug}`}
-                    className={`flex items-center px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 transition-colors ${
-                      lead
-                        ? "bg-[#0b0b0e] text-white hover:bg-[#0b0b0e]/85"
-                        : "bg-brand text-[#0b0b0e] hover:bg-white"
-                    }`}
+                    className={`flex items-center px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold transition-colors ${
+ lead
+ ? "bg-[#0b0b0e] text-white hover:bg-[#0b0b0e]/85"
+ : "bg-brand text-[#0b0b0e] hover:bg-white"
+ }`}
                     style={{ borderRadius: "var(--radius)" }}
                   >
                     {discover}
@@ -163,7 +163,7 @@ export function PassesGrid() {
           })}
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.6] text-white/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>

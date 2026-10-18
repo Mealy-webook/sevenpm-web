@@ -57,15 +57,15 @@ export default function HomeOptionsIndex() {
     <main className="min-h-svh bg-bg-primary">
       <div className="shell flex flex-col gap-10 py-14">
         <div className="flex flex-col gap-2">
-          <h1 className="m-0 font-daltown text-[clamp(34px,5.11vw,75px)] uppercase leading-[0.9] text-white">
+          <h1 className="card-title m-0 font-daltown uppercase text-white">
             Homepage options
           </h1>
-          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-content-secondary">
+          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-body text-content-secondary">
             Six live versions, each shown at the top of the page. Click one to
             open it full size; the switch at its bottom right moves between
             them. A and B keep the current hero, C, D and E replace it.
           </p>
-          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
+          <p className="m-0 max-w-[640px] font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             A thumbnail never scrolls, so anything that animates on scroll sits
             at its starting value — option A&rsquo;s counters read zero here and
             count up properly on the page itself.
@@ -91,10 +91,10 @@ export default function HomeOptionsIndex() {
               </Link>
 
               <div className="flex flex-col gap-1">
-                <span className="font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-white">
+                <span className="font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.5px] text-white">
                   {option.label}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 text-content-secondary">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                   {option.note}
                 </span>
               </div>

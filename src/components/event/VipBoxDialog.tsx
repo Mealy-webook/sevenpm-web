@@ -133,7 +133,7 @@ export function VipBoxDialog({
           <button
             type="button"
             onClick={sent ? onClose : submit}
-            className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#18181b] transition-colors hover:bg-[#fff35a]"
+            className="flex w-full cursor-pointer items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-[#fff35a]"
           >
             {sent ? vipBoxCopy.done : vipBoxCopy.submit}
           </button>
@@ -142,30 +142,30 @@ export function VipBoxDialog({
     >
       {sent ? (
         <div className="flex flex-col gap-4 px-5 py-4">
-          <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-primary">
             {vipBoxCopy.sentBody(sent)}
           </p>
           {/* What happens after this page, in the order it happens. */}
           <ol className="m-0 flex list-none flex-col gap-3 p-0">
             {vipBoxCopy.steps.map((line, index) => (
               <li key={line} className="flex items-start gap-3">
-                <span className="flex size-6 shrink-0 items-center justify-center bg-white/5 font-[family-name:var(--font-display)] text-[12px] font-semibold leading-4 text-content-primary">
+                <span className="flex size-6 shrink-0 items-center justify-center bg-white/5 font-[family-name:var(--font-display)] text-caption font-semibold text-content-primary">
                   {index + 1}
                 </span>
-                <span className="font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+                <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                   {line}
                 </span>
               </li>
             ))}
           </ol>
-          <p className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-caption text-content-secondary">
             {vipBoxCopy.sentNote}
           </p>
           {/* Somewhere to go and watch it, rather than only an email to
               wait for. */}
           <Link
             href="/account?tab=requests"
-            className="btn-secondary flex items-center justify-center self-start px-5 py-3 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] text-content-primary"
+            className="btn-secondary flex items-center justify-center self-start px-5 py-3 font-[family-name:var(--font-display)] text-body font-semibold text-content-primary"
           >
             {vipBoxCopy.track}
           </Link>
@@ -175,7 +175,7 @@ export function VipBoxDialog({
           className="flex max-h-[52svh] flex-col gap-4 overflow-y-auto overscroll-contain px-5 py-4"
           data-lenis-prevent
         >
-          <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-5 tracking-[0.13px] text-content-secondary">
+          <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
             {vipBoxCopy.intro}
           </p>
 
@@ -224,7 +224,7 @@ export function VipBoxDialog({
           />
 
           <fieldset className="m-0 flex flex-col gap-2 border-0 p-0">
-            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+            <legend className="mb-1 p-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
               {vipBoxCopy.days}
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -244,11 +244,11 @@ export function VipBoxDialog({
                           : [...fields.days, day.id],
                       )
                     }
-                    className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-[19px] tracking-[0.19px] transition-colors ${
-                      on
-                        ? "border-content-primary bg-white/10 text-content-primary"
-                        : "border-white/10 bg-white/5 text-content-secondary hover:bg-white/10"
-                    }`}
+                    className={`flex h-10 cursor-pointer items-center border px-4 font-[family-name:var(--font-display)] text-body font-semibold transition-colors ${
+ on
+ ? "border-content-primary bg-white/10 text-content-primary"
+ : "border-white/10 bg-white/5 text-content-secondary hover:bg-white/10"
+ }`}
                   >
                     {day.label}
                   </button>
@@ -261,7 +261,7 @@ export function VipBoxDialog({
           <div className="flex flex-col gap-2">
             <label
               htmlFor={`${baseId}-notes`}
-              className="font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+              className="font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary"
             >
               {vipBoxCopy.notes}
             </label>
@@ -271,7 +271,7 @@ export function VipBoxDialog({
               value={fields.notes}
               onChange={(event_) => set("notes", event_.target.value)}
               placeholder={vipBoxCopy.notesHint}
-              className="w-full resize-y border border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-white/30 focus:border-content-primary"
+              className="w-full resize-y border border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-body text-content-primary outline-none transition-colors placeholder:text-white/30 focus:border-content-primary"
             />
           </div>
         </div>
@@ -284,7 +284,7 @@ function Error({ children }: { children: React.ReactNode }) {
   return (
     <p
       role="alert"
-      className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#ff6c6c]"
+      className="m-0 font-[family-name:var(--font-display)] text-caption text-[#ff6c6c]"
     >
       {children}
     </p>
@@ -316,7 +316,7 @@ function Field({
     <div className="flex flex-col gap-2">
       <label
         htmlFor={id}
-        className="flex items-baseline gap-2 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary"
+        className="flex items-baseline gap-2 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary"
       >
         {label}
         {hint && (
@@ -331,11 +331,11 @@ function Field({
         autoComplete={autoComplete}
         aria-invalid={Boolean(error)}
         onChange={(event_) => onChange(event_.target.value)}
-        className={`h-12 w-full border bg-white/5 px-4 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary outline-none transition-colors placeholder:text-white/30 ${
-          error
-            ? "border-[#ff6c6c]"
-            : "border-white/10 focus:border-content-primary"
-        }`}
+        className={`h-12 w-full border bg-white/5 px-4 font-[family-name:var(--font-display)] text-body text-content-primary outline-none transition-colors placeholder:text-white/30 ${
+ error
+ ? "border-[#ff6c6c]"
+ : "border-white/10 focus:border-content-primary"
+ }`}
       />
       {error && <Error>{error}</Error>}
     </div>

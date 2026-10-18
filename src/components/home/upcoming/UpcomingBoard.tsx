@@ -37,10 +37,10 @@ export function UpcomingBoard() {
 
                 {d ? (
                   <p className="m-0 flex flex-col">
-                    <span className="font-daltown text-[clamp(48px,5.4vw,82px)] leading-[0.82] text-brand">
+                    <span className="display-m font-daltown text-brand">
                       {d.days}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] text-[13px] uppercase leading-5 tracking-[0.12em] text-text-secondary">
+                    <span className="font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary">
                       {d.month} {d.year}
                     </span>
                   </p>
@@ -49,11 +49,11 @@ export function UpcomingBoard() {
                 )}
 
                 <div className="col-span-2 flex flex-col gap-2 lg:col-span-1">
-                  <span className="font-[family-name:var(--font-display)] text-[13px] uppercase leading-5 tracking-[0.12em] text-text-secondary">
+                  <span className="font-[family-name:var(--font-display)] text-body-s uppercase tracking-[0.12em] text-text-secondary">
                     {String(i + 1).padStart(2, "0")} · {f.edition}
                   </span>
                   <h3 className="card-title text-white">{f.name}</h3>
-                  <span className="font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-text-secondary">
+                  <span className="font-[family-name:var(--font-display)] text-body text-text-secondary">
                     {f.city}
                   </span>
                 </div>

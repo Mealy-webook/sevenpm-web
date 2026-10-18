@@ -100,11 +100,11 @@ export function DeliveryDialog({
                 role="tab"
                 aria-selected={selected}
                 onClick={() => setTab(item.id as "pickup" | "address")}
-                className={`flex h-10 flex-1 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] transition-colors ${
-                  selected
-                    ? "bg-white/15 text-content-primary"
-                    : "bg-white/5 text-content-secondary hover:bg-white/10"
-                }`}
+                className={`flex h-10 flex-1 cursor-pointer items-center justify-center px-3 font-[family-name:var(--font-display)] text-body-s font-semibold transition-colors ${
+ selected
+ ? "bg-white/15 text-content-primary"
+ : "bg-white/5 text-content-secondary hover:bg-white/10"
+ }`}
               >
                 {item.label}
               </button>
@@ -114,7 +114,7 @@ export function DeliveryDialog({
 
         {tab === "pickup" ? (
           <div className="flex flex-col gap-2">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
               {copy.pickupLabel}
             </p>
             <div
@@ -148,10 +148,10 @@ export function DeliveryDialog({
                       className="size-5 shrink-0"
                     />
                     <span className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] text-content-primary">
+                      <span className="truncate font-[family-name:var(--font-display)] text-body text-content-primary">
                         {item.label}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+                      <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
                         {item.hint}
                       </span>
                     </span>
@@ -176,7 +176,7 @@ export function DeliveryDialog({
             {errors.pickup && (
               <p
                 role="alert"
-                className="m-0 font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-[#ff6c6c]"
+                className="m-0 font-[family-name:var(--font-display)] text-caption text-[#ff6c6c]"
               >
                 {errors.pickup}
               </p>
@@ -184,7 +184,7 @@ export function DeliveryDialog({
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            <p className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-content-primary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold text-content-primary">
               {copy.addressLabel}
             </p>
 
@@ -200,9 +200,9 @@ export function DeliveryDialog({
                   setCity("");
                   setErrors({});
                 }}
-                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] outline-none transition-colors focus:border-content-primary ${
-                  errors.country ? "border-[#ff6c6c]" : "border-white/10"
-                } ${country ? "font-semibold text-content-primary" : "text-content-secondary"}`}
+                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-body outline-none transition-colors focus:border-content-primary ${
+ errors.country ? "border-[#ff6c6c]" : "border-white/10"
+ } ${country ? "font-semibold text-content-primary" : "text-content-secondary"}`}
               >
                 <option value="">{copy.country}</option>
                 {deliveryCountries.map((item) => (
@@ -225,9 +225,9 @@ export function DeliveryDialog({
                   setCity(event.target.value);
                   setErrors({});
                 }}
-                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.19px] outline-none transition-colors focus:border-content-primary disabled:opacity-50 ${
-                  errors.city ? "border-[#ff6c6c]" : "border-white/10"
-                } ${city ? "font-semibold text-content-primary" : "text-content-secondary"}`}
+                className={`h-[54px] w-full appearance-none border bg-white/5 py-3 pl-4 pr-10 font-[family-name:var(--font-display)] text-body outline-none transition-colors focus:border-content-primary disabled:opacity-50 ${
+ errors.city ? "border-[#ff6c6c]" : "border-white/10"
+ } ${city ? "font-semibold text-content-primary" : "text-content-secondary"}`}
               >
                 <option value="">{copy.city}</option>
                 {cities.map((item) => (

@@ -73,7 +73,7 @@ export function HeroBoard() {
   return (
     <section className="relative flex h-svh w-full flex-col justify-center overflow-hidden bg-bg-primary px-[var(--shell-gutter)]">
       <h1
-        className="m-0 font-daltown text-[clamp(33px,5.12vw,82px)] uppercase leading-[0.82] tracking-[0.02em] text-white"
+        className="display-m m-0 font-daltown uppercase text-white"
         data-no-split
       >
         {homeCopy.heroTitle}
@@ -86,7 +86,7 @@ export function HeroBoard() {
               <th
                 key={head}
                 scope="col"
-                className="py-3 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[2px] text-content-secondary"
+                className="py-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-content-secondary"
               >
                 {head}
               </th>
@@ -122,7 +122,7 @@ export function HeroBoard() {
         </tbody>
       </table>
 
-      <p className="m-0 mt-8 max-w-[560px] font-[family-name:var(--font-display)] text-[14px] leading-6 tracking-[0.085px] text-content-secondary">
+      <p className="m-0 mt-8 max-w-[560px] font-[family-name:var(--font-display)] text-body text-content-secondary">
         {homeCopy.intro}
       </p>
     </section>

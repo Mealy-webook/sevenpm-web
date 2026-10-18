@@ -30,7 +30,7 @@ export function UpcomingBands() {
             >
               <div
                 aria-hidden
-                className={`band-track flex w-max shrink-0 gap-12 whitespace-nowrap font-daltown text-[clamp(96px,12vw,190px)] uppercase leading-none ${brand ? "" : "band-reverse"}`}
+                className={`display-text band-track flex w-max shrink-0 gap-12 whitespace-nowrap font-daltown uppercase leading-none ${brand ? "" : "band-reverse"}`}
               >
                 {[...words, ...words].map((w, k) => (
                   <span key={k} className={k % 2 ? "opacity-30" : ""}>
@@ -46,13 +46,13 @@ export function UpcomingBands() {
                     <Image src={f.card as string} alt={`${f.name} poster`} fill sizes="144px" className="object-cover" />
                   </span>
                   <div className="flex flex-col gap-3 pr-2">
-                    <h3 className="m-0 font-daltown text-[32px] uppercase leading-[28px]">{f.name}</h3>
-                    <span className="font-[family-name:var(--font-display)] text-[14px] leading-5 text-text-secondary">
+                    <h3 className="display-xs m-0 font-daltown uppercase">{f.name}</h3>
+                    <span className="font-[family-name:var(--font-display)] text-body text-text-secondary">
                       {f.when}
                       <br />
                       {f.city} · {f.edition}
                     </span>
-                    <Cta festival={f} className="w-fit !px-4 !py-2.5 !text-[14px]" />
+                    <Cta festival={f} className="w-fit !px-4 !py-2.5 !text-body" />
                   </div>
                 </div>
               </div>

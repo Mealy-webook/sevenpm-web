@@ -64,14 +64,14 @@ export function PosterHero() {
             className={`${styles.crop} bottom-3 right-3 border-l-0 border-t-0`}
           />
 
-          <p className="m-0 flex items-center gap-3 font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[3px]">
+          <p className="m-0 flex items-center gap-3 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px]">
             Sevenpm
             <span aria-hidden className="h-px flex-1 bg-[#0b0b0e]/40" />
             Casablanca
           </p>
 
           <div className="mt-6 flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-            <h1 className="m-0 font-daltown text-[clamp(48px,7.66vw,126px)] uppercase leading-[0.84]">
+            <h1 className="section-title m-0 font-daltown uppercase">
               {homeCopy.heroLead}
               <br />
               {homeCopy.heroWords[0]}
@@ -87,10 +87,10 @@ export function PosterHero() {
                   key={festival.id}
                   className="flex items-baseline gap-3 border-t border-[#0b0b0e]/25 py-2 last:border-b"
                 >
-                  <span className="font-[family-name:var(--font-display)] text-[12px] font-bold leading-4 tracking-[2px] text-[#0b0b0e]/50">
+                  <span className="font-[family-name:var(--font-display)] text-caption font-bold text-[#0b0b0e]/50">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="flex-1 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[0.5px]">
+                  <span className="flex-1 font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[0.5px]">
                     {festival.name}
                   </span>
                 </li>
@@ -99,12 +99,12 @@ export function PosterHero() {
           </div>
 
           <div className="mt-10 flex flex-col gap-6 border-t-2 border-[#0b0b0e]/25 pt-6 lg:flex-row lg:items-end lg:justify-between">
-            <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] text-[#0b0b0e]/80">
+            <p className="m-0 max-w-[560px] font-[family-name:var(--font-display)] text-body text-[#0b0b0e]/80">
               {homeCopy.intro}
             </p>
             <Link
               href="#festivals"
-              className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-6 py-4 font-[family-name:var(--font-display)] text-[14px] font-semibold uppercase leading-[19px] tracking-[1.5px] text-[#f4f1e8] transition-colors hover:bg-[#0b0b0e]/85"
+              className="flex shrink-0 items-center justify-center bg-[#0b0b0e] px-6 py-4 font-[family-name:var(--font-display)] text-body font-semibold uppercase tracking-[1.5px] text-[#f4f1e8] transition-colors hover:bg-[#0b0b0e]/85"
             >
               See the festivals
             </Link>

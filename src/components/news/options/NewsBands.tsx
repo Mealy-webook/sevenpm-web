@@ -50,16 +50,16 @@ export function NewsBands({ articles }: { articles: NewsArticle[] }) {
 
             <span
               aria-hidden
-              className="relative z-[1] w-10 shrink-0 font-[family-name:var(--font-display)] text-[13px] font-bold leading-6 tracking-[1px] text-content-secondary"
+              className="relative z-[1] w-10 shrink-0 font-[family-name:var(--font-display)] text-body-s font-bold text-content-secondary"
             >
               {String(index + 1).padStart(2, "0")}
             </span>
 
             <span className="relative z-[1] flex min-w-0 flex-1 flex-col gap-2">
-              <span className="font-daltown text-[clamp(23px,3.38vw,54px)] uppercase leading-[0.95] text-white transition-colors group-hover:text-brand">
+              <span className="display-s font-daltown uppercase text-white transition-colors group-hover:text-brand">
                 {article.title}
               </span>
-              <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase leading-4 tracking-[2px] text-content-secondary">
+              <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[2px] text-content-secondary">
                 {article.category} · {article.dateLabel} · {article.readingTime}
               </span>
             </span>

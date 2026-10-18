@@ -21,7 +21,7 @@ export function PageIntro({
     <section className="relative">
       <div className="shell flex flex-col gap-8 pb-12 pt-6 xl:gap-10 xl:pt-16">
         <p
-          className="m-0 font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[1.56px] text-brand"
+          className="m-0 font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-brand"
           data-reveal="up"
         >
           {eyebrow}
@@ -30,7 +30,7 @@ export function PageIntro({
           {title}
         </DisplayHeading>
         <p
-          className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-7 tracking-[-0.11px] text-white lg:text-[23px] lg:leading-9"
+          className="m-0 max-w-[720px] font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white lg:text-title-section"
           data-split="lines"
           data-reveal-delay="0.1"
         >

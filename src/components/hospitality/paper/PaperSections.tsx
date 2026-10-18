@@ -15,7 +15,7 @@ import { jazzablanca } from "@/data/events";
 export function Rule({ children }: { children: React.ReactNode }) {
   return (
     <div className="paper-rule flex items-baseline gap-4 pt-4">
-      <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-[#16161a]/55">
+      <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#16161a]/55">
         {children}
       </span>
     </div>
@@ -50,7 +50,7 @@ export function PaperHero() {
               {title}
             </h1>
             <p
-              className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-[16px] leading-[1.75] text-[#16161a]/70 sm:text-[17px]"
+              className="m-0 max-w-[560px] font-[family-name:var(--font-ui)] text-body-l text-[#16161a]/70 sm:text-body-l"
               data-split="lines"
             >
               {standfirst}
@@ -77,10 +77,10 @@ export function PaperHero() {
               key={item.label}
               className="paper-rule flex flex-col gap-1 py-4 sm:pr-8"
             >
-              <dt className="m-0 font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-[#16161a]/45">
+              <dt className="m-0 font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#16161a]/45">
                 {item.label}
               </dt>
-              <dd className="m-0 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#16161a]">
+              <dd className="m-0 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#16161a]">
                 {item.value}
               </dd>
             </div>
@@ -106,7 +106,7 @@ export function PaperArgument() {
         <Rule>{rule}</Rule>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-16">
-          <p className="paper-opening m-0 font-[family-name:var(--font-ui)] text-[17px] leading-[1.8] text-[#16161a] sm:text-[18px]">
+          <p className="paper-opening m-0 font-[family-name:var(--font-ui)] text-body-l text-[#16161a] sm:text-body-l">
             {lead}
           </p>
 
@@ -114,11 +114,11 @@ export function PaperArgument() {
             {body.map((paragraph, index) => (
               <p
                 key={index}
-                className={`m-0 font-[family-name:var(--font-ui)] leading-[1.8] ${
-                  index === body.length - 1
-                    ? "font-[family-name:var(--font-display)] text-[18px] font-bold uppercase leading-[1.25] tracking-[0.01em] text-[#16161a] sm:text-[23px]"
-                    : "text-[16px] text-[#16161a]/70"
-                }`}
+                className={`m-0 font-[family-name:var(--font-ui)] ${
+ index === body.length - 1
+ ? "font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[0.01em] text-[#16161a] sm:text-title-section"
+ : "text-body-l text-[#16161a]/70"
+ }`}
               >
                 {paragraph}
               </p>
@@ -167,10 +167,10 @@ export function PaperOrder() {
                 key={entry.time}
                 className="paper-rule flex flex-col gap-1 py-4 sm:flex-row sm:gap-10"
               >
-                <span className="w-full shrink-0 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase leading-6 tracking-[0.06em] text-[#16161a] sm:w-[110px]">
+                <span className="w-full shrink-0 font-[family-name:var(--font-display)] text-body font-bold uppercase tracking-[0.06em] text-[#16161a] sm:w-[110px]">
                   {entry.time}
                 </span>
-                <span className="font-[family-name:var(--font-ui)] text-[15px] leading-[1.7] text-[#16161a]/70">
+                <span className="font-[family-name:var(--font-ui)] text-body text-[#16161a]/70">
                   {entry.body}
                 </span>
               </li>
@@ -179,7 +179,7 @@ export function PaperOrder() {
           </ol>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-[#16161a]/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-[#16161a]/45">
           Hours follow {jazzablanca.name}&rsquo;s session time,{" "}
           {jazzablanca.sessionTime}.
         </p>
@@ -230,13 +230,13 @@ export function PaperSpecification() {
             <thead>
               <tr>
                 <th scope="col" className={`${cell} w-[230px]`}>
-                  <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-[#16161a]/45">
+                  <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-[#16161a]/45">
                     Included
                   </span>
                 </th>
                 {hospitalityPackages.map((entry) => (
                   <th key={entry.slug} scope="col" className={cell}>
-                    <span className="font-[family-name:var(--font-display)] text-[13px] font-bold uppercase leading-5 tracking-[0.04em] text-[#16161a]">
+                    <span className="font-[family-name:var(--font-display)] text-body-s font-bold uppercase tracking-[0.04em] text-[#16161a]">
                       {entry.name}
                     </span>
                   </th>
@@ -247,7 +247,7 @@ export function PaperSpecification() {
               {rows.map((line) => (
                 <tr key={line}>
                   <th scope="row" className={`${cell} font-normal`}>
-                    <span className="font-[family-name:var(--font-ui)] text-[14px] leading-6 text-[#16161a]/70">
+                    <span className="font-[family-name:var(--font-ui)] text-body text-[#16161a]/70">
                       {line}
                     </span>
                   </th>
@@ -258,9 +258,9 @@ export function PaperSpecification() {
                         <span
                           role="img"
                           aria-label={has ? "Included" : "Not included"}
-                          className={`font-[family-name:var(--font-display)] text-[14px] ${
-                            has ? "text-[#16161a]" : "text-[#16161a]/25"
-                          }`}
+                          className={`font-[family-name:var(--font-display)] text-body ${
+ has ? "text-[#16161a]" : "text-[#16161a]/25"
+ }`}
                         >
                           {has ? "✓" : "—"}
                         </span>
@@ -273,7 +273,7 @@ export function PaperSpecification() {
           </table>
         </div>
 
-        <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-[1.7] text-[#16161a]/45">
+        <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-[#16161a]/45">
           {hospitalityCopy.priceNote}
         </p>
       </div>
@@ -298,7 +298,7 @@ export function PaperEnquiry({ children }: { children: React.ReactNode }) {
     <section id="enquiry" className="relative scroll-mt-24 bg-[#0b0b0e] py-16 xl:py-24">
       <div className="shell flex flex-col gap-10">
         <div className="flex items-baseline gap-4 border-t border-white/20 pt-4">
-          <span className="font-[family-name:var(--font-display)] text-[11px] font-bold uppercase leading-4 tracking-[3px] text-brand">
+          <span className="font-[family-name:var(--font-display)] text-caption font-bold uppercase tracking-[3px] text-brand">
             {rule}
           </span>
         </div>
@@ -311,18 +311,18 @@ export function PaperEnquiry({ children }: { children: React.ReactNode }) {
             >
               {title}
             </h2>
-            <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-[15px] leading-[1.75] text-content-secondary">
+            <p className="m-0 max-w-[460px] font-[family-name:var(--font-ui)] text-body text-content-secondary">
               {body}
             </p>
-            <p className="m-0 font-[family-name:var(--font-display)] text-[14px] font-semibold leading-6 text-brand">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body font-semibold text-brand">
               {email}
             </p>
-            <p className="m-0 font-[family-name:var(--font-ui)] text-[13px] leading-6 text-white/45">
+            <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-white/45">
               {phone}
             </p>
             <Link
               href="/contact"
-              className="link-sweep self-start font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase leading-6 tracking-[1.56px] text-white"
+              className="link-sweep self-start font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[1.56px] text-white"
             >
               Or talk to the team
             </Link>

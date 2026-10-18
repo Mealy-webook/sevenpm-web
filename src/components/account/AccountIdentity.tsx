@@ -54,7 +54,7 @@ export function AccountIdentity() {
         the fold.
       */}
       <h1
-        className="m-0 flex flex-col font-daltown text-[clamp(48px,14.42vw,112px)] uppercase leading-[0.68] text-white lg:text-[clamp(56px,min(74cqw,calc((100svh-602px)/1.36)),240px)]"
+        className="display-text m-0 flex flex-col font-daltown uppercase text-white"
         data-no-split
       >
         <span className="block">{first}</span>
@@ -70,11 +70,11 @@ export function AccountIdentity() {
             height={20}
             className="size-5 shrink-0"
           />
-          <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-[13px] font-semibold leading-5 tracking-[0.16px] text-brand">
+          <span className="whitespace-nowrap font-[family-name:var(--font-display)] text-body-s font-semibold text-brand">
             {loyaltyCopy.memberLabel(tier.name)}
           </span>
         </span>
-        <span className="font-[family-name:var(--font-display)] text-[12px] leading-4 tracking-[0.12px] text-content-secondary">
+        <span className="font-[family-name:var(--font-display)] text-caption text-content-secondary">
           {loyaltyCopy.memberSince}
         </span>
       </div>

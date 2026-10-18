@@ -33,7 +33,7 @@ export function LineupSpine() {
           {LINEUP_STAGES.map((s, i) => (
             <span
               key={s}
-              className={`font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.14em] text-text-secondary ${i === 0 ? "text-right" : "col-start-3"}`}
+              className={`font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.14em] text-text-secondary ${i === 0 ? "text-right" : "col-start-3"}`}
             >
               {s}
             </span>
@@ -49,7 +49,7 @@ export function LineupSpine() {
                 {/* time on the spine */}
                 <span className={`relative z-10 flex flex-col items-center gap-1 bg-bg-primary py-2 lg:col-start-2 lg:row-start-1`}>
                   <span className={`block size-3 ${a.headliner ? "bg-brand" : "bg-white/60"}`} />
-                  <span className="font-daltown text-[30px] leading-none text-white">{a.start}</span>
+                  <span className="display-xs font-daltown leading-none text-white">{a.start}</span>
                 </span>
 
                 <article
@@ -58,12 +58,12 @@ export function LineupSpine() {
                   <ActPhoto act={a} sizes="112px" className="aspect-square w-24 shrink-0 xl:w-28" />
                   <div className={`flex min-w-0 flex-col gap-2 ${left ? "lg:items-end" : ""}`}>
                     {a.headliner ? <HeadlinerTag /> : null}
-                    <h3 className="m-0 font-daltown text-[34px] uppercase leading-[30px] text-white">{a.name}</h3>
-                    <span className="font-[family-name:var(--font-display)] text-[12px] font-semibold uppercase tracking-[0.1em] text-brand">
+                    <h3 className="display-xs m-0 font-daltown uppercase text-white">{a.name}</h3>
+                    <span className="font-[family-name:var(--font-display)] text-caption font-semibold uppercase tracking-[0.1em] text-brand">
                       <span className="lg:hidden">{a.stage} · </span>
                       {a.start} – {a.end}
                     </span>
-                    <p className="m-0 font-[family-name:var(--font-display)] text-[13px] leading-[19px] text-content-secondary">
+                    <p className="m-0 font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                       {a.bio}
                     </p>
                     <ActLinks act={a} compact />

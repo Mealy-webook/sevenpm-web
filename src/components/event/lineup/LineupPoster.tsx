@@ -33,7 +33,7 @@ export function LineupPoster() {
               const rest = acts.filter((a) => !a.headliner);
               return (
                 <li key={day.id} className="flex flex-col gap-4 border-t border-white/15 py-8 first:border-t-0 first:pt-0">
-                  <span className="font-[family-name:var(--font-display)] text-[13px] font-semibold uppercase tracking-[0.14em] text-brand">
+                  <span className="font-[family-name:var(--font-display)] text-body-s font-semibold uppercase tracking-[0.14em] text-brand">
                     Day {i + 1} · {day.label}
                   </span>
                   {top ? (
@@ -55,7 +55,7 @@ export function LineupPoster() {
               {picked.headliner ? <HeadlinerTag /> : null}
               <h3 className="card-title text-white">{picked.name}</h3>
               <StageTime act={picked} className="text-brand" />
-              <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[21px] text-content-secondary">
+              <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                 {picked.bio}
               </p>
               <ActLinks act={picked} />
@@ -83,10 +83,10 @@ function NameButton({
       type="button"
       onClick={() => onPick(act.id)}
       aria-pressed={on}
-      className={`group inline-flex items-baseline gap-3 text-left font-daltown uppercase transition-colors duration-200 ${big ? "text-[clamp(64px,9vw,140px)] leading-[0.82]" : "text-[clamp(32px,3.6vw,52px)] leading-[0.9]"} ${on ? "text-brand" : "text-white hover:text-brand"}`}
+      className={`group inline-flex items-baseline gap-3 text-left font-daltown uppercase transition-colors duration-200 ${big ? "section-title" : "display-s"} ${on ? "text-brand" : "text-white hover:text-brand"}`}
     >
       {act.name}
-      <span className={`font-[family-name:var(--font-display)] font-semibold normal-case tracking-normal ${big ? "text-[18px]" : "text-[13px]"} ${on ? "text-brand" : "text-text-secondary"}`}>
+      <span className={`font-[family-name:var(--font-display)] font-semibold normal-case tracking-normal ${big ? "text-title-body" : "text-body-s"} ${on ? "text-brand" : "text-text-secondary"}`}>
         {act.start}
       </span>
     </button>
