@@ -1,211 +1,180 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import VinylAlbumCard from "@/components/ui/great-ui-vinyl-album-card";
 import type { Festival } from "@/data/home";
 import { festivalsRowOrder, homeCopy } from "@/data/home";
 
 /**
- * "Our iconic festivals" — Figma 2482:25025.
+ * Upcoming events — the double bill.
  *
- * The comp replaces the perspective poster stage with a plain row: the title
- * at Daltown 152/118 on a 403 measure, then the artwork running off the right
- * edge of the page. Four fit the frame and the rest are past it, which is the
- * comp saying the row moves.
+ * The section used to be a row built for four or more: a pinned track that
+ * scrubbed sideways past posters running off the page. With two festivals
+ * on the programme there was nothing to scrub, and two square covers sat on
+ * the left of a full-screen section with the right half empty.
  *
- * So it moves with the page: the section pins and the track scrubs sideways
- * over exactly the distance it overhangs, then releases into the band below.
- * Vertical scrolling is the only input, which is what makes it work on a
- * trackpad, a wheel and a touch screen alike.
+ * So it is now a bill with two names on it. The column splits into two
+ * panels, one per festival, each taking its colour from its own poster —
+ * blown up and blurred behind it — with the poster in front as a sleeve and
+ * the record behind. Hovering (or focusing) one widens it, pulls its record
+ * out and sets it turning, and drops the other to luminosity, the treatment
+ * the festival posters have always used for the one you are not looking at.
+ * The split is the design: it only works because there are exactly two.
  *
- * Below `lg`, and whenever reduced motion is asked for, the pin is off and
- * the row is an ordinary horizontal scroller — a pinned section on a phone
- * hijacks the one gesture the reader has.
+ * Only a festival with an event page links anywhere. Tanjazz has none yet,
+ * so it says tickets are coming rather than linking to `#`.
  *
- * The covers are square and each one is a sleeve with a record behind it
- * (`VinylAlbumCard`): hovering slides the record out and opens the caption
- * underneath. One card is active at a time, held here rather than in each
- * card, so two records are never half-out at once. The caption's height is
- * reserved whether or not it is showing, so the row does not jump.
- *
- * Whichever card is active keeps its colour and the rest drop to
- * luminosity, which is the treatment the poster stage always used. With
- * nothing hovered they all stay in colour.
- *
- * Everything after the active card slides right by exactly the record's
- * travel, on the record's own spring, so the record opens into clear space
- * rather than over its neighbour. It is a transform, not a layout change,
- * so the track keeps its measured width and the scrub distance stays put.
- * The last card has nothing after it to move: its record opens into the
- * page gutter, and at the very end of the scrub the screen edge trims it.
- *
- * The artwork is the comp's own, re-cropped square from the bitmaps behind
- * it; the old perspective exports are not reused. Only the four festivals
- * that artwork covers are in the row.
- *
- * The spacebar audio preview the old stage carried does not come with it —
- * the comp draws no control for it and no hint. `FestivalsStage` still has
- * it, and the two homepage preview routes still use that.
+ * Below `lg` the panels stack and nothing widens — there is no hover on a
+ * phone, and a panel that grows on tap would hide the other one.
  */
-
-const CARD = 404;
-const CAPTION = 64;
-/**
- * How far the record travels out of its sleeve — the same ratio the card
- * uses. Everything after the active card moves by exactly this, so the
- * record opens into clear space instead of over its neighbour.
- */
-const PUSH = CARD * 0.486;
-/** The record's spring, so the neighbours move with it rather than after it. */
-const PUSH_SPRING = {
-  type: "spring" as const,
-  stiffness: 80,
-  damping: 15,
-  mass: 1,
-};
-
 export function FestivalsRow({ festivals }: { festivals: Festival[] }) {
-  const section = useRef<HTMLElement>(null);
-  const viewport = useRef<HTMLDivElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-  const [activeId, setActiveId] = useState<string | null>(null);
-
-  const cards = festivalsRowOrder
+  const bill = festivalsRowOrder
     .map((id) => festivals.find((f) => f.id === id))
     .filter((f): f is Festival => Boolean(f?.card));
-  const activeIndex = cards.findIndex((f) => f.id === activeId);
 
-  useEffect(() => {
-    const sectionEl = section.current;
-    const viewportEl = viewport.current;
-    const trackEl = track.current;
-    if (!sectionEl || !viewportEl || !trackEl) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          pinned:
-            "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
-        },
-        () => {
-          /* How far the row overhangs the screen: the viewport's own
-             scrollable distance, which counts the gutters, so the last
-             cover ends level with the column instead of past it. Read at
-             refresh rather than once, so a resize re-measures instead of
-             scrubbing to a stale distance. */
-          const overhang = () =>
-            Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
-
-          /* GSAP owns the x while it is pinned, so the native scroller has
-             to be off — two mechanisms on one axis fight each other. */
-          viewportEl.style.overflowX = "hidden";
-
-          const tween = gsap.to(trackEl, {
-            x: () => -overhang(),
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionEl,
-              start: "top top",
-              end: () => `+=${overhang()}`,
-              pin: true,
-              scrub: 0.6,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-
-          return () => {
-            tween.scrollTrigger?.kill();
-            tween.kill();
-            viewportEl.style.overflowX = "";
-            gsap.set(trackEl, { x: 0 });
-          };
-        },
-      );
-    }, sectionEl);
-
-    return () => ctx.revert();
-  }, []);
+  const cities = [...new Set(bill.map((f) => f.city).filter(Boolean))];
 
   return (
     <section
-      ref={section}
       id="festivals"
       aria-labelledby="festivals-title"
-      /* Full-screen only where the row is pinned and scrubbed. On a phone
-         it is a plain swipe, and a viewport-tall section there spent the
-         whole screen on the heading with every poster off to the right. */
-      className="relative flex flex-col justify-center py-16 lg:min-h-svh xl:py-20"
+      className="relative py-16 xl:py-20"
     >
-      <div
-        ref={viewport}
-        /* The gutter is padding rather than a margin so the title lines up
-           with the column and the last cover can still reach the edge. */
-        className="w-full overflow-x-auto px-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        <div ref={track} className="flex w-max items-start gap-8">
+      <div className="shell flex flex-col gap-8 xl:gap-12">
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
           <h2
             id="festivals-title"
-            /* 403 is the comp's column. At that fixed width the heading itself
-               ran off a phone, so the section title had to be swiped into
-               view; and filling the width exactly hid the fact that anything
-               follows it. 72vw leaves the first poster showing at its edge,
-               which is what says the row moves. */
-            className="m-0 w-[min(403px,72vw)] shrink-0 self-center font-daltown text-[clamp(54px,8.49vw,129px)] uppercase leading-[0.78] tracking-[0.03em] text-white"
+            className="section-title text-white"
             data-reveal="clip"
           >
             {homeCopy.festivalsTitle}
           </h2>
-
-          {cards.map((festival, index) => {
-            const active = activeId === festival.id;
-            /* Only what sits after the active card needs to move: the
-               record comes out to the right. */
-            const pushed = activeIndex !== -1 && index > activeIndex;
-            return (
-              <motion.div
-                key={festival.id}
-                className="shrink-0"
-                style={{ zIndex: active ? 30 : 10 }}
-                animate={{ x: pushed ? PUSH : 0 }}
-                transition={PUSH_SPRING}
-              >
-                <Link
-                  href={festival.href}
-                  aria-label={festival.name}
-                  className="block"
-                >
-                  <VinylAlbumCard
-                    coverImage={festival.card as string}
-                    title={festival.name}
-                    meta={festival.when}
-                    size={CARD}
-                    captionHeight={CAPTION}
-                    active={active}
-                    /* Colour belongs to whichever card you are on. With
-                       nothing hovered they all keep it — a row of grey
-                       posters is not a resting state, it is a row that
-                       looks broken. */
-                    dimmed={activeIndex !== -1 && !active}
-                    onActiveChange={(next) =>
-                      setActiveId(next ? festival.id : null)
-                    }
-                    sizes={`${CARD}px`}
-                  />
-                </Link>
-              </motion.div>
-            );
-          })}
+          <p
+            className="m-0 font-[family-name:var(--font-display)] text-[13px] uppercase leading-5 tracking-[0.12em] text-text-secondary"
+            data-reveal="up"
+          >
+            {String(bill.length).padStart(2, "0")} festivals ·{" "}
+            {cities.join(" · ")}
+          </p>
         </div>
+
+        <ul
+          className="bill m-0 flex list-none flex-col gap-4 p-0 lg:h-[clamp(560px,46vw,700px)] lg:flex-row"
+          data-reveal="up"
+          data-reveal-stagger
+        >
+          {bill.map((festival, index) => (
+            <BillPanel key={festival.id} festival={festival} index={index} />
+          ))}
+        </ul>
       </div>
     </section>
+  );
+}
+
+function BillPanel({ festival, index }: { festival: Festival; index: number }) {
+  const live = festival.href !== "#";
+  const card = festival.card as string;
+  /* The two lean apart, like bills pasted either side of a door. */
+  const lean = index % 2 === 0 ? -2.5 : 2.5;
+
+  return (
+    <li
+      className="bill-panel group relative isolate flex min-h-[600px] flex-1 overflow-hidden bg-ink-900 lg:min-h-0"
+      style={{ "--lean": `${lean}deg` } as React.CSSProperties}
+    >
+      {/* The panel's colour: its own poster, blown up and blurred. */}
+      <Image
+        src={card}
+        alt=""
+        fill
+        sizes="50vw"
+        className="bill-tint -z-20 scale-125 object-cover opacity-60"
+        aria-hidden
+      />
+      <span
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/45 to-black/25"
+      />
+
+      {/* Above the panel-wide link below, but click-through, so the panel
+          is one big target and only the button answers on its own. */}
+      <div className="pointer-events-none relative z-10 flex w-full flex-col justify-between gap-6 p-6 xl:p-8">
+        {/* The billing line. */}
+        <div className="flex items-start justify-between gap-4">
+          <span className="font-daltown text-[40px] leading-[32px] text-brand">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          {festival.edition ? (
+            <span className="border border-white/15 bg-black/30 px-3 py-1.5 font-[family-name:var(--font-display)] text-[12px] font-medium uppercase leading-4 tracking-[0.1em] text-text-primary">
+              {festival.edition}
+            </span>
+          ) : null}
+        </div>
+
+        {/* Sleeve and record. The pair is pulled left of centre by as much
+            as the record shows, so it reads as one centred object at rest
+            and with the record out. */}
+        <div className="flex flex-1 items-center justify-center">
+          <div className="bill-stage relative size-[min(340px,72vw)] lg:size-[min(360px,24vw)]">
+            <span aria-hidden className="bill-record absolute inset-[3%]">
+              <span className="bill-record-disc absolute inset-0 rounded-full">
+                <span className="absolute inset-[32%] overflow-hidden rounded-full">
+                  <Image
+                    src={card}
+                    alt=""
+                    fill
+                    sizes="120px"
+                    className="bill-art object-cover"
+                  />
+                </span>
+                <span className="absolute inset-[48.5%] rounded-full bg-[#0b0b0e]" />
+              </span>
+            </span>
+            <span className="bill-sleeve absolute inset-0 shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
+              <Image
+                src={card}
+                alt={`${festival.name} poster`}
+                fill
+                sizes="(min-width: 1024px) 360px, 72vw"
+                className="bill-art object-cover"
+              />
+            </span>
+          </div>
+        </div>
+
+        {/* Name, when, where, and the way in. */}
+        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+          <div className="flex min-w-0 flex-col gap-2">
+            <h3 className="card-title text-white">{festival.name}</h3>
+            <p className="m-0 font-[family-name:var(--font-display)] text-[15px] leading-[22px] text-text-secondary">
+              {[festival.when, festival.city].filter(Boolean).join(" · ")}
+            </p>
+          </div>
+          {live ? (
+            <Link
+              href={festival.href}
+              className="sweep pointer-events-auto shrink-0 bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-[#0b0b0e] after:!bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            >
+              <span className="relative z-10">Get tickets</span>
+            </Link>
+          ) : (
+            <span className="shrink-0 border border-white/15 bg-white/5 px-5 py-4 font-[family-name:var(--font-display)] text-[16px] font-semibold leading-6 text-text-secondary">
+              Tickets soon
+            </span>
+          )}
+        </div>
+      </div>
+
+      {live ? (
+        /* The whole panel goes to the event, not just the button. Hidden
+           from the keyboard and screen readers: the button is the link. */
+        <Link
+          href={festival.href}
+          aria-hidden
+          tabIndex={-1}
+          className="absolute inset-0"
+        />
+      ) : null}
+    </li>
   );
 }

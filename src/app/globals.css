@@ -1962,3 +1962,102 @@ html[data-intro-seen] .preloader {
     transparent 14px 16px
   );
 }
+
+/* ---------------------------------------------------------------------------
+   Upcoming events — the double bill (FestivalsRow)
+   ------------------------------------------------------------------------- */
+.bill-record-disc {
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.12), transparent 45%),
+    repeating-radial-gradient(
+      circle,
+      #0b0b0e 0 1.5px,
+      #19191d 1.5px 3px
+    );
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* At rest the record shows a sliver past the sleeve's right edge; the pair
+   is pulled left by half of that so it sits centred. */
+.bill-stage {
+  transform: translateX(-9%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bill-record {
+  transform: translateX(18%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bill-record-disc {
+  animation: bill-spin 6s linear infinite;
+  animation-play-state: paused;
+}
+.bill-sleeve {
+  transform: rotate(var(--lean, 0deg));
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bill-art,
+.bill-tint {
+  transition: filter 0.5s ease;
+}
+/* Here rather than as a utility: unlayered CSS beats Tailwind's layers, so
+   the grayscale below would otherwise replace the blur instead of adding. */
+.bill-tint {
+  filter: blur(64px);
+}
+
+@keyframes bill-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Hover and focus: the panel widens, the sleeve straightens, the record
+   comes out and turns, and the other panel drops to luminosity. Desktop
+   only — the panels stack below lg. */
+@media (min-width: 1024px) {
+  .bill-panel {
+    transition: flex-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .bill-panel:hover,
+  .bill-panel:focus-within {
+    flex-grow: 1.45;
+  }
+  .bill-panel:hover .bill-stage,
+  .bill-panel:focus-within .bill-stage {
+    transform: translateX(-22%);
+  }
+  .bill-panel:hover .bill-record,
+  .bill-panel:focus-within .bill-record {
+    transform: translateX(46%);
+  }
+  .bill-panel:hover .bill-record-disc,
+  .bill-panel:focus-within .bill-record-disc {
+    animation-play-state: running;
+  }
+  .bill-panel:hover .bill-sleeve,
+  .bill-panel:focus-within .bill-sleeve {
+    transform: rotate(0deg);
+  }
+  .bill:has(.bill-panel:hover, .bill-panel:focus-within)
+    .bill-panel:not(:hover, :focus-within)
+    .bill-art {
+    filter: grayscale(1);
+  }
+  .bill:has(.bill-panel:hover, .bill-panel:focus-within)
+    .bill-panel:not(:hover, :focus-within)
+    .bill-tint {
+    filter: blur(64px) grayscale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bill-panel,
+  .bill-stage,
+  .bill-record,
+  .bill-sleeve {
+    transition: none;
+  }
+  .bill-record-disc {
+    animation: none;
+  }
+}

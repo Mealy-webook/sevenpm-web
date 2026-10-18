@@ -36,6 +36,8 @@ export type Festival = {
   city?: string;
   /** Preview played while the visitor holds the spacebar. */
   audioSrc?: string;
+  /** Which edition, read off the artwork ("19e édition", "23e édition"). */
+  edition?: string;
 };
 
 export const festivals: Festival[] = [
@@ -59,6 +61,7 @@ export const festivals: Festival[] = [
     },
     card: "/assets/poster-tanjazz-26.jpg",
     when: "18 – 20 September 2026",
+    edition: "23rd edition",
   },
   {
     id: "jazzablanca",
@@ -72,6 +75,7 @@ export const festivals: Festival[] = [
     },
     card: "/assets/poster-jazzablanca-26.jpg",
     when: "02 – 11 July 2026",
+    edition: "19th edition",
     audioSrc: jazzablanca.playlist[0]?.audioSrc,
   },
   {
