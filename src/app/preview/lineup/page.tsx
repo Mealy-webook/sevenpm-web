@@ -9,6 +9,12 @@ import { LineupPoster } from "@/components/event/lineup/LineupPoster";
 import { LineupRunningOrder } from "@/components/event/lineup/LineupRunningOrder";
 import { LineupSpine } from "@/components/event/lineup/LineupSpine";
 import { LineupTimeline } from "@/components/event/lineup/LineupTimeline";
+import { LineupIndex } from "@/components/event/lineup/LineupIndex";
+import { LineupRail } from "@/components/event/lineup/LineupRail";
+import { LineupStubs } from "@/components/event/lineup/LineupStubs";
+import { LineupLive } from "@/components/event/lineup/LineupLive";
+import { LineupAccordion } from "@/components/event/lineup/LineupAccordion";
+import { LineupTracklist } from "@/components/event/lineup/LineupTracklist";
 
 export const metadata: Metadata = {
   title: "Lineup options — SEVENPM",
@@ -51,10 +57,46 @@ const OPTIONS = [
     note: "The night top to bottom: a clock down the middle, one stage either side.",
     node: <LineupSpine />,
   },
+  {
+    key: "g",
+    label: "G · Index",
+    note: "Names at display size on the left; the act under the pointer opens large on the right.",
+    node: <LineupIndex />,
+  },
+  {
+    key: "h",
+    label: "H · Rail",
+    note: "Tall portrait cards to swipe; “About” slides the bio and links up over the photo.",
+    node: <LineupRail />,
+  },
+  {
+    key: "i",
+    label: "I · Stubs",
+    note: "Every set as a perforated ticket stub, the headliner's in yellow.",
+    node: <LineupStubs />,
+  },
+  {
+    key: "j",
+    label: "J · Live",
+    note: "On now and up next, per stage. The slider stands in for the visitor's clock.",
+    node: <LineupLive />,
+  },
+  {
+    key: "k",
+    label: "K · Accordion",
+    note: "One slim line per act; tap to drop out the photo, bio and links. The densest option.",
+    node: <LineupAccordion />,
+  },
+  {
+    key: "l",
+    label: "L · Tracklist",
+    note: "Each night as a record: sides A and B, sets numbered like tracks.",
+    node: <LineupTracklist />,
+  },
 ];
 
 /**
- * The lineup, six directions for 4–6 acts a day, each act with a photo, a
+ * The lineup, twelve directions for 4–6 acts a day, each act with a photo, a
  * short bio, a stage, a set time and Spotify and YouTube links. They read
  * the provisional bill in `data/lineup.ts` — numbered placeholder names,
  * placeholder bios — so the layouts can be judged before the real one is
