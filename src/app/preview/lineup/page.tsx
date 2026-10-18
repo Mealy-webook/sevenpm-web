@@ -15,6 +15,12 @@ import { LineupStubs } from "@/components/event/lineup/LineupStubs";
 import { LineupLive } from "@/components/event/lineup/LineupLive";
 import { LineupAccordion } from "@/components/event/lineup/LineupAccordion";
 import { LineupTracklist } from "@/components/event/lineup/LineupTracklist";
+import { LineupStages } from "@/components/event/lineup/LineupStages";
+import { LineupBill } from "@/components/event/lineup/LineupBill";
+import { LineupMosaic } from "@/components/event/lineup/LineupMosaic";
+import { LineupPolaroids } from "@/components/event/lineup/LineupPolaroids";
+import { LineupFestivalGrid } from "@/components/event/lineup/LineupFestivalGrid";
+import { LineupStories } from "@/components/event/lineup/LineupStories";
 
 export const metadata: Metadata = {
   title: "Lineup options — SEVENPM",
@@ -93,16 +99,59 @@ const OPTIONS = [
     note: "Each night as a record: sides A and B, sets numbered like tracks.",
     node: <LineupTracklist />,
   },
+  {
+    key: "m",
+    label: "M · Stages",
+    note: "A column per stage, acts stacked in playing order, like a printed programme.",
+    node: <LineupStages />,
+  },
+  {
+    key: "n",
+    label: "N · Top of the bill",
+    note: "The headliner as a full-width banner; the rest of the night as small cards below.",
+    node: <LineupBill />,
+  },
+  {
+    key: "o",
+    label: "O · Mosaic",
+    note: "A gapless photo wall, headliner 2×2; hover a tile for the bio and links.",
+    node: <LineupMosaic />,
+  },
+  {
+    key: "p",
+    label: "P · Polaroids",
+    note: "Each act a tilted print with the time in the foot; pick one to open it.",
+    node: <LineupPolaroids />,
+  },
+  {
+    key: "q",
+    label: "Q · Whole festival",
+    note: "Every night on one grid of faces — which night to come, before who is on.",
+    node: <LineupFestivalGrid />,
+  },
+  {
+    key: "r",
+    label: "R · Stories",
+    note: "One act at a time, story bars along the top; tap or step through the night.",
+    node: <LineupStories />,
+  },
 ];
 
 /**
- * The lineup, twelve directions for 4–6 acts a day, each act with a photo, a
+ * The lineup, eighteen directions for 4–6 acts a day, each act with a photo, a
  * short bio, a stage, a set time and Spotify and YouTube links. They read
  * the provisional bill in `data/lineup.ts` — numbered placeholder names,
  * placeholder bios — so the layouts can be judged before the real one is
  * announced. Preview furniture; goes when a direction is chosen.
  */
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ only?: string }>;
+}) {
+  /* `?only=mnr` shows just those options — for comparing a few at a time. */
+  const { only } = await searchParams;
+  const shown = only ? OPTIONS.filter((o) => only.includes(o.key)) : OPTIONS;
   return (
     <>
       <MotionProvider />
@@ -112,7 +161,7 @@ export default function Page() {
         className="sticky top-0 z-40 border-b border-white/10 bg-bg-primary/90 backdrop-blur"
       >
         <ul className="shell m-0 flex list-none gap-2 overflow-x-auto py-3 [scrollbar-width:none]">
-          {OPTIONS.map((o) => (
+          {shown.map((o) => (
             <li key={o.key}>
               <a
                 href={`#option-${o.key}`}
@@ -134,7 +183,7 @@ export default function Page() {
             so some repeat. Spotify and YouTube go nowhere yet.
           </p>
         </div>
-        {OPTIONS.map((o) => (
+        {shown.map((o) => (
           <div key={o.key} id={`option-${o.key}`} className="scroll-mt-28">
             <div className="shell pt-16">
               <p className="m-0 border-t border-brand/60 pt-4 font-[family-name:var(--font-display)] text-[14px] leading-5 text-text-secondary">
