@@ -2166,3 +2166,19 @@ html[data-intro-seen] .preloader {
     will-change: transform;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Homepage hero — scroll reveal (HeroScrollReveal). The screen pins inside a
+   taller track while the window in MORE opens into the full-screen reel:
+   the first 60% of the travel opens it, the rest holds it. Desktop with
+   motion only; everywhere else the hero is one screen, as before.
+   ------------------------------------------------------------------------- */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .hero-track {
+    height: calc(280svh - var(--header-h, 0px));
+  }
+  .hero-screen {
+    position: sticky;
+    top: var(--header-h, 0px);
+  }
+}

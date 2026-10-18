@@ -109,6 +109,8 @@ export function HeroPill() {
   return (
     <span
       ref={shell}
+      /* HeroScrollReveal takes over from this box as the page scrolls. */
+      data-hero-pill
       className="relative block shrink-0 overflow-hidden rounded-full bg-white"
       style={{
         width: `${pill.width}em`,

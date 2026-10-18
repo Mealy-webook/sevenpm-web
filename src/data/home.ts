@@ -331,6 +331,10 @@ export const homeCopy = {
        */
       video: "/assets/hero-reel.mp4" as string | undefined,
       poster: "/assets/hero-pill.jpg",
+      /* The same film at 1920, for the scroll reveal's full-screen stage
+         (HeroScrollReveal). The 960 cut above is sized for the window and
+         goes soft at full bleed. Only fetched on desktop with motion. */
+      stageVideo: "/assets/hero-reel-1920.mp4" as string | undefined,
     },
   },
   /** Empty: the hero heading is the name, with nothing cycling after it. */
