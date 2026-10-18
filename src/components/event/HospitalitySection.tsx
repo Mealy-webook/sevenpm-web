@@ -4,56 +4,89 @@ import Link from "next/link";
 import { hospitalityCopy, hospitalityPackages } from "@/data/hospitality";
 
 /**
- * Hospitality packages on the event page, from Figma 2549:17634.
+ * Hospitality packages on the event page, from Figma 2612:5506.
  *
- * Redrawn since the first pass: it was a centred title over a full-width
- * row, and it is now two columns on a secondary ground — the title and the
- * standfirst held to 403 on the left, the cards running off the right edge.
+ * Redrawn again. The section is now two stacked parts on the page's own
+ * ground — the secondary grey it used to sit on is not in this comp or the
+ * last one:
  *
- * Four cards at 403 with 32 between them come to 1708 against the 821 the
- * comp gives them, and the comp cuts the third mid-card at the frame edge.
- * That is a rail: it scrolls, which is also the only way cards this deep
- * work on a narrow screen.
+ * - an intro row of two 620 columns: the title and standfirst on the left,
+ *   held to 403 and centred on the row's height, and on the right the three
+ *   promises from the hospitality page, each a 48 icon beside a card-title
+ *   and a line, divided by hairlines;
+ * - 48 below, this festival's package cards as a full-width rail. Four at 403 with 32
+ *   between come to 1708 on a 1272 column, and the comp cuts the fourth at
+ *   the frame edge, so it scrolls and runs to the screen edge.
  *
- * The comp gives three cards the brand-yellow CTA and the fourth a white
- * primary. That reads as an unfinished state rather than intent — the
- * design system's own note on CTA says "use once per view maximum", so
- * three of them is already past that and the odd one out is not a
- * hierarchy. All four take the yellow here; say the word and the fourth
- * goes white.
+ * The comp's third promise reads "A dedicated contact One person from our
+ * team…" — the title pasted into the body. The body here is the
+ * hospitality page's own, without the repeat.
+ *
+ * All four cards take the yellow CTA. The previous comp gave the fourth a
+ * white one, which read as an unfinished state; say the word and it goes
+ * white.
  */
-export function HospitalitySection() {
+export function HospitalitySection({ festival }: { festival: string }) {
   const { from } = hospitalityCopy.packages;
+  /* This festival's packages only — the comp's four are Jazzablanca's, and
+     Tanjazz VIP has no place on Jazzablanca's page. */
+  const packages = hospitalityPackages.filter((entry) => entry.festival === festival);
+  if (packages.length === 0) return null;
 
   return (
     <section
       id="hospitality"
-      className="relative scroll-mt-24 overflow-hidden bg-bg-secondary py-16 xl:py-20"
+      className="relative scroll-mt-24 overflow-hidden py-16 xl:py-20"
       aria-labelledby="hospitality-title"
     >
-      <div className="shell flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-12">
-        {/* The title column, held to the comp's 403. */}
-        <div className="flex shrink-0 flex-col gap-2 lg:w-[403px]">
-          <h2
-            id="hospitality-title"
-            /* 120/100 at the comp's frame. It sets as two lines there and
-               the measure keeps it that way without a hard break. */
-            className="section-title max-w-[9ch]  text-white"
-            data-reveal="clip"
-          >
-            Hospitality packages
-          </h2>
-          <p className="m-0 font-[family-name:var(--font-ui)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
-            {hospitalityCopy.intro}
-          </p>
+      <div className="shell flex flex-col gap-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-8">
+          {/* The title column, held to the comp's 403. */}
+          <div className="flex flex-col justify-center gap-2">
+            <h2
+              id="hospitality-title"
+              /* 120/100 at the comp's frame, two lines on the 403 measure. */
+              className="section-title max-w-[403px] text-white"
+              data-reveal="clip"
+            >
+              Hospitality packages
+            </h2>
+            <p className="m-0 max-w-[403px] font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+              {hospitalityCopy.intro}
+            </p>
+          </div>
+
+          {/* The three promises */}
+          <ul className="m-0 flex list-none flex-col gap-6 p-0" data-reveal="up" data-reveal-stagger>
+            {hospitalityCopy.highlights.map((item, index) => (
+              <li
+                key={item.title}
+                className={`flex gap-6 sm:gap-8 ${index > 0 ? "border-t border-white/10 pt-6" : ""}`}
+              >
+                <Image
+                  src={item.icon}
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="size-10 shrink-0 sm:size-12"
+                />
+                <div className="flex min-w-0 flex-col gap-2">
+                  <h3 className="card-title text-white">{item.title}</h3>
+                  <p className="m-0 font-[family-name:var(--font-display)] text-[14px] leading-[19px] tracking-[0.15px] text-content-secondary">
+                    {item.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* The rail. It runs to the screen edge rather than stopping at the
             shell, which is what the comp draws — so the gutter is padding
             inside the scroller and the overflow is negative margin. */}
-        <div className="-mr-[var(--shell-gutter)] min-w-0 flex-1 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mr-[var(--shell-gutter)] min-w-0 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <ul className="m-0 flex list-none gap-8 p-0">
-            {hospitalityPackages.map((entry) => (
+            {packages.map((entry) => (
               <li
                 key={entry.slug}
                 className="w-[78vw] shrink-0 sm:w-[360px] xl:w-[403px]"

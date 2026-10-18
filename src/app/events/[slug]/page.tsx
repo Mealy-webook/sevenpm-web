@@ -49,7 +49,7 @@ export default async function EventDetailsPage({ params }: PageProps) {
         {/* 2549:17634 puts hospitality straight after the tickets: the
             visitor has just seen what a standing ticket costs, which is the
             moment a box is worth mentioning. */}
-        <HospitalitySection />
+        <HospitalitySection festival={event.name} />
         <LineupBand />
         {/* The comp's order from here (2542:13992): what you need to know,
             the questions, the gallery, the partners, then the sign-up. The

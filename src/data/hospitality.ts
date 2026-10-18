@@ -371,14 +371,17 @@ export const hospitalityCopy = {
   highlights: [
     {
       title: "Private spaces",
+      icon: "/assets/ic-hosp-private-48.svg",
       body: "Boxes, terraces and garden areas reserved for your group.",
     },
     {
       title: "Everything included",
+      icon: "/assets/ic-hosp-included-48.svg",
       body: "Tickets, catering and parking in one package, depending on the option.",
     },
     {
       title: "A dedicated contact",
+      icon: "/assets/ic-hosp-contact-48.svg",
       body: "One person from our team follows your booking, from the quote to the night.",
     },
   ],

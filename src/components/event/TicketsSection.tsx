@@ -3,10 +3,10 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { TicketRow } from "./TicketRow";
 
 /**
- * Explore tickets, from Figma 2556:21044 — the current event page.
+ * Explore tickets, from Figma 2612:5435 — the current event page.
  *
- * The frame is 478 tall and sized by its contents: 80px of padding, the
- * title, a 32px gap and one 186px row of stubs. It used to be a
+ * The frame is 494 tall and sized by its contents: 80px of padding, the
+ * title, a 48px gap and one 186px row of stubs. It used to be a
  * `.section-screen`, which floored every section at a viewport height and
  * left 300px of air around two stubs that the comp sets tight.
  *
@@ -16,7 +16,7 @@ import { TicketRow } from "./TicketRow";
 export function TicketsSection({ event }: { event: EventDetails }) {
   return (
     <section id="tickets" className="relative py-16 xl:py-20">
-      <div className="shell flex flex-col items-center justify-center gap-8">
+      <div className="shell flex flex-col items-center justify-center gap-12">
         <DisplayHeading reveal="clip">Explore tickets</DisplayHeading>
 
         {/* The stubs, two across on the comp's 1272 column: 628 each with a
