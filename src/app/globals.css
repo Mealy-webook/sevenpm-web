@@ -2230,3 +2230,15 @@ html[data-intro-seen] .preloader {
     top: var(--header-h, 0px);
   }
 }
+
+/* Sponsor J · Backstage pass — the pass sways a little on its lanyard. */
+.pass-swing {
+  animation: pass-swing 5s ease-in-out infinite;
+}
+@keyframes pass-swing {
+  0%, 100% { rotate: -2.5deg; }
+  50% { rotate: 2.5deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pass-swing { animation: none; }
+}

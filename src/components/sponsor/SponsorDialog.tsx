@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 
@@ -54,6 +54,93 @@ export function SponsorCtaButton({
     <button type="button" onClick={open} className={className}>
       {children}
     </button>
+  );
+}
+
+/**
+ * Two steps, after the benchmark: festival and conference partner pages ask
+ * for one to five fields, and ours asked for thirty-one before anything came
+ * back. Step one is what it takes to send the 2027 deck — name, work email,
+ * company, festival. The full brief (goals, audience, formats, budget) is an
+ * optional second step for anyone ready to say more.
+ */
+function DeckThenBrief() {
+  const { form } = sponsorCopy;
+  const [step, setStep] = useState<"deck" | "sent" | "brief">("deck");
+  const ids = { name: useId(), email: useId(), company: useId() };
+  const [festival, setFestival] = useState(form.festivals[0]);
+  const field =
+    "w-full border border-white/20 bg-black/30 px-4 py-3 font-[family-name:var(--font-display)] text-body-l text-white placeholder:text-white/30 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-brand";
+  const label = "font-[family-name:var(--font-display)] text-body-s font-semibold text-white";
+
+  if (step === "brief") {
+    return (
+      <div className="flex flex-col gap-6">
+        <button type="button" onClick={() => setStep("sent")} className="w-fit font-[family-name:var(--font-display)] text-body-s font-semibold text-text-secondary underline underline-offset-4 hover:text-white">
+          ← Back
+        </button>
+        <SponsorEnquiry bare />
+      </div>
+    );
+  }
+
+  if (step === "sent") {
+    return (
+      <div className="flex flex-col items-start gap-5">
+        <span className="bg-brand px-3 py-1 font-[family-name:var(--font-display)] text-caption font-bold uppercase text-[#0b0b0e]">Step 1 of 2 · done</span>
+        <h3 className="card-title text-white">The deck is on its way.</h3>
+        <p className="m-0 max-w-[52ch] font-[family-name:var(--font-display)] text-body text-content-secondary">
+          Nothing is sent from this prototype. On the live site the 2027 deck goes to your inbox now. {form.reply}
+        </p>
+        <div className="flex flex-col gap-3 border border-white/10 bg-bg-secondary p-6">
+          <p className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold text-white">Want a proposal, not just a deck?</p>
+          <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">Tell us your goals, audience and budget and we come back with formats, zone and price.</p>
+          <button type="button" onClick={() => setStep("brief")} className="sweep mt-2 w-fit bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]">
+            <span className="relative z-10">Add your brief (optional)</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      className="flex flex-col gap-5"
+      onSubmit={(e) => {
+        e.preventDefault();
+        setStep("sent");
+      }}
+    >
+      <span className="w-fit border border-white/15 px-3 py-1 font-[family-name:var(--font-display)] text-caption font-bold uppercase text-text-secondary">Step 1 of 2 · get the deck</span>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <label className="flex flex-col gap-2" htmlFor={ids.name}>
+          <span className={label}>Full name</span>
+          <input id={ids.name} required className={field} />
+        </label>
+        <label className="flex flex-col gap-2" htmlFor={ids.company}>
+          <span className={label}>Company</span>
+          <input id={ids.company} required className={field} />
+        </label>
+      </div>
+      <label className="flex flex-col gap-2" htmlFor={ids.email}>
+        <span className={label}>Work email</span>
+        <input id={ids.email} type="email" required placeholder="you@company.com" className={field} />
+      </label>
+      <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
+        <legend className={`${label} mb-3`}>Festival</legend>
+        <div className="flex flex-wrap gap-2">
+          {form.festivals.map((f) => (
+            <button key={f} type="button" aria-pressed={f === festival} onClick={() => setFestival(f)}
+              className={`border px-4 py-2.5 font-[family-name:var(--font-display)] text-body font-semibold transition-colors ${f === festival ? "border-brand bg-brand text-[#0b0b0e]" : "border-white/15 text-content-primary hover:border-white/40"}`}>
+              {f}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+      <button type="submit" className="sweep mt-2 w-fit bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]">
+        <span className="relative z-10">{form.submit}</span>
+      </button>
+    </form>
   );
 }
 
@@ -153,7 +240,7 @@ function SponsorDialog({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="flex-1 overflow-y-auto overscroll-contain p-6 xl:px-10 xl:py-8">
-          <SponsorEnquiry bare />
+          <DeckThenBrief />
         </div>
 
         {/* The way round the form. */}
