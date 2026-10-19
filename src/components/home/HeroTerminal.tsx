@@ -99,34 +99,28 @@ export function HeroTerminal() {
       className="absolute inset-x-0 bottom-0 top-[calc(-1*var(--header-h,0px))] z-0"
     >
       {live ? (
-        /* Pulled well back from where it started. The 2482:25005 hero is
-           centred with a photograph set into the word, and at full strength
-           this field fought it for the middle of the screen — the hero it was
-           tuned against was ranged left, which left the field a clear half to
-           live in. Brightness is roughly a third of what it was, the glitch
-           and flicker are most of the way down, and it is wrapped in an
-           opacity so the whole thing can be moved with one number. */
-        <div className="absolute inset-0 opacity-45">
-          <FaultyTerminal
-            scale={1.6}
-            gridMul={[2, 1]}
-            digitSize={1.3}
-            timeScale={0.3}
-            pause={paused}
-            scanlineIntensity={0.3}
-            glitchAmount={0.35}
-            flickerAmount={0.3}
-            noiseAmp={0.7}
-            chromaticAberration={0}
-            dither={0.3}
-            curvature={0.12}
-            tint="#fbeb1c"
-            mouseReact
-            mouseStrength={0.25}
-            pageLoadAnimation
-            brightness={0.22}
-          />
-        </div>
+        /* At full strength again, as first tuned (048f365). A quieter pass
+           (d10a332) took it to about a sixth of this; it read as switched
+           off. The scrim below is what keeps the headline clear. */
+        <FaultyTerminal
+          scale={1.6}
+          gridMul={[2, 1]}
+          digitSize={1.3}
+          timeScale={0.4}
+          pause={paused}
+          scanlineIntensity={0.5}
+          glitchAmount={1}
+          flickerAmount={0.8}
+          noiseAmp={1}
+          chromaticAberration={0}
+          dither={0.4}
+          curvature={0.12}
+          tint="#fbeb1c"
+          mouseReact
+          mouseStrength={0.35}
+          pageLoadAnimation
+          brightness={0.62}
+        />
       ) : (
         /* The still: the terminal's dot field and its tint, as two gradients.
            No canvas, no loop, nothing to decode. */
@@ -134,17 +128,16 @@ export function HeroTerminal() {
           className="absolute inset-0 block bg-bg-primary"
           style={{
             backgroundImage:
-              "radial-gradient(circle, rgba(251,235,28,0.12) 1px, transparent 1.4px), radial-gradient(ellipse 80% 60% at 50% 40%, rgba(251,235,28,0.06), transparent 70%)",
+              "radial-gradient(circle, rgba(251,235,28,0.22) 1px, transparent 1.4px), radial-gradient(ellipse 80% 60% at 50% 40%, rgba(251,235,28,0.10), transparent 70%)",
             backgroundSize: "14px 14px, 100% 100%",
           }}
         />
       )}
 
-      {/* The scrim, heaviest where the headline sits. It is tighter and
-          darker in the middle than it was: the headline is centred now, so
-          the clearing it needs is a disc in the centre rather than a band
-          across the whole fold. */}
-      <span className="pointer-events-none absolute inset-0 block bg-[radial-gradient(ellipse_58%_45%_at_50%_50%,rgba(11,11,14,0.94),rgba(11,11,14,0.6)_55%,rgba(11,11,14,0.8))]" />
+      {/* A light scrim, only behind the headline: a soft disc in the centre
+          so MORE / MUSIC reads, and the field at full strength everywhere
+          else. */}
+      <span className="pointer-events-none absolute inset-0 block bg-[radial-gradient(ellipse_42%_32%_at_50%_50%,rgba(11,11,14,0.72),rgba(11,11,14,0.35)_60%,transparent_100%)]" />
     </div>
   );
 }
