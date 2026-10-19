@@ -224,7 +224,7 @@ export const sponsorCopy = {
     eyebrow: "How it works",
     title: "Four steps, one contact",
     steps: [
-      { title: "Your brief", body: "Through the form below or a call." },
+      { title: "Your brief", body: "Through the enquiry form or a call." },
       {
         title: "A proposal",
         body: "Formats, zone and budget within [X] working days.",
