@@ -2,21 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FOOTER_LINKS } from "@/data/menu";
+import { menuSocialLinks } from "@/data/events";
 import { footerCopy } from "@/data/events";
 
 /**
- * Site footer, from Figma 2542:15137 (2467:23439).
+ * Site footer, from the homepage comp's footer (15:202 → 2467:23440).
  *
- * Three things, centred: the oversized wordmark, one row of the menu, and
- * the copyright beside the WBK credit.
- *
- * The row is the drawer's five entries (`FOOTER_LINKS` is derived from
- * `MENU_LINKS`), by request — it used to carry the comp's own eight.
- *
- * No nested festivals and no social links. Both were here and neither is in
- * the comp; a footer that re-states the drawer's hierarchy is repeating it
- * rather than summarising it, and the socials are now listed in the menu
- * alone.
+ * Centred, top to bottom: the oversized wordmark, one row of five links
+ * (FOOTER_LINKS — not the drawer's list), the five social links as square
+ * tiles, then the copyright beside the WBK credit.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -54,6 +48,23 @@ export function SiteFooter() {
             </Link>
           ))}
         </nav>
+
+        {/* The five socials as square tiles, as the comp draws them. */}
+        <ul className="m-0 flex list-none flex-wrap items-center justify-center gap-4 p-0">
+          {menuSocialLinks.map((s) => (
+            <li key={s.label}>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`SEVENPM on ${s.label}`}
+                className="flex size-14 items-center justify-center border border-white/10 bg-bg-secondary transition-colors hover:border-white/40"
+              >
+                <Image src={s.icon} alt="" width={24} height={24} className="size-6" />
+              </a>
+            </li>
+          ))}
+        </ul>
 
         {/* The copyright and the credit on one line, 24 apart. */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

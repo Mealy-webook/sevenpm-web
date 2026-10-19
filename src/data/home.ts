@@ -219,14 +219,17 @@ export const homeStory = {
 export const homePillars = [
   {
     title: "Mission",
+    icon: "/assets/ic-mission-64.svg",
     body: "To offer an exceptional experience to our festival-goers and our entire community by guaranteeing access to culture and events.",
   },
   {
     title: "Vision",
+    icon: "/assets/ic-vision-64.svg",
     body: "Create a cultural business model that allows the best artists in the world to be presented in Morocco and showcases young Moroccan talent.",
   },
   {
     title: "Values",
+    icon: "/assets/ic-values-64.svg",
     body: "Encouraging diversity and promoting social inclusion in partnership with committed businesses and our communities to make culture accessible to all.",
   },
 ];

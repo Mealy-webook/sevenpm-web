@@ -141,7 +141,9 @@ export function SiteMenu({
   const closeButton = useRef<HTMLButtonElement>(null);
   const submenu = useRef<HTMLDivElement>(null);
   const leaving = useRef(false);
-  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  /* Festivals arrives open, as 2626:16680 draws it: the two festivals are
+     the drawer's most useful links and should not need a tap to find. */
+  const [openGroup, setOpenGroup] = useState<string | null>("Festivals");
   const [picker, setPicker] = useState<"language" | "currency" | null>(null);
   const submenuId = useId();
   const newsletterId = useId();
@@ -271,14 +273,17 @@ export function SiteMenu({
       gsap.set(el, { height: "auto" });
       return;
     }
-    gsap.set(el, { height: "auto" });
-    gsap.from(el, { height: 0, duration: 0.55, ease: EASE });
+    /* Pinned at both ends: a group open on arrival runs this as the drawer
+       mounts, and React's dev double-mount would leave a plain `from`
+       stopped at the half-run height. */
+    gsap.fromTo(el, { height: 0 }, { height: "auto", duration: 0.55, ease: EASE });
     gsap.fromTo(
       items,
       { yPercent: 140, rotate: 8 },
       { yPercent: 0, rotate: 0, duration: 0.6, stagger: 0.05, ease: EASE },
     );
-  }, [openGroup]);
+    // Re-run when the drawer opens, so a group open on arrival unfolds.
+  }, [openGroup, open]);
 
   if (!open) return null;
 
@@ -389,218 +394,203 @@ export function SiteMenu({
             </button>
           </div>
 
-          {/* Two columns at the comp's 1512 (2556:20723): the list on the
-              left, the three panels on the right, 32 apart and each taking
-              half. They stack below `lg`, where two columns of this depth
-              would each be too narrow to read. */}
+          {/* Two columns (2626:16686): the list on the left taking the rest,
+              the 447 panel column on the right, 32 apart. They stack below
+              `lg`, where two columns of this depth would each be too narrow
+              to read. */}
           <div className="mt-8 flex w-full flex-1 flex-col gap-8 lg:flex-row lg:items-start">
-          <nav
-            aria-label="Primary"
-            className="flex w-full flex-1 flex-col items-start gap-6"
-          >
-            {MENU_LINKS.map((entry, index) => {
-              const expanded = openGroup === entry.label;
-              return (
-                <div
-                  key={entry.label}
-                  className="flex w-full flex-col items-start gap-6"
-                >
-                  {/* Rules divide the entries rather than top-and-tailing
+            <nav
+              aria-label="Primary"
+              className="flex w-full flex-1 flex-col items-start gap-6"
+            >
+              {MENU_LINKS.map((entry, index) => {
+                const expanded = openGroup === entry.label;
+                return (
+                  <div
+                    key={entry.label}
+                    className="flex w-full flex-col items-start gap-6"
+                  >
+                    {/* Rules divide the entries rather than top-and-tailing
                       them: 2556:20723 has none above Festivals and none under
                       Contact, so the first row skips it. */}
-                  {index > 0 ? (
-                    <span
-                      data-menu-rule
-                      className="block h-px w-full bg-white/10"
-                      aria-hidden
-                    />
-                  ) : null}
+                    {index > 0 ? (
+                      <span
+                        data-menu-rule
+                        className="block h-px w-full bg-white/10"
+                        aria-hidden
+                      />
+                    ) : null}
 
-                  <span className="menu-mask">
-                    {entry.children ? (
-                      <button
-                        type="button"
-                        data-menu-link
-                        aria-expanded={expanded}
-                        aria-controls={submenuId}
-                        onClick={() =>
-                          setOpenGroup(expanded ? null : entry.label)
-                        }
-                        /* Brand yellow while open. An earlier note here said
+                    <span className="menu-mask">
+                      {entry.children ? (
+                        <button
+                          type="button"
+                          data-menu-link
+                          aria-expanded={expanded}
+                          aria-controls={submenuId}
+                          onClick={() =>
+                            setOpenGroup(expanded ? null : entry.label)
+                          }
+                          /* Brand yellow while open. An earlier note here said
                            the comp kept the expanded entry white — 2231:12302
                            is the Festivals-open state and sets it to
                            #fbeb1c, so the open group is the one coloured
                            thing in the list and the only cue that does not
                            depend on a cursor being present. */
-                        className={`${ENTRY_TYPE} cursor-pointer ${
-                          expanded
-                            ? "text-brand"
-                            : "text-white hover:text-brand"
-                        }`}
-                      >
-                        {entry.label}
-                      </button>
-                    ) : (
-                      <Link
-                        href={entry.href}
-                        data-menu-link
-                        onClick={onClose}
-                        className={`menu-link ${ENTRY_TYPE} text-white hover:text-brand`}
-                      >
-                        {entry.label}
-                      </Link>
-                    )}
-                  </span>
+                          className={`${ENTRY_TYPE} cursor-pointer ${
+                            expanded
+                              ? "text-brand"
+                              : "text-white hover:text-brand"
+                          }`}
+                        >
+                          {entry.label}
+                        </button>
+                      ) : (
+                        <Link
+                          href={entry.href}
+                          data-menu-link
+                          onClick={onClose}
+                          className={`menu-link ${ENTRY_TYPE} text-white hover:text-brand`}
+                        >
+                          {entry.label}
+                        </Link>
+                      )}
+                    </span>
 
-                  {entry.children && (
-                    <div
-                      /* One ref serves the single group in MENU_LINKS. Give
+                    {entry.children && (
+                      <div
+                        /* One ref serves the single group in MENU_LINKS. Give
                          each group its own ref if a second one appears. */
-                      ref={submenu}
-                      id={submenuId}
-                      className="h-0 w-full overflow-hidden"
-                    >
-                      <ul className="m-0 flex list-none flex-col items-start gap-4 p-0">
-                        {entry.children.map((child) => (
-                          <li key={child.label} className="menu-mask">
-                            <Link
-                              href={child.href}
-                              data-menu-sub-link
-                              tabIndex={expanded ? undefined : -1}
-                              onClick={onClose}
-                              className="block font-[family-name:var(--font-display)] text-title-section uppercase tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-title-screen"
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                        ref={submenu}
+                        id={submenuId}
+                        className="h-0 w-full overflow-hidden"
+                      >
+                        <ul className="m-0 flex list-none flex-col items-start gap-4 p-0">
+                          {entry.children.map((child) => (
+                            <li key={child.label} className="menu-mask">
+                              <Link
+                                href={child.href}
+                                data-menu-sub-link
+                                tabIndex={expanded ? undefined : -1}
+                                onClick={onClose}
+                                className="block font-[family-name:var(--font-display)] text-title-section uppercase tracking-[-0.56px] text-content-secondary transition-colors hover:text-white sm:text-title-screen"
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </nav>
 
-                </div>
-              );
-            })}
-          </nav>
-
-          {/* Two panels under the list (2556:20586) — the sponsor pitch over
-              the newsletter, 16 apart, each a secondary block behind a 5%
-              hairline with 24 of padding.
-
-              The sponsor CTA was added here by hand a change ago and the comp
-              has since caught up with it, so the hand-made version is gone and
-              this is the drawn one: same idea, set as a panel to match the
-              newsletter rather than as a loose button.
-
-              Nothing is sent from either. */}
-          <div className="flex w-full flex-1 flex-col gap-4" data-menu-meta>
-            {/* Put your brand on stage. */}
-            <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
-              <div className="flex min-w-0 flex-1 flex-col">
-                <p className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
-                  Put your brand on stage.
-                </p>
-                <p className="m-0 font-[family-name:var(--font-ui)] text-body text-[#56565d]">
-                  Join SEVENPM festivals and put your brand at the center of
-                  Morocco&rsquo;s live music scene.
-                </p>
-              </div>
-              <Link
-                href="/sponsor"
-                onClick={onClose}
-                className="sweep flex shrink-0 items-center justify-center bg-brand px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e]"
-              >
-                <span className="relative z-10">Become a sponsor</span>
-              </Link>
-            </div>
-
-            {/* Be the first to know. */}
-            <form
-              className="flex w-full flex-col gap-4 border border-white/5 bg-bg-secondary p-6"
-              onSubmit={(event) => {
-                event.preventDefault();
-                setSubscribed(true);
-              }}
-            >
-              <div className="flex flex-col gap-1">
-                <h2 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
-                  Be the first to know
-                </h2>
-                <p className="m-0 font-[family-name:var(--font-ui)] text-body text-[#56565d]">
-                  Subscribe to our newsletter to be the first to know about
-                  concert announcements, and exclusive updates — and never miss
-                  the most exciting news.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-0">
-                <label className="sr-only" htmlFor={newsletterId}>
-                  Your email
-                </label>
-                <input
-                  id={newsletterId}
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="Your email"
-                  onChange={() => setSubscribed(false)}
-                  className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-body-l text-content-primary placeholder:text-content-primary/45 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
-                />
-                <button
-                  type="submit"
-                  className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-brand"
-                >
-                  {subscribed ? "Noted" : "Subscribe"}
-                </button>
-              </div>
-
-              <p
-                role="status"
-                className="m-0 min-h-4 font-[family-name:var(--font-display)] text-caption text-white/45"
-              >
-                {subscribed ? "Thanks — nothing is sent from this prototype." : " "}
-              </p>
-            </form>
-
-            {/* Follow us (2556:20805) — the socials return as icons in
-                bordered tiles, after three changes that each removed them
-                from somewhere. TikTok is new; the written list never had it. */}
-            <div className="flex flex-col gap-4 border border-white/5 bg-bg-secondary p-6 sm:flex-row sm:items-center">
-              <p className="m-0 min-w-0 flex-1 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
-                Follow us
-              </p>
-              <ul className="m-0 flex list-none flex-wrap items-center gap-4 p-0">
-                {menuSocialLinks.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      aria-label={link.label}
-                      className="flex items-center justify-center border border-white/10 bg-bg-secondary p-4 transition-colors hover:border-white/40"
-                    >
-                      <Image
-                        src={link.icon}
-                        alt=""
-                        width={24}
-                        height={24}
-                        className="size-6"
-                      />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          </div>
-
-          <div className="mt-auto flex w-full flex-col items-start gap-4 pt-10">
-            {/* The copyright and the WBK credit on one line, as the comp
-                sets them (2550:18409). */}
+            {/* The right column, 447 wide (2626:16702): the sponsor pitch over
+              a stage photograph that fades into the card, then the
+              newsletter, 24 apart. The Follow us panel is gone from this
+              comp — the socials moved to the foot of the drawer. Nothing is
+              sent from either form. */}
             <div
+              className="flex w-full flex-col gap-6 lg:w-[447px] lg:shrink-0 lg:self-stretch"
               data-menu-meta
-              className="flex flex-wrap items-center gap-x-4 gap-y-2"
             >
+              {/* Put your brand on stage. */}
+              <div className="relative isolate flex min-h-[264px] flex-1 flex-col justify-end gap-4 overflow-hidden border border-white/5 p-6">
+                <Image
+                  src="/assets/menu-sponsor.jpg"
+                  alt=""
+                  fill
+                  sizes="447px"
+                  className="-z-20 object-cover object-top"
+                />
+                <span
+                  aria-hidden
+                  className="absolute inset-0 -z-10 bg-gradient-to-b from-[rgba(24,24,27,0)] to-[#18181b] to-70%"
+                />
+                <div className="flex flex-col gap-1 text-content-primary">
+                  <p className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase">
+                    Put your brand on stage.
+                  </p>
+                  <p className="m-0 font-[family-name:var(--font-display)] text-body">
+                    Join SEVENPM festivals and put your brand at the center of
+                    Morocco&rsquo;s live music scene.
+                  </p>
+                </div>
+                <Link
+                  href="/sponsor"
+                  onClick={onClose}
+                  className="sweep flex h-[60px] w-full items-center justify-center bg-brand px-5 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#0b0b0e] after:!bg-white"
+                >
+                  <span className="relative z-10">Become a sponsor</span>
+                </Link>
+              </div>
+
+              {/* Never miss the latest news. */}
+              <form
+                className="flex w-full flex-col gap-4 border border-white/5 bg-bg-secondary p-6"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setSubscribed(true);
+                }}
+              >
+                <div className="flex flex-col gap-1">
+                  <h2 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase text-content-primary">
+                    Never miss the latest news.
+                  </h2>
+                  <p className="m-0 font-[family-name:var(--font-display)] text-body text-[#56565d]">
+                    Subscribe to our newsletter to be the first to know about
+                    concert announcements, and exclusive updates
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-0">
+                  <label className="sr-only" htmlFor={newsletterId}>
+                    Your email
+                  </label>
+                  <input
+                    id={newsletterId}
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="Your email"
+                    onChange={() => setSubscribed(false)}
+                    className="min-w-0 flex-1 border-[0.5px] border-white/10 bg-white/5 px-4 py-3 font-[family-name:var(--font-display)] text-body-l text-content-primary placeholder:text-content-primary focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-brand"
+                  />
+                  <button
+                    type="submit"
+                    className="shrink-0 bg-white px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-[#18181b] transition-colors hover:bg-brand"
+                  >
+                    {subscribed ? "Noted" : "Subscribe"}
+                  </button>
+                </div>
+
+                <p
+                  role="status"
+                  className={
+                    subscribed
+                      ? "m-0 font-[family-name:var(--font-display)] text-caption text-white/45"
+                      : "sr-only"
+                  }
+                >
+                  {subscribed
+                    ? "Thanks — nothing is sent from this prototype."
+                    : ""}
+                </p>
+              </form>
+            </div>
+          </div>
+
+          {/* The foot (2626:16728): the copyright and the WBK credit on the
+              left, the socials as square tiles on the right — four of them,
+              as the comp draws (no Instagram here; the footer carries all
+              five). */}
+          <div
+            data-menu-meta
+            className="mt-auto flex w-full flex-col gap-6 pt-10 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
               <p className="m-0 font-[family-name:var(--font-ui)] text-body-s text-text-secondary">
                 © {year} SEVENPM. All rights reserved.
               </p>
@@ -615,6 +605,29 @@ export function SiteMenu({
                 />
               </p>
             </div>
+            <ul className="m-0 flex list-none items-center gap-4 p-0">
+              {menuSocialLinks
+                .filter((link) => link.label !== "Instagram")
+                .map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={link.label}
+                      className="flex items-center justify-center border border-white/10 bg-bg-secondary p-3 transition-colors hover:border-white/40"
+                    >
+                      <Image
+                        src={link.icon}
+                        alt=""
+                        width={24}
+                        height={24}
+                        className="size-6"
+                      />
+                    </a>
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>

@@ -21,19 +21,21 @@ export function NewsSection({ items }: { items: NewsItem[] }) {
   return (
     <section id="news" className="relative py-16 xl:py-24">
       <div className="shell flex flex-col items-center gap-12">
-        <div className="relative w-full">
-          <DisplayHeading reveal="clip">Latest news</DisplayHeading>
-          {/* Scribble: 422.63 × 275.1 box at (749.38, 53.11) in the 1512
-              frame → 629.38 from the column's left edge, −42.9 from the
-              heading's top (the heading sits at y 96). */}
-          <div
-            className="pointer-events-none absolute hidden xl:block"
-            style={{ left: 629.38, top: -42.89, width: 422.63, height: 275.1 }}
-            aria-hidden
-          >
-            <Scribble />
-          </div>
-        </div>
+        {/* Centred, with the loop drawn round NEWS itself: the word is its
+            own box and the scribble is centred on it, sized in em, so it
+            stays on the word at every width. It used to be placed at fixed
+            pixel offsets from an older, left-aligned comp, and once the
+            title was centred and scaled with the type it drifted off to the
+            right of the word. */}
+        <DisplayHeading reveal="clip" animate={false}>
+          Latest{" "}
+          <span className="relative inline-block">
+            News
+            <span aria-hidden className="pointer-events-none absolute inset-0">
+              <Scribble />
+            </span>
+          </span>
+        </DisplayHeading>
 
         <NewsHoverList items={items} />
 

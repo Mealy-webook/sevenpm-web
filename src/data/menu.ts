@@ -1,8 +1,9 @@
 /**
  * The site's navigation.
  *
- * The drawer (2231:12302) runs five entries with Festivals opening onto its
- * two festivals; the footer repeats the same five in one flat row.
+ * Two lists, because the comps carry two: the drawer runs five entries with
+ * Festivals opening onto its two festivals; the footer runs its own flat
+ * row of five.
  *
  * Its own module rather than a const inside `SiteMenu`, because that is a
  * client component carrying GSAP and the footer would have pulled all of it
@@ -33,12 +34,15 @@ export const MENU_LINKS: MenuEntry[] = [
 ];
 
 /**
- * The footer follows the drawer, by request: the same five entries in the
- * same order, flat — Festivals without its two children, since the row has
- * nowhere to open them. Derived rather than copied so the two cannot drift.
- * (It used to run 2542:15137's own eight-entry list.)
+ * The footer, as the homepage comp's footer draws it (15:202 → 2467:23440):
+ * one flat row — Festivals, News, Careers, Contact, Become a sponsor. It is
+ * not the drawer's list: it drops Team and names the sponsor page, which
+ * the drawer carries as a panel rather than an entry.
  */
-export const FOOTER_LINKS: MenuLink[] = MENU_LINKS.map(({ label, href }) => ({
-  label,
-  href,
-}));
+export const FOOTER_LINKS: MenuLink[] = [
+  { label: "Festivals", href: "/events" },
+  { label: "News", href: "/news" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
+  { label: "Become a sponsor", href: "/sponsor" },
+];

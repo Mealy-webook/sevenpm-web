@@ -24,7 +24,9 @@ export function NewsStage({ items }: { items: NewsItem[] }) {
           </DisplayHeading>
           <div
             className="pointer-events-none absolute hidden xl:block"
-            style={{ left: 629.38, top: -42.89, width: 422.63, height: 275.1 }}
+            /* fontSize 120: the scribble is sized in em against the 120px
+               title it was drawn round. */
+            style={{ left: 629.38, top: -42.89, width: 422.63, height: 275.1, fontSize: 120 }}
             aria-hidden
           >
             <Scribble />

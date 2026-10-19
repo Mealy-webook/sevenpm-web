@@ -33,7 +33,9 @@ export function Scribble() {
       viewBox="0 0 410.454 251.126"
       width="406.041"
       height="246.716"
-      className="scribble absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[4.1deg] overflow-visible"
+      /* Sized in em, so it scales with the word it circles: the comp draws
+         it 406 x 247 around NEWS set at 120, i.e. 3.38em x 2.06em. */
+      className="scribble absolute left-1/2 top-1/2 h-[2.06em] w-[3.38em] -translate-x-1/2 -translate-y-1/2 -rotate-[4.1deg] overflow-visible"
       data-drawn={drawn}
       fill="none"
       aria-hidden
