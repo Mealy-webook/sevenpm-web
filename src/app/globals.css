@@ -732,11 +732,18 @@ body {
   cursor: grabbing;
 }
 
-/* Buttons: a fill that sweeps up from the bottom edge. */
+/* Buttons: a white fill that sweeps up from the bottom edge, and the label
+   turns dark over it. The fill used to be `currentColor`, which is the
+   label's own colour — so a yellow button swept #0b0b0e under its #0b0b0e
+   label and vanished into the black page, and a white-label outline button
+   swept white under white. A fixed fill with a fixed label colour reads on
+   every button: yellow, outlined or dark. Unlayered, so it beats the
+   buttons' own `text-*` utilities on hover. */
 .sweep {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  transition: color 0.35s ease;
 }
 
 .sweep::after {
@@ -744,12 +751,18 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: currentColor;
+  background: var(--sweep-fill, #fff);
   transform: translateY(101%);
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.sweep:hover::after {
+.sweep:hover,
+.sweep:focus-visible {
+  color: #0b0b0e;
+}
+
+.sweep:hover::after,
+.sweep:focus-visible::after {
   transform: translateY(0);
 }
 
