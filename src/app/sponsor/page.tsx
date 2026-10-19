@@ -3,18 +3,13 @@ import type { Metadata } from "next";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { SponsorCases } from "@/components/sponsor/SponsorCases";
-import { SponsorForm } from "@/components/sponsor/SponsorForm";
+import { SponsorDialogProvider } from "@/components/sponsor/SponsorDialog";
 import {
-  SponsorFormats,
-  SponsorHow,
-} from "@/components/sponsor/SponsorFormats";
-import {
-  SponsorAudience,
-  SponsorHero,
-  SponsorStats,
-  SponsorTrust,
-} from "@/components/sponsor/SponsorSections";
+  SponsorAudienceRow,
+  SponsorCaseRail,
+  SponsorLogos,
+  SponsorPitch,
+} from "@/components/sponsor/SponsorPageSections";
 import { sponsorCopy } from "@/data/sponsor";
 
 export const metadata: Metadata = {
@@ -23,29 +18,23 @@ export const metadata: Metadata = {
 };
 
 /**
- * `/sponsor`, from `Become Sponsor_website mockups.pdf`.
- *
- * The mockup's order, section for section: the pitch, the numbers, the
- * partners, the audience, the case studies on a light band, the five formats,
- * the four steps, and the enquiry. Photographs are slots until the shoot
- * lands, and everything in square brackets is waiting on content.
+ * `/sponsor`, from Figma 2640:6784, section for section: the pitch, the
+ * logo row, the audience and the case studies. The enquiry is the pop-up,
+ * so the page carries no form of its own. Everything in square brackets is
+ * waiting on content.
  */
 export default function SponsorPage() {
   return (
-    <>
+    <SponsorDialogProvider>
       <MotionProvider />
       <SiteHeader />
       <main>
-        <SponsorHero />
-        <SponsorStats />
-        <SponsorTrust />
-        <SponsorAudience />
-        <SponsorCases />
-        <SponsorFormats />
-        <SponsorHow />
-        <SponsorForm />
+        <SponsorPitch />
+        <SponsorLogos />
+        <SponsorAudienceRow />
+        <SponsorCaseRail />
       </main>
       <SiteFooter />
-    </>
+    </SponsorDialogProvider>
   );
 }

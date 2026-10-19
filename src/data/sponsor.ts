@@ -82,6 +82,17 @@ export const sponsorCopy = {
      drew ourselves would be a trademark we do not hold. */
   trustedBy: {
     title: "They trust us",
+    /* The logo row on the page (Figma 2641:9034): six square cells, in the
+       comp's order. Official marks only, so the four we hold, with adidas
+       standing in for the cells the comp also fills with it. */
+    logos: [
+      { name: "adidas", logo: "/assets/sponsor-adidas.svg" },
+      { name: "Spotify", logo: "/assets/sponsor-spotify.svg" },
+      { name: "Coca-Cola", logo: "/assets/sponsor-cocacola.svg" },
+      { name: "Saham Bank", logo: "/assets/sponsor-saham.svg" },
+      { name: "adidas", logo: "/assets/sponsor-adidas.svg" },
+      { name: "adidas", logo: "/assets/sponsor-adidas.svg" },
+    ],
     note: "[Replace with official logos, approved by each brand. Each logo links to the partner's website.]",
     brands: [
       "Saham Bank",
@@ -103,15 +114,16 @@ export const sponsorCopy = {
     eyebrow: "Our audience",
     title: "Who you will reach",
     image: "/assets/gallery-3.jpg",
+    /* The comp's figures (Figma 2641:9583), in its order. */
     cards: [
-      { label: "Age", value: "[XX–XX]", note: "[Main age group]" },
-      { label: "Cities", value: "[XX%]", note: "[from outside Casablanca]" },
-      { label: "Profile", value: "[XX%]", note: "[CSP+ / executives]" },
+      { label: "Age", value: "20 - 30 years", note: "Main age group" },
       {
         label: "Community",
-        value: "[XXk]",
-        note: "[newsletter and social followers]",
+        value: "10k",
+        note: "Newsletter and social followers",
       },
+      { label: "Profile", value: "10%", note: "CSP+ / executives" },
+      { label: "Cities", value: "15%", note: "From outside Casablanca" },
     ] satisfies AudienceCard[],
   },
 

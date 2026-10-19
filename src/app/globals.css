@@ -269,6 +269,11 @@ body {
   --display-size: 152px;
   --display-line: 118px;
 }
+/* "Put your brand on stage." (Figma 2640:6815): Daltown 230 on a 208 line. */
+.display-text--sponsor {
+  --display-size: 230px;
+  --display-line: 208px;
+}
 
 /* Account panel titles (Figma 2496:7748) — the section heading on an account
    screen, at display size rather than the UI face. Steps down with the rest
