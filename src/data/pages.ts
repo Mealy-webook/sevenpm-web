@@ -182,8 +182,9 @@ export const contactCopy = {
     title: "Where we are",
     city: "Casablanca, Morocco",
     follow: "Follow along",
-    /* TODO(content): the office address and switchboard. */
-    address: "[Office address], Casablanca, Morocco",
+    /* From the Contact comp (2637:6332). */
+    address: "69 Rue Erraihane Beauséjour, Casablanca - Morocco",
+    email: "hello@seven-pm.com",
     phone: "[+212 X XX XX XX XX]",
   },
   /** Who the message is for, asked before the topic (benchmark: Primavera). */
