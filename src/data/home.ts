@@ -326,22 +326,19 @@ export const homeCopy = {
       gapBefore: 4 / 260 - 0.0105,
       gapAfter: 4 / 260 - 0.002,
       /**
-       * The reel, restored from `6fdedff` and re-encoded for the hole it
-       * plays in. It was cut at 1920x1080 for a full-bleed frame and was
-       * 2.9MB; the window is 455 wide at the comp's own frame, so 960 is
-       * already twice what it can show. 0.71MB at the same length.
-       *
-       * It is thirteen silent seconds cut from the site's own photographs —
-       * four slow pushes with crossfades — because there is no festival
-       * footage in the project. Swap in real footage here; the still stays
-       * as the poster either way.
+       * Festival footage: "Festival crowd jumping and dancing at night",
+       * Mixkit clip 14088 (Mixkit Stock Video Free License — commercial use,
+       * no credit required). Fourteen silent seconds, re-encoded at 960 for
+       * the window it plays in (1.2MB). Swap in SEVENPM's own footage here
+       * when it lands; the poster is the clip's first frame, so nothing
+       * jumps when it starts.
        */
-      video: "/assets/hero-reel.mp4" as string | undefined,
-      poster: "/assets/hero-pill.jpg",
-      /* The same film at 1920, for the scroll reveal's full-screen stage
-         (HeroScrollReveal). The 960 cut above is sized for the window and
-         goes soft at full bleed. Only fetched on desktop with motion. */
-      stageVideo: "/assets/hero-reel-1920.mp4" as string | undefined,
+      video: "/assets/hero-crowd.mp4" as string | undefined,
+      poster: "/assets/hero-crowd-poster.jpg",
+      /* The same clip at 1280 — the source's own size — for the scroll
+         reveal's full-screen stage (HeroScrollReveal). Only fetched on
+         desktop with motion. */
+      stageVideo: "/assets/hero-crowd-720.mp4" as string | undefined,
     },
   },
   /** Empty: the hero heading is the name, with nothing cycling after it. */
