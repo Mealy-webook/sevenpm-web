@@ -6,6 +6,7 @@ import gsap from "gsap";
 
 import { READY_EVENT, introPending } from "@/components/motion/Preloader";
 import { homeCopy } from "@/data/home";
+import { asset } from "@/lib/basePath";
 
 /**
  * The window cut through MORE.
@@ -125,8 +126,8 @@ export function HeroPill() {
         {pill.video ? (
           <video
             ref={video}
-            src={pill.video}
-            poster={pill.poster}
+            src={asset(pill.video)}
+            poster={asset(pill.poster)}
             muted
             loop
             playsInline

@@ -149,8 +149,11 @@ export default async function Page({
 }: {
   searchParams: Promise<{ only?: string }>;
 }) {
-  /* `?only=mnr` shows just those options — for comparing a few at a time. */
-  const { only } = await searchParams;
+  /* `?only=mnr` shows just those options — for comparing a few at a time.
+     Not in the Pages export: reading searchParams makes a page dynamic, and
+     a static export has no server to render one, so there it shows all. */
+  const only =
+    process.env.STATIC_EXPORT === "true" ? undefined : (await searchParams).only;
   const shown = only ? OPTIONS.filter((o) => only.includes(o.key)) : OPTIONS;
   return (
     <>

@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { homeCopy } from "@/data/home";
+import { asset } from "@/lib/basePath";
 
 /**
  * The hero's scroll reveal: the window in MORE opens into the reel.
@@ -55,7 +56,7 @@ export function HeroScrollReveal({ children }: { children: React.ReactNode }) {
 
         /* The 1920 cut, fetched only here. */
         if (v && pill.stageVideo && !v.getAttribute("src")) {
-          v.src = pill.stageVideo;
+          v.src = asset(pill.stageVideo);
           v.load();
         }
 
@@ -162,7 +163,7 @@ export function HeroScrollReveal({ children }: { children: React.ReactNode }) {
           {pill.video ? (
             <video
               ref={stageVideo}
-              poster={pill.poster}
+              poster={asset(pill.poster)}
               muted
               loop
               playsInline
