@@ -2,25 +2,25 @@ import Link from "next/link";
 
 /**
  * A bar across the top of each Become a sponsor direction, so the three can
- * be flipped between. Preview furniture — `/preview/sponsor-*` only, and it
+ * be flipped between. (A–C, the first three, were rejected and removed.) Preview furniture — `/preview/sponsor-*` only, and it
  * goes when a direction is chosen. Every direction keeps the enquiry form
  * off the page and opens it as a pop-up from its calls to action.
  */
 export const SPONSOR_VARIANTS = [
   {
-    slug: "sponsor-billboard",
-    label: "A · Billboard",
-    note: "Type at poster scale: the pitch, the numbers and the partners as one loud wall.",
+    slug: "sponsor-festival",
+    label: "D · Festival page",
+    note: "Laid out like the event page: centred hero, formats as ticket stubs, audience as the house-rule tiles, cases on the hospitality rail, steps as the FAQ.",
   },
   {
-    slug: "sponsor-stage",
-    label: "B · Stage",
-    note: "A cinematic scroll: one full-screen photograph changing with each chapter.",
+    slug: "sponsor-hospitality",
+    label: "E · Hospitality",
+    note: "Laid out like the hospitality block: title beside the numbers, formats on the photo rail, audience as the mission cards, cases as news rows.",
   },
   {
-    slug: "sponsor-deck",
-    label: "C · Deck",
-    note: "The partnership deck itself: numbered slides with a progress rail.",
+    slug: "sponsor-home",
+    label: "F · Homepage",
+    note: "Laid out like the homepage: YOUR BRAND ON STAGE with the window in the O, the partners on the moving band, formats as news rows, the gallery.",
   },
 ];
 

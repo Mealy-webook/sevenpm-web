@@ -30,7 +30,14 @@ const CELLS = COLUMNS * ROWS;
 /** How long a mark stays up before its cell turns. */
 const DWELL = 4200;
 
-export function SponsorsSection({ event }: { event: EventDetails }) {
+export function SponsorsSection({
+  event,
+  title = "Official sponsor",
+}: {
+  event: EventDetails;
+  /** The line over the wall. The sponsor page reads "They trust us". */
+  title?: string;
+}) {
   const { sponsors } = event;
   /* How far round the list the wall has walked. Zero means it has not
      turned yet, which is also what says "do not animate" — the first paint
@@ -49,7 +56,7 @@ export function SponsorsSection({ event }: { event: EventDetails }) {
     <section id="sponsors" className="relative py-16 xl:py-20">
       <div className="shell flex flex-col items-center gap-8" data-reveal="up">
         <p className="m-0 text-center font-[family-name:var(--font-display)] text-2xl font-black uppercase leading-[39px] text-brand">
-          Official sponsor
+          {title}
         </p>
 
         <ul className="m-0 grid w-full list-none grid-cols-2 gap-px bg-white/5 p-0 sm:grid-cols-3 xl:grid-cols-5">

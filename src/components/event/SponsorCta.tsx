@@ -12,7 +12,15 @@ import Link from "next/link";
  * carrying different words. Both the tilt and the tape live on the sheet, so
  * the tape is stuck to it rather than parked near it.
  */
-export function SponsorCta() {
+export function SponsorCta({
+  body = "Join Jazzablanca festivals and put your brand at the center of Morocco’s live music scene.",
+  action,
+}: {
+  body?: string;
+  /** Replaces the link to /sponsor — the sponsor page opens its enquiry
+      pop-up from here instead of linking to itself. */
+  action?: React.ReactNode;
+} = {}) {
   return (
     <section className="relative py-16 xl:py-20" aria-labelledby="sponsor-cta">
       <div className="shell relative flex flex-col items-center">
@@ -32,23 +40,21 @@ export function SponsorCta() {
           />
 
           <div className="flex flex-col items-center gap-4">
-            <h2
-              id="sponsor-cta"
-              className="section-title text-center "
-            >
+            <h2 id="sponsor-cta" className="section-title text-center ">
               Put your brand on stage.
             </h2>
             <p className="m-0 max-w-[720px] text-center font-[family-name:var(--font-ui)] text-body text-[#56565d]">
-              Join Jazzablanca festivals and put your brand at the center of
-              Morocco&rsquo;s live music scene.
+              {body}
             </p>
-            <Link
-              href="/sponsor"
-              data-magnetic="0.2"
-              className="mt-2 flex items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-white transition-colors hover:bg-[#0b0b0e]/85"
-            >
-              Become a sponsor
-            </Link>
+            {action ?? (
+              <Link
+                href="/sponsor"
+                data-magnetic="0.2"
+                className="mt-2 flex items-center bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-white transition-colors hover:bg-[#0b0b0e]/85"
+              >
+                Become a sponsor
+              </Link>
+            )}
           </div>
         </div>
       </div>
