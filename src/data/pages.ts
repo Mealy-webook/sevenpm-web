@@ -25,6 +25,8 @@ export type ContactChannel = {
   note: string;
   /** TODO(content): real addresses. Empty renders as "to be confirmed". */
   email?: string;
+  /** How soon this line answers. Bracketed until the team commits to it. */
+  reply: string;
 };
 
 /* ------------------------------------------------------------------ */
@@ -147,26 +149,32 @@ export const contactCopy = {
   channels: <ContactChannel[]>[
     {
       label: "General",
+      reply: "[Within 2 working days]",
       note: "Anything that does not fit the lines below.",
     },
     {
       label: "Tickets and bookings",
+      reply: "[Within 1 working day]",
       note: "Orders, refunds, name changes and anything to do with a booking you have already made.",
     },
     {
       label: "Partnerships",
+      reply: "[Within 48 working hours]",
       note: "Sponsorship, brand activations and media partnerships.",
     },
     {
       label: "Hospitality",
+      reply: "[Within 1 working day]",
       note: "VIP boxes, corporate guests and groups.",
     },
     {
       label: "Press",
+      reply: "[Same working day]",
       note: "Accreditation, interviews and image requests.",
     },
     {
       label: "Artists and bookings",
+      reply: "[Within 2 weeks]",
       note: "Submissions and agent enquiries for the festivals and the concert programme.",
     },
   ],
@@ -174,7 +182,15 @@ export const contactCopy = {
     title: "Where we are",
     city: "Casablanca, Morocco",
     follow: "Follow along",
+    /* TODO(content): the office address and switchboard. */
+    address: "[Office address], Casablanca, Morocco",
+    phone: "[+212 X XX XX XX XX]",
   },
+  /** Who the message is for, asked before the topic (benchmark: Primavera). */
+  festivals: ["Jazzablanca", "Tanjazz", "SEVENPM"],
+  /** Ticket questions carry an order number (benchmark: Glastonbury). */
+  orderLabel: "Order number",
+  orderHint: "It is on your confirmation email and in your bookings.",
   form: {
     title: "Send a message",
     topic: "What is it about?",

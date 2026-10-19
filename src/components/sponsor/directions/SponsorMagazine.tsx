@@ -175,7 +175,7 @@ export function SponsorMagazinePage() {
               <p className={KICKER}>Back cover</p>
               <p className={KICKER}>{c.how.title}: brief · proposal · co-creation · report</p>
             </div>
-            <h2 className="display-text max-w-[12ch]">Let’s talk.</h2>
+            <h2 className="display-text max-w-[12ch] !text-[#0b0b0e]">Let’s talk.</h2>
             <div className="flex flex-wrap items-center gap-4">
               <SponsorCtaButton className="bg-[#0b0b0e] px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-white">{c.form.submit} →</SponsorCtaButton>
               <p className="m-0 font-[family-name:var(--font-display)] text-body">{c.trustedBy.title}: {c.trustedBy.brands.slice(0, 6).join(" · ")}…</p>

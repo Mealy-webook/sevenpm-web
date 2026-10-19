@@ -3,22 +3,22 @@ import type { Metadata } from "next";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { ContactFestivalPage } from "@/components/pages/contact/ContactOptions";
+import { ContactHelpDesk } from "@/components/pages/contact/ContactDirections";
 import { ContactVariantBar } from "@/components/pages/contact/ContactVariantBar";
 
 export const metadata: Metadata = {
-  title: "Contact — festival — SEVENPM",
+  title: "Contact — helpdesk — SEVENPM",
 };
 
-/** Contact, one of three options built from the site's own sections. */
+/** Contact, one of three new directions from the benchmark's brief. */
 export default function Page() {
   return (
     <>
       <MotionProvider />
       <SiteHeader />
-      <ContactVariantBar current="contact-festival" />
+      <ContactVariantBar current="contact-helpdesk" />
       <main>
-        <ContactFestivalPage />
+        <ContactHelpDesk />
       </main>
       <SiteFooter />
     </>

@@ -2,24 +2,25 @@ import Link from "next/link";
 
 /**
  * A bar across the top of each Contact option, so the three can be flipped
- * between. Preview furniture — `/preview/contact-*` only; /contact is
+ * between. (G–I were too close to existing pages and are removed.) Preview
+ * furniture — `/preview/contact-*` only; /contact is
  * unchanged until one is chosen.
  */
 export const CONTACT_VARIANTS = [
   {
-    slug: "contact-festival",
-    label: "G · Festival page",
-    note: "Like the event page: centred hero and info row, the six lines as the house-rule tiles, the form, then the FAQ.",
+    slug: "contact-switchboard",
+    label: "M · Switchboard",
+    note: "Three questions, one screen each: which festival, what about, then the message — with a running ticket showing where it is going.",
   },
   {
-    slug: "contact-hospitality",
-    label: "H · Hospitality",
-    note: "Like the hospitality block: the title beside the six lines as icon rows with their addresses, then the form.",
+    slug: "contact-helpdesk",
+    label: "N · Help desk",
+    note: "Ask first: search the festival's answers, then “Still need us?” with each line's reply time.",
   },
   {
-    slug: "contact-home",
-    label: "I · Homepage",
-    note: "Like the homepage: SAY HELLO with the photo window in the O, the lines as news rows, then the form.",
+    slug: "contact-postcard",
+    label: "O · Postcard",
+    note: "Write us a postcard: message on the left, who it's for on the right, a stamp with the reply time.",
   },
 ];
 
