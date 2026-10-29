@@ -116,11 +116,15 @@ export function HeroScrollReveal({ children }: { children: React.ReactNode }) {
               height: () => box().height,
               borderRadius: 999,
             },
+            /* The whole viewport, not just the screen: the screen pins below
+               the header's band, and the header slides away as you scroll
+               down, so stopping at the screen's box left that band empty
+               above the reel. */
             {
               left: 0,
-              top: 0,
+              top: () => -headerH(),
               width: () => sc.clientWidth,
-              height: () => sc.clientHeight,
+              height: () => window.innerHeight,
               borderRadius: 0,
               ease: "power2.inOut",
               duration: 0.6,
