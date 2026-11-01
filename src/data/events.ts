@@ -213,13 +213,13 @@ export const jazzablanca: EventDetails = {
     },
   ],
   schedule: [
-    { icon: "/assets/ic-gates.svg", label: "Gates open", value: "7:00 PM" },
+    { icon: "/assets/ic-gates-24.svg", label: "Gates open", value: "7:00 PM" },
     {
-      icon: "/assets/ic-last-entry.svg",
+      icon: "/assets/ic-last-entry-24.svg",
       label: "Last entry",
       value: "8:00 PM",
     },
-    { icon: "/assets/ic-showtime.svg", label: "Showtime", value: "9:30 PM" },
+    { icon: "/assets/ic-showtime-24.svg", label: "Showtime", value: "9:30 PM" },
   ],
   /**
    * Two tiers, as 2542:14399 draws them: a one-day pass and a three-day
@@ -266,7 +266,7 @@ export const jazzablanca: EventDetails = {
     },
     {
       icon: "/assets/ic-age.svg",
-      title: "Age restrictions",
+      title: "Age",
       value: "Only above 18",
     },
     {

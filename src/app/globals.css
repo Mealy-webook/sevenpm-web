@@ -320,6 +320,12 @@ body {
     filter 0.4s ease;
 }
 
+/* The label follows its disc between slot sizes on the same curve. */
+.vinyl-label {
+  transform-origin: center;
+  transition: transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .vinyl-slot[data-side="true"] {
   cursor: pointer;
 }
@@ -1406,34 +1412,6 @@ a[href] {
   100% {
     transform: translate(0, 0);
   }
-}
-
-/* The landscape ticket stub on the event page (2542:14399). The comp exports
-   each end as a `Subtract` vector — a column of bites out of the card. Drawn
-   here instead so it scales with the stub and costs no asset: the bites are
-   a repeating radial gradient in the page's own background colour, which is
-   what makes them read as holes rather than as dark dots. */
-.ticket-row__edge {
-  width: 23px;
-  flex: none;
-  background:
-    radial-gradient(
-        circle at 0 11.5px,
-        var(--color-bg-primary, #0b0b0e) 11.5px,
-        transparent 12px
-      )
-      left center / 23px 23px repeat-y,
-    var(--color-bg-tertiary, #252528);
-}
-.ticket-row__edge--right {
-  background:
-    radial-gradient(
-        circle at 23px 11.5px,
-        var(--color-bg-primary, #0b0b0e) 11.5px,
-        transparent 12px
-      )
-      left center / 23px 23px repeat-y,
-    var(--color-bg-tertiary, #252528);
 }
 
 /* Hospitality passes (direction A). The stub is torn off the body by a

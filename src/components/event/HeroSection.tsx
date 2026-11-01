@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { EventDetails } from "@/data/events";
 import { ConcertLights } from "@/components/motion/ConcertLights";
@@ -87,7 +87,7 @@ export function HeroSection({ event }: { event: EventDetails }) {
             the three times on a 24px rhythm — where the comp used to float
             the times beside the deck. */}
         <div className="relative mx-auto flex max-w-[1512px] flex-col items-center gap-12">
-          <div className="shell-pad flex w-full flex-col items-center gap-6">
+          <div className="shell-pad flex w-full flex-col items-center gap-8">
             <StagePulse className="w-full">
               {/* The name, as the festival's own lockup (2550:19929). The comp
                 draws it as a logo, not as Daltown — so this is an image, with
@@ -125,35 +125,32 @@ export function HeroSection({ event }: { event: EventDetails }) {
               {event.intro}
             </p>
 
-            {/* Gates open, last entry, showtime — moved up from the tickets
-              section, where 2542:14399 no longer carries them. Divided by
-              hairlines, which turn horizontal once the row wraps. */}
+            {/* Gates open, last entry, showtime (2743:21781): three 109.6
+              tiles, each a 24 icon over its label and time, with an 81
+              hairline between them and 16 either side of it. */}
             <ul
-              className="m-0 flex list-none flex-wrap items-center justify-center gap-x-8 gap-y-2 p-0"
+              className="m-0 flex list-none flex-wrap items-center justify-center gap-4 p-0"
               data-reveal="up"
               data-reveal-delay="0.1"
             >
               {event.schedule.map((tile, index) => (
-                <li key={tile.label} className="flex items-center gap-8">
+                <li key={tile.label} className="flex items-center gap-4">
                   {index > 0 ? (
-                    <span
-                      aria-hidden
-                      className="hidden h-[76px] w-px bg-white/15 sm:block"
-                    />
+                    <span aria-hidden className="h-[81px] w-px bg-white/5" />
                   ) : null}
-                  <span className="flex items-center gap-4 px-2 py-3">
+                  <span className="flex w-[109.6px] flex-col items-center gap-2 p-3 text-center">
                     <Image
                       src={tile.icon}
                       alt=""
-                      width={32}
-                      height={32}
-                      className="size-8 shrink-0"
+                      width={24}
+                      height={24}
+                      className="size-6 shrink-0"
                     />
-                    <span className="flex flex-col items-start">
-                      <span className="font-[family-name:var(--font-ui)] text-body-s text-text-secondary">
+                    <span className="flex w-full flex-col">
+                      <span className="font-[family-name:var(--font-display)] text-body-s text-content-secondary">
                         {tile.label}
                       </span>
-                      <span className="font-[family-name:var(--font-display)] text-title-section font-semibold text-text-primary">
+                      <span className="truncate font-[family-name:var(--font-display)] text-body font-semibold tracking-[0.1875px] text-content-primary">
                         {tile.value}
                       </span>
                     </span>
@@ -161,12 +158,16 @@ export function HeroSection({ event }: { event: EventDetails }) {
                 </li>
               ))}
             </ul>
+
+            <ShareBeatsButton event={event} />
           </div>
 
           {/* The deck — one Figma stage at every width, scaled as a unit */}
           <div
             ref={stageRef}
-            className="stage-hero relative w-full"
+            /* Above the lighting rig: its layers are positioned too, and
+               without a z-index they painted over the outer records. */
+            className="stage-hero relative z-10 w-full"
             data-reveal="scale"
             data-reveal-delay="0.22"
           >
@@ -200,5 +201,48 @@ export function HeroSection({ event }: { event: EventDetails }) {
         </div>
       </section>
     </>
+  );
+}
+
+/**
+ * "Share & Earn beats" (2743:21731): the secondary button, a 20 icon beside
+ * the label. It shares the event page through the system share sheet, or
+ * copies the link where there is none and says so for two seconds.
+ */
+function ShareBeatsButton({ event }: { event: EventDetails }) {
+  const [copied, setCopied] = useState(false);
+
+  const share = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: event.name, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // The visitor dismissed the share sheet — nothing to report.
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={share}
+      className="flex cursor-pointer items-center justify-center gap-2 border-[0.5px] border-white/10 bg-white/5 px-5 py-4 font-[family-name:var(--font-display)] text-body-l font-semibold text-content-primary transition-colors duration-200 hover:border-white/30 hover:bg-white/10"
+      data-reveal="up"
+      data-reveal-delay="0.14"
+    >
+      <Image
+        src="/assets/ic-share-beats.svg"
+        alt=""
+        width={20}
+        height={20}
+        className="size-5 shrink-0"
+      />
+      <span aria-live="polite">{copied ? "Link copied" : "Share & Earn beats"}</span>
+    </button>
   );
 }

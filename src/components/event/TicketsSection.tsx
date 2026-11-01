@@ -3,7 +3,8 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
 import { TicketRow } from "./TicketRow";
 
 /**
- * Explore tickets, from Figma 2612:5435 — the current event page.
+ * Explore tickets, from Figma 2612:5435 — the current event page. The
+ * title sits on the left of the column now, not centred over it.
  *
  * The frame is 494 tall and sized by its contents: 80px of padding, the
  * title, a 48px gap and one 186px row of stubs. It used to be a
@@ -16,8 +17,10 @@ import { TicketRow } from "./TicketRow";
 export function TicketsSection({ event }: { event: EventDetails }) {
   return (
     <section id="tickets" className="relative py-16 xl:py-20">
-      <div className="shell flex flex-col items-center justify-center gap-12">
-        <DisplayHeading reveal="clip">Explore tickets</DisplayHeading>
+      <div className="shell flex flex-col items-start justify-center gap-12">
+        <DisplayHeading align="left" reveal="clip">
+          Explore tickets
+        </DisplayHeading>
 
         {/* The stubs, two across on the comp's 1272 column: 628 each with a
             16px gap. They stack below `lg`, where two landscape stubs would

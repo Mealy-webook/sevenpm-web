@@ -1,17 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import type { TicketTier } from "@/data/events";
 import { percentOff } from "@/data/booking";
 
 /**
- * One ticket, as 2542:14399 now draws it: a landscape stub with the name in
- * Daltown, the price under it, and the way in on the right.
+ * One ticket, as 2612:5452 draws it: a landscape stub with the name in
+ * Title Section caps, the price under it, and the way in on the right.
  *
- * The perforations are the comp's `Subtract` exports, which are a column of
- * bites taken out of each end. They are drawn here instead — a repeating
- * radial gradient masked down the edge — so they scale with the stub and
- * cost no asset. The bite is the page's own background, which is what makes
- * it read as a hole rather than as a dark dot.
+ * The perforated ends are the comp's own `Subtract` export (2743:21292),
+ * turned upright — the left one rotated, the right one its mirror — and
+ * stretched to the stub's height, which is the comp's 154 on desktop.
  *
  * The comp prints "50 MAD / 70 MAD / 20% off" on both stubs, which is
  * placeholder: 50 against 70 is 29% off, not 20. The saving is computed from
@@ -27,12 +26,19 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
 
   return (
     <article className="ticket-row flex min-w-0 flex-1 items-stretch">
-      <span aria-hidden className="ticket-row__edge" />
+      <Image
+        src="/assets/ticket-edge-left.svg"
+        alt=""
+        aria-hidden
+        width={23}
+        height={154}
+        className="h-auto w-[23px] shrink-0 self-stretch"
+      />
 
       <div className="flex min-w-0 flex-1 flex-col justify-center bg-bg-tertiary py-4">
         <div className="flex flex-col items-start gap-4 bg-bg-secondary p-6 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <h3 className="card-title text-content-primary">
+            <h3 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
               {tier.title}
             </h3>
 
@@ -71,7 +77,14 @@ export function TicketRow({ tier, href }: { tier: TicketTier; href: string }) {
         </div>
       </div>
 
-      <span aria-hidden className="ticket-row__edge ticket-row__edge--right" />
+      <Image
+        src="/assets/ticket-edge-right.svg"
+        alt=""
+        aria-hidden
+        width={23}
+        height={154}
+        className="h-auto w-[23px] shrink-0 self-stretch"
+      />
     </article>
   );
 }

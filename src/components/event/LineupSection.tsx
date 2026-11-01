@@ -7,14 +7,14 @@ import type { LineupAct } from "@/data/lineup";
 import { lineup, runningOrder } from "@/data/lineup";
 
 /**
- * The lineup, from Figma 2618:14234.
+ * The lineup, from Figma 2626:16349.
  *
  * Two columns on the 1272 frame with 32 between them. On the left (511):
  * the title, and the day chips 32 under it. On the right (729): the day's
  * acts down a time spine — each row a 77 rail carrying a 24 brand square,
  * the start time and a hairline running down to the next, beside a 652
- * card: the photo (198), the name, the set's times in brand yellow, the
- * bio, a hairline, and the listen and watch buttons.
+ * card: the photo (155), the name in Title Section caps, the set's times
+ * in brand yellow, the bio, a hairline, and Facebook, X and Instagram.
  *
  * The left column holds still while the acts scroll past it, so the day
  * chips are always to hand on a six-act night. The acts stack as they go:
@@ -23,12 +23,8 @@ import { lineup, runningOrder } from "@/data/lineup";
  * reduced motion, it is a plain list. Neither behaviour changes the
  * layout the comp draws.
  *
- * Two departures from the comp, both deliberate:
- * - It draws Facebook, X and Instagram on each act. The brief for this
- *   section is a Spotify and a YouTube link per act, so those are what the
- *   three squares became — two of them, in the comp's button.
- * - Its chips read Mon 02 / Tue 03 / Tue 04 July. 2 July 2026 is a
- *   Thursday, so the weekdays come from the data instead.
+ * The comp's chips read Mon 02 / Tue 03 / Tue 04 July. 2 July 2026 is a
+ * Thursday, so the weekdays come from the data instead.
  *
  * The bill itself is `data/lineup.ts`, which is provisional — the comp's
  * own placeholders ("Artist 01") are what it carries until the real one is
@@ -240,27 +236,26 @@ export function LineupSection() {
 
 function ActCard({ act }: { act: LineupAct }) {
   return (
-    <article className="flex min-w-0 flex-1 flex-col gap-6 border border-white/5 bg-bg-tertiary p-4 sm:flex-row sm:p-6">
-      <span className="relative block aspect-square w-full shrink-0 overflow-hidden bg-ink-900 sm:w-[198px]">
+    <article className="flex min-w-0 flex-1 flex-col gap-6 border border-white/5 bg-bg-tertiary p-4 sm:flex-row sm:items-start sm:p-6">
+      <span className="relative block aspect-square w-full shrink-0 overflow-hidden bg-ink-900 sm:w-[155px]">
         <Image
           src={act.photo}
           alt={`${act.name}, official photo`}
           fill
-          sizes="(min-width: 640px) 198px, 100vw"
+          sizes="(min-width: 640px) 155px, 100vw"
           /* The stand-in portraits are round crops on white; 1.42 keeps
              only the square inside the circle. Drop it with real photos. */
           className="scale-[1.42] object-cover"
         />
       </span>
 
-      <div className="flex min-w-0 flex-1 flex-col justify-center gap-4">
-        <div className="flex flex-col gap-1">
-          <h3 className="display-s m-0 font-daltown uppercase text-white">
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-3">
+        <div className="flex flex-col">
+          <h3 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
             {act.name}
           </h3>
-          <span className="font-[family-name:var(--font-display)] text-body-s font-semibold text-brand">
+          <span className="font-[family-name:var(--font-display)] text-body-s font-semibold tracking-[0.1625px] text-brand">
             {twelve(act.start)} - {twelve(act.end)}
-            <span className="text-content-secondary"> · {act.stage}</span>
           </span>
         </div>
         <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
@@ -270,14 +265,15 @@ function ActCard({ act }: { act: LineupAct }) {
         <div className="flex gap-3">
           {[
             {
-              label: "Spotify",
-              href: act.spotify,
-              icon: "/assets/ic-spotify-24.svg",
+              label: "Facebook",
+              href: act.facebook,
+              icon: "/assets/ic-social-facebook-16.svg",
             },
+            { label: "X", href: act.x, icon: "/assets/ic-social-x-16.svg" },
             {
-              label: "YouTube",
-              href: act.youtube,
-              icon: "/assets/ic-youtube-24.svg",
+              label: "Instagram",
+              href: act.instagram,
+              icon: "/assets/ic-social-instagram-16.svg",
             },
           ].map((l) => (
             <a

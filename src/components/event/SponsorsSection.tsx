@@ -27,6 +27,13 @@ import type { EventDetails } from "@/data/events";
 const COLUMNS = 5;
 const ROWS = 3;
 const CELLS = COLUMNS * ROWS;
+/**
+ * Which mark each cell opens on, as an index into the sponsor list — the
+ * comp's wall (2612:5646) read across: adidas, Spotify, Coca-Cola, Saham,
+ * adidas / Coca-Cola, Saham, adidas, Spotify, Coca-Cola / adidas, Spotify,
+ * Coca-Cola, adidas, Saham. The turns walk the list on from there.
+ */
+const OPENING = [0, 1, 2, 3, 0, 2, 3, 0, 1, 2, 0, 1, 2, 0, 3];
 /** How long a mark stays up before its cell turns. */
 const DWELL = 4200;
 
@@ -55,15 +62,15 @@ export function SponsorsSection({
   return (
     <section id="sponsors" className="relative py-16 xl:py-20">
       <div className="shell flex flex-col items-center gap-8" data-reveal="up">
-        <p className="m-0 text-center font-[family-name:var(--font-display)] text-2xl font-black uppercase leading-[39px] text-brand">
+        <p className="m-0 text-center font-[family-name:var(--font-display)] text-2xl font-black uppercase leading-[46px] text-brand">
           {title}
         </p>
 
         <ul className="m-0 grid w-full list-none grid-cols-2 gap-px bg-white/5 p-0 sm:grid-cols-3 xl:grid-cols-5">
           {Array.from({ length: CELLS }, (_, index) => {
-            /* Each cell starts on a different mark and walks the list from
+            /* Each cell starts on the comp's mark and walks the list from
                there, so neighbours are never showing the same one. */
-            const sponsor = sponsors[(index + turn) % sponsors.length];
+            const sponsor = sponsors[(OPENING[index] + turn) % sponsors.length];
             const column = index % COLUMNS;
             const row = Math.floor(index / COLUMNS);
             return (

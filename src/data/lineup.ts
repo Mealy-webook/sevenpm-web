@@ -14,7 +14,8 @@
  *   are not known.
  * - Days are the first three on the 2026 poster (02 – 11 July); set times
  *   overlap across the two stages on purpose, so clashes show.
- * - Spotify and YouTube links are "#" until each act is confirmed.
+ * - Spotify, YouTube, Facebook, X and Instagram links are "#" until each
+ *   act is confirmed.
  *
  * Replace the whole array when the bill is announced; the layouts read only
  * these fields.
@@ -31,6 +32,10 @@ export type LineupAct = {
   end: string;
   spotify: string;
   youtube: string;
+  /** The event page's act card (2626:16363) links these three. */
+  facebook: string;
+  x: string;
+  instagram: string;
   headliner?: boolean;
 };
 
@@ -70,6 +75,9 @@ function act(
     end,
     spotify: "#",
     youtube: "#",
+    facebook: "#",
+    x: "#",
+    instagram: "#",
     headliner: opts.headliner,
   };
 }

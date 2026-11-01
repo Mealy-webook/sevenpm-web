@@ -33,33 +33,34 @@ const LABEL_INSET = (DISC - LABEL) / 2;
 const GLOW = DISC / 3;
 
 /**
- * Slot geometry.
+ * Slot geometry, from Figma 2612:5413: the 612 record at 450.5, a 245 pair
+ * at 156 and 1124, and a 191 pair at -86 and 1431, which the frame's edges
+ * cut. Each size carries its own label — 345, 128 and 108 — so the label is
+ * not a fixed share of the disc: the 245s show proportionally less of it.
  *
- * A 612 centre on a 1512 stage leaves 450px a side for a whole record, two
- * gaps and half of the next, which fixes the neighbours at 250:
- * 37 + 250 + 38 + 125 = 450.
- *
- * The outer pair is the exception: it is placed on the *viewport* edge, not
- * the stage's. The stage is a fixed 1512 frame scaled to fit, so on most
- * windows it is narrower than the screen — cutting at its edge put the cut
- * 45px inside the page with black either side of it. `edge` marks those two
- * slots so the component can position them from the measured scale instead.
+ * The outer pair is placed against the *viewport* edge, not the stage's. The
+ * stage is a fixed 1512 frame scaled to fit, so on most windows it is
+ * narrower than the screen — cutting at its edge put the cut inside the page
+ * with black either side of it. `edge` marks those two slots; their `cx` is
+ * read as an offset from the stage edge they belong to, and the component
+ * applies it to the screen edge instead. At 1512 the two are the same.
  */
 const SLOTS: Record<
   number,
-  { cx: number; size: number; visible: boolean; edge?: -1 | 1 }
+  { cx: number; size: number; label: number; visible: boolean; edge?: -1 | 1 }
 > = {
-  [-2]: { cx: 0, size: 250, visible: true, edge: -1 },
-  [-1]: { cx: 287.5, size: 250, visible: true },
-  [0]: { cx: 756.5, size: DISC, visible: true },
-  [1]: { cx: 1224.5, size: 250, visible: true },
-  [2]: { cx: STAGE_WIDTH, size: 250, visible: true, edge: 1 },
+  [-2]: { cx: 9.5, size: 191, label: 108, visible: true, edge: -1 },
+  [-1]: { cx: 278.5, size: 245, label: 128, visible: true },
+  [0]: { cx: 756.5, size: DISC, label: LABEL, visible: true },
+  [1]: { cx: 1246.5, size: 245, label: 128, visible: true },
+  [2]: { cx: 1526.5, size: 191, label: 108, visible: true, edge: 1 },
 };
 
 /** Parked off-stage, so a disc wrapping round the ring never crosses the view. */
 function slotFor(offset: number): {
   cx: number;
   size: number;
+  label: number;
   visible: boolean;
   edge?: -1 | 1;
 } {
@@ -69,6 +70,7 @@ function slotFor(offset: number): {
   return {
     cx: offset < 0 ? -320 - away * 240 : 1840 + away * 240,
     size: 150,
+    label: 150 * (LABEL / DISC),
     visible: false,
   };
 }
@@ -380,9 +382,40 @@ export function VinylCarousel({
         );
       })}
 
+      {/* The comp's two traces (2612:5415, 2612:5416), drawn while the
+          deck is silent. Once a record plays, the live spectrum, which
+          sits on the same band, takes their place. */}
       <div
-        className="absolute top-0"
-        style={{ left: SLOTS[0].cx - DISC / 2, width: DISC, height: DISC }}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 transition-opacity duration-700"
+        style={{ opacity: playing ? 0 : 1 }}
+      >
+        <Image
+          src="/assets/hero-trace-left.svg"
+          alt=""
+          width={825}
+          height={324}
+          className="absolute max-w-none"
+          style={{ left: 8.5, top: 151, width: 825, height: 324 }}
+        />
+        <Image
+          src="/assets/hero-trace-right.svg"
+          alt=""
+          width={745}
+          height={292}
+          className="absolute max-w-none"
+          style={{ left: 758.5, top: 167, width: 745, height: 292 }}
+        />
+      </div>
+
+      <div
+        className="absolute top-0 transition-opacity duration-700"
+        style={{
+          left: SLOTS[0].cx - DISC / 2,
+          width: DISC,
+          height: DISC,
+          opacity: playing ? 1 : 0,
+        }}
       >
         <HeroSpectrum playing={playing} analyser={analyser} />
       </div>
@@ -398,8 +431,18 @@ export function VinylCarousel({
           const base = slotFor(off);
           /* The outer pair rides the screen edge rather than the stage's. */
           const slot = base.edge
-            ? { ...base, cx: SLOTS[0].cx + base.edge * edgeX }
+            ? {
+                ...base,
+                cx:
+                  STAGE_WIDTH / 2 +
+                  base.edge * edgeX +
+                  (base.cx - (base.edge < 0 ? 0 : STAGE_WIDTH)),
+              }
             : base;
+          /* The label's share of this slot's disc, against the centre's —
+             the disc is drawn at 612 and scaled, so the label is scaled
+             again by the difference. */
+          const labelScale = slot.label / slot.size / (LABEL / DISC);
           const isCentre = off === 0;
           const label = isCentre
             ? playing
@@ -450,12 +493,14 @@ export function VinylCarousel({
                     height={LABEL}
                     sizes={`${LABEL}px`}
                     priority={isCentre}
-                    className="absolute rounded-full object-cover"
+                    className="vinyl-label absolute rounded-full object-cover"
                     style={{
                       left: LABEL_INSET,
                       top: LABEL_INSET,
                       width: LABEL,
                       height: LABEL,
+                      transform: `scale(${labelScale})`,
+                      transition: jumped[k] ? "none" : undefined,
                     }}
                   />
                 ) : (
@@ -464,12 +509,14 @@ export function VinylCarousel({
                     alt=""
                     width={LABEL}
                     height={LABEL}
-                    className="absolute rounded-full object-cover"
+                    className="vinyl-label absolute rounded-full object-cover"
                     style={{
                       left: LABEL_INSET,
                       top: LABEL_INSET,
                       width: LABEL,
                       height: LABEL,
+                      transform: `scale(${labelScale})`,
+                      transition: jumped[k] ? "none" : undefined,
                     }}
                   />
                 )}

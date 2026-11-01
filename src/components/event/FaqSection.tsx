@@ -14,6 +14,10 @@ import { DisplayHeading } from "@/components/ui/DisplayHeading";
  *
  * The panel opens on a 0fr → 1fr grid; `FaqAnswer` walks the text up into it a
  * line at a time as it goes.
+ *
+ * Set as Figma 2612:5598 draws it: the question in Body-L semibold as
+ * written, not in caps, beside a 58 toggle 24 away, and the answer in Body
+ * under the question, on the same left edge.
  */
 export function FaqSection({ event }: { event: EventDetails }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -53,7 +57,7 @@ export function FaqSection({ event }: { event: EventDetails }) {
                     aria-expanded={open}
                     aria-controls={panelId}
                     onClick={() => setOpenIndex(open ? null : index)}
-                    className="flex w-full cursor-pointer items-start gap-8 p-6 text-left"
+                    className={`flex w-full cursor-pointer items-start gap-6 p-6 text-left transition-[padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "pb-0" : ""}`}
                   >
                     <span
                       className={`flex shrink-0 items-center border border-border-secondary p-4 transition-[transform,border-color,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-white/60 group-hover:bg-white/5 ${
@@ -70,8 +74,10 @@ export function FaqSection({ event }: { event: EventDetails }) {
                         className="size-6"
                       />
                     </span>
-                    <span className="flex min-h-14 min-w-0 flex-1 items-center">
-                      <span className="font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.11px] text-white transition-colors duration-300 group-hover:text-brand">
+                    <span
+                      className={`flex min-h-[58px] min-w-0 flex-1 ${open ? "items-start" : "items-center"}`}
+                    >
+                      <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-white transition-colors duration-300 group-hover:text-brand">
                         {item.question}
                       </span>
                     </span>
@@ -93,7 +99,7 @@ export function FaqSection({ event }: { event: EventDetails }) {
                   <div className="overflow-hidden">
                     <FaqAnswer
                       open={open}
-                      className="m-0 px-6 pb-6 pl-[calc(1.5rem+56px+2rem)] font-[family-name:var(--font-display)] text-body-l text-content-secondary"
+                      className="m-0 px-6 pb-6 pl-[calc(1.5rem+58px+1.5rem)] font-[family-name:var(--font-display)] text-body text-content-secondary"
                     >
                       {item.answer ?? "Details coming soon."}
                     </FaqAnswer>

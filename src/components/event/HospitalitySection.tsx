@@ -7,25 +7,22 @@ import { ScrollRail } from "./ScrollRail";
 /**
  * Hospitality packages on the event page, from Figma 2612:5506.
  *
- * Redrawn again. The section is now two stacked parts on the page's own
- * ground — the secondary grey it used to sit on is not in this comp or the
- * last one:
+ * Two columns with 48 between them, centred on each other:
  *
- * - an intro row of two 620 columns: the title and standfirst on the left,
- *   held to 403 and centred on the row's height, and on the right the three
- *   promises from the hospitality page, each a 48 icon beside a card-title
- *   and a line, divided by hairlines;
- * - 48 below, this festival's package cards as a full-width rail. Four at 403 with 32
- *   between come to 1708 on a 1272 column, and the comp cuts the fourth at
- *   the frame edge, so it scrolls and runs to the screen edge.
+ * - on the left, the title (held to 403, so it breaks over two lines) and
+ *   the standfirst 8 under it, then 32 below the three promises — a 36 icon
+ *   24 from a Title Body heading and a line, divided by hairlines;
+ * - on the right, this festival's package cards, 403 wide with 32 between,
+ *   running off the right edge of the screen.
+ *
+ * On desktop the cards come past by scrolling: the section holds still once
+ * it is wholly in view, so the first card is read before anything moves,
+ * and the rail slides until the last card has arrived. On a phone the
+ * columns stack and the rail is swiped.
  *
  * The comp's third promise reads "A dedicated contact One person from our
  * team…" — the title pasted into the body. The body here is the
  * hospitality page's own, without the repeat.
- *
- * All four cards take the yellow CTA. The previous comp gave the fourth a
- * white one, which read as an unfinished state; say the word and it goes
- * white.
  */
 export function HospitalitySection({ festival }: { festival: string }) {
   const { from } = hospitalityCopy.packages;
@@ -40,10 +37,9 @@ export function HospitalitySection({ festival }: { festival: string }) {
       className="relative scroll-mt-24 overflow-hidden py-16 xl:py-20"
       aria-labelledby="hospitality-title"
     >
-      <div className="shell flex flex-col gap-12">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-8">
-          {/* The title column, held to the comp's 403. */}
-          <div className="flex flex-col justify-center gap-2">
+      <div className="shell flex flex-col gap-12 lg:flex-row lg:items-center">
+        <div className="flex min-w-0 flex-1 flex-col gap-8">
+          <div className="flex flex-col gap-2">
             <h2
               id="hospitality-title"
               /* 120/100 at the comp's frame, two lines on the 403 measure. */
@@ -52,7 +48,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
             >
               Hospitality packages
             </h2>
-            <p className="m-0 max-w-[403px] font-[family-name:var(--font-display)] text-body text-content-secondary">
+            <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
               {hospitalityCopy.intro}
             </p>
           </div>
@@ -62,17 +58,20 @@ export function HospitalitySection({ festival }: { festival: string }) {
             {hospitalityCopy.highlights.map((item, index) => (
               <li
                 key={item.title}
-                className={`flex gap-6 sm:gap-8 ${index > 0 ? "border-t border-white/10 pt-6" : ""}`}
+                className={`flex items-start gap-6 ${index > 0 ? "border-t border-white/10 pt-6" : ""}`}
               >
                 <Image
-                  src={item.icon}
+                  /* The comp's 36 cut of the hospitality page's 48 icon. */
+                  src={item.icon.replace("-48.svg", "-36.svg")}
                   alt=""
-                  width={48}
-                  height={48}
-                  className="size-10 shrink-0 sm:size-12"
+                  width={36}
+                  height={36}
+                  className="size-9 shrink-0"
                 />
-                <div className="flex min-w-0 flex-col gap-2">
-                  <h3 className="card-title text-white">{item.title}</h3>
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
+                  <h3 className="m-0 font-[family-name:var(--font-display)] text-title-body font-bold uppercase tracking-[-0.09px] text-white">
+                    {item.title}
+                  </h3>
                   <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                     {item.body}
                   </p>
@@ -84,10 +83,11 @@ export function HospitalitySection({ festival }: { festival: string }) {
 
         {/* The rail. It runs to the screen edge rather than stopping at the
             shell, which is what the comp draws — so the gutter is padding
-            inside the scroller and the overflow is negative margin. On
-            desktop the page's scroll slides it, so all four packages come
-            past without a sideways swipe; on a phone it is swiped. */}
-        <ScrollRail className="-mr-[var(--shell-gutter)] min-w-0 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            inside the scroller and the overflow is negative margin. */}
+        <ScrollRail
+          pin
+          className="-mr-[var(--shell-gutter)] min-w-0 flex-1 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           <ul className="m-0 flex list-none gap-8 p-0">
             {packages.map((entry) => (
               <li
@@ -95,7 +95,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
                 className="w-[78vw] shrink-0 sm:w-[360px] xl:w-[403px]"
               >
                 <article className="flex h-full flex-col border border-white/5 bg-bg-tertiary">
-                  <div className="relative aspect-[403/268.667] w-full shrink-0 overflow-hidden bg-[#18181b]">
+                  <div className="relative aspect-[401/268.667] w-full shrink-0 overflow-hidden bg-[#18181b]">
                     <Image
                       src={entry.image}
                       alt=""
@@ -105,12 +105,12 @@ export function HospitalitySection({ festival }: { festival: string }) {
                     />
                   </div>
 
-                  <div className="flex flex-1 flex-col gap-6 p-8">
+                  <div className="flex flex-1 flex-col gap-6 p-6">
                     <div className="flex flex-col gap-2">
-                      <h3 className="card-title text-white">
+                      <h3 className="m-0 font-[family-name:var(--font-display)] text-title-section font-bold uppercase tracking-[-0.11px] text-content-primary">
                         {entry.name}
                       </h3>
-                      <p className="m-0 font-[family-name:var(--font-ui)] text-caption font-bold uppercase tracking-[0.12px] text-content-secondary">
+                      <p className="m-0 font-[family-name:var(--font-display)] text-body text-content-secondary">
                         {entry.summary}
                       </p>
                     </div>
@@ -125,7 +125,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
                         <span className="font-[family-name:var(--font-display)] text-body-l font-semibold text-white">
                           {entry.price}
                         </span>
-                        <span className="font-[family-name:var(--font-ui)] text-body text-content-secondary">
+                        <span className="font-[family-name:var(--font-display)] text-body text-content-secondary">
                           / {entry.perUnit}
                         </span>
                       </p>

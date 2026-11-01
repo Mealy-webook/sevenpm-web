@@ -18,14 +18,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * swipeable scroller — on a phone the sideways swipe is the natural
  * gesture, and a rail that moves by itself would fight it.
  *
+ * With `pin`, the rail's section holds still instead while the track
+ * slides: the slide starts only once the section is wholly on screen —
+ * centred if it fits, its foot on the screen's foot if it does not — so the
+ * first card is read before anything moves, and the page carries on once
+ * the last one has arrived. The scroll it takes is the overhang itself, one
+ * pixel of page for one pixel of rail.
+ *
  * The first child is the track. Everything else about the scroller (the
  * gutter padding, the bleed to the screen edge) is the caller's className.
  */
 export function ScrollRail({
   className = "",
+  pin = false,
   children,
 }: {
   className?: string;
+  /** Hold the enclosing <section> while the rail slides. */
+  pin?: boolean;
   children: React.ReactNode;
 }) {
   const viewport = useRef<HTMLDivElement>(null);
@@ -65,19 +75,33 @@ export function ScrollRail({
           /* GSAP owns the x now; the native scroller has to be off. */
           el.style.overflowX = "hidden";
 
+          const section = pin ? el.closest("section") : null;
           const tween = gsap.fromTo(
             track,
             { x: 0 },
             {
               x: () => -overhang(),
               ease: "none",
-              scrollTrigger: {
-                trigger: el,
-                start: "top 85%",
-                end: "top 15%",
-                scrub: 0.8,
-                invalidateOnRefresh: true,
-              },
+              scrollTrigger: section
+                ? {
+                    trigger: section,
+                    start: () =>
+                      section.offsetHeight <= window.innerHeight
+                        ? "center center"
+                        : "bottom bottom",
+                    end: () => `+=${overhang()}`,
+                    pin: section,
+                    anticipatePin: 1,
+                    scrub: 0.8,
+                    invalidateOnRefresh: true,
+                  }
+                : {
+                    trigger: el,
+                    start: "top 85%",
+                    end: "top 15%",
+                    scrub: 0.8,
+                    invalidateOnRefresh: true,
+                  },
             },
           );
 
@@ -92,7 +116,7 @@ export function ScrollRail({
     }, el);
 
     return () => ctx.revert();
-  }, []);
+  }, [pin]);
 
   return (
     <div ref={viewport} className={className}>
