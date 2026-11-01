@@ -7,13 +7,14 @@ import { ScrollRail } from "./ScrollRail";
 /**
  * Hospitality packages on the event page, from Figma 2612:5506.
  *
- * Two columns with 48 between them, centred on each other:
+ * Two rows, 48 apart:
  *
- * - on the left, the title (held to 403, so it breaks over two lines) and
- *   the standfirst 8 under it, then 32 below the three promises — a 36 icon
- *   24 from a Title Body heading and a line, divided by hairlines;
- * - on the right, this festival's package cards, 403 wide with 32 between,
- *   running off the right edge of the screen.
+ * - on top, two columns 32 apart, top-aligned: the title (held to 403, so it
+ *   breaks over two lines) with the standfirst 8 under it; and the three
+ *   promises — a 36 icon 24 from a Title Body heading and a line, divided
+ *   by hairlines 24 either side;
+ * - below, this festival's package cards, 403 wide with 32 between, starting
+ *   on the shell's left edge and running off the right of the screen.
  *
  * On desktop the cards come past by scrolling: the section holds still once
  * it is wholly in view, so the first card is read before anything moves,
@@ -24,11 +25,21 @@ import { ScrollRail } from "./ScrollRail";
  * team…" — the title pasted into the body. The body here is the
  * hospitality page's own, without the repeat.
  */
+const ORDER = ["vip-box", "terrasses-danfa", "garden-party-vip", "corporate-pass"];
+const rank = (slug: string) => {
+  const index = ORDER.indexOf(slug);
+  return index === -1 ? ORDER.length : index;
+};
+
 export function HospitalitySection({ festival }: { festival: string }) {
   const { from } = hospitalityCopy.packages;
   /* This festival's packages only — the comp's four are Jazzablanca's, and
      Tanjazz VIP has no place on Jazzablanca's page. */
-  const packages = hospitalityPackages.filter((entry) => entry.festival === festival);
+  const packages = hospitalityPackages
+    .filter((entry) => entry.festival === festival)
+    /* In the comp's order, which puts the Terrasses before the Garden Party;
+       the hospitality page keeps the data's own. */
+    .sort((a, b) => rank(a.slug) - rank(b.slug));
   if (packages.length === 0) return null;
 
   return (
@@ -37,9 +48,9 @@ export function HospitalitySection({ festival }: { festival: string }) {
       className="relative scroll-mt-24 overflow-hidden py-16 xl:py-20"
       aria-labelledby="hospitality-title"
     >
-      <div className="shell flex flex-col gap-12 lg:flex-row lg:items-center">
-        <div className="flex min-w-0 flex-1 flex-col gap-8">
-          <div className="flex flex-col gap-2">
+      <div className="shell flex flex-col gap-12">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+          <div className="flex min-w-0 flex-1 flex-col justify-center gap-2">
             <h2
               id="hospitality-title"
               /* 120/100 at the comp's frame, two lines on the 403 measure. */
@@ -54,7 +65,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
           </div>
 
           {/* The three promises */}
-          <ul className="m-0 flex list-none flex-col gap-6 p-0" data-reveal="up" data-reveal-stagger>
+          <ul className="m-0 flex min-w-0 flex-1 list-none flex-col gap-6 p-0" data-reveal="up" data-reveal-stagger>
             {hospitalityCopy.highlights.map((item, index) => (
               <li
                 key={item.title}
@@ -86,7 +97,7 @@ export function HospitalitySection({ festival }: { festival: string }) {
             inside the scroller and the overflow is negative margin. */}
         <ScrollRail
           pin
-          className="-mr-[var(--shell-gutter)] min-w-0 flex-1 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="-mr-[var(--shell-gutter)] min-w-0 overflow-x-auto pb-2 pr-[var(--shell-gutter)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           <ul className="m-0 flex list-none gap-8 p-0">
             {packages.map((entry) => (
